@@ -1,0 +1,260 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command bibtex
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine natbib
+\cite_engine_type numerical
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+Summaries
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "johnson1988weak"
+
+\end_inset
+
+ find that cackling Canada geese form family groups at their breeding grounds,
+ but that the pressure of constant foraging and the advantages of foraging
+ in large flocks offset the benefits of maintaining these family units while
+ at wintering grounds.
+ Social organisation in small grazing geese might be determined by immediate
+ food availability.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "BirdStudy1380"
+
+\end_inset
+
+ found significant morphological differences between the proposed subspecies
+ of Anser albifrons.
+ The largest geese were from around the Bering Strait, and body size, while
+ not correlated with breeding latitude, was positively correlated with temperatu
+re at the breeding grounds, breeding habitat, and migration distance.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Wildfowl271"
+
+\end_inset
+
+ report on the age composition and thereby breeding success of Whitefront
+ flocks wintering in England that originate from around the Barents Sea.
+ Low variation in annual brood size (3.24) accompanies a 0.33 proportion of
+ first-winter geese.
+ Peak breeding success seemed to be between the ages of three and seven.
+ The phenology of Whitefronts is presented, including that from Kolguyev.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "kondratyev2008greater"
+
+\end_inset
+
+ have the most recent breeding data for geese on Kolguyev, and seem to be
+ the best source on the presence, movements and condition of different age
+ and social classes of Whitefronts on the island.
+ They find that while the population of Whitefronts has held steady, that
+ of Bean Geese (
+\emph on
+A.
+ fabalis
+\emph default
+) and goose predators has increased since 1995.
+ Predation on a non-lemming island is posited as a cause for failed breeders
+ to move farther north east to areas with fewer predators.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "jonsson2008lesser"
+
+\end_inset
+
+ studied Lesser Snow Geese (
+\emph on
+Chen
+\emph default
+ 
+\emph on
+caerulescens
+\emph default
+ 
+\emph on
+caerulescens
+\emph default
+) and the smaller Ross' Geese (
+\emph on
+C.
+ rossii
+\emph default
+) and posited that larger goose species were likelier to maintain family
+ groups in winter, and that this conferred benefits when antagonistically
+ encountering the smaller species over resource patches.
+ Mixed-species flocking accrued benefits to both, but Ross' Geese had a
+ clear subordinate social status, and preferred larger groups over the maintenan
+ce of families.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "10.2307/4511184"
+
+\end_inset
+
+ document the reformation of family groups after the single release of Whitefron
+ts, and note that this cohesion is common to other genera of geese as well.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "OIK:OIK12114"
+
+\end_inset
+
+ reported some of the data on satellite tracked Whitefronts of the Greenland
+ subspecies (
+\emph on
+A.
+ a.
+ flavirostris
+\emph default
+) wintering in the British Isles, and correlated the onset of migration
+ with assisting tailwinds.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "IBI:IBI151"
+
+\end_inset
+
+ posit that the most likely reason for association between first-year non-breedi
+ng birds and adult breeding pairs was the increased foraging time afforded
+ to each party by distribution of vigilance costs.
+ Alloparental care if present was posited to be in the form of parent-offspring
+ relationships and to confer better nest defence.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "10.2307/4088245"
+
+\end_inset
+
+ similarly note guiding of first-winter offspring, teaching foraging and
+ social skills and the locations of feeding and roosting sites as common
+ explanations for the extended relationships between parents and offspring
+ in Whitefronts.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "wilson1991winter"
+
+\end_inset
+
+ discuss winter site fidelity in the Greenland subspecies of Whitefront.
+ They reported that around 85% of birds were observed at the same sites
+ over successive winters, and that within each winter, negligibly few geese
+ moved between sites.
+ Overall, this points to extreme site fidelity in the population, if not
+ the species, and could explain why no neat correlations can be drawn between
+ winter site conditions and family size.
+ Such site fidelity would have to be looked for in banded geese in the Netherlan
+ds.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "goose-cite"
+options "apalike"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

@@ -1,23 +1,21 @@
 ---
-title: Whitefront Wintering Grounds and their Influence on Flocks
+title: Some Observations from the Wintering Grounds
+bibliography: goose-cite.bib
+link-citations: true
 ---
-# Previous background
-The White-fronted goose (Anser albifrons) is a circumpolar migrant with a number of subspecies proposed (Ely et al., 2005). The population that migratesto western continental Europe originates from around the Barents Sea, and has been studied since at least the ’60s (Boyd, 1965). Breeding success is apparently high, with (Boyd, 1965) reporting that around a third of Barents Sea birds over-wintering in England were first-winter geese. These historical data are backed up in a comprehensive report by Kondratyev and Zaynagutdinova (2008) in which the breeding biology of the species is reported from Kolguyev, an offshore Russian island. This study simultaneously casts Kolguyev as the spring arrival point of >30% of the total Western European wintering population - around 500,000 birds - and thus an important breeding and stop-over site.
-The following is known of the species: that geese live and migrate in family groups, and that parent-offspring relationships are strong and may continue beyond the first migration in the form of alloparenting (Warren et al., 1993; Miller and Dzubin, 1965); that winter site fidelity is high at least for the Greenland population Wilson et al. (1991); and that geese use favourable environmental conditions to migrate, following the band of emerging spring vegetation (Fox et al., 2003; van Wijk et al., 2012).
-Family structure appears to be preferred in larger geese such as the White-fronted goose (Jónsson and Afton, 2008). However, in some species, this structure is subsumed by foraging or collective defence requirements, and is not always strongly expressed, especially on wintering grounds (Johnson and Raveling, 1988).
 
-# Thoughts on the wintering grounds
+# Landscape in the wintering grounds
 
 ## Land
-In the lower Rhine valley in the south and in Friesland in the north of both Germany and the Netherlands, the landscape is flat, open and human dominated. There are no truly natural features, nor are there any relief features apart from the dykes, which follow rivercourses or line the coasts.
+In the lower Rhine valley in the south, and in Frisia in the north of both Germany and the Netherlands, the landscape is flat, open and human dominated. There are no truly natural features, nor are there any relief features apart from the dykes, which follow rivercourses or line the coasts.
 
 ### Fields
 The open spaces almost exclusively consist of agricultural fields. These can be divided into three main types by their winter conditions: grassy fields with some livestock, grassy fields with no livestock, and cereal stubble fields which have been recently harvested. For convenience, and since livestock presence is changeable, these are better divided into green and brown fields, since these are the predominant colours. From the perspective of remote sensing too this classification makes sense since the difference between the two can be picked up via a vegetation index.
 
-Finer classification of fields based on ownership, or on the exact crop grown is possible but not easy, since queries would have to be made of government records if these are maintained. Such a classification could be linked to the nutritional quality of the field for geese. For example, ownership could be linked to participation in conservation contracting schemes (in Germany at least, such policies must exist in the Netherlands), while crop cover information could be used to classify fields in terms of suitable foraging grounds. Further, when classifying fields, ownership records might show whether anti-bird measures such as flourescent tape are being deployed.
+Finer classification of fields based on ownership, or on the exact crop grown might be possible but of doubtful value. Such a classification could be linked to the nutritional quality of the field for geese. For example, ownership could be linked to participation in conservation contracting schemes (in Germany at least, such policies must exist in the Netherlands), while crop cover information could be used to classify fields in terms of suitable foraging grounds. Further, when classifying fields, ownership records might show whether anti-bird measures such as fluorescent tape are being deployed.
 
 ### Turbines
-Turbines are spread across the landscape. In Germany, and likely also in the Netherlands, restrictions exist on the minimum distance between turbines and settlements (towns, airports etc.). This is state specific in Germany (Friesland and the Rhine valley are in different states), and buffers around settlements - relating to turbine height and noise, among others - are used to define areas in which turbines are permitted to be built. This could be a useful system for classifying a study site without necessarily knowing where turbines are actually located. While digital maps of turbine locations must exist, these might not be accessible, and turbines are unlikely to be picked up by satellite imagery.
+Turbines are spread across the landscape. In Germany, and likely also in the Netherlands, restrictions exist on the minimum distance between turbines and settlements (towns, airports etc.). This is state specific in Germany (Frisia and the Rhine valley are in different states), and buffers around settlements - relating to turbine height and noise, among others - are used to define areas in which turbines are permitted to be built. This could be a useful system for classifying a study site without necessarily knowing where turbines are actually located. While digital maps of turbine locations must exist, these might not be accessible, and turbines are unlikely to be picked up by satellite imagery.
 Given building restrictions, turbines are usually located in the midst of agricultural fields. Since such fields are also important foraging sites, the presence of turbines could be a contributing factor in where geese forage.
 
 #### Turbines and geese: Relation and questions
@@ -33,18 +31,51 @@ An interesting question is how the flight of geese is affected by visibility. Th
 
 ### Settlements
 
-Settlement density is generally high. Settlements are mostly small and follow a typical nuclear pattern, and are themselves surrounded by fields. They are also easily picked up on satellite imagery. Settlements should act as both absolute barriers, in that no geese are found inside settlements, as well as to produce resistance in the landscape, in that geese maintain a distance from the nearest settlement. This distance is unlikely to be size dependent. Settlements should be treated not using the centroids of their polygons, but rather the settlement edge.
+Settlement density is generally high. Settlements are mostly small and follow a typical nuclear pattern, and are themselves surrounded by fields. They are also easily picked up on satellite imagery. Settlements should act as both absolute barriers, in that no geese are found inside settlements, as well as to produce resistance in the landscape, in that geese maintain a distance from the nearest settlement. This distance might be size dependent. Settlements should be treated not using the centroids of their polygons, but rather the settlement edge.
+
+### Roads
+
+The road network in both regions is fairly dense and heavily used. Roads do not appear to serve as barriers to geese, though they maintain a certain distance from them. There doesn't appear to be a relationship between any transport network and flock sizes.
 
 ## Water
-In the lower Rhine valley, the major waterbody is the Rhine and its associated streams. In the Netherlands, the main rivers are distributaries of the Rhine. Lakes are to be found with a lower density than on Kolguyev and seem to have a larger size. This is also true for most of Friesland. Coastal Friesland, however, has two waterbodies that stand out: the Wadden Sea, and the IJsselmeer, an artificial freshwater lake closed off from the Wadden Sea and fed by the IJssel. Canals are evident in both regions. All waterways are so heavily managed that no meaningful distinction is drawn between natural and artificial ones.
+In the lower Rhine valley, the major waterbody is the Rhine and its associated streams. In the Netherlands, the main rivers are distributaries of the Rhine. Lakes are to be found with a lower density than on Kolguyev and seem to have a larger size. This is also true for most of Frisia. Coastal Frisia, however, has two waterbodies that stand out: the Wadden Sea, and the IJsselmeer, an artificial freshwater lake closed off from the Wadden Sea and fed by the IJssel. Canals are evident in both regions. All waterways are heavily managed and no meaningful distinction is drawn between natural and artificial ones.
 
-Geese use both streams and lakes. Geese appear to roost on lakes and may also be found on them by day. From these roosts, geese fly to daily foraging grounds. The frequency of foraging ground revisits is best studied using position logger data. Geese might also use larger waterbodies like the IJsselmeer or the Wadden Sea as roosts, but appear to prefer coastal waters. Determining whether the Wadden Sea is again a task solved by looking at position data.
+Geese use both streams and lakes. Geese appear to roost on lakes and may also be found on them by day. From these roosts, geese fly to daily foraging grounds. The frequency of foraging ground revisits is best studied using position logger data. Geese might also use larger waterbodies like the IJsselmeer or the Wadden Sea (highly unlikely) as roosts, but were not seen on such coastal waters. Determining whether these could serve as roosts is again a task solved by looking at position data.
 
-Streams do not appear to be used as roosts, likely because too high a cost is associated with maintaining position. Sandbanks lining streams however seem to be suitable roosting grounds.
+Streams do not appear to be used as roosts, likely because too high a cost is associated with maintaining position on moving water. Sandbanks lining streams however seem to be suitable roosting grounds, and gees have been observed on riverbanks both in the Rhine valley and Frisia. Since geese roost on or near lakes, it could be expected that a flock's position is a function of the nearest waterbody.
 
-### Water and geese
-Since geese roost on or near lakes, it could be expected that a flock's position will be a function of the distance to the nearest waterbody.
-logger data here
+# Goose population patterns in the wintering grounds
 
+## Which geese were seen?
 
-##
+A number of goose species were seen: Whitefronts, Bean, Pink-footed, Greylag, and Barnacle geese were winter migrants, while Canada and Egyptian geese were likely year round residents. These latter ones are not considered. In the Rhinelands, the only Whitefronts, Greylags and Barnacle geese were seen. All species were seen in Frisia, while Pink-footed, Bean and Canada geese were not seen in East Frisia.
+
+## Where were geese seen?
+
+Here geese = Whitefronts.
+
+* Geese were seen in fields and on lakes. None were seen on the IJsselmeer or on the IJssel. This is in keeping with their largely terrestrial habitat.
+* Geese were seen in fields fairly close to some settlements. Geese were also seen in large fields in Frisia where houses are distributed at low density among the fields. The minimum distance to settlements was likely 100m.
+* Many more geese were seen on pastures (or some green fields) than on stubble fields.
+* Geese were unaffected by the efforts of local farmers to use vehicle horns to scare them.
+
+## Where were geese not seen?
+
+* Geese were not seen on the shores of the IJsselmeer, this habitat was almost exclusive to Barnacle geese.
+* Geese were not seen on dykes, the only elevated features. This is in contrast to Kolguyev, where geese were seen on hilltops much higher than the typical dyke, even far from water.
+* Geese were not seen on fields in which farmers had strung reflective tape, a commonly used anti-bird measure.
+* Geese were not seen close to wind turbines. The minimum distance between a flock and a turbine was ~200m.
+
+## Flock and family size patterns
+
+* Whitefronts were never seen in homogeneous flocks.
+* In East Frisia, Whitefronts were not commonly seen. The largest flock size was around 150. Barnacle geese were sometimes present, and Greylags were almost always present in small numbers.
+* In the Rhinelands, flocks were larger, sometimes over a thousand. Greylags and some Bean geese were interspersed in these flocks.
+* In Frisia, flocks were much larger, up to two thousand, and in places, a large number of Pink-footed geese were present. Some flocks were seen with a noticeable proportion of Greylag and Barnacles geese.
+* Family sizes were similar in Frisia and in the Rhinelands, but larger families occurred more frequently in Frisia. East Frisia had noticeably smaller families, and frequently groups without families.
+* Families were seen in all parts of flocks, and were easy to identify when active.
+* Some family groups were seen at some distance, around 50 - 100m from the main flock.
+* Families usually had 2-3 juveniles, though higher numbers were seen.
+* The proportion of juveniles in flocks was around 0.1, much lower than on Kolguyev, where the proportion of juveniles was 0.45.
+
+---

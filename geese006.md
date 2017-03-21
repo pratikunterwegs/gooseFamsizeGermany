@@ -1,0 +1,3 @@
+## The effect of season
+
+@JZO:JZO76 also point out a phenomenon that must be taken into account when trying to understand the costs and benefits of group behaviour. Strong seasonality and the arrival of many thousands of migratory birds results in the depletion of resources through the winter, a season with reduced productivity. This has the likely result of increasing competition and aggressive interactions between social units. @gregoire1990agonistic also report that in wintering Snow geese, the intensity of aggression and the frequency of within-group (here, within-family) aggression increased in presumably lower productivity habitats, being higher in salt marshes than in rice fields.
