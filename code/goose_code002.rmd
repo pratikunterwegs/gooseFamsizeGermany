@@ -1,0 +1,351 @@
+---
+title: Goose Flock Geocoding 01
+output: 
+  tufte::tufte_handout
+---
+```{r "setup", include=FALSE}
+require("knitr")
+opts_knit$set(root.dir = "~/git/thesis/")
+```
+
+```{r, include=FALSE}
+#'load knitr
+#'suppress all code output but run code
+opts_chunk$set(echo = FALSE)
+
+tufte::tufte_handout()
+```
+
+```{r palette}
+#'library loads
+library(RColorBrewer)
+goose_cols = colorRampPalette(brewer.pal(9, "YlOrRd"))
+```
+
+```{r load data, include=FALSE}
+#'load libs
+library(readxl)
+
+#'import data
+lt_geese = read_excel("~/git/thesis/Age-ratiodata-GWfG-toPratik.xlsx", 
+    sheet = "Plain_table", col_types = c("text", 
+        "numeric", "numeric", "numeric", 
+        "numeric", "text", "text", "text", 
+        "text", "numeric", "text", "text", 
+        "numeric", "numeric", "numeric", 
+        "numeric", "numeric", "numeric", 
+        "numeric", "numeric", "numeric", 
+        "numeric", "numeric", "numeric", 
+        "numeric", "numeric", "numeric", 
+        "numeric", "numeric", "text", "text", 
+        "text"))
+```
+
+```{r get family sites, include=FALSE}
+#'all unqiue places in the netherlands or nrw after than 2000, which also have family data
+
+#'first keep only nl or nrw after 2000
+study_site = lt_geese[lt_geese$Country == "NL"|lt_geese$Country=="NRW" & lt_geese$Breeding_year > 2000,]
+
+#'then sum family data
+study_site = cbind(study_site, fams = apply(study_site[,c(19:28)], 1, function(x){sum(x, na.rm = T)}))
+
+#'now retain only families > 0
+family_sites = study_site[study_site$fams>0,]
+
+#'1246 sites are retained
+```
+
+```{r find places, include=FALSE}
+#'count unique non na places
+length(unique(family_sites$Site_name))
+
+#'how many NAs?
+sum(is.na(as.factor(family_sites$Site_name)))
+
+#'get the place names
+places = unique(family_sites$Site_name)
+```
+
+```{r geocode, include=FALSE}
+#'geocode places
+#place_codes = geocode(places)
+```
+
+```{r bind_places, include=FALSE}
+#'bind places and codes
+#places = cbind(places, place_codes)
+place_codes = read.csv("places.csv")
+place_codes = place_codes[,c(2,3)]
+
+places = cbind(places, place_codes)
+```
+
+```{r merge, include=FALSE}
+#'merge places and fmaily sites by site name
+family_sites = merge(family_sites, places, by.x = "Site_name", by.y = "places")
+```
+
+# Geocoding
+
+1. Nearly all flocks were recorded as having juveniles, but the number of families was not recorded in all flocks (see previous document on data description). Neither is any explicit coordinate information given for any of the records. Here, I attempted to geocode the records, ie, assign coordinates using an automated online search. 
+
+2. I reduced the dataset to only those records taken in the Netherlands or North Rhine Westphalia. These were around 5100 of 5600 records, of which, I selected only those records after the year 2000. 
+
+3. I further reduced the records to those in which at least one family was recorded. While ```r dim(study_site)[1]``` records had flock data, only ```r dim(family_sites)[1]``` were recorded as having at least one family.  
+
+4. These families were recorded at ```r length(unique(family_sites$Site_name))``` unique sites, each of which was named. This is in contrast to the larger dataset containing flocks for which family counts were not available (still restricted to NL and NRW), in which flocks were recorded at possibly an additional ```r sum(is.na(as.factor(study_site$Site_name)))``` unnamed sites.
+
+5. Of these ```r length(unique(family_sites$Site_name))``` sites, geocoding using a GoogleMaps API succeeded for ```r sum(!is.na(place_codes))/2``` of them.
+
+```{r plot using tmap, include=FALSE}
+#'load tmap
+library(tmap)
+library(maps)
+
+#'first remove all geocodes for NAs, and weird coordinates
+family_sites = family_sites[!is.na(family_sites$lat) & !is.na(family_sites$lon),]
+
+#'weird coordinates, so anything negative
+family_sites = family_sites[family_sites$lat>0 & family_sites$lon>0 & family_sites$lon<8 & family_sites$lat<54,]
+
+#'round mean-fam
+#family_sites$Mean_Fam = round(family_sites$Mean_Fam,0)
+
+#'load some polygons
+library(sp);library(maptools); library(rgdal); library(raster)
+nl = readOGR("vector/ne_10m_admin_0_boundary_lines_land.shp")
+coast = readOGR("vector/ne_10m_land.shp")
+lakes = readOGR("vector/ne_10m_lakes.shp")
+rivers = readOGR("vector/ne_10m_rivers_lake_centerlines.shp")
+
+#'convert to spdf
+coordinates(family_sites)=~lon+lat
+crs(family_sites) = crs(nl)
+```
+
+6. These included sites where the geocoding did not correctly identify the location and produced ```NA``` values (these were invariably in pairs, ie, both lon-lat were ```NA```) and sites where the geocoding produced coordinates that were not in the study sites defined above. 
+
+7. The coordinate boundaries of the study site were set between 0 - 8 degrees E and at 54 degrees N. After removing records of such values and ```NA```s, ```r dim(family_sites)[1]``` records remained.
+
+```{r get_perc_juv, include=FALSE}
+#'check for NAs
+sum(is.na(family_sites$`Perc-JV`))
+
+#'make a new column for juvenile percentage
+#'juv perc is juvs/total if total present, or juvs/adults if total = NA
+family_sites$propjuv = ifelse(is.na(family_sites$Total_flock),
+                      (family_sites$N_Juvenile/family_sites$N_Adult)*100,                             (family_sites$N_Juvenile/family_sites$Total_flock)*100)
+
+
+```
+# Map: Flock size and mean family size
+
+Map 1 shows mean family size (colour scale) and flock size (size scale) for the years 2000 - 2011 in the Netherlands, North Rhine Westphalia and Lower Saxony. Blue crosses represent the geocoded locations. Circles representing each flock have been jittered to make them visible, since there is a fair amount of overlap.
+
+It isn't clear how points in Lower Saxony have been included in the study area, since the data was specifically restricted to the former two regions. The distribution of points in Lower Saxony also doesn't appear to be random, being concentrated in East Frisia, a known location for wintering geese and a base of goose counters. This could be an error in the data and may have to be accounted for by explicitly reducing the longitudnal extent of the points.
+
+One possibility is that during mapping, the CRS of the geocoded points and that of the shapefile representing the border are not identical, causing points in the Netherlands to appear to be in German East Frisia. This issue was eliminated by explicitly setting the CRS of the data to be the same as that of the shapefiles. The standard WGS84 projection was used.
+
+The remaining possibilities are that there were errors in the geocoding process by which points in the Netherlands with similar names to points in East Frisia were located there instead, or, that the data when initially recorded in the field included some East Frisian points under the Netherlands.
+
+```{r map_families, echo=FALSE, fig.cap="Map of mean family size per record on the wintering grounds, 2000 - 2011. Blue crosses represent geocoded locations of the records. Circles are jittered to make them visible.", fig.height=7.5, fig.width=7.5, warning=FALSE}
+#use tmap to map families
+tm_shape(nl, bbox = extent(family_sites)+0.5)+
+  tm_lines()+
+tm_shape(coast)+
+  tm_polygons(col = "grey80",alpha = 0.1)+
+tm_shape(family_sites)+
+  tm_symbols(scale = 3,border.lwd = 0.1, size = "Total_flock",
+             col = "Mean_Fam",
+             palette = goose_cols(5),
+             style = "pretty", jitter = 1.5, 
+            legend.hist = T, legend.size.show= T,
+            legend.col.show = T, title.size = "Flock size",
+            title.col = "Mean family size")+
+tm_shape(family_sites)+
+  tm_symbols(shape = 4, scale = 1, size = 0.1, border.lwd = 0.1,  col = "royalblue")+
+tm_scale_bar(position = c("left","bottom"), breaks=c(0,10,20))+
+  tm_format_NLD()+
+  tm_layout(frame = T)
+```
+
+# Map: Flock size and juvenile percentage
+
+Map 2 shows the flock size (size scale) and the percentage of juveniles (colour scale) in the same records as above. Blue crosses represent the coordinates of geocoded points.
+
+```{r map_juv_prop, echo=FALSE, fig.cap="Map of juvenile percentage per record on the wintering grounds, 2000 - 2011. Blue crosses represent geocoded locations of the records. Circles are jittered to make them visible.", fig.height=7.5, fig.width=7.5, warning=FALSE}
+#use tmap to map families
+tm_shape(nl, bbox = extent(family_sites)+0.5)+
+  tm_lines()+
+tm_shape(coast)+
+  tm_polygons(col = "grey80",alpha = 0.1)+
+tm_shape(family_sites)+
+  tm_symbols(scale = 3,border.lwd = 0.1, size = "Total_flock",
+             col = "propjuv",
+             style = "pretty", jitter = 1.5, 
+             palette = goose_cols(5),
+            legend.hist = T, legend.size.show= T,
+            legend.col.show = T, 
+            title.size = "Flock size", title.col = "Juvenile %")+
+tm_shape(family_sites)+
+  tm_symbols(shape = 4, scale = 1, size = 0.1, border.lwd = 0.1,  col = "royalblue")+
+tm_scale_bar(position = c("left","bottom"), breaks=c(0,10,20))+
+  tm_format_NLD()+
+  tm_layout(frame = T)
+```
+
+# Mapping: Adding more data
+
+1. While there are only around 1200 records with family size data sampled in the Netherlands, North Rhine Westphalia and Lower Saxony, most records do have data on the juvenile proportion -- ```r sum(!is.na(study_site$"Perc-JV"))``` records with juvenile proportion out of ```r dim(study_site)[1]``` records from the study site total. 
+
+2. Similarly, while only ```r dim(family_sites)[1]``` records from the study site have geocodable family counts, ```r sum(!is.na(study_site$"Perc-JV"))``` records have juvenile proportions.
+
+3. Geocoding on ```r dim(places)[1]``` unique sampling locations yielded only ```r sum(!is.na(place_codes))/2``` coordinate pairs, greatly reducing the number of records, or flocks, included in the visualisation.
+
+4. In an effort to utilise more of the data, I instead attempted to geocode for the data field ```Region```, since this is likely to yield more specific locations than the field ```Country``` (which would of course yield only two). Within the study site, there are ```r sum(!is.na(unique(as.factor(study_site$Region))))``` unique regions.
+
+5. These regions are noted as abbreviations, such as ```r head(unique(as.factor(study_site$Region)))```. Using a table, it was possible to determine which region lies in which country.
+
+6. Using a table of Netherlands province codes, I assigned names to each of these abbreviations. Ten more regions were noted than there are provinces in the Netherlands. Of these 10 extra, one, Leer, was easily identified, as were three more that lay in the Rhinelands: the cities of Cleves, Wesel and Duisburg.
+Of the remaining six, IJ was assigned as the river IJssel, NL as the Netherlands in general, WG was guessed at as being the city of Wageningen, RG was assigned as the city of Nijmegen, and UT as the city of Utrecht. LB was not found, however it has only one record. For convenience, the province of South Holland was assigned to Rotterdam, since it was causing the GoogleMaps API some confusion.
+
+```{r, include=FALSE}
+#'how many records in the study site with juv percentages
+sum(!is.na(study_site$`Perc-JV`))
+
+#'how many records in the study site with region not NA
+sum(!is.na(study_site$Region))
+
+#'how many unique regions
+sum(!is.na(unique(as.factor(study_site$Region))))
+
+kable((as.matrix(table(study_site$Region, study_site$Country))))
+
+#'unique regions
+unique(as.character(as.factor(study_site$Region)))
+
+#'create a vector of regions from guesswork
+regions = c("Brabant","Drenthe","Duisburg", "Flevoland","Friesland",
+            "Gelderland", "Groningen", "Ijssel","Kleve", 
+            "LB", "Leer",  "Limburg", "North Brabant",
+            "North Holland", "Netherlands", "Overijssel",
+            "Nijmegen","Utrecht", "Wesel","Wageningen","Rotterdam","Zeeland")
+
+#'cbind with region abbreviations
+regions = cbind(regions, sort(unique(study_site$Region)))
+```
+
+```{r geocode_regions, include=FALSE}
+#'geocode
+library(ggmap)
+#regions_codes = geocode(regions[,1])
+#'write to csv and import now, only the last 2 cols
+#write.csv(regions_codes, "regions_codes.csv")
+regions_codes2 = read.csv("regions_codes.csv")[,c(2,3)]
+
+#'bind to region names
+regions = cbind(regions, regions_codes2)
+
+#'merge with data
+study_site = merge(study_site, regions, by.x = "Region", by.y = "V2")
+```
+
+
+```{r rg, fig.cap="Records where the region is noted as RG lie closest to Nijmegen.", fig.height=5, fig.margin=TRUE, fig.width=5}
+#'plot family sites where the region is RG
+plot(family_sites[family_sites$Region == "RG",], col = 2)
+library(maps)
+map("world",add=T)
+```
+
+```{r gather_region_data, include=FALSE}
+#'use summarize over flocks and juv props via ddply
+library(plyr)
+region_data = ddply(study_site, "Region", summarise, juvprop = mean(`Perc-JV`, na.rm=T),
+      flocksize = mean(Total_flock, na.rm=T))
+
+#'now bind with region name and lon-lat
+region_data = merge(region_data, regions, by.x = "Region",
+                    by.y = "V2")
+
+#'remove LB
+region_data = region_data[region_data$lon<8,]
+
+#'make spatial
+coordinates(region_data) = ~lon+lat
+```
+
+
+# Map 3: Juvenile percentage by region
+
+1. I visualised the data above on a map, as seen here, in order to look for any spatial patterns in the juvenile proportion of flocks, and in the flock size. River courses and lakes were added for context, even though the coordinates retrieved for each province are only representative. 
+
+2. The largest flocks appear to be from provinces close to the IJssel, the Waal, or the IJsselmeer. Three province means, from North Holland, Overijssel and Flevoland are high for both flock size as well as juvenile percentages.
+
+```{r juv_prop_region, fig.cap = "Mean juvenile percentages and flock sizes for each region noted in the data. The coordinates for the region are only representative.",fig.height=7.5, fig.width=7.5, warning=FALSE}
+#'use tmap
+tm_shape(nl, bbox = extent(family_sites)+0.5)+
+  tm_lines()+
+tm_shape(coast)+
+  tm_polygons(col = "grey80",alpha = 0.1)+
+tm_shape(rivers)+
+  tm_lines(col = "royalblue")+
+tm_shape(lakes)+
+  tm_polygons(col = "royalblue")+
+tm_shape(region_data)+
+  tm_symbols(scale = 4,border.lwd = 0.1, size = "flocksize",
+             col = "juvprop", legend.size.show= T,
+            legend.col.show = T, style = "cont",
+            title.size = "Mean flock size", 
+            title.col = "Mean juvenile %")+
+ tm_text("Region", size = 0.8, just = c("right","bottom"))+
+  
+tm_scale_bar(position = c("left","bottom"), breaks=c(0,10,20))+
+  tm_format_NLD()+
+  tm_layout(frame = T)
+
+```
+
+# Map 4: Juvenile percentage by region in each month
+
+I then separated the data by month, to look for interactions between temporal and spatial patterns.
+
+On the whole, as the winter progresses, juvenile proportions increase in flocks, and flocks appear to show an increase as well. 
+
+
+```{r month_region_propjuv, include=FALSE}
+#'get data by region and month
+month_data = ddply(study_site, c("Region", "Month"), summarise, juvprop = mean(`Perc-JV`, na.rm=T),
+      flocksize = mean(Total_flock, na.rm=T))
+
+#'merge to form spatial
+month_data = merge(month_data, regions, by.x = "Region",
+                    by.y = "V2")
+
+#'remove excess lons
+month_data = month_data[month_data$lon<8,]
+
+#'make spatial
+coordinates(month_data) = ~lon+lat
+```
+
+```{r map_region_month_juvprop, fig.cap = "Mean juvenile percentages and flock sizes in each province in each month recorded in the data.", fig.height=15, fig.width=10, fig.fullwidth = TRUE, warning=FALSE}
+#'use tmap
+tm_shape(nl, bbox = extent(family_sites)+0.5)+
+  tm_lines()+
+tm_shape(coast)+
+  tm_polygons(col = "grey80",alpha = 0.1)+
+tm_shape(month_data)+
+  tm_symbols(scale = 4,border.lwd = 0.1, size = "flocksize",
+             col = "juvprop", legend.size.show= T,
+            legend.col.show = T, style = "cont",
+            title.size = "Mean flock size", 
+            title.col = "Mean juvenile %")+
+ tm_text("Region", size = 0.8, just = c("right","bottom"))+
+  
+tm_facets(by = "Month", free.scales=FALSE, ncol = 3)
+
+```
+
+---
