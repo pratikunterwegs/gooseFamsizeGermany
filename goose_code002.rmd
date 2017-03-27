@@ -1,0 +1,156 @@
+---
+title: Goose Flock Geocoding 01
+output: 
+  tufte::tufte_handout
+---
+
+```{r, include=FALSE}
+#'load knitr
+library(knitr)
+
+#'suppress all code output but run code
+opts_chunk$set(echo = FALSE)
+
+tufte::tufte_handout()
+```
+
+```{r load data, include=FALSE}
+#'load libs
+library(readxl)
+
+#'import data
+lt_geese = read_excel("~/git/thesis/Age-ratiodata-GWfG-toPratik.xlsx", 
+    sheet = "Plain_table", col_types = c("text", 
+        "numeric", "numeric", "numeric", 
+        "numeric", "text", "text", "text", 
+        "text", "numeric", "text", "text", 
+        "numeric", "numeric", "numeric", 
+        "numeric", "numeric", "numeric", 
+        "numeric", "numeric", "numeric", 
+        "numeric", "numeric", "numeric", 
+        "numeric", "numeric", "numeric", 
+        "numeric", "numeric", "text", "text", 
+        "text"))
+```
+
+```{r get family sites, include=FALSE}
+#'all unqiue places in the netherlands or nrw after than 2000, which also have family data
+
+#'first keep only nl or nrw after 2000
+study_site = lt_geese[lt_geese$Country == "NL"|lt_geese$Country=="NRW" & lt_geese$Breeding_year > 2000,]
+
+#'then sum family data
+study_site = cbind(study_site, fams = apply(study_site[,c(19:28)], 1, function(x){sum(x, na.rm = T)}))
+
+#'now retain only families > 0
+family_sites = study_site[study_site$fams>0,]
+
+#'1246 sites are retained
+```
+
+```{r find places, include=FALSE}
+#'count unique non na places
+length(unique(family_sites$Site_name))
+
+#'how many NAs?
+sum(is.na(as.factor(family_sites$Site_name)))
+
+#'get the place names
+places = unique(family_sites$Site_name)
+```
+
+```{r geocode, include=FALSE}
+#'geocode places
+#place_codes = geocode(places)
+```
+
+```{r bind_places, include=FALSE}
+#'bind places and codes
+#places = cbind(places, place_codes)
+place_codes = read.csv("places.csv")
+place_codes = place_codes[,c(2,3)]
+
+places = cbind(places, place_codes)
+```
+
+```{r merge, include=FALSE}
+#'merge places and fmaily sites by site name
+family_sites = merge(family_sites, places, by.x = "Site_name", by.y = "places")
+```
+
+Nearly all flocks were recorded as having juveniles, but the number of families was not recorded (see previous document on data description). Here, I attempted to geocode the records. I reduced the dataset to only those records taken in the Netherlands or North Rhine Westphalia. These were around 5100 of 5600 records, of which, I selected only those records after the year 2000. I further reduced the records to those in which at least one family was recorded. While ```r dim(study_site)[1]``` records had flocks, only ```r dim(family_sites)[1]``` were recorded as having more than one family.  These families were recorded at ```r length(unique(family_sites$Site_name))``` unique sites, each of which was named. This is in contrast to the larger dataset containing flocks for which family counts were not available (still restricted to NL and NRW), in which flocks were recorded at possibly an additional ```r sum(is.na(as.factor(study_site$Site_name)))``` unnamed sites.
+
+Of these ```r length(unique(family_sites$Site_name))``` sites, geocoding using a GoogleMaps API succeeded for ```r sum(!is.na(place_codes))/2``` of them.
+
+```{r plot using tmap, include=FALSE}
+#'load tmap
+library(tmap)
+library(maps)
+
+#'first remove all geocodes for NAs, and weird coordinates
+family_sites = family_sites[!is.na(family_sites$lat) & !is.na(family_sites$lon),]
+
+#'weird coordinates, so anything negative
+family_sites = family_sites[family_sites$lat>0 & family_sites$lon>0 & family_sites$lon<8 & family_sites$lat<54,]
+
+#'round mean-fam
+#family_sites$Mean_Fam = round(family_sites$Mean_Fam,0)
+
+#'load some polygons
+library(sp);library(maptools); library(rgdal); library(raster)
+nl = readOGR("vector/ne_10m_admin_0_boundary_lines_land.shp")
+coast = readOGR("vector/ne_10m_land.shp")
+
+#'convert to spdf
+coordinates(family_sites)=~lon+lat
+```
+
+These included sites where the geocoding did not correctly identify the location and produced ```NA``` values (these were invariably in pairs, ie, both lon-lat were ```NA```) and sites where the geocoding produced coordinates that were not in the study sites defined above. The coordinate boundaries of the study site were set between 0 - 8 degrees E and at 54 degrees N. After removing records of such values and ```NA```s, ```r dim(family_sites)[1]``` records remained.
+
+These are represented in the maps below. Map 1 shows mean family size and flock size, and map 2 shows juvenile percentage and flock size. The areas around Leer and Lemmer, and Nijmegen and the Rhinelands are best sampled.
+
+```{r get_perc_juv}
+propjuv = family_sites$`Perc-JV`
+family_sites$propjuv = (family_sites$N_Juvenile/family_sites$Total_flock)*100
+```
+
+```{r map_families, echo=FALSE, fig.cap="Map of mean family size per record on the wintering grounds, 2000 - 2011. Blue crosses represent geocoded locations of the records. Circles are jittered to make them visible.", fig.height=7.5, fig.width=7.5, fig.fullwidth=TRUE, warning=FALSE}
+#use tmap to map families
+tm_shape(nl, bbox = extent(family_sites)+0.5)+
+  tm_lines()+
+tm_shape(coast)+
+  tm_polygons(col = "grey80",alpha = 0.1)+
+tm_shape(family_sites)+
+  tm_symbols(scale = 3,border.lwd = 0.1, size = "Total_flock",
+             col = "Mean_Fam",
+             style = "pretty", jitter = 1.5, 
+            legend.hist = T, legend.size.show= T,
+            legend.col.show = T, title.size = "Flock size",
+            title.col = "Mean family size")+
+tm_shape(family_sites)+
+  tm_symbols(shape = 4, scale = 1, size = 0.1, border.lwd = 0.1,  col = "royalblue")+
+tm_scale_bar(position = c("left","bottom"), breaks=c(0,10,20))+
+  tm_format_NLD()+
+  tm_layout(frame = T)
+```
+
+
+```{r map_juv_prop, echo=FALSE, fig.cap="Map of juvenile percentage per record on the wintering grounds, 2000 - 2011. Blue crosses represent geocoded locations of the records. Circles are jittered to make them visible.", fig.height=7.5, fig.width=7.5, fig.fullwidth=TRUE, warning=FALSE}
+#use tmap to map families
+tm_shape(nl, bbox = extent(family_sites)+0.5)+
+  tm_lines()+
+tm_shape(coast)+
+  tm_polygons(col = "grey80",alpha = 0.1)+
+tm_shape(family_sites)+
+  tm_symbols(scale = 3,border.lwd = 0.1, size = "Total_flock",
+             col = "propjuv",
+             style = "pretty", jitter = 1.5, 
+            legend.hist = T, legend.size.show= T,
+            legend.col.show = T, 
+            title.size = "Flock size", title.col = "Juvenile %")+
+tm_shape(family_sites)+
+  tm_symbols(shape = 4, scale = 1, size = 0.1, border.lwd = 0.1,  col = "royalblue")+
+tm_scale_bar(position = c("left","bottom"), breaks=c(0,10,20))+
+  tm_format_NLD()+
+  tm_layout(frame = T)
+```
