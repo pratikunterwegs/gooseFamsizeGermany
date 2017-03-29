@@ -11,7 +11,7 @@ library(knitr)
 
 #'suppress all code output but run code
 opts_chunk$set(echo = FALSE)
-
+opts_knit$set(root.dir = "~/git/thesis/")
 tufte::tufte_handout()
 ```
 
@@ -135,7 +135,7 @@ ggplot(data = as.data.frame(goose_year_month),
   geom_tile()+ 
   scale_fill_gradientn(colours = goose_cols(20))+
   labs(list(fill = "Records"))+
-  theme_minimal()
+  theme_bw()
 ```
 
 
@@ -167,9 +167,9 @@ goose_country_year = melt(goose_country_year)
 ggplot(data = as.data.frame(goose_country_year), 
        aes(x=Country, y=Breeding_year, fill=value)) + 
   geom_tile()+ 
-  scale_fill_gradientn(colours = goose_cols(20))+
+ scale_fill_gradientn(colours = goose_cols(20))+
   labs(list(fill = "Records"))+
-  theme_minimal()
+  theme_bw()
 ```
 
 
@@ -262,7 +262,7 @@ rownames(goose_flock_table) = c("Flock size","Adults",
 kable(round(goose_flock_table), caption = "Flock size table.")
 ```
 
-Some values are inherently strange, such as the maximum percentage of juveniles (124%) in a flock. Other discrepancies, such as the mismatch between the maximum flock size and the maximum number of Whitefronts seen is probably due to missing values in the data. Both of these are easily fixed by using two of the five variables to calculate the missing ones.
+Some values appear to be errors, such as the maximum percentage of juveniles (124%) in a flock. Other discrepancies, such as the mismatch between the maximum flock size and the maximum number of Whitefronts seen is probably due to missing values in the data. Both of these are easily fixed by using two of the five variables to calculate the missing ones.
 
 ## Flock size distribution
 
@@ -276,12 +276,12 @@ geese_flock = melt(geese_flock[,c(1:4)])
 ```{r fig.fullwidth = TRUE, fig.height=3, fig.width=9, fig.cap= "Distribution of count variables.", warning=FALSE, message=FALSE}
 
 ggplot()+
-  geom_histogram(data = geese_flock[geese_flock$variable != "Perc-JV",], aes(x = value, fill = variable))+
+  geom_histogram(data = geese_flock[geese_flock$variable != "Perc-JV",], aes(x = value, fill = variable), col="grey40",lwd = 0.1)+
   facet_grid(~variable, scales = "free")+
-  scale_fill_manual(values = goose_cols(4))+
+  scale_fill_brewer(palette = "Greys")+
   guides(fill="none")+
   xlim(0,3000)+ylim(0,2000)+
-  theme_minimal()
+  theme_bw()
 ```
 
 ## Juvenile proportion distribution
@@ -306,10 +306,10 @@ length(which(lt_geese$prop_juv>100))
 ```{r plot_juv_prop, fig.cap= "Distribution of juvenile percentages. Line represents the median juvenile proportion, at close to 0.2.", warning=FALSE, message=FALSE, fig.height= 3}
 #'plot juvenile proportion distribution with vline at median
 ggplot()+
-  geom_histogram(data = lt_geese[which(lt_geese$prop_juv<100),], aes(x = prop_juv/100), fill = "tan1")+
+  geom_histogram(data = lt_geese[which(lt_geese$prop_juv<100),], aes(x = prop_juv/100))+
   geom_vline(xintercept = median(lt_geese$prop_juv/100, na.rm = T))+
   labs(list(x="Juvenile proportion"))+
-  theme_minimal()
+  theme_bw()
 ```
 
 # Family sizes
@@ -399,6 +399,6 @@ length(unique(lt_geese$Observer))
 
 **New variables**
 
-1. Proportion of geese in a flock that are in a family. This should help determine how much of the flock receives the same level of benefit in inter-goose aggression.
+1. Discuss construction of the proportion of geese in a flock that are in a family. This should help determine how much of the flock receives the same level of benefit in inter-goose aggression.
 
 ---

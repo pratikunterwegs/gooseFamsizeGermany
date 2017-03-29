@@ -19,7 +19,6 @@ tufte::tufte_handout()
 ```{r palette}
 #'library loads
 library(RColorBrewer)
-goose_cols = colorRampPalette(brewer.pal(9, "YlOrRd"))
 ```
 
 ```{r load data, include=FALSE}
@@ -45,7 +44,10 @@ lt_geese = read_excel("~/git/thesis/Age-ratiodata-GWfG-toPratik.xlsx",
 #'all unqiue places in the netherlands or nrw after than 2000, which also have family data
 
 #'first keep only nl or nrw after 2000
-study_site = lt_geese[lt_geese$Country == "NL"|lt_geese$Country=="NRW" & lt_geese$Breeding_year > 2000,]
+study_site = lt_geese[lt_geese$Country == "NL" | 
+                        lt_geese$Country == "NRW",]
+
+unique(study_site$Country)
 
 #'then sum family data
 study_site = cbind(study_site, fams = apply(study_site[,c(19:28)], 1, function(x){sum(x, na.rm = T)}))
@@ -94,7 +96,7 @@ family_sites = merge(family_sites, places, by.x = "Site_name", by.y = "places")
 
 3. I further reduced the records to those in which at least one family was recorded. While ```r dim(study_site)[1]``` records had flock data, only ```r dim(family_sites)[1]``` were recorded as having at least one family.  
 
-4. These families were recorded at ```r length(unique(family_sites$Site_name))``` unique sites, each of which was named. This is in contrast to the larger dataset containing flocks for which family counts were not available (still restricted to NL and NRW), in which flocks were recorded at possibly an additional ```r sum(is.na(as.factor(study_site$Site_name)))``` unnamed sites.
+4. These flocks with family size data were recorded at ```r length(unique(family_sites$Site_name))``` unique sites, each of which was named. This is in contrast to the larger dataset containing flocks for which family counts were not available (still restricted to NL and NRW), in which flocks were recorded at possibly an additional ```r sum(is.na(as.factor(study_site$Site_name)))``` unnamed sites.
 
 5. Of these ```r length(unique(family_sites$Site_name))``` sites, geocoding using a GoogleMaps API succeeded for ```r sum(!is.na(place_codes))/2``` of them.
 
@@ -122,9 +124,11 @@ rivers = readOGR("vector/ne_10m_rivers_lake_centerlines.shp")
 #'convert to spdf
 coordinates(family_sites)=~lon+lat
 crs(family_sites) = crs(nl)
+
+family_sites = family_sites[family_sites$Breeding_year > 2000,]
 ```
 
-6. These included sites where the geocoding did not correctly identify the location and produced ```NA``` values (these were invariably in pairs, ie, both lon-lat were ```NA```) and sites where the geocoding produced coordinates that were not in the study sites defined above. 
+6. Unsuccessfully geocoded sites were sites where the geocoding did not correctly identify the location and produced ```NA``` values (these were invariably in pairs, ie, both lon-lat were ```NA```) and sites where the geocoding produced coordinates that were not in the study site defined below. These sites were not used.
 
 7. The coordinate boundaries of the study site were set between 0 - 8 degrees E and at 54 degrees N. After removing records of such values and ```NA```s, ```r dim(family_sites)[1]``` records remained.
 
@@ -139,6 +143,7 @@ family_sites$propjuv = ifelse(is.na(family_sites$Total_flock),
 
 
 ```
+
 # Map: Flock size and mean family size
 
 Map 1 shows mean family size (colour scale) and flock size (size scale) for the years 2000 - 2011 in the Netherlands, North Rhine Westphalia and Lower Saxony. Blue crosses represent the geocoded locations. Circles representing each flock have been jittered to make them visible, since there is a fair amount of overlap.
@@ -158,16 +163,15 @@ tm_shape(coast)+
 tm_shape(family_sites)+
   tm_symbols(scale = 3,border.lwd = 0.1, size = "Total_flock",
              col = "Mean_Fam",
-             palette = goose_cols(5),
              style = "pretty", jitter = 1.5, 
             legend.hist = T, legend.size.show= T,
             legend.col.show = T, title.size = "Flock size",
             title.col = "Mean family size")+
 tm_shape(family_sites)+
-  tm_symbols(shape = 4, scale = 1, size = 0.1, border.lwd = 0.1,  col = "royalblue")+
+  tm_symbols(shape = 4, scale = 1, size = 0.1, border.lwd = 0.1,  col = "lightblue")+
 tm_scale_bar(position = c("left","bottom"), breaks=c(0,10,20))+
   tm_format_NLD()+
-  tm_layout(frame = T)
+  tm_layout(frame = T, title = "Mean family size and flock size, 2001 - 2011")
 ```
 
 # Map: Flock size and juvenile percentage
@@ -184,15 +188,14 @@ tm_shape(family_sites)+
   tm_symbols(scale = 3,border.lwd = 0.1, size = "Total_flock",
              col = "propjuv",
              style = "pretty", jitter = 1.5, 
-             palette = goose_cols(5),
             legend.hist = T, legend.size.show= T,
             legend.col.show = T, 
             title.size = "Flock size", title.col = "Juvenile %")+
 tm_shape(family_sites)+
-  tm_symbols(shape = 4, scale = 1, size = 0.1, border.lwd = 0.1,  col = "royalblue")+
+  tm_symbols(shape = 4, scale = 1, size = 0.1, border.lwd = 0.1,  col = "lightblue")+
 tm_scale_bar(position = c("left","bottom"), breaks=c(0,10,20))+
   tm_format_NLD()+
-  tm_layout(frame = T)
+  tm_layout(frame = T, title = "Juvenile percentage and flock size, 2001 - 2011")
 ```
 
 # Mapping: Adding more data
@@ -290,13 +293,14 @@ tm_shape(nl, bbox = extent(family_sites)+0.5)+
 tm_shape(coast)+
   tm_polygons(col = "grey80",alpha = 0.1)+
 tm_shape(rivers)+
-  tm_lines(col = "royalblue")+
+  tm_lines(col = "lightblue")+
 tm_shape(lakes)+
-  tm_polygons(col = "royalblue")+
+  tm_polygons(col = "lightblue")+
 tm_shape(region_data)+
   tm_symbols(scale = 4,border.lwd = 0.1, size = "flocksize",
              col = "juvprop", legend.size.show= T,
-            legend.col.show = T, style = "cont",
+            legend.col.show = T, style = "fixed",
+            breaks = seq(0,70,10),
             title.size = "Mean flock size", 
             title.col = "Mean juvenile %")+
  tm_text("Region", size = 0.8, just = c("right","bottom"))+
@@ -339,7 +343,9 @@ tm_shape(coast)+
 tm_shape(month_data)+
   tm_symbols(scale = 4,border.lwd = 0.1, size = "flocksize",
              col = "juvprop", legend.size.show= T,
-            legend.col.show = T, style = "cont",
+            legend.col.show = T, style = "fixed",
+            breaks = seq(0,70,10),
+            palette = "Oranges",
             title.size = "Mean flock size", 
             title.col = "Mean juvenile %")+
  tm_text("Region", size = 0.8, just = c("right","bottom"))+

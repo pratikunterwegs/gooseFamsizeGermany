@@ -1,0 +1,77 @@
+```{r juvprop_month, fig.cap="Juvenile percentage in wintering flocks in each winter month. Scales are free.", fig.height=7, fig.width=10, message=FALSE, warning=FALSE}
+#'plot
+ggplot()+
+  geom_histogram(data = study_site[study_site$Month %in% c(1:3,10:12),], 
+                 aes(x = `Perc-JV`, na.rm = T,
+                     fill = as.factor(Month)))+
+  scale_fill_brewer(palette = "Oranges")+
+  facet_wrap(~Month, scales = "free")+
+  labs(list(x = "Juvenile percentage", fill = "Month",
+            title="Juvenile percentage ~ winter months"))+
+  theme_bw()
+```
+
+# Juvenile percentage, region and month
+
+9. The final step was to visualise whether there was any interaction between the juvenile percentage, the month, and the region. With 22 regions, I restricted the visualisation to geographically representative ones: Wesel (south east), Zeeland (south west), Friesland (north west), Leer (north east), and Gelderland (centre).
+
+```{r max_regions, include=FALSE}
+sort(table(as.factor(study_site$Region)))
+
+
+```
+
+```{r juvprop_region_month2, fig.height=7, fig.width=10, warning=FALSE, message=FALSE, fig.cap="Juvenile proportion in early winter months, in five provinces.", fig.fullwidth=T}
+#plot juv prop vs region in months
+ggplot()+
+  geom_histogram(data = study_site[study_site$Region %in% c("WES","ZL","FR","LER","GL") & study_site$Month %in% c(10,11,12),], 
+                 aes(x = `Perc-JV`, na.rm=T,
+                     fill = as.factor(Month)),binwidth = 5, stat = "bin")+
+  scale_fill_brewer(palette = "Blues")+
+  facet_wrap(~Month*Region, scales = "fixed", ncol = 5, drop = F)+
+  labs(list(x = "Juvenile percentage", fill = "Month",
+            title="Juvenile percentage ~ early winter months"))+
+  theme_bw()
+```
+
+
+```{r juvprop_region_month, fig.height=7, fig.width=10, warning=FALSE, message=FALSE, fig.fullwidth=T, fig.cap="Juvenile proportion in late winter months, in five provinces."}
+#plot juv prop vs region in months
+ggplot()+
+  geom_histogram(data = study_site[study_site$Region %in% c("WES","ZL","FR","LER","GL") & study_site$Month %in% c(1,2,3),], 
+                 aes(x = `Perc-JV`, na.rm=T,
+                     fill = as.factor(Month)),binwidth = 5, stat = "bin")+
+  scale_fill_brewer(palette = "Oranges")+
+  facet_wrap(~Month*Region, scales = "fixed", ncol = 5, drop = F)+
+  labs(list(x = "Juvenile percentage", fill = "Month",
+            title="Juvenile percentage ~ late winter months"))+
+  theme_bw()
+```
+
+```{r, hex_jvrprop_flocksize_month_early, fig.height=7, fig.width=10, warning=FALSE, message=FALSE, fig.fullwidth=T}
+ggplot()+
+ geom_hex(data = study_site[study_site$Region %in% c("WES","ZL","FR","LER","GL") & study_site$Month %in% c(10,11,12),], 
+          aes(x =Total_flock, 
+              y = `Perc-JV`), bins = 15, na.rm = T)+
+  scale_fill_gradientn(colours= rev(brewer.pal(11, "Spectral")))+
+  labs(list(x = "Flocksize",
+            y="Juvenile percentage",
+            title = "Hexbins, flocksize ~ juvenile percentage, early winter"))+
+  facet_wrap(~Month*Region, scales = "fixed", ncol = 5, drop = F)+
+xlim(0,5000)+
+  theme_bw()
+```
+
+```{r, hex_jvrprop_flocksize_month_late, fig.height=7, fig.width=10, warning=FALSE, message=FALSE, fig.fullwidth=T}
+ggplot()+
+ geom_hex(data = study_site[study_site$Region %in% c("WES","ZL","FR","LER","GL") & study_site$Month %in% c(1,2,3),], 
+          aes(x =Total_flock, 
+              y = `Perc-JV`), bins = 15, na.rm = T)+
+  scale_fill_gradientn(colours= rev(brewer.pal(11, "Spectral")))+
+  labs(list(x = "Flocksize",
+            y="Juvenile percentage",
+            title = "Hexbins, flocksize ~ juvenile percentage, late winter"))+
+  facet_wrap(~Month*Region, scales = "fixed", ncol = 5, drop = F)+
+ # xlim(0,2000)+
+  theme_bw()
+```
