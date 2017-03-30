@@ -1,0 +1,157 @@
+---
+title: Goose Flock Data Cleaning
+output: 
+  tufte::tufte_handout
+---
+
+```{r, include=FALSE}
+#'load knitr
+library(knitr)
+
+#'suppress all code output but run code
+opts_chunk$set(echo = FALSE)
+opts_knit$set(root.dir = "~/git/thesis/")
+```
+
+```{r load data, include=FALSE}
+#'load libs
+library(readxl)
+library(RColorBrewer)
+
+#'import data
+lt_geese = read_excel("~/git/thesis/Age-ratiodata-GWfG-toPratik.xlsx", 
+    sheet = "Plain_table", col_types = c("text", 
+        "numeric", "numeric", "numeric", 
+        "numeric", "text", "text", "text", 
+        "text", "numeric", "text", "text", 
+        "numeric", "numeric", "numeric", 
+        "numeric", "numeric", "numeric", 
+        "numeric", "numeric", "numeric", 
+        "numeric", "numeric", "numeric", 
+        "numeric", "numeric", "numeric", 
+        "numeric", "numeric", "text", "text", 
+        "text"))
+```
+
+```{r reduce_data}
+#'all records in the netherlands or nrw after than 2000
+
+#'first keep only nl or nrw after 2000
+study_site = lt_geese[lt_geese$Country == "NL"|lt_geese$Country=="NRW",]
+
+study_site = study_site[study_site$Breeding_year >= 2001,]
+```
+
+
+```{r assign_time}
+#'fix missing days
+study_site$Day = ifelse(is.na(study_site$Day),
+                        15, study_site$Day)
+
+#'use a time column of the posixct class
+study_site$time = as.POSIXct(paste(study_site$Year,
+                                   study_site$Month,study_site$Day),
+                             format="%Y %m %d")
+#'fix flock size
+study_site$Total_flock = ifelse(is.na(study_site$Total_flock),
+        ifelse(is.na(study_site$N_sampled),
+               study_site$N_Adult+study_site$N_Juvenile,
+               study_site$N_sampled),
+                        study_site$Total_flock)
+
+#'fix juvenile percentage
+study_site$`Perc-JV` = ifelse(is.na(study_site$`Perc-JV`),
+          study_site$N_Juvenile*100/study_site$Total_flock,
+                        study_site$`Perc-JV`)
+
+#'check for NAs
+apply(study_site, 2, function(x){sum(is.na(x))})
+
+#export to csv
+study_site = study_site[study_site$time < "2012-05-01",]
+write.csv(study_site, "clean_goose_data.csv")
+```
+
+To check how observations were clustered in space and time, I visualised the dates against the regions, as seen below. Averaging within dates is likely to mean averaging over regions at least in a few cases.
+
+
+```{r create_limited_df, include=FALSE}
+#'create limited data frame
+goose_time = study_site[,c("Region","Breeding_year","Total_flock","Perc-JV","time")]
+
+#'remove years above 2012
+goose_time = goose_time[goose_time$time < "2012-05-01",]
+
+summary(goose_time[is.na(goose_time$Region),])
+
+#'complete cases for time
+goose_time = goose_time[complete.cases(goose_time),]
+
+#'where are the NAs?
+apply(goose_time, 2, function(x){sum(is.na(x))})
+```
+
+```{r tilemap_space_time, fig.cap= "Sampling times in each region. Sampling is not even and is very sparse in some provinces.", fig.width=7, fig.height=3}
+library(ggplot2)
+
+ggplot(data = goose_time, 
+       aes(x=Region, y=time))+ 
+  geom_tile()+
+  theme_bw()
+```
+
+```{r create_zoo, warning=FALSE}
+#'create a df aggregated as means with time as the factor
+goose_ts = aggregate(goose_time,
+                     list(goose_time$time), mean)
+
+head(goose_ts)
+
+#'create the ts
+goose_ts = zoo(goose_ts[,c(3:5)], order.by = goose_ts$time)
+```
+
+```{r plot_global_ts}
+#'plot data averaged within day
+plot(goose_ts[,c(2,3)])
+library(lubridate)
+ggplot(data = melt(fortify(goose_ts)[,c(1,3,4)], id.vars = "Index"))+
+  geom_line(aes(x = Index, y = value, 
+                col = ifelse(month(Index)%in%c(1:3,10:12), "black",
+                         "red")))+
+  scale_colour_manual(values = c("black",NA))+
+  facet_wrap(~variable, ncol = 1, scales = "free")+
+  guides(colour = F)+
+  theme_bw()
+```
+
+```{r zoo_to_ts}
+goose_reg_ts = zooreg(goose_ts)
+
+goose_regular = as.ts(goose_reg_ts)
+
+#'doesn't work, has error
+goose_stl = stl(goose_regular[,2])
+
+library(forecast)
+
+trend_flocks = ma(goose_regular[,2], order = 4, centre = T)
+
+plot(goose_regular[,2])
+lines(trend_flocks, col = 2)
+
+plot(as.ts(trend_flocks))
+
+decompose(goose_regular, )
+
+flock_detrend = goose_regular[,2] - trend_flocks
+plot(as.ts(flock_detrend))
+```
+
+
+
+
+
+
+
+

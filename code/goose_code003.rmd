@@ -36,7 +36,7 @@ lt_geese = read_excel("~/git/thesis/Age-ratiodata-GWfG-toPratik.xlsx",
         "text"))
 ```
 
-```{r get family sites, include=FALSE}
+```{r reduce data, include=FALSE}
 #'all records in the netherlands or nrw after than 2000
 
 #'first keep only nl or nrw after 2000
@@ -59,25 +59,31 @@ study_site = cbind(study_site, fams = apply(study_site[,c(19:28)], 1, function(x
 3. First, I fixed an issue with the total flock size. It appears that in some cases, total flock size is left blank. It may be safe to assume that this was done when the total flock size was later computed by adding the number of juveniles and adults. In this case, it was not a mixed flock, and only whitefronts were present.
 
 ```{r total_flock, include=FALSE}
-#'set total flock size
+#'fix missing days
+study_site$Day = ifelse(is.na(study_site$Day),
+                        15, study_site$Day)
+
+#'use a time column of the posixct class
+study_site$time = as.POSIXct(paste(study_site$Year,
+                                   study_site$Month,study_site$Day),
+                             format="%Y %m %d")
+#'fix flock size
 study_site$Total_flock = ifelse(is.na(study_site$Total_flock),
-                        study_site$N_Adult + study_site$N_Juvenile,
+        ifelse(is.na(study_site$N_sampled),
+               study_site$N_Adult+study_site$N_Juvenile,
+               study_site$N_sampled),
                         study_site$Total_flock)
 
-#'how many NAs now?
-sum(is.na(study_site$Total_flock))
-
-#'NAs in month and year
-dim(study_site[is.na(study_site$Year) | is.na(study_site$Month),])
-
-#'any pattern?
-summary(study_site[is.na(study_site$Year) | is.na(study_site$Month),])
+#'fix juvenile percentage
+study_site$`Perc-JV` = ifelse(is.na(study_site$`Perc-JV`),
+          study_site$N_Juvenile*100/study_site$Total_flock,
+                        study_site$`Perc-JV`)
 ```
 
 4. After fixing the issue of missing total flock sizes, ```r sum(is.na(study_site$Total_flock))``` ```NA```s remain. These may be safely ignored. Additionally, ```r dim(study_site[is.na(study_site$Year) | is.na(study_site$Month),])[1]``` record(s) from the study site has no year or month data. This is also removed.
+
 ```{r remove_monthna}
 study_site = study_site[!is.na(study_site$Month),]
-
 ```
 
 
@@ -85,7 +91,6 @@ study_site = study_site[!is.na(study_site$Month),]
 
 ```{r mixed_flocks, include=FALSE}
 sum(study_site$Total_flock > study_site$N_sampled, na.rm = T)
-
 ```
 
 
@@ -146,7 +151,7 @@ ggplot()+
 
 The data were assigned a continuous time variable as a ```POSIXct``` object from the separate day, month and year columns.
 
-```{r timeseries, include=FALSE}
+```{r time_cont, include=FALSE}
 #'convert three columns to posixct
 #'first convert year month date to char
 
@@ -168,12 +173,22 @@ After removing all records where time data was incomplete, ```r dim(goose_time)[
 
 # Records per region over time
 
-I then checked to see how the flocksize varied over time from each region. Some regions are very sparsely sampled.
+I then checked to see how the flocksize varied over time from each region. Some regions are very sparsely sampled. I also looked at flock sizes in each region over time.
 
-```{r records_region_time, fig.height=7, fig.width=10, fig.cap= "Flock size over time, separated by region."}
+```{r tilemap_space_time, fig.cap= "Sampling times in each region. Sampling is not even and is very sparse in some provinces.", fig.width=7, fig.height=3}
+library(ggplot2)
+
+ggplot(data = goose_time, 
+       aes(x=Region, y=time))+ 
+  geom_tile()+
+  theme_bw()
+```
+
+```{r records_region_time, fig.height=7, fig.width=10, fig.cap= "Flock size over time, separated by region. Seven regions have been removed for lack of data."}
 #'basic plots
 ggplot()+
-  geom_point(data = goose_time, 
+  geom_point(data = goose_time[!goose_time$Region %in%
+                                 c("FL","IJ","NB","UT"),], 
              aes(x = time, y = Total_flock), size = 0.5)+
   facet_wrap(~Region ,scales = "fixed")+
   #ylim(0,5000)+
@@ -215,9 +230,9 @@ ggplot()+
 ```
 
 10. I then separated the data into data from five representative provinces as follows: Wesel (south east, inland), Zeeland (south west, coastal), Friesland (north west, coastal), and South Holland (centre, coastal).
-No clear trend was seen in the hexbin representation of data. Records from Wesel and Friesland produced a hexbin plot most similar to the pooled data. Zeeland shows the most irregular pattern, with higher flock sizes.
+No clear trend was seen in the hexbin representation of data. Records from Wesel and Friesland produced a hexbin plot most similar to the pooled data. Zeeland shows the most irregular pattern, with higher flock sizes (not shown here).
 
-```{r hex_jvprop_flock_rg, fig.cap="Hexbins showing counts of combinations of flocksize and juvenile proportion.", fig.height=5, fig.width=7}
+```{r hex_jvprop_flock_rg, fig.cap="Hexbins showing counts of combinations of flocksize and juvenile proportion.", fig.height=5, fig.width=7, include=FALSE}
 #'hexbin juvprop flock size
 ggplot()+
  geom_hex(data = study_site[study_site$Region %in% c("WES","ZL","FR","ZH"),], 
