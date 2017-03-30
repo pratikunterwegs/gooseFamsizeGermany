@@ -4,4 +4,4 @@
 .Ruserdata
 
 *.xlsx
-data.*.csv
+*.csv
