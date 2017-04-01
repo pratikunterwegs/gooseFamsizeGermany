@@ -1,0 +1,22 @@
+```{r goose_timeseries}
+#'for flocksize
+#'start the time series at 2001.75, as in october 2001, 3/4 of the
+#'year is done
+goose_ts = ts(goose_time_merge[,c(3,4)], start = c(2001.75,1),
+              frequency = 365)
+
+#'plot to check
+#plot(goose_ts)
+```
+
+```{r goose_ts_decomp}
+#'seasonal decomposition
+#'flock size
+flock_stl = stl(goose_ts[,1], s.window = "periodic", na.action = na.omit)
+
+#'juvprop
+juv_stl = stl(goose_ts[,2], s.window = "periodic",na.action = na.omit)
+
+#'cbind
+goose_stl = cbind(flock_stl, juv_stl, time = day_seq)
+```
