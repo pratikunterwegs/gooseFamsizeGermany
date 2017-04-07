@@ -1,0 +1,303 @@
+---
+title: Goose flock data, interannual smoothing
+bibliography: ~/git/thesis/geese_citations.bib
+output: pdf_document
+fontsize: 12pt
+link-citations: true
+citecolor: Emerald
+---
+
+# Sampling frequency
+
+The heatmap below shows the number of records from each zone. Zones were amalgamated from the ```regions``` contained in the data. The four zones are: East Frisia (the regions of Leer, Grongingen, and Drenthe), the IJsselmeer (comprised of Frisia, North Holland, and Flevoland), and the Rhinelands (with the cities of Duisburg, Wesel, Cleves, Nijmegen, and Wageningen). All other regions are lumped into "Other".
+
+The midpoint of the colour scale is at 50 observations, ie, the white boxes represent 50 flocks counted in that zone that year. Given the wintering season for geese is 6 months or 24 weeks long, this represents around two observations per week. Given the number of observations made in the Rhinelands, this region will drive any trend seen in the data.
+
+```{r, include=FALSE}
+#'load knitr
+library(knitr)
+
+#'suppress all code output but run code
+opts_chunk$set(echo = FALSE)
+opts_knit$set(root.dir = "~/git/thesis/")
+```
+
+```{r load_clean_data, include=FALSE}
+#'load data
+goose_clean = read.csv("data.clean.goose.csv")
+
+#assign zones
+goose_clean$zone = ifelse(goose_clean$Region %in% c("DU","KLE","RG","WES","WG"),
+       "Rhinelands",
+       ifelse(goose_clean$Region %in% c("LER","DR","GR"),
+              "East Frisia",
+       ifelse(goose_clean$Region %in% c("FR","FL","NH"),
+              "IJsselmeer",
+              ifelse(goose_clean$Region %in% c("ZL","ZH"),
+                     "Southwest", "Other"))))
+```
+
+```{r create_limited_df, include=FALSE}
+#'create limited data frame
+goose_time = goose_clean[,c("Region","Breeding_year","Total_flock","Perc.JV","time")]
+
+#'set time as posixct
+goose_time$time = as.Date(goose_time$time)
+
+#'where are the NAs?
+summary(goose_time[is.na(goose_time$Region),])
+
+#'complete cases for time
+goose_time = goose_time[complete.cases(goose_time),]
+
+#'where are the NAs?
+apply(goose_time, 2, function(x){sum(is.na(x))})
+```
+
+```{r assign_new_zones_ts}
+#'assign new zones
+goose_time$zone = ifelse(goose_time$Region %in% c("DU","KLE","RG","WES","WG","LI"),
+       "Rhinelands",
+       ifelse(goose_time$Region %in% c("LER","DR","GR"),
+              "East Frisia",
+       ifelse(goose_time$Region %in% c("FR","FL","NH"),
+              "IJsselmeer", 
+              ifelse(goose_time$Region %in% c("ZL","ZH"),
+                     "Southwest", "Other"))))
+```
+
+
+```{r tilemap_space_time, fig.cap= "Sampling times in each region. Sampling is not even over zones. The Rhinelands are overrepresented in the data. The sampling frequency is frequently below 2 samples per week.", fig.width=7, fig.height=3}
+library(ggplot2)
+library(reshape)
+
+ggplot(data = melt(as.data.frame(table(goose_time[,c("Breeding_year","zone")]))),
+       aes(x=zone, y=Breeding_year, fill = value))+
+  geom_tile(col = 1)+
+  scale_fill_gradient2(midpoint = 50, high = "seagreen4", 
+                    guide = "legend",
+                    low = "darkred", breaks= c(0,50,100),
+                    labels = c("< 25","25 - 100", "> 100"))+
+  theme_minimal()
+```
+
+# Flock and juvenile proportion trend smoothing
+
+Here, I aggregated goose flock sizes and juvenile proportions by date and region. On days when more than one flock was reported from the same region, the mean of the flocks was taken, and also the mean of the juvenile proportion.
+
+```{r create_aggregate, warning=FALSE, include=FALSE}
+#'create a df aggregated as means with time as the factor
+goose_aggregate = aggregate(goose_time,
+                     list(goose_time$time, goose_time$Region),
+                     mean)
+
+#'subset to remove factor date and region
+goose_aggregate = goose_aggregate[,c("Group.2","Breeding_year",
+                                     "Total_flock","Perc.JV",
+                                     "time")]
+
+```
+
+```{r creating_regularity, include=FALSE}
+#'create a daily sequence from the min to the max date
+day_seq = seq(as.Date(min(goose_time$time)),
+              as.Date(max(goose_time$time)), by = "day")
+
+#should be more than 3600 days, since this is 10 years
+length(day_seq)
+
+#'now reduce to only y-m-d if not already so
+
+#day_seq = as.POSIXct(day_seq, format = "%Y-%m-%d")
+#'now merge goose_aggregate df with time seq
+
+#'convert goose_aggregate$time to Date
+#'oh dear, never thought i'd use as.Date!
+goose_aggregate$time = as.Date(goose_aggregate$time)
+
+#'merge the day sequence and the aggregated goose data
+#'take care to keep empty places where there are no observations
+goose_time_merge = merge(as.data.frame(day_seq),
+                         goose_aggregate, by.x = "day_seq",
+                         by.y = "time", all.x = T)
+
+#'how many complete cases? same as the number of aggregated records
+sum(complete.cases(goose_time_merge))
+
+#'set all values where no records were taken to 0
+#'not very realistic in the winter
+#goose_time_merge[is.na(goose_time_merge)] = 0
+
+```
+
+```{r assign_breeding_year, include=FALSE}
+#'the breeding year is assigned based on the month of the day sequence. months 1:7 are assigned to the previous breeding year.
+library(lubridate)
+goose_time_merge$Breeding_year = ifelse(month(goose_time_merge$day_seq) %in% c(1:7),
+       year(goose_time_merge$day_seq)-1,
+       year(goose_time_merge$day_seq))
+```
+
+```{r assign_zones_goose_time, include=FALSE}
+#'use the same proc as before
+goose_time_merge$zone = ifelse(goose_time_merge$Group.2 %in% c("DU","KLE","RG","WES","WG"),
+       "Rhinelands",
+       ifelse(goose_time_merge$Group.2 %in% c("LER","DR","GR"),
+              "East Frisia",
+       ifelse(goose_time_merge$Group.2 %in% c("FR","FL","NH"),
+              "IJsselmeer", 
+              ifelse(goose_time_merge$Group.2 %in% c("ZL","ZH"),
+                     "Southwest", "Other"))))
+
+```
+
+
+```{r melt_goose_time_merge, eval = FALSE, fig.height=10, fig.width=15, warning=FALSE}
+#'melt data to get flocksize and juvprop as idvars
+library(reshape)
+#goose_time_merge$zone = as.factor(goose_time_merge$zone)
+goose_time_merge_melt = melt(goose_time_merge[,c(1:6)],
+                             id.vars = c("zone","day_seq"))
+```
+
+
+## Flock size trend
+
+```{r trend_flock_juv_global, fig.height=4, fig.cap= "Global flock size (solid lines) and juvenile % (dashed lines) trend over time.The GAM smoothed trend is shown in blue. The linear model trend is shown in red. All missing values have been removed.", warning=FALSE, message=FALSE}
+#'auto(gam) smoothing on flock size data using ggplot
+ggplot(data = goose_time_merge)+
+ geom_smooth(aes(x = day_seq, y = Total_flock),
+           method = "auto", lty = 1)+
+  geom_smooth(aes(x = day_seq, y = Total_flock),
+              method = "lm", col = 2)+
+ geom_smooth(aes(x = day_seq, y = Perc.JV*10),
+              method = "auto", lty = 2)+
+  geom_smooth(aes(x = day_seq, y = Perc.JV*10),
+              method = "lm", col = 2, lty = 2)+
+  
+  labs(list(x = "Time", y = "Flock size & Juvenile % * 10", title = "Smoothed flock size & juvenile % trends over time, global data"))+ theme_minimal()
+```
+
+
+```{r trend_flock_juv_zonal, fig.height=4, fig.cap= "Zonal flock size trend over time.The GAM smoothed trend is shown in blue. The linear model trend is shown in red. All missing values have been removed.",warning=FALSE}
+#'auto(gam) smoothing on flock size data using ggplot
+ggplot(data = goose_time_merge)+
+ geom_smooth(aes(x = day_seq, y = Total_flock),
+           method = "auto", lty = 1,size = 0.5)+
+  geom_smooth(aes(x = day_seq, y = Total_flock),
+              method = "lm", col = 2,size = 0.5)+
+  labs(list(x = "Time", y = "Flock size", title = "Smoothed flock size trends over time, zonal data"))+ theme_minimal()+
+  facet_wrap(~zone, scales = "free_y")
+```
+
+Goose flock size and juvenile percentage trends are not similar. Goose flock size trends are not similar over time in each zone. Flocks appear to have decreased from a peak in East Frisia and appear to either be stabilising or increasing slightly again based on GAM smoothing (the calculations involved in this model are not yet documented), but are decreasing sharply based on the linear model.
+
+In the north west around the IJsselmeer, flock size increased to a peak in the mid-2000s, and has since declined (GAM), with the linear model showing a slight decreasing trend. 
+
+The trend for the Rhinelands is not easy to interpret. Flocks appear to have peaked in the winter of 2004 - 2005, after which they show a weak oscillation before sharply increasing again in the winter of 2011 - 2012 (GAM). The linear model simplifies this to show a slight increase in flock sizes.
+
+In the Southwest, the trend is a sharply decreasing one. In all other zones, flock size does not fluctuate greatly over time. The global trend is in line with @Fox2017a, who show that while the goose populations of western Europe have shown an exponential increase since the 1960s, the North Sea wintering population of Russian Whitefronts is now stabilising.
+
+## Juvenile % trend
+
+```{r trend_juv_global, fig.height=4, fig.cap= "Global juvenile % trend over time. The GAM smoothed trend is shown in blue. The linear model trend is shown in red. All missing values have been removed.", warning=FALSE}
+#'auto(gam) smoothing on flock size data using ggplot
+ggplot(data = goose_time_merge)+
+# geom_point(data = goose_time_merge,
+ #           aes(x = day_seq, y = Total_flock),
+  #         col = "grey20", size = 0.5)+
+ geom_smooth(aes(x = day_seq, y = Perc.JV),
+              method = "auto", size = 0.5)+
+  geom_smooth(aes(x = day_seq, y = Perc.JV),
+              method = "lm", col = 2, size = 0.5)+
+  #geom_smooth(aes(x = day_seq, y = Total_flock),
+   #           method = "auto", col = 2, size = 0.5)+
+  labs(list(x = "Time", y = "Juvenile %", title = "GAM smoothed juvenile % trends over time, global data"))+ theme_minimal()
+ #facet_wrap(~zone, scales = "free_y",
+            #ncol = 2)
+```
+
+
+```{r trend_juv_zonal, fig.height=4, fig.cap= "Zonal juvenile % trends over time. The GAM smoothed trend is shown in blue. The linear model trend is shown in red. All missing values have been removed.", warning=FALSE, message=FALSE}
+#'auto(gam) smoothing on flock size data using ggplot
+ggplot(data = goose_time_merge)+
+# geom_point(data = goose_time_merge,
+ #           aes(x = day_seq, y = Total_flock),
+  #         col = "grey20", size = 0.5)+
+ geom_smooth(aes(x = day_seq, y = Perc.JV),
+              method = "auto", size = 0.5)+
+  geom_smooth(aes(x = day_seq, y = Perc.JV),
+              method = "lm", col = 2, size = 0.5)+
+  #geom_smooth(aes(x = day_seq, y = Total_flock),
+   #           method = "auto", col = 2, size = 0.5)+
+  labs(list(x = "Time", y = "Juvenile %", title = "GAM smoothed juvenile % trends over time, zonal data"))+ theme_minimal()+
+ facet_wrap(~zone, scales = "fixed",
+            ncol = 2)
+```
+
+
+The juvenile proportion trend is similar in all zones, and the trends in each zone are very similar to the gloabl trend, unlike the flock size trends. There appears to be a cyclical pattern, with the cycles synchronised over all zones. 
+
+This cyclical pattern in juvenile proportion -- a proxy for goose reproductive success -- has been reported and commented on by authors using earlier data from the Netherlands [@van1996long, @nolet2013faltering]. A weak lemming year (ie, a summer with few lemmings[^1]) is implicated in poor recruitment of juveniles into the wintering population observed later in the year. For example, the lowest trough in the trend -- at 2008is, at the upper limit of the confidence interval, just above 10%. @summers1986breeding, in a study on Brent geese, defines a "good" year for goose breeding to be one in the winter of which the percentage of first winter birds is > 32%, and a "bad" year as one in which it's < 13%.
+
+The trough between 2008 - 2009 is the outcome of the breeding year/summer 2008, which was reported to be a poor lemming year by an unrelated study on Arctic mesocarnivores [@feige2012monitoring], as well as by @nolet2013faltering using data from @rykhlikova2000population. @nolet2013faltering, drawing on data from @tulp2007arctic, and from other observations, also holds 2003 to have been a poor lemming year, following a moderate peak in 2002. The juvenile proportion data do show a trough in the winter of 2003 - 2004, and this could be seen to be a result of increased predation pressure on geese chicks that summer.
+
+The one clear peak in the trend contained wholly within the period of the data is between 2005 - 2006, and should represent the breeding success of the summer of 2005, which has been reported as a lemming-peak year [@tulp2007arctic @feige2012monitoring, @nolet2013faltering]. However, the partial peak of a cycle not fully covered by this data (winter of 2001 - 2002) cannot be fully interpreted as being due to the effect of the lemming cycle, but might be an artefact of data collection.
+
+The overall trend supports the idea that the lemming cycle of the mainland Russian breeding sites of whitefronts continues to determine the recruitment of juveniles into the population, in keeping with the findings of @van1996long, and with the alternative prey hypothesis (AHP) that is proposed to be the mechanism by which predators affect the populations of Arctic-breeding birds [@bety2002shared provide a good example over two lemming cycles].
+
+# Within-year trends
+
+I then separated the global data (all zones) by year to look for interannual variation and monthly patterns. Separating this data by zone was not possible since there are years in which no data were collected in some provinces, or where the number of data points are fewer than those required to produced a smoothed trend.
+
+```{r mean_juvprop_year, include=FALSE}
+library(plyr)
+
+goose_means = ddply(goose_aggregate, "Breeding_year",summarize,
+                    mean_jprop = mean(Perc.JV),
+                    mean_flock = mean(Total_flock))
+
+```
+
+```{r trend_flock_yearly, fig.cap= "Global flock size trend within breeding years. The Loess smoothed trend is shown in blue. The linear model trend is shown in red. All missing values have been removed.", warning=FALSE, message=FALSE}
+#'auto(gam) smoothing on flock size data using ggplot
+ggplot(data = goose_time_merge)+
+ geom_smooth(aes(x = day_seq, y = Total_flock),
+           method = "loess", lwd = 0.5)+
+  geom_smooth(aes(x = day_seq, y = Total_flock),
+              method = "lm", col = 2, lwd = 0.5)+
+  labs(list(x = "Time", y = "Flock size", title = "Smoothed flock size trends within each breeding year, global data"))+ theme_minimal()+
+  facet_wrap(~Breeding_year, scales = "free_x")
+```
+
+```{r trend_juvprop_yearly, fig.width=10, fig.cap= "Global juvenile percentage trend within breeding years. The Loess smoothed trend is shown in blue. The linear model trend is shown in red. The dotted line represents the mean juvenile % in that year. All missing values have been removed.", warning=FALSE}
+#'auto(gam) smoothing on flock size data using ggplot
+ggplot(data = goose_time_merge)+
+ geom_smooth(aes(x = day_seq, y = Perc.JV),
+           method = "loess", lwd = 1)+
+  geom_smooth(aes(x = day_seq, y = Perc.JV),
+              method = "glm", col = 2, lwd = 1)+
+  geom_hline(aes(yintercept = mean_jprop), goose_means,
+             lty = 3, lwd = 0.5)+
+  labs(list(x = "Time", y = "Juvenile %", title = "Smoothed juvenile percentage trend within each breeding year, global data"))+ theme_minimal()+
+  facet_wrap(~Breeding_year, scales = "free_x", ncol =4)
+```
+
+```{r counts_zone, include=FALSE}
+library(plyr)
+
+count(na.omit(goose_time_merge), c("zone"))
+
+count(na.omit(goose_time_merge), c("zone","Group.2"))
+```
+
+```{r kable_counts_zone, eval=FALSE, include=FALSE}
+kable(table(goose_time_merge[complete.cases(goose_time_merge),][,c("zone","Breeding_year")]),
+      caption = "Records per zone per breeding year.")
+```
+
+---
+
+# References
+
+[^1]: Mid-sized Arctic rodents forming the major prey of most Arctic mesocarnivores, mammalian as well as avian.

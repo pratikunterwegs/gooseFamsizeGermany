@@ -20,3 +20,4 @@ juv_stl = stl(goose_ts[,2], s.window = "periodic",na.action = na.omit)
 #'cbind
 goose_stl = cbind(flock_stl, juv_stl, time = day_seq)
 ```
+

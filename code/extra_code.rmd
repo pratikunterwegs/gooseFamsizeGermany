@@ -88,4 +88,171 @@ ggplot(data = melt(fortify(goose_aggregate)[,c(1,3,4)], id.vars = "Index"))+
   theme_bw()
 ```
 
+# Convert to ```timeseries```
 
+```{r goose_timeseries_global}
+#'for flocksize
+#'start the time series at 2001.75, as in october 2001, 3/4 of the
+#'year is done
+goose_ts = ts(goose_time_merge[,c("Total_flock","Perc.JV")], start = c(2001.75,1),
+              frequency = 365)
+
+#'plot to check
+plot(goose_ts, 
+     main = "Flock size and juvenile proportion over time",
+     font.main = 3)
+```
+
+```{r seasonal_decomp_using_stlplus}
+#'run the first field, flock size, through stlplus
+#'loadlibs
+library(stlplus)
+
+#'stl flocksize
+stl_flock_size = stlplus(goose_ts[,1], s.window = "periodic")
+```
+
+```{r plot_flocksize_stl}
+plot(stl_flock_size)
+```
+
+```{r get_juvprop_stl}
+#'stl on juvprop
+stl_juvprop = stlplus(goose_ts[,2], s.window = "periodic")
+```
+
+```{r plot_juvprop_stl}
+#'plot it
+plot(stl_juvprop)
+```
+
+```{r save_trends_together}
+#'get trend
+trend_juvprop = trend(stl_juvprop)
+
+#'plot trend as before
+trend_plot_02 = ggplot()+
+  geom_path(aes(y = trend_juvprop, x = z),
+            col = ifelse(is.na(goose_ts[,2]),
+                         "magenta","blue"),
+            size = 1)+
+  labs(list(x = "Time",y = "Juvenile proportion trend"))+
+  theme_minimal()
+
+#'get_flock_trend and plot
+flock_trend = trend(stl_flock_size)
+
+#get seq
+z = seq(2001.75, 2012.25, length.out = dim(goose_ts)[1])
+
+#'plot trend
+trend_plot_01 = ggplot()+
+  geom_line(aes(y = flock_trend, x = z),
+            col = ifelse(is.na(goose_ts[,1]),
+                         "magenta","blue"),
+            size = 1)+
+  labs(list(x = "Time",y = "Flock size trend"))+
+  theme_minimal()
+```
+
+```{r plot_trends}
+#'load gridextra
+library(gridExtra)
+
+#'plot using gridarrange
+grid.arrange(trend_plot_01, trend_plot_02)
+
+```
+
+```{r ts_by_zone}
+#'convert zone to factor
+goose_time_merge$zone = as.factor(goose_time_merge$zone)
+
+#'make a list and separate the data as items in it
+data_by_zone = list()
+for(i in 1:4){
+ data_by_zone[[i]] = goose_time_merge[goose_time_merge$zone ==                                  unique(goose_time_merge$zone)[i],]
+}
+
+#'along the list, now merge each df with day_seq
+data_by_zone = lapply(data_by_zone,
+                    function(x){merge(data.frame(day_seq), 
+                     x, by = "day_seq", all.x = T)})
+
+#'now make another list with ts objects
+ts_by_zone = lapply(data_by_zone, function(x){
+  ts(x[,c("Total_flock","Perc.JV")], start = c(2001.75,1),
+              frequency = 180)
+})
+
+#plot to check
+par(mfrow = c(2,2))
+for(i in 1:4){
+  plot(ts_by_zone[[i]][,1],
+       main = paste(unique(na.omit(data_by_zone[[i]])$zone)),
+       ylab = "Flock size")
+}
+
+for(i in 1:4){
+  plot(ts_by_zone[[i]][,2],
+       main = paste(unique(na.omit(data_by_zone[[i]])$zone)),
+       ylab = "Juvenile %")
+}
+```
+
+```{r stl_by_zone}
+#'set all NAs to 0 since stlplus doesn't work on the ts as they are
+
+for(i in 1:4){
+ ts_by_zone[[i]][is.na(ts_by_zone[[i]])] = 0
+}
+
+#'apply stlplus over the ts list
+#'for flock size
+stl_flock_zone = lapply(ts_by_zone,
+                        function(x){
+                          stlplus(x[,1], s.window = "periodic")
+                        })
+
+#'for juvprop
+stl_juv_zone = lapply(ts_by_zone,
+                        function(x){
+                          stlplus(x[,2], s.window = "periodic")
+                        })
+```
+
+```{r plot_zonal_stls}
+#'flocksize
+
+par(mfrow = c(2,2))
+for(i in 1:4){
+  plot(trend(stl_flock_zone[[i]]),
+       main = paste(unique(na.omit(stl_flock_zone[[i]])$zone)),
+       type = "l", lwd = 2)
+}
+```
+
+
+## Family size ~ zone
+```{r mean_fam_size_zone_year}
+#'how does mean fam size vary over zone?
+#'first get mean of means in all zones in all years
+mean_fam_table = ddply(fams, c("zone", "Breeding_year"), summarise, meanfam = mean(Mean_Fam))
+
+#'convert zone and year to factors
+mean_fam_table$zone = as.factor(mean_fam_table$zone)
+mean_fam_table$Breeding_year = as.factor(mean_fam_table$Breeding_year)
+
+#'convert to wide format, not necessary but useful
+mean_fam_table2 = cast(mean_fam_table, formula = zone~Breeding_year,
+                      value = "meanfam")
+
+#'run aov
+meanfam_aov = aov(Mean_Fam ~ zone, data = fams)
+
+summary(meanfam_aov)
+#'breeding year is significant, zone is not. there goes the families are larger in the west idea...
+
+#'visualise and run a posthoc
+plot(TukeyHSD(meanfam_aov))
+```

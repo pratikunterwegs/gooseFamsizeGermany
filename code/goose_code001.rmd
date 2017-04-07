@@ -133,7 +133,7 @@ goose_cols = colorRampPalette(brewer.pal(9, "YlOrRd"))
 ggplot(data = as.data.frame(goose_year_month), 
        aes(x=Breeding_year, y=Month, fill=value)) + 
   geom_tile()+ 
-  scale_fill_gradientn(colours = goose_cols(20))+
+  scale_fill_gradientn()+
   labs(list(fill = "Records"))+
   theme_bw()
 ```

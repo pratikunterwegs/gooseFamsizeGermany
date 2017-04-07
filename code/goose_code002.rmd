@@ -250,6 +250,9 @@ regions_codes2 = read.csv("regions_codes.csv")[,c(2,3)]
 #'bind to region names
 regions = cbind(regions, regions_codes2)
 
+#'write to csv
+province_coords = write.csv(regions, "province_coords.csv" )
+
 #'merge with data
 study_site = merge(study_site, regions, by.x = "Region", by.y = "V2")
 ```
@@ -345,7 +348,7 @@ tm_shape(month_data)+
              col = "juvprop", legend.size.show= T,
             legend.col.show = T, style = "fixed",
             breaks = seq(0,70,10),
-            palette = "Oranges",
+            #palette = "Oranges",
             title.size = "Mean flock size", 
             title.col = "Mean juvenile %")+
  tm_text("Region", size = 0.8, just = c("right","bottom"))+
