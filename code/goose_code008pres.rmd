@@ -1,13 +1,14 @@
 ---
-title: Goose flock data
-subtitle: Population trends
-bibliography: ~/git/thesis/geese_citations.bib
+title: "Goose flock data"
 fontsize: 10pt
-output: 
-  beamer_presentation: 
+link-citations: yes
+output:
+  beamer_presentation:
     colortheme: seagull
+    keep_tex: yes
     theme: Luebeck
-link-citations: true
+  ioslides_presentation: default
+subtitle: Population trends
 citecolor: Emerald
 ---
 
@@ -77,7 +78,7 @@ ggplot(data = melt(as.data.frame(table(goose_time[,c("Breeding_year","zone")])))
   scale_fill_gradient2(midpoint = 50, high = "seagreen4", 
                     guide = "legend",
                     low = "darkred", breaks= c(0,50,100),
-                    labels = c("< 25","25 - 100", "> 100"))+
+                    labels = c("< 25","25 (1 obs/wk)", "25 - 100"))+
   theme_minimal()
 ```
 
