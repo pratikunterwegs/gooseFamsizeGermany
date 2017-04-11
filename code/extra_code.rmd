@@ -256,3 +256,112 @@ summary(meanfam_aov)
 #'visualise and run a posthoc
 plot(TukeyHSD(meanfam_aov))
 ```
+
+```{r load_clean_data, include=FALSE}
+#'load data
+goose_clean = read.csv("data.clean.goose.csv")
+
+#assign zones
+goose_clean$zone = ifelse(goose_clean$Region %in% c("DU","KLE","RG","WES","WG"),
+       "Rhinelands",
+       ifelse(goose_clean$Region %in% c("LER","DR","GR"),
+              "East Frisia",
+       ifelse(goose_clean$Region %in% c("FR","FL","NH"),
+              "IJsselmeer",
+              ifelse(goose_clean$Region %in% c("ZL","ZH"),
+                     "Southwest", "Other"))))
+```
+
+```{r create_limited_df, include=FALSE}
+#'create limited data frame
+goose_time = goose_clean[,c("Region","Breeding_year","Total_flock","Perc.JV","time")]
+
+#'set time as posixct
+goose_time$time = as.Date(goose_time$time)
+
+#'where are the NAs?
+summary(goose_time[is.na(goose_time$Region),])
+
+#'complete cases for time
+goose_time = goose_time[complete.cases(goose_time),]
+
+#'where are the NAs?
+apply(goose_time, 2, function(x){sum(is.na(x))})
+```
+
+```{r assign_new_zones_ts}
+#'assign new zones
+goose_time$zone = ifelse(goose_time$Region %in% c("DU","KLE","RG","WES","WG","LI"),
+       "Rhinelands",
+       ifelse(goose_time$Region %in% c("LER","DR","GR"),
+              "East Frisia",
+       ifelse(goose_time$Region %in% c("FR","FL","NH"),
+              "IJsselmeer", 
+              ifelse(goose_time$Region %in% c("ZL","ZH"),
+                     "Southwest", "Other"))))
+```
+```{r create_aggregate, warning=FALSE, include=FALSE}
+#'create a df aggregated as means with time as the factor
+goose_aggregate = aggregate(goose_time,
+                     list(goose_time$time, goose_time$Region),
+                     mean)
+
+#'subset to remove factor date and region
+goose_aggregate = goose_aggregate[,c("Group.2","Breeding_year",
+                                     "Total_flock","Perc.JV",
+                                     "time")]
+
+```
+
+```{r creating_regularity, include=FALSE}
+#'create a daily sequence from the min to the max date
+day_seq = seq(as.Date(min(goose_time$time)),
+              as.Date(max(goose_time$time)), by = "day")
+
+#should be more than 3600 days, since this is 10 years
+length(day_seq)
+
+#'now reduce to only y-m-d if not already so
+
+#day_seq = as.POSIXct(day_seq, format = "%Y-%m-%d")
+#'now merge goose_aggregate df with time seq
+
+#'convert goose_aggregate$time to Date
+#'oh dear, never thought i'd use as.Date!
+goose_aggregate$time = as.Date(goose_aggregate$time)
+
+#'merge the day sequence and the aggregated goose data
+#'take care to keep empty places where there are no observations
+goose_time_merge = merge(as.data.frame(day_seq),
+                         goose_aggregate, by.x = "day_seq",
+                         by.y = "time", all.x = T)
+
+#'how many complete cases? same as the number of aggregated records
+sum(complete.cases(goose_time_merge))
+
+#'set all values where no records were taken to 0
+#'not very realistic in the winter
+#goose_time_merge[is.na(goose_time_merge)] = 0
+
+```
+
+```{r assign_breeding_year, include=FALSE}
+#'the breeding year is assigned based on the month of the day sequence. months 1:7 are assigned to the previous breeding year.
+library(lubridate)
+goose_time_merge$Breeding_year = ifelse(month(goose_time_merge$day_seq) %in% c(1:7),
+       year(goose_time_merge$day_seq)-1,
+       year(goose_time_merge$day_seq))
+```
+
+```{r assign_zones_goose_time, include=FALSE}
+#'use the same proc as before
+goose_time_merge$zone = ifelse(goose_time_merge$Group.2 %in% c("DU","KLE","RG","WES","WG"),
+       "Rhinelands",
+       ifelse(goose_time_merge$Group.2 %in% c("LER","DR","GR"),
+              "East Frisia",
+       ifelse(goose_time_merge$Group.2 %in% c("FR","FL","NH"),
+              "IJsselmeer", 
+              ifelse(goose_time_merge$Group.2 %in% c("ZL","ZH"),
+                     "Southwest", "Other"))))
+
+```

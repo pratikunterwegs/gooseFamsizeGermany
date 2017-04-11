@@ -1,23 +1,41 @@
-```{r goose_timeseries}
-#'for flocksize
-#'start the time series at 2001.75, as in october 2001, 3/4 of the
-#'year is done
-goose_ts = ts(goose_time_merge[,c(3,4)], start = c(2001.75,1),
-              frequency = 365)
+---
+title: Goose data timeseries
+---
 
-#'plot to check
-#plot(goose_ts)
+```{r, include=FALSE}
+#'load knitr
+library(knitr)
+
+#'suppress all code output but run code
+opts_chunk$set(echo = FALSE)
+opts_knit$set(root.dir = "~/git/thesis/code")
 ```
 
-```{r goose_ts_decomp}
-#'seasonal decomposition
-#'flock size
-flock_stl = stl(goose_ts[,1], s.window = "periodic", na.action = na.omit)
+```{r import_data}
+#'load geese and fams
+geese = read.csv("geese.csv")
+fams = read.csv("fams.csv")
 
-#'juvprop
-juv_stl = stl(goose_ts[,2], s.window = "periodic",na.action = na.omit)
+geese$time = as.POSIXct(geese$time)
+geese = geese[complete.cases(geese$time),]
 
-#'cbind
-goose_stl = cbind(flock_stl, juv_stl, time = day_seq)
+#'remove outlier flock
+geese = geese[-which(geese$juvs == max(geese$juvs,na.rm = T)),]
 ```
+
+
+```{r try_xts, warning=FALSE}
+library(xts)
+geese_ts = xts(geese, order.by = geese$time)
+
+plot(geese_ts[,4])
+```
+
+```{r stlplus_flock}
+#'stlplus on flock size
+zoo(flock_xts)
+```
+
+
+
 

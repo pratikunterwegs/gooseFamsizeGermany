@@ -7,8 +7,9 @@ title: "Goose Data, Inter-annual variation maps"
 library(knitr)
 
 #'suppress all code output but run code
-opts_chunk$set(echo = FALSE)
-opts_knit$set(root.dir = "~/git/thesis/")
+opts_chunk$set(echo = FALSE,
+               root.dir = normalizePath("~/git/thesis/"))
+opts_knit$set(root.dir = normalizePath("~/git/thesis/"))
 ```
 
 ```{r load_shp, message=FALSE, include=FALSE}
@@ -21,50 +22,30 @@ lakes = readOGR("vector/ne_10m_lakes.shp")
 
 ```{r load_clean_data, include=FALSE}
 #'load data
-goose_clean = read.csv("data.clean.goose.csv")
-
-#assign zones
-goose_clean$zone = ifelse(goose_clean$Region %in% c("DU","KLE","RG","WES","WG"),
-       "Rhinelands",
-       ifelse(goose_clean$Region %in% c("LER","DR","GR"),
-              "East Frisia",
-       ifelse(goose_clean$Region %in% c("FR","FL","NH"),
-              "IJsselmeer", "Other")))
+geese = read.csv("data.goose.clean.csv", row.names = 1)
 ```
+
 
 ```{r summarise_region_year}
 #'use ddply to get mean flocksize, percjuv and famsize by zone and by region
 #'load plyr
 library(plyr)
 
-region_data = ddply(goose_clean, c("Region","Breeding_year"), summarise, juvprop = mean(Perc.JV, na.rm=T),
-      flocksize = mean(Total_flock, na.rm=T), 
-      famsize = mean(Mean_Fam))
-
-zone_data = ddply(goose_clean, c("zone","Breeding_year"), summarise, juvprop = mean(Perc.JV, na.rm=T),
-      flocksize = mean(Total_flock, na.rm=T), 
-      famsize = mean(Mean_Fam))
+zone_data = ddply(geese, c("zone","Breeding_year"), summarise, juvprop = mean(propjuv, na.rm=T),
+      flocksize = mean(flocksize, na.rm=T), 
+      famsize = mean(meanfam))
 ```
 
 ```{r get_province_codes}
 #import place codes
 provinces = read.csv("province_coords.csv")[,c(3:5)]
-
-#'merge region data and province codes
-region_data = merge(region_data, provinces, by.x = "Region",
-                    by.y = "V2")
-
-region_data$famsize[is.nan(region_data$famsize)] = NA
-
-#'make region data spatial
-coordinates(region_data) = ~lon+lat
 ```
 
 ```{r get_zone_codes}
 #'choose zone codes from province codes
-zones = provinces[provinces$V2 %in% c("DU","LER","FR"),]
+zones = provinces[provinces$V2 %in% c("DU","LER","FR","ZL"),]
 #'change region names to zones
-zones$V2 = c("Rhinelands","IJsselmeer","East Frisia")
+zones$V2 = c("Rhinelands","IJsselmeer","East Frisia","Southwest")
 #'merge with zone data
 zone_data = merge(zone_data, zones, by.x = "zone",by.y = "V2")
 
@@ -72,44 +53,20 @@ zone_data = merge(zone_data, zones, by.x = "zone",by.y = "V2")
 coordinates(zone_data) = ~lon+lat
 ```
 
-
-# Juvenile proportions in provinces over years
-
-```{r map_juvprop_split_by_year, echo=FALSE, message=FALSE, warning=FALSE, fig.fullwidth = TRUE, fig.height=10, fig.width=15}
-#'load tmap
-library(tmap)
-tm_shape(nl, bbox = extent(region_data)+0.5)+
-  tm_lines()+
-tm_shape(coast)+
-  tm_polygons(col = "grey80",alpha = 0.1)+
-tm_shape(region_data)+
-  tm_symbols(scale = 6,border.lwd = 0.1, size = "flocksize",
-             col = "juvprop", legend.size.show= F,
-            legend.col.show = T, style = "cont",
-            #breaks = seq(0,70,10),
-            #palette = "Oranges",
-            title.size = "Mean flock size", 
-            title.col = "Mean juvenile %")+
- tm_text("Region", size = 0.8, just = c("right","bottom"))+
-  
-tm_facets(by = "Breeding_year", free.scales=FALSE, ncol = 4)
-```
-
 # Juvenile proportion in zones over years
 
 ```{r map_juvprop_split_by_year, echo=FALSE, message=FALSE, warning=FALSE, fig.fullwidth = TRUE, fig.height=10, fig.width=15}
 #'load tmap
 library(tmap)
-tm_shape(nl, bbox = extent(region_data)+0.5)+
+tm_shape(coast,bbox = extent(zone_data)+0.5)+
+  tm_polygons(col = "grey90")+
+tm_shape(nl)+
   tm_lines()+
-tm_shape(coast)+
-  tm_polygons(col = "grey80",alpha = 0.1)+
 tm_shape(zone_data)+
   tm_symbols(scale = 6,border.lwd = 0.1, size = "flocksize",
              col = "juvprop", legend.size.show= F,
             legend.col.show = T, style = "cont",
             #breaks = seq(0,70,10),
-            #palette = "Oranges",
             title.size = "Mean flock size", 
             title.col = "Mean juvenile %")+
  tm_text("zone", size = 0.3, just = c("right","bottom"))+
@@ -129,18 +86,18 @@ coordinates(family_sites) = ~lon+lat
 
 ```{r map_famsize_locs_years, echo=FALSE, fig.fullwidth=TRUE, fig.height=10, fig.width=15, message=FALSE, warning=FALSE}
 #'tmapping facet by year
-tm_shape(nl, bbox = extent(region_data)+0.5)+
+tm_shape(coast,bbox = extent(zone_data)+0.5)+
+  tm_polygons(col = "grey80")+
+tm_shape(nl)+
   tm_lines()+
-tm_shape(coast)+
-  tm_polygons(col = "grey80",alpha = 0.1)+
 tm_shape(family_sites)+
-  tm_symbols(scale = 6, col = "Mean_Fam",
-             size = "Total_flock", jitter = 1,
-             style = "cont", legend.size.show = T)+
+  tm_symbols(scale = 6, col = "meanfam",
+             size = "flocksize", jitter = 1,
+             style = "cont", legend.size.show = F)+
   tm_facets(by = "Breeding_year", ncol = 4)
 ```
 
-From the spatial pattern seen in the data, I classify the goose data into three major regions: The Rhinelands, encompassing the region around Duisburg, Wesel, Cleves and Nijmegen, the North East, or the regions marked Leer, Groningen and Drenthe, and the IJsselmeer, comprising the regions marked Frisia, Flevoland and North Holland.
+From the spatial pattern seen in the data, I classify the goose data into four major regions: The Rhinelands, encompassing the region around Duisburg, Wesel, Cleves and Nijmegen, the North East, or the regions marked Leer, Groningen and Drenthe, the Southwest, with Zeeland and South Holland, and the IJsselmeer, comprising the regions marked Frisia, Flevoland and North Holland.
 
 ```{r classify_region}
 #'work with family_records.csv
@@ -153,7 +110,9 @@ family_records$zone = ifelse(family_records$Region %in% c("DU","KLE","RG","WES",
        ifelse(family_records$Region %in% c("LER","DR","GR"),
               "East Frisia",
        ifelse(family_records$Region %in% c("FR","FL","NH"),
-              "IJsselmeer", "Other")))
+              "IJsselmeer", 
+              ifelse(family_records$Region %in% c("ZL","ZH"),
+                 "Southwest", "Other"))))
 
 #'table of frequencies
 freq_zone = count(family_records, c("zone", "Breeding_year"))
@@ -170,37 +129,14 @@ family_records$zone = as.factor(family_records$zone)
 
 #'tmapping facet by year
 
-tm_shape(nl, bbox = extent(region_data)+3)+
+tm_shape(coast,bbox = extent(zone_data)+1)+
+  tm_polygons(col = "grey80")+
+tm_shape(nl)+
   tm_lines()+
-tm_shape(coast)+
-  tm_polygons(col = "grey80",alpha = 0.1)+
 tm_shape(family_records)+
-  tm_symbols(scale = 4.5, col = "Mean_Fam",
-             jitter = 2, size = "Total_flock",
+  tm_symbols(scale = 4.5, col = "meanfam",
+             jitter = 2, size = "flocksize",
              style = "cont", legend.size.show = T,
              shape = "zone")+
   tm_facets(by = "Breeding_year", ncol = 4)
 ```
-
-# Grouping data by zones
-
-I looked at the zoned data to see if a broader definition of the location would show any patterns, especially interannual ones.
-
-```{r plot_counts}
-library(ggplot2)
-
-ggplot()+
-  geom_tile(data = freq_zone, aes(x = as.factor(zone),
-                                     y = as.factor(Breeding_year),
-                                    fill = freq))+
-  labs(list(x = "Zone",y = "Year", fill = "Counts",
-            title="Counts with family size data, major zones"))
-
-```
-
-To check how observations were clustered in space and time, I visualised the dates against the regions, as seen below. Averaging within dates is likely to mean averaging over regions at least in a few cases.
-
-
-
-
-

@@ -20,96 +20,15 @@ opts_knit$set(root.dir = "~/git/thesis/")
 ```
 
 ```{r load data, include=FALSE}
-#'load libs
-library(readxl)
-library(RColorBrewer)
-
-#'import data
-lt_geese = read_excel("~/git/thesis/Age-ratiodata-GWfG-toPratik.xlsx",
-    sheet = "Plain_table", col_types = c("text",
-        "numeric", "numeric", "numeric",
-        "numeric", "text", "text", "text",
-        "text", "numeric", "text", "text",
-        "numeric", "numeric", "numeric",
-        "numeric", "numeric", "numeric",
-        "numeric", "numeric", "numeric",
-        "numeric", "numeric", "numeric",
-        "numeric", "numeric", "numeric",
-        "numeric", "numeric", "text", "text",
-        "text"))
-```
-
-```{r reduce_data}
-#'all records in the netherlands or nrw after than 2000
-
-#'first keep only nl or nrw after 2000
-study_site = lt_geese[lt_geese$Country %in% c("NL","NRW"),]
-
-study_site = study_site[study_site$Breeding_year %in% c(2001:2011),]
-```
-
-
-```{r assign_time, include=FALSE}
-#'fix missing days
-study_site$Day = ifelse(is.na(study_site$Day),
-                        15, study_site$Day)
-
-#'use a time column of the posixct class
-study_site$time = as.POSIXct(paste(study_site$Year,
-                                   study_site$Month,study_site$Day),
-                             format="%Y %m %d")
-#'fix flock size
-study_site$Total_flock = ifelse(is.na(study_site$Total_flock),
-        ifelse(is.na(study_site$N_sampled),
-               study_site$N_Adult+study_site$juvs,
-               study_site$N_sampled),
-                        study_site$Total_flock)
-
-#'fix juvenile percentage
-study_site$`Perc-JV` = ifelse(is.na(study_site$`Perc-JV`),
-          study_site$juvs*100/study_site$Total_flock,
-                        study_site$`Perc-JV`)
-
-#'check for NAs
-apply(study_site, 2, function(x){sum(is.na(x))})
-
-#remove dates over May 2012
-study_site = study_site[study_site$time < "2012-05-01",]
-
-#'rename
-geese = study_site
-```
-
-```{r assign_zones, include=FALSE}
-#'assign zones
-geese$zone = ifelse(geese$Region %in% c("DU","KLE","RG","WES","WG"),
-       "Rhinelands",
-       ifelse(geese$Region %in% c("LER","DR","GR"),
-              "East Frisia",
-       ifelse(geese$Region %in% c("FR","FL","NH"),
-              "IJsselmeer",
-              ifelse(geese$Region %in% c("ZL","ZH"),
-                     "Southwest", "Other"))))
-#'rename percjv
-library(plyr)
-geese = rename(geese, replace = c("Perc-JV" = "propjuv",
-                                  "N_Juvenile" = "juvs"))
-
-#'keep relevant columns
-geese = geese[,c(2,7,14:29,33,34)]
-
-#'count number of families
-geese$fams = apply(geese[,c(8:17)], 1, function(x){sum(x, na.rm = T)})
-
-#'subset
-fams = geese[geese$fams > 0,]
+geese = read.csv("data.clean.goose.csv", row.names = 1)
+fams = read.csv("data.fams.csv", row.names = 1)
 ```
 
 ## Family size counts: How does the total number of families of each size vary with zone and year?
 
 ```{r sum_fams_peryear_perzone, include=FALSE}
 #'try to get a representation of the number of families of each size recorded per zone per year.
-fam_count2 = ddply(fams[,c(1,8:17,20)], c("zone","Breeding_year"), numcolwise(sum, na.rm = T))
+fam_count2 = ddply(fams[,c(1,8:17,21)], c("zone","Breeding_year"), numcolwise(sum, na.rm = T))
 
 library(reshape)
 
@@ -274,7 +193,7 @@ ggplot(data = fams, aes(x = log(juvs), y = log(fams)))+
   geom_smooth(method = "lm", lwd = 0.5, col = 2)+theme_minimal()
 ```
 
-I also tried an alternative approach, using log-log transformed data on total families and juvnenile counts to run a simple linear model. The model fits the data and appears to explain much of the variation (adjusted R-squared = ```r summary(fam_juvs_lm1)$adj.r.squared```).
+I also tried an alternative approach, using log-log transformed data on total families and juvenile counts to run a simple linear model. The model fits the data and appears to explain much of the variation (adjusted R-squared = ```r summary(fam_juvs_lm1)$adj.r.squared```).
 
 ## Comparing models
 
@@ -311,20 +230,20 @@ AIC(fam_juvs_lm1); AIC(fam_juvs_nls1)
 
 ```{r meanfam_v_juveniles, eval=FALSE, include=FALSE}
 #'plot meanfam v juveniles
-ggplot(data = fams, aes(x = juvs/fams, y = Mean_Fam))+
+ggplot(data = fams, aes(x = juvs/fams, y = meanfam))+
   geom_point(size = 0.5, pch = 21)+
   labs(list(x = "",y="Mean family size",
             title = "Mean family size ~ number of juveniles"))
 
 ```
 
-The mean global family size is ```r mean(fams$Mean_Fam, na.rm = T)```. 
+The mean global family size is ```r mean(fams$meanfam, na.rm = T)```. 
 The mean family size is the weighted mean of the number of juveniles in each family weighted by the number of families of that size. Ideally, when all juveniles are counted and belong to a family, the mean family size is the number of juveniles by the number of families. In the field, single or unaffiliated juveniles, and imperfect assignment of juveniles to families, contribute to deviations of the true weighted mean family size from the simple mean.
 
 ```{r lm_meanfam_simplemean, include=FALSE}
 #'run an lm for meanfam ~ simplemean
 simplemean = with(fams, juvs/fams)
-meanfam = fams$Mean_Fam
+meanfam = fams$meanfam
 
 #'lm
 meanfam_lm1 = lm(meanfam~simplemean+fams$fams)
@@ -342,6 +261,3 @@ A simple linear model to check whether the simple mean could explain the mean fa
 ---
 
 # References
-
-
-

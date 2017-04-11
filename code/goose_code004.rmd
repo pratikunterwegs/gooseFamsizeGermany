@@ -1,5 +1,5 @@
 ---
-title: Cleaing Data
+title: Cleaning Data
 output: 
   tufte::tufte_handout
 ---
@@ -13,13 +13,15 @@ opts_chunk$set(echo = FALSE)
 opts_knit$set(root.dir = "~/git/thesis/")
 ```
 
+# Import data from excel file, set column types
+
 ```{r load data, include=FALSE}
 #'load libs
 library(readxl)
 library(RColorBrewer)
 
 #'import data
-lt_geese = read_excel("~/git/thesis/Age-ratiodata-GWfG-toPratik.xlsx", 
+data.raw.goose = read_excel("~/git/thesis/Age-ratiodata-GWfG-toPratik.xlsx", 
     sheet = "Plain_table", col_types = c("text", 
         "numeric", "numeric", "numeric", 
         "numeric", "text", "text", "text", 
@@ -33,61 +35,113 @@ lt_geese = read_excel("~/git/thesis/Age-ratiodata-GWfG-toPratik.xlsx",
         "text"))
 ```
 
+# Define general spatio-temporal extent
+
 ```{r reduce_data}
 #'all records in the netherlands or nrw after than 2000
 
 #'first keep only nl or nrw after 2000
-study_site = lt_geese[lt_geese$Country == "NL"|lt_geese$Country=="NRW",]
+goose.clean = data.raw.goose[data.raw.goose$Country %in% c("NL","NRW"),]
 
-study_site = study_site[study_site$Breeding_year >= 2001,]
+goose.clean = goose.clean[goose.clean$Breeding_year > 2000,]
 ```
 
+# Get time as a new column, define explicit temporal extents
 
 ```{r assign_time}
-#'fix missing days
-study_site$Day = ifelse(is.na(study_site$Day),
-                        15, study_site$Day)
+#'fix missing days, if days are missing, assign the 15th of the month
+goose.clean$Day = ifelse(is.na(goose.clean$Day),
+                        15, goose.clean$Day)
 
-#'use a time column of the posixct class
-study_site$time = as.POSIXct(paste(study_site$Year,
-                                   study_site$Month,study_site$Day),
+#'collect the contents of the year, month and day columns as a single column of the posixct class. this may need to be modified to date class later since it also assigns a time, which causes problems when the timezone shifts due to DST
+goose.clean$time = as.POSIXct(paste(goose.clean$Year,                                    goose.clean$Month,goose.clean$Day),
                              format="%Y %m %d")
-#'fix flock size
-study_site$Total_flock = ifelse(is.na(study_site$Total_flock),
-        ifelse(is.na(study_site$N_sampled),
-               study_site$N_Adult+study_site$N_Juvenile,
-               study_site$N_sampled),
-                        study_site$Total_flock)
 
-#'fix juvenile percentage
-study_site$`Perc-JV` = ifelse(is.na(study_site$`Perc-JV`),
-          study_site$N_Juvenile*100/study_site$Total_flock,
-                        study_site$`Perc-JV`)
+#'remove records after may 2012
+goose.clean = goose.clean[goose.clean$time < "2012-05-01",]
+```
+
+# Fix missing counts
+
+```{r fix_flocksize}
+#'fix flock size:
+#'if flock size in the field total_flock is not recorded, substitute the field n_sampled. this is based on the assumption that all goose.clean were whitefronts
+#'if n_sampled is NA, assign the sum of juveniles and adults as the flock size. same assumption as above holds.
+#'finally, if flock size is recorded, leave it as it is.
+goose.clean$Total_flock = ifelse(is.na(goose.clean$Total_flock),
+        ifelse(is.na(goose.clean$N_sampled),
+               goose.clean$N_Adult+goose.clean$N_Juvenile,
+               goose.clean$N_sampled),
+                        goose.clean$Total_flock)
+
+#'fix juvenile percentage: if the field perc-jv is NA, calculate the juvenile percentage as number of juveniles*100 divided by the field total_flock
+goose.clean$`Perc-JV` = ifelse(is.na(goose.clean$`Perc-JV`),
+          goose.clean$N_Juvenile*100/goose.clean$Total_flock,
+                        goose.clean$`Perc-JV`)
 
 #'check for NAs
-apply(study_site, 2, function(x){sum(is.na(x))})
-
-#export to csv
-study_site = study_site[study_site$time < "2012-05-01",]
-##write.csv(study_site, "~/git/thesis/data.clean.goose.csv")
+apply(goose.clean, 2, function(x){sum(is.na(x))})
 ```
 
+# Export basic clean data
 
+```{r export_basic_clean_data}
+#export to csv
 
-```{r goose_ts_decomp, eval=FALSE, include=FALSE}
-#'seasonal decomposition
-#'flock size
-flock_stl = stl(goose_ts[,c("Total_flock")], s.window = "periodic", na.action = na.omit)
+write.csv(goose.clean, "~/git/thesis/data.clean.goose.csv")
+```
 
-#'juvprop
-juv_stl = stl(goose_ts[,2], s.window = "periodic",na.action = na.omit)
+# Add variables
+
+```{r add_vars}
+#'duplicate goose.clean
+
+#'assign zones: if in DU, KLE, RG, WES, WG, assign to Rhinelands, if itn LER, DR, GR, assign to East Frisia, if in FR, FL, NH, assign to IJsselmeer, and if in ZL, ZH assign to Southwest, assing all else to other.
+goose.clean$zone = ifelse(goose.clean$Region %in% c("DU","KLE","RG","WES","WG"),
+       "Rhinelands",
+       ifelse(goose.clean$Region %in% c("LER","DR","GR"),
+              "East Frisia",
+       ifelse(goose.clean$Region %in% c("FR","FL","NH"),
+              "IJsselmeer",
+              ifelse(goose.clean$Region %in% c("ZL","ZH"),
+                     "Southwest", "Other"))))
+
+#'rename columns to make typing easier
+library(plyr)
+goose.clean = rename(goose.clean, replace = c("Perc-JV" = "propjuv",
+                                  "N_Juvenile" = "juvs",
+                                  "Total_flock" = "flocksize",
+                                  "Mean_Fam" = "meanfam",
+                                  "N_Adult" = "adults"))
+
+#'keep a reduced number of columns
+goose.clean = goose.clean[,c("Breeding_year","Region","Site_name",
+                 "flocksize", "adults", "juvs", "N_sampled",
+                 "propjuv", "Fam1", "Fam2", "Fam3",
+                 "Fam4", "Fam5", "Fam6", "Fam7",
+                 "Fam8", "Fam9", "Fam10", "meanfam",
+                 "time", "zone")]
+
+#'sum and count the number of families
+goose.clean$fams = apply(goose.clean[,c(9:18)], 1, function(x){sum(x, na.rm = T)})
+
+#'write to csv as data.goose.clean
+write.csv(goose.clean, "data.goose.clean.csv")
+
+#'subset for family size data
+fams = goose.clean[goose.clean$fams > 0,]
+
+#'write family only data to csv
+write.csv(fams, "data.fams.csv")
+
+#'get sites
+sites = unique(fams$Site_name)
+
+#'get coords
+sites.coords = read.csv("places.csv", row.names = 1)
 
 #'cbind
-goose_stl = cbind(flock_stl, juv_stl, time = day_seq)
 
-#'plot
-plot(flock_stl)
+
 ```
-
-
 

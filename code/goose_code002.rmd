@@ -5,7 +5,7 @@ output:
 ---
 ```{r "setup", include=FALSE}
 require("knitr")
-opts_knit$set(root.dir = "~/git/thesis/")
+opts_knit$set(root.dir = "~/git/thesis/code")
 ```
 
 ```{r, include=FALSE}
@@ -81,6 +81,9 @@ place_codes = read.csv("places.csv")
 place_codes = place_codes[,c(2,3)]
 
 places = cbind(places, place_codes)
+
+
+
 ```
 
 ```{r merge, include=FALSE}

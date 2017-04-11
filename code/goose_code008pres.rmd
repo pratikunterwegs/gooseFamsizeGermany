@@ -6,9 +6,7 @@ fontsize: 10pt
 output: 
   beamer_presentation: 
     colortheme: seagull
-    fonttheme: serif
     theme: Luebeck
-
 link-citations: true
 citecolor: Emerald
 ---
@@ -21,7 +19,7 @@ library(knitr)
 
 #'suppress all code output but run code
 opts_chunk$set(echo = FALSE)
-opts_knit$set(root.dir = "~/git/thesis/")
+opts_knit$set(root.dir = "~/git/thesis/code/")
 ```
 
 ```{r load_clean_data, include=FALSE}
@@ -180,7 +178,7 @@ ggplot(data = goose_time_merge)+
            method = "auto", lty = 1,size = 0.5)+
   geom_smooth(aes(x = day_seq, y = Total_flock),
               method = "lm", col = 2,size = 0.5)+
-  labs(list(x = "Time", y = "Flock size", title = "Smoothed flock size trends over time, zonal data"))+ theme_minimal()+
+labs(list(x = "Time", y = "Flock size", title = "Smoothed flock size trends over time, zonal data"))+ theme_minimal()+ylim(0,2000)+
   facet_wrap(~zone, scales = "free_y")
 ```
 
