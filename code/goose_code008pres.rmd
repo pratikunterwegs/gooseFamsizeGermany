@@ -159,13 +159,30 @@ goose_time_merge_melt = melt(goose_time_merge[,c(1:6)],
                              id.vars = c("zone","day_seq"))
 ```
 
-```{r trend_flock_juv_global, fig.height=6, fig.cap= "Global flock size trend follows the lemming cycle.", warning=FALSE, message=FALSE}
+```{r trend_flock_juv_global_lims, fig.cap="Global flock size trend follows the lemming cycle.", fig.height=6, message=FALSE, warning=FALSE, include=FALSE}
 #'auto(gam) smoothing on flock size data using ggplot
 ggplot(data = goose_time_merge)+
+  geom_point(aes(x = day_seq, y = Total_flock),
+           pch=20,size = 0.5)+
  geom_smooth(aes(x = day_seq, y = Total_flock),
            method = "auto", lty = 1)+
   geom_smooth(aes(x = day_seq, y = Total_flock),
               method = "lm", col = 2)+
+  ylim(0,2e3)+
+  
+  labs(list(x = "Time", y = "Flock size & Juvenile % * 10", title = "Smoothed flock size & juvenile % trends over time, global data"))+ theme_minimal()
+```
+
+```{r trend_flock_juv_global, fig.height=6, fig.cap= "Global flock size trend follows the lemming cycle.", warning=FALSE, message=FALSE}
+#'auto(gam) smoothing on flock size data using ggplot
+ggplot(data = goose_time_merge)+
+  geom_point(aes(x = day_seq, y = Total_flock),
+           pch=20,size = 0.5)+
+ geom_smooth(aes(x = day_seq, y = Total_flock),
+           method = "auto", lty = 1)+
+  geom_smooth(aes(x = day_seq, y = Total_flock),
+              method = "lm", col = 2)+
+  ylim(0,5e3)+
   
   labs(list(x = "Time", y = "Flock size & Juvenile % * 10", title = "Smoothed flock size & juvenile % trends over time, global data"))+ theme_minimal()
 ```
@@ -175,6 +192,8 @@ ggplot(data = goose_time_merge)+
 ```{r trend_flock_juv_zonal, fig.height=6, fig.cap= "Rhinelands drive the global flock size trend. GAM smoothing: blue, linear trend: red.",warning=FALSE, message=FALSE}
 #'auto(gam) smoothing on flock size data using ggplot
 ggplot(data = goose_time_merge)+
+  geom_point(aes(x = day_seq, y = Total_flock),
+           pch=20,size = 0.5)+
  geom_smooth(aes(x = day_seq, y = Total_flock),
            method = "auto", lty = 1,size = 0.5)+
   geom_smooth(aes(x = day_seq, y = Total_flock),
@@ -188,9 +207,9 @@ labs(list(x = "Time", y = "Flock size", title = "Smoothed flock size trends over
 ```{r trend_juv_global, fig.height=6, fig.cap= "Global juvenile % trend also follows lemming cycle. GAM smoothing, blue; linear trend, red.", warning=FALSE, message = FALSE}
 #'auto(gam) smoothing on flock size data using ggplot
 ggplot(data = goose_time_merge)+
-# geom_point(data = goose_time_merge,
- #           aes(x = day_seq, y = Total_flock),
-  #         col = "grey20", size = 0.5)+
+ geom_point(data = goose_time_merge,
+            aes(x = day_seq, y = Perc.JV),
+          col = "grey20", size = 0.5)+
  geom_smooth(aes(x = day_seq, y = Perc.JV),
               method = "auto", size = 0.5)+
   geom_smooth(aes(x = day_seq, y = Perc.JV),
@@ -207,9 +226,9 @@ ggplot(data = goose_time_merge)+
 ```{r trend_juv_zonal, fig.height=6, fig.cap= "Zonal juvenile % trends are similar.", warning=FALSE, message=FALSE}
 #'auto(gam) smoothing on flock size data using ggplot
 ggplot(data = goose_time_merge)+
-# geom_point(data = goose_time_merge,
- #           aes(x = day_seq, y = Total_flock),
-  #         col = "grey20", size = 0.5)+
+ geom_point(data = goose_time_merge,
+          aes(x = day_seq, y = Perc.JV),
+          col = "grey20", size = 0.5)+
  geom_smooth(aes(x = day_seq, y = Perc.JV),
               method = "auto", size = 0.5)+
   geom_smooth(aes(x = day_seq, y = Perc.JV),
@@ -419,3 +438,4 @@ ggplot(data = fams, aes(x = log(juvs), y = log(fams)))+
 #'plot it and the residuals plot of the nls model
 plot(fam_juvs_lm1,1, main = "Residuals plot, log-log LM", cex = 0.5)
 ```
+

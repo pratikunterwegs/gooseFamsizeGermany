@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>Finding questions</title>
+  <style type="text/css">code{white-space: pre;}</style>
+</head>
+<body>
+<div id="header">
+<h1 class="title">Finding questions</h1>
+</div>
+<h1 id="summary-of-previous-plots">Summary of previous plots</h1>
+<ol style="list-style-type: decimal">
+<li>Flock size and number of families show a linear relationship on a log-log axis and are not very good predictors of juvenile percentage.</li>
+<li>Both flock size, but more pronouncedly, juvenile percentage, show a non-linear relationship with time. At the inter-annual scale, both flock size and juvenile percentage follow the lemming cycle, being low in lemming crash years.</li>
+<li>Intra-annually, flock size shows the expected trend: as more geese arrive over the winter, the flock sizes increase, and as they begin to leave or move eastwards in late winter, flock sizes decrease.</li>
+<li>Juvenile percentage shows a different trend, and rises after mid-winter, being highest in late winter when adults have moved east or begun migrating.</li>
+<li>Early winter juvenile percentage shows more variation: in some winters, such as in 2002, the percentage of juveniles is higher in October than at any other time in the season, while in others, such as 2009, the percentage of juveniles increases monotonically from a low value in October to a high values in late winter.</li>
+</ol>
+<p>Overall, juvenile percentage and family size show the most change and variation through the winter.</p>
+<h1 id="questions">Questions</h1>
+<ol style="list-style-type: decimal">
+<li>What drives juvenile percentage and family size?</li>
+<li>Why is there variation in the early winter juvenile percentage?</li>
+<li>Do successful families arrive earlier or later in some years?</li>
+<li>What is a large flock? A large flock should be defined as the 0.75 quantile for total flock size for all flocks within a unit of time.</li>
+<li>What are the peak migration times in autumn and spring for each year?</li>
+</ol>
+<h1 id="response-variables">Response variables</h1>
+<ol style="list-style-type: decimal">
+<li>Juvenile percentage: available from all regions/zones, easily calculated if missing.</li>
+<li>Family size: Family sizes available from ~1200 flocks which contain family size data until 2011. Raw size of each family counted, available from around 33000 families recorded over 1200 flocks.</li>
+</ol>
+<h1 id="predictors">Predictors</h1>
+<ol style="list-style-type: decimal">
+<li>Time: Time can be calculated from the year/month/day field provided in the data. From a single POSIXct time variable, the year, month and day can be extracted. It can be manipulated to return the time since or to an arbitrary date (with midwinter defined as Jan 1st), or to a data driven date, such as the arrival and departure times of some percentage of geese. Variables to use: <strong>time</strong>, <strong>year</strong>, <strong>time since arrival</strong>, <strong>time to departure</strong>.</li>
+<li>Zone: Provinces are classified into zones:</li>
+</ol>
+<ul>
+<li><strong>Rhinelands</strong>, includes Duisburg, Wesel, Cleves, Brabant, Limburg, Nijmegen, and Wageningen.</li>
+<li><strong>IJsselmeer</strong>, includes Frisia, Flevoland, and North Holland.</li>
+<li><strong>Southwest</strong>, includes Zeeland, and South Holland.</li>
+<li><strong>East Frisia</strong>, includes Leer, Drenthe, and Groningen,</li>
+<li><strong>Other</strong>, all other provinces.</li>
+</ul>
+<ol start="3" style="list-style-type: decimal">
+<li><strong>Coordinates</strong>: Coordinates are geocoded from the field <code>Site_name</code> in the data, ie, an automated search queries the names of each unique value of <code>Site_name</code> via GoogleMaps and returns a pair of coordinates if found. For the 33000 families in the data, around 31000 have a valid, geocodable <code>Site_name</code>.</li>
+<li><strong>Temperature</strong>, <strong>wind direction</strong>/<strong>number of days with <em>x</em> wind direction</strong>, and <strong>NDVI</strong> (including water and snow): To be retrieved from online remote sensing data, monthly composites to be used. May be retrieved from weather station data. Families may spend more time on water, water data may have to be skipped.</li>
+<li>Random factors:</li>
+</ol>
+<ul>
+<li><strong>Year</strong></li>
+<li><strong>Region</strong></li>
+<li><strong>Food type</strong></li>
+<li><strong>Flock size</strong></li>
+</ul>
+<h2 id="plots-coming-up">Plots coming up</h2>
+<ol style="list-style-type: decimal">
+<li>Family size ~ juvenile percentage</li>
+<li>Family size ~ zone</li>
+<li>Family size ~ longitude + latitude</li>
+<li>Family size ~ NDVI</li>
+<li>Family size ~ temperature</li>
+<li>Family size ~ year*month</li>
+<li>Family size ~ food type</li>
+<li>Juvenile percentage ~ zone</li>
+<li>Juvenile percentage ~ longitude + latitude</li>
+<li>Juvenile percentage ~ NDVI</li>
+<li>Juvenile percentage ~ year*month</li>
+<li>Juvenile percentage ~ food type<br />
+</li>
+</ol>
+</body>
+</html>

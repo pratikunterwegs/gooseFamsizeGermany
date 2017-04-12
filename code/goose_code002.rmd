@@ -82,8 +82,8 @@ place_codes = place_codes[,c(2,3)]
 
 places = cbind(places, place_codes)
 
-
-
+#'write to csv
+write.csv(places, "coords.csv")
 ```
 
 ```{r merge, include=FALSE}

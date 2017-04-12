@@ -1,0 +1,29 @@
+---
+title: Family size and juvenile percentage
+bibliography: ~/git/thesis/geese_citations.bib
+output: 
+  beamer_presentation: 
+    colortheme: seagull
+    theme: Luebeck
+fontsize: 8pt
+link-citations: true
+citecolor: Emerald
+---
+```{r, include=FALSE}
+#'load knitr
+library(knitr)
+library(ggplot2)
+#'suppress all code output but run code
+opts_chunk$set(echo = FALSE)
+opts_knit$set(root.dir = "~/git/thesis/code")
+```
+
+```{r import_data}
+#'load geese and fams
+geese = read.csv("geese.csv", row.names = 1)
+fams = read.csv("fams.csv", row.names = 1)
+
+#'change class.
+geese$time = as.Date(geese$time)
+fams$time = as.Date(fams$time)
+```

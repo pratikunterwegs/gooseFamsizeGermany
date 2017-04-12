@@ -138,7 +138,7 @@ write.csv(fams, "data.fams.csv")
 sites = unique(fams$Site_name)
 
 #'get coords
-sites.coords = read.csv("places.csv", row.names = 1)
+sites.coords = read.csv("coords.csv.csv", row.names = 1)
 
 #'cbind
 

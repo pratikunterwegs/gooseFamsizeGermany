@@ -70,7 +70,7 @@ par(mfrow = c(1,1))
 
 # Family size ~ flock size
 
-```{r flock_juvs, warning=FALSE, eval = FALSE, fig.cap="Number of families increase with flock size. Juvenile % higher in lemming-peak years."}
+```{r flock_juvs, warning=FALSE, include = FALSE, fig.cap="Number of families increase with flock size. Juvenile % higher in lemming-peak years."}
 library(plot3D)
 ggplot()+
   geom_point(data = fams[fams$Breeding_year %in% c(2003,2005,2007,2008,20111) & fams$zone != "Other",], aes(y=flocksize, x = fams, col = propjuv),
@@ -206,7 +206,21 @@ ggplot(data = geese.coords[geese.coords$Breeding_year %in% c(2003,2004,2005,2008
               draw_quantiles = 0.5)+
   coord_flip()+ geom_hline(yintercept = c(5.7, 6.6), col = 2, lty = 3, size = 0.5)+
   labs(list(y = "Longitude",x="Flock size", fill = "Month"))+theme_minimal()+facet_wrap(~Breeding_year)
-  
-  
 ```
+
+```{r, eval = FALSE}
+library(plotly)
+
+fams_flock_juvs <- plot_ly(fams, x = ~Mean_Fam, z = ~flocksize, y = ~propjuv, color = ~Mean_Fam, colors = rev(RColorBrewer::brewer.pal(9, "Spectral"))) %>%
+  add_markers() %>%
+  layout(scene = list(xaxis = list(title = 'mean_fam_size'),
+                     yaxis = list(title = 'juvenile %'),
+                     zaxis = list(title = 'flocksize')))
+library(htmlwidgets)
+saveWidget(fams_flock_juvs, "fams_flock_meanfams3d.html")
+
+#library(htmlwidgets)
+#saveWidget(fams_flock_juvs, "fams_flock_juvs3d.html")
+```
+
 
