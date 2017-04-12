@@ -12,8 +12,6 @@ opts_knit$set(root.dir = "~/git/thesis/code")
 #'load knitr
 #'suppress all code output but run code
 opts_chunk$set(echo = FALSE)
-
-tufte::tufte_handout()
 ```
 
 ```{r palette}

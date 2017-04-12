@@ -156,7 +156,7 @@ p1 = plot_ly(fams.expand[fams$propjuv <=50 & fams$flocksize <=2000 & fams$propju
 
 ```{r get_coords, include=FALSE}
 #'load data
-sites = read.csv("family_places.csv")[,c(2:4)]
+sites = read.csv("family_sites.csv")[,c(2:4)]
 
 #merge with data
 fams.expand = merge(fams.expand, sites, by.x = "Site_name",by.y="places")

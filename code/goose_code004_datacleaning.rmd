@@ -97,7 +97,7 @@ write.csv(goose.clean, "~/git/thesis/data.clean.goose.csv")
 #'duplicate goose.clean
 
 #'assign zones: if in DU, KLE, RG, WES, WG, assign to Rhinelands, if itn LER, DR, GR, assign to East Frisia, if in FR, FL, NH, assign to IJsselmeer, and if in ZL, ZH assign to Southwest, assing all else to other.
-goose.clean$zone = ifelse(goose.clean$Region %in% c("DU","KLE","RG","WES","WG"),
+goose.clean$zone = ifelse(goose.clean$Region %in% c("DU","KLE","RG","WES","WG","LI"),
        "Rhinelands",
        ifelse(goose.clean$Region %in% c("LER","DR","GR"),
               "East Frisia",
@@ -125,23 +125,95 @@ goose.clean = goose.clean[,c("Breeding_year","Region","Site_name",
 #'sum and count the number of families
 goose.clean$fams = apply(goose.clean[,c(9:18)], 1, function(x){sum(x, na.rm = T)})
 
+#'subset for family size data
+fams = goose.clean[goose.clean$fams > 0,]
+```
+
+```{r geocoding_and_spatial}
+
+#'merge the dataframe fams which has detailed family count data with geocoded sites, and with geocoded zones
+#'get coords
+sites.coords = read.csv("coords.csv", row.names = 1)
+
+#'merge the same for families, creating a new object called fams.coords
+fams.coords = merge(fams, sites.coords, by.x = "Site_name", by.y = "places")
+
+#'remove sites where no coordinates were found
+fams.coords = fams.coords[complete.cases(fams.coords[,c("lon","lat")]),]
+
+#'set spatial extent for both
+fams.coords = fams.coords[fams.coords$lat > 0 & fams.coords$lat <56 &
+                          fams.coords$lon >0 & fams.coords$lon <10,]
+
+#'get the province coordinates
+#'preceding code was:
+zones = read.csv("province_coords.csv", row.names = 1)
+zones = zones[zones$regions %in% c("Leer","Friesland","Duisburg","Rotterdam"),]
+zones$zone = c("Rhinelands","IJsselmeer","East Frisia","Southwest")
+
+#'merge goose.clean with the zones
+goose.clean = merge(goose.clean, zones[,c("lon","lat","zone")], by.x = "zone", by.y = "zone", all.x = T)
+```
+
+```{r export_data}
 #'write to csv as data.goose.clean
 write.csv(goose.clean, "data.goose.clean.csv")
 
-#'subset for family size data
-fams = goose.clean[goose.clean$fams > 0,]
+#'write the full family data to csv
+write.csv(fams, "fams.csv")
 
-#'write family only data to csv
-write.csv(fams, "data.fams.csv")
+#'write geocoded family data to csv
+write.csv(fams.coords, "data.fams.coords.csv")
+```
 
-#'get sites
-sites = unique(fams$Site_name)
+```{r expand_family_data}
+#set all fams from NA to 0
+fams[,c(9:18,22)][is.na(fams[,c(9:18,22)])] = 0
 
-#'get coords
-sites.coords = read.csv("coords.csv.csv", row.names = 1)
+#'get expanded fams data, zone, time, etc
+fams.expand <- fams[rep(row.names(fams), fams$fams), c(1:8,19:dim(fams)[2])]
+#'get the families as a list
+famrep = apply(fams[,c(9:18)], 1, function(x){rep(c(1:10), x)})
+#'unlist it for a fam sequence
+famrep = unlist(famrep)
 
-#'cbind
+#'bind with fams.expand
+fams.expand$famsize = as.numeric(famrep)
+```
 
+```{r write_expanded_family_data}
+#'write the expanded family data to csv. this data is not geocoded
+write.csv(fams.expand, "fams.expand.csv")
+```
 
+```{r make_expanded_data_spatial}
+#'make expanded data spatial
+fams.expand.coords = merge(fams.expand, sites.coords, by.x = "Site_name",by.y="places")
+
+#'clean data
+fams.expand.coords = fams.expand.coords[fams.expand.coords$lat >0 &
+                                   fams.expand.coords$lon > 0 &
+                                   fams.expand.coords$lon <=10,]
+#'remove NA coords
+fams.expand.coords = fams.expand.coords[complete.cases(fams.expand.coords[,c("lon","lat")]),]
+
+#'write to csv
+write.csv(fams.expand.coords, "fams.expand.coords.csv")
+```
+
+```{r export_shapefile}
+#'save as shapefiles
+library(rgdal)
+
+#'make spatial
+coordinates(fams.coords) = ~lon+lat
+coordinates(fams.expand.coords) = ~ lon+lat
+
+#'write flock with family counts data to shapefile
+writeOGR(fams.coords, "data_shapefiles", layer = "fams.coords",driver = "ESRI Shapefile", overwrite_layer = T)
+
+#'write family expanded data to shapefile
+writeOGR(fams.expand.coords, "data_shapefiles",layer = "fams.expand.coords",
+         driver = "ESRI Shapefile", overwrite_layer = T)
 ```
 
