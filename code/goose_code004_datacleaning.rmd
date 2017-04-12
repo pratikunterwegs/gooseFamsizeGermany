@@ -91,7 +91,7 @@ apply(goose.clean, 2, function(x){sum(is.na(x))})
 write.csv(goose.clean, "~/git/thesis/data.clean.goose.csv")
 ```
 
-# Add variables
+# Add zone as a variable, rename some variables
 
 ```{r add_vars}
 #'duplicate goose.clean
@@ -129,6 +129,8 @@ goose.clean$fams = apply(goose.clean[,c(9:18)], 1, function(x){sum(x, na.rm = T)
 fams = goose.clean[goose.clean$fams > 0,]
 ```
 
+# Geocode the data
+
 ```{r geocoding_and_spatial}
 
 #'merge the dataframe fams which has detailed family count data with geocoded sites, and with geocoded zones
@@ -155,6 +157,8 @@ zones$zone = c("Rhinelands","IJsselmeer","East Frisia","Southwest")
 goose.clean = merge(goose.clean, zones[,c("lon","lat","zone")], by.x = "zone", by.y = "zone", all.x = T)
 ```
 
+# Export non-spatial data
+
 ```{r export_data}
 #'write to csv as data.goose.clean
 write.csv(goose.clean, "data.goose.clean.csv")
@@ -165,6 +169,8 @@ write.csv(fams, "fams.csv")
 #'write geocoded family data to csv
 write.csv(fams.coords, "data.fams.coords.csv")
 ```
+
+# Expand family data
 
 ```{r expand_family_data}
 #set all fams from NA to 0
@@ -181,10 +187,14 @@ famrep = unlist(famrep)
 fams.expand$famsize = as.numeric(famrep)
 ```
 
+# Export non-spatial family data
+
 ```{r write_expanded_family_data}
 #'write the expanded family data to csv. this data is not geocoded
 write.csv(fams.expand, "fams.expand.csv")
 ```
+
+# Make data spatial
 
 ```{r make_expanded_data_spatial}
 #'make expanded data spatial
@@ -200,6 +210,8 @@ fams.expand.coords = fams.expand.coords[complete.cases(fams.expand.coords[,c("lo
 #'write to csv
 write.csv(fams.expand.coords, "fams.expand.coords.csv")
 ```
+
+# Export spatial data as shapefiles
 
 ```{r export_shapefile}
 #'save as shapefiles
