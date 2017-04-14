@@ -1,29 +1,144 @@
 ---
 title: Family size and juvenile percentage
 bibliography: ~/git/thesis/geese_citations.bib
-output: 
-  beamer_presentation: 
-    colortheme: seagull
-    theme: Luebeck
 fontsize: 8pt
 link-citations: true
 citecolor: Emerald
+output: 
+  pdf_document: 
+    keep_tex: yes
 ---
-```{r, include=FALSE}
+```{r, include=TRUE}
 #'load knitr
 library(knitr)
 library(ggplot2)
+library(lme4)
+library(lubridate)
 #'suppress all code output but run code
 opts_chunk$set(echo = FALSE)
 opts_knit$set(root.dir = "~/git/thesis/code")
 ```
 
 ```{r import_data}
-#'load geese and fams
-geese = read.csv("geese.csv", row.names = 1)
+#'load geese, fams and fams expanded
+geese = read.csv("data.goose.clean.csv", row.names = 1)
 fams = read.csv("fams.csv", row.names = 1)
+fams.expand = read.csv("fams.expand.csv")
 
-#'change class.
+#'convery perc to prop
+geese$propjuv = round(geese$propjuv/100, 4)
+
+#'drop zone Other
+geese = geese[geese$zone != "Other",]
+
+#'juvenile proportion is actually N_juv/N_sampled
+#plot(geese$propjuv2 ~ geese$propjuv,
+  #   main = "Calculated vs provided juv prop.",
+  #   xlab = "Provided in data",
+  #   ylab = "Calculated as N_juvs/No. of whitefronts")
+
+#'change class of time variable to Date
 geese$time = as.Date(geese$time)
 fams$time = as.Date(fams$time)
+fams.expand$time = as.Date(fams.expand$time)
+
+#'add month and day
+geese$month = month(geese$time)
+geese$day = day(geese$time)
 ```
+
+# Dataset
+The dataset used is the cleaned goose data ```data.goose.clean.csv```. This data has observations between 2001 and 2012, or the breeding years 2011 and 2011. It is restricted to the Netherlands and North Rhine Westphalia, except where it includes areas in East Frisia. Records are classfied into zones. Here, all zones are being used.
+
+# What is the effect of time?
+
+```{r global_model_time, eval=FALSE, include=FALSE}
+#'model includes interactions
+mod_time01 = glmer(propjuv ~ Breeding_year*month +
+                     (1|Food_type) + (1|Observer) + (1|flocksize),
+                   data = geese, family = "binomial",
+                   na.action = na.omit, REML =F)
+
+mod_time02 = glmer(propjuv ~ Breeding_year+month +
+                     (1|Food_type) + (1|Observer) + (1|flocksize),
+                   data = geese, family = "binomial",
+                   na.action = na.omit, REML =F)
+
+mod_time03 = glmer(propjuv ~ month + Breeding_year+
+                     (1|Food_type) + (1|Observer) + (1|Site_name) + (1|flocksize),
+                   data = geese, family = "binomial",
+                   na.action = na.omit, REML =F)
+
+summary(mod_time01)
+summary(mod_time02)
+summary(mod_time03)
+
+#'compare models using an anova (which is here an analysis of deviance, iiuc), and specifying the the maximum likelihood method, which in this case gives the same value as the REML method.
+anova(mod_time01, mod_time02, method = "ML")
+
+#'the models are not significantly different
+
+#'the significance of the terms in the interaction model should help us decide whether to model an interaction or not
+library(car)
+Anova(mod_time01)
+
+#'here, the interaction is not significant, while the two variables are. the interaction can be removed.
+
+#'predict using this model
+#'first plot the residuals vs fitted
+plot(mod_time02)
+```
+
+There is an effect of time, or rather, of breeding year and month, but the interaction is not significant.
+
+# What is the effect of zone?
+
+```{r global_model_zone}
+
+#'model includes interactions, and retains random effects, though there is no evidence that they should be retained, at least from previous models. maximum likelihood is used in place of REML
+mod_zone01 = glmer(propjuv ~ zone* Breeding_year + zone*month +
+                     (1|Food_type) + (1|Observer) + (1|flocksize),
+                   data = geese, family = "binomial", REML = F)
+
+#'this model is not an improvement on the previous one considering only breeding year and month, since zone is not found to be a significant predictor. bryr and month remain significant predictors.
+
+#'try with longitude, use longitude from sites.coords
+sites.coords = read.csv("coords.csv", row.names = 1)
+
+#'merge with geese
+geese = merge(geese, sites.coords, by.x = "Site_name", by.y = "places", all.x = T)
+
+#'assign zonal coords if site coords missing
+geese$lon.y = ifelse(is.na(geese$lon.y), geese$lon.x, geese$lon.y)
+geese$lat.y = ifelse(is.na(geese$lat.y), geese$lat.x, geese$lat.y)
+
+#'run the model with coords lon.x
+mod_zone02 = glmer(propjuv ~ lon.x*Breeding_year+ lon.x*month +
+                     (1|Food_type) + (1|Observer) + (1|flocksize),
+                   data = geese, family = "binomial")
+
+#'a very similar model uses the zone coordinates in place of a categorical variable. this model shows that the zonal x coordinate (ie, longitude of the coordinate pair assigned to each zone) is a significant factor.
+
+mod_zone03 = glmer(propjuv ~ lon.y*log(Breeding_year)+ lon.y*month +
+                     (1|Food_type) + (1|Observer) + (1|flocksize),
+                   data = geese, family = "binomial")
+
+#'attempting the same model with lon.y results in an errors related to the data, which is due to the fact that the breeding year is a continuous variable much larger than the month or lon, which are mag 1e01, where year is 1e03. this was fixed by using the log of the year, and this allowed the model to run, but it showed no significant effect of longitude.
+
+#'the next model should try using lat.x as a predictor, which might help determine in which direction the gradient if any lies.
+mod_zone04 = glmer(propjuv ~ lat.x*log(Breeding_year)+ lat.x*month +
+                     (1|Food_type) + (1|Observer) + (1|flocksize),
+                   data = geese, family = "binomial")
+
+#'summary
+summary(mod_zone04)
+
+#'look at anova of this model vs time02
+anova(mod_zone02, mod_zone01)
+#'not significantly different
+
+#'estimate p-vals in this model via an analysis of deviance
+Anova(mod_zone04)
+
+```
+

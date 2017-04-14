@@ -76,7 +76,7 @@ goose.clean$Total_flock = ifelse(is.na(goose.clean$Total_flock),
 
 #'fix juvenile percentage: if the field perc-jv is NA, calculate the juvenile percentage as number of juveniles*100 divided by the field total_flock
 goose.clean$`Perc-JV` = ifelse(is.na(goose.clean$`Perc-JV`),
-          goose.clean$N_Juvenile*100/goose.clean$Total_flock,
+          (goose.clean$N_Juvenile/goose.clean$Total_flock)*100,
                         goose.clean$`Perc-JV`)
 
 #'check for NAs
@@ -120,7 +120,7 @@ goose.clean = goose.clean[,c("Breeding_year","Region","Site_name",
                  "propjuv", "Fam1", "Fam2", "Fam3",
                  "Fam4", "Fam5", "Fam6", "Fam7",
                  "Fam8", "Fam9", "Fam10", "meanfam",
-                 "time", "zone")]
+                 "time", "zone", "Observer","Food_type")]
 
 #'sum and count the number of families
 goose.clean$fams = apply(goose.clean[,c(9:18)], 1, function(x){sum(x, na.rm = T)})
@@ -191,7 +191,7 @@ fams.expand$famsize = as.numeric(famrep)
 
 ```{r write_expanded_family_data}
 #'write the expanded family data to csv. this data is not geocoded
-write.csv(fams.expand, "fams.expand.csv")
+write.csv(fams.expand, "fams.expand.csv", row.names = F)
 ```
 
 # Make data spatial

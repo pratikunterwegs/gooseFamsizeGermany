@@ -365,3 +365,109 @@ goose_time_merge$zone = ifelse(goose_time_merge$Group.2 %in% c("DU","KLE","RG","
                      "Southwest", "Other"))))
 
 ```
+
+
+```{r pred_resp_glm_propjuv_bryear01}
+#'get the predicted responses as means for each year
+geese$glm_pj_bryrresp = predict(glm_propjuv_bryear01, newdata = geese, type = "response")
+
+#'find the mean props in each year
+plot(ddply(geese, "Breeding_year", summarise, mean(glm_pj_bryrresp)), 
+     type = "p", ylab = "Juvenile proportion", 
+     main = "GLM predicted mean juvenile proportion ~ breeding year")
+```
+
+```{r post_hoc_glm_propjuv_bryear01}
+#'run an aov and a tukey posthoc on that
+glm_propjuv_bryear02_phoc = TukeyHSD(aov(glm_propjuv_bryear01))
+
+#'plot to visualise
+plot(glm_propjuv_bryear02_phoc, las = 1,
+     cex.axis = 0.6, 
+     col = ifelse(glm_propjuv_bryear02_phoc[[1]][,4] < 0.05,
+                  2, 1))
+
+#'represent as a table
+m = matrix(NA, 11,11)
+m[lower.tri(m)] = round(glm_propjuv_bryear01_phoc[[1]][,4],4)
+m= t(m)
+rownames(m) = colnames(m) = as.character(seq(2001,2011,1))
+```
+
+```{r glm_propjuv_time01}
+#'run the model
+glm_propjuv_time01 = glm(propjuv ~ time, data = geese, family = "quasibinomial", na.action = na.omit)
+
+#'summarise the model
+summary(glm_propjuv_time01)
+
+plot(glm_propjuv_time01)
+```
+
+The model has an AIC score of ```r glm_propjuv_time01$aic```, and an R^2 of ```r 1 - glm_propjuv_time01$deviance/glm_propjuv_time01$null.deviance```.
+
+# Juvenile proportion with categorical times
+
+```{r glm_propjuv_cattime}
+library(lubridate)
+#'run a glm with the same variables as before, but with the breeding year as a response
+
+#'first make breeding year a factor
+geese$Breeding_year = as.factor(geese$Breeding_year)
+
+#'run the model
+glm_propjuv_cattime01 = glm(propjuv ~ Breeding_year+as.factor(month(time)),
+                           data = geese,
+                           family = "quasibinomial")
+#'month and year as interacting vars
+glm_propjuv_cattime02 = glm(propjuv ~ Breeding_year*as.factor(month(time)),
+                           data = geese,
+                           family = "quasibinomial")
+
+#'summary of model01 and 02
+summary(glm_propjuv_cattime02)
+
+#'compare the models
+anova(glm_propjuv_cattime02, glm_propjuv_cattime01, test = "F")
+
+#'check if all terms are necessary in model2
+anova(glm_propjuv_cattime02, test = "F")
+```
+
+The R-squared value has improved and an F test shows that both the interaction and the month term add to the model. There's still a lot of variation unexplained though.
+
+# Juvenile proportion ~ time * zone
+
+```{r glm_time_zone}
+#'run as before, both year and zone are factors
+glm_time_zone = glm(propjuv ~ time*zone, 
+                    data = geese,
+                    family = "quasibinomial")
+
+#'plot it
+plot(glm_time_zone)
+
+#'summary
+summary(glm_time_zone)
+
+#'compare time*zone and time
+anova(glm_propjuv_time01, glm_time_zone, test = "F")
+```
+
+```{r glm_cattime_zone}
+#'assign a month variable
+geese$month = as.factor(month(geese$time))
+#'year and zone
+glm_cattime_zone = glm(propjuv ~ Breeding_year*month*zone, 
+                       data = geese[geese$zone != "Other",], 
+                       family = "quasibinomial", na.action = na.omit)
+
+#'plot it
+plot(glm_cattime_zone)
+
+#'summary
+summary(glm_cattime_zone)
+
+#check if all terms are contributing
+anova(glm_cattime_zone, test = "F")
+```
