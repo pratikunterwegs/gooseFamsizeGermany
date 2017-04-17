@@ -25,22 +25,12 @@ opts_knit$set(root.dir = "~/git/thesis/code/")
 
 ```{r load_clean_data, include=FALSE}
 #'load data
-goose_clean = read.csv("data.clean.goose.csv")
-
-#assign zones
-goose_clean$zone = ifelse(goose_clean$Region %in% c("DU","KLE","RG","WES","WG"),
-       "Rhinelands",
-       ifelse(goose_clean$Region %in% c("LER","DR","GR"),
-              "East Frisia",
-       ifelse(goose_clean$Region %in% c("FR","FL","NH"),
-              "IJsselmeer",
-              ifelse(goose_clean$Region %in% c("ZL","ZH"),
-                     "Southwest", "Other"))))
+goose_clean = read.csv("data.goose.clean.csv", row.names = 1)
 ```
 
 ```{r create_limited_df, include=FALSE}
 #'create limited data frame
-goose_time = goose_clean[,c("Region","Breeding_year","Total_flock","Perc.JV","time")]
+goose_time = goose_clean[,c("zone","Region","Breeding_year","flocksize","propjuv","time")]
 
 #'set time as posixct
 goose_time$time = as.Date(goose_time$time)
@@ -54,19 +44,6 @@ goose_time = goose_time[complete.cases(goose_time),]
 #'where are the NAs?
 apply(goose_time, 2, function(x){sum(is.na(x))})
 ```
-
-```{r assign_new_zones_ts}
-#'assign new zones
-goose_time$zone = ifelse(goose_time$Region %in% c("DU","KLE","RG","WES","WG","LI"),
-       "Rhinelands",
-       ifelse(goose_time$Region %in% c("LER","DR","GR"),
-              "East Frisia",
-       ifelse(goose_time$Region %in% c("FR","FL","NH"),
-              "IJsselmeer", 
-              ifelse(goose_time$Region %in% c("ZL","ZH"),
-                     "Southwest", "Other"))))
-```
-
 
 ```{r tilemap_space_time, fig.cap= "Sampling times in each region. Sampling is not even over zones.", fig.width=7, fig.height=3, message=FALSE}
 library(ggplot2)
@@ -92,7 +69,7 @@ goose_aggregate = aggregate(goose_time,
 
 #'subset to remove factor date and region
 goose_aggregate = goose_aggregate[,c("Group.2","Breeding_year",
-                                     "Total_flock","Perc.JV",
+                                     "flocksize","propjuv",
                                      "time")]
 
 ```
@@ -139,7 +116,7 @@ goose_time_merge$Breeding_year = ifelse(month(goose_time_merge$day_seq) %in% c(1
 
 ```{r assign_zones_goose_time, include=FALSE}
 #'use the same proc as before
-goose_time_merge$zone = ifelse(goose_time_merge$Group.2 %in% c("DU","KLE","RG","WES","WG"),
+goose_time_merge$zone = ifelse(goose_time_merge$Group.2 %in% c("DU","KLE","RG","WES","WG","LI"),
        "Rhinelands",
        ifelse(goose_time_merge$Group.2 %in% c("LER","DR","GR"),
               "East Frisia",
@@ -162,11 +139,11 @@ goose_time_merge_melt = melt(goose_time_merge[,c(1:6)],
 ```{r trend_flock_juv_global_lims, fig.cap="Global flock size trend follows the lemming cycle.", fig.height=6, message=FALSE, warning=FALSE, include=FALSE}
 #'auto(gam) smoothing on flock size data using ggplot
 ggplot(data = goose_time_merge)+
-  geom_point(aes(x = day_seq, y = Total_flock),
+  geom_point(aes(x = day_seq, y = flocksize),
            pch=20,size = 0.5)+
- geom_smooth(aes(x = day_seq, y = Total_flock),
+ geom_smooth(aes(x = day_seq, y = flocksize),
            method = "auto", lty = 1)+
-  geom_smooth(aes(x = day_seq, y = Total_flock),
+  geom_smooth(aes(x = day_seq, y = flocksize),
               method = "lm", col = 2)+
   ylim(0,2e3)+
   
@@ -176,11 +153,11 @@ ggplot(data = goose_time_merge)+
 ```{r trend_flock_juv_global, fig.height=6, fig.cap= "Global flock size trend follows the lemming cycle.", warning=FALSE, message=FALSE}
 #'auto(gam) smoothing on flock size data using ggplot
 ggplot(data = goose_time_merge)+
-  geom_point(aes(x = day_seq, y = Total_flock),
+  geom_point(aes(x = day_seq, y = flocksize),
            pch=20,size = 0.5)+
- geom_smooth(aes(x = day_seq, y = Total_flock),
+ geom_smooth(aes(x = day_seq, y = flocksize),
            method = "auto", lty = 1)+
-  geom_smooth(aes(x = day_seq, y = Total_flock),
+  geom_smooth(aes(x = day_seq, y = flocksize),
               method = "lm", col = 2)+
   ylim(0,5e3)+
   
@@ -192,11 +169,11 @@ ggplot(data = goose_time_merge)+
 ```{r trend_flock_juv_zonal, fig.height=6, fig.cap= "Rhinelands drive the global flock size trend. GAM smoothing: blue, linear trend: red.",warning=FALSE, message=FALSE}
 #'auto(gam) smoothing on flock size data using ggplot
 ggplot(data = goose_time_merge)+
-  geom_point(aes(x = day_seq, y = Total_flock),
+  geom_point(aes(x = day_seq, y = flocksize),
            pch=20,size = 0.5)+
- geom_smooth(aes(x = day_seq, y = Total_flock),
+ geom_smooth(aes(x = day_seq, y = flocksize),
            method = "auto", lty = 1,size = 0.5)+
-  geom_smooth(aes(x = day_seq, y = Total_flock),
+  geom_smooth(aes(x = day_seq, y = flocksize),
               method = "lm", col = 2,size = 0.5)+
 labs(list(x = "Time", y = "Flock size", title = "Smoothed flock size trends over time, zonal data"))+ theme_minimal()+ylim(0,2000)+
   facet_wrap(~zone, scales = "free_y")
@@ -208,13 +185,13 @@ labs(list(x = "Time", y = "Flock size", title = "Smoothed flock size trends over
 #'auto(gam) smoothing on flock size data using ggplot
 ggplot(data = goose_time_merge)+
  geom_point(data = goose_time_merge,
-            aes(x = day_seq, y = Perc.JV),
+            aes(x = day_seq, y = propjuv),
           col = "grey20", size = 0.5)+
- geom_smooth(aes(x = day_seq, y = Perc.JV),
+ geom_smooth(aes(x = day_seq, y = propjuv),
               method = "auto", size = 0.5)+
-  geom_smooth(aes(x = day_seq, y = Perc.JV),
+  geom_smooth(aes(x = day_seq, y = propjuv),
               method = "lm", col = 2, size = 0.5)+
-  #geom_smooth(aes(x = day_seq, y = Total_flock),
+  #geom_smooth(aes(x = day_seq, y = flocksize),
    #           method = "auto", col = 2, size = 0.5)+
   labs(list(x = "Time", y = "Juvenile %", title = "GAM smoothed juvenile % trends over time, global data"))+ theme_minimal()
  #facet_wrap(~zone, scales = "free_y",
@@ -227,13 +204,13 @@ ggplot(data = goose_time_merge)+
 #'auto(gam) smoothing on flock size data using ggplot
 ggplot(data = goose_time_merge)+
  geom_point(data = goose_time_merge,
-          aes(x = day_seq, y = Perc.JV),
+          aes(x = day_seq, y = propjuv),
           col = "grey20", size = 0.5)+
- geom_smooth(aes(x = day_seq, y = Perc.JV),
+ geom_smooth(aes(x = day_seq, y = propjuv),
               method = "auto", size = 0.5)+
-  geom_smooth(aes(x = day_seq, y = Perc.JV),
+  geom_smooth(aes(x = day_seq, y = propjuv),
               method = "lm", col = 2, size = 0.5)+
-  #geom_smooth(aes(x = day_seq, y = Total_flock),
+  #geom_smooth(aes(x = day_seq, y = flocksize),
    #           method = "auto", col = 2, size = 0.5)+
   labs(list(x = "Time", y = "Juvenile %", title = "GAM smoothed juvenile % trends over time, zonal data"))+ theme_minimal()+
  facet_wrap(~zone, scales = "fixed",
@@ -246,17 +223,17 @@ ggplot(data = goose_time_merge)+
 library(plyr)
 
 goose_means = ddply(goose_aggregate, "Breeding_year",summarize,
-                    mean_jprop = mean(Perc.JV),
-                    mean_flock = mean(Total_flock))
+                    mean_jprop = mean(propjuv),
+                    mean_flock = mean(flocksize))
 
 ```
 
 ```{r trend_flock_yearly, fig.height = 5, fig.cap= "Global flock size trend within years is unrelated to lemming cycle. Loess smoothing, blue; linear trend, red.", warning=FALSE, message=FALSE}
 #'auto(gam) smoothing on flock size data using ggplot
 ggplot(data = goose_time_merge)+
- geom_smooth(aes(x = day_seq, y = Total_flock),
+ geom_smooth(aes(x = day_seq, y = flocksize),
            method = "loess", lwd = 0.5)+
-  geom_smooth(aes(x = day_seq, y = Total_flock),
+  geom_smooth(aes(x = day_seq, y = flocksize),
               method = "lm", col = 2, lwd = 0.5)+
   labs(list(x = "Time", y = "Flock size", title = "Smoothed flock size trends within each breeding year, global data"))+ theme_minimal()+
   facet_wrap(~Breeding_year, scales = "free_x")
@@ -267,9 +244,9 @@ ggplot(data = goose_time_merge)+
 ```{r trend_juvprop_yearly, fig.height = 5, fig.width=10, fig.cap= "Global juvenile % rises over the winter. Loess smoothing, blue; linear trend, red; mean %, dotted line.", warning=FALSE}
 #'auto(gam) smoothing on percjv data using ggplot
 ggplot(data = goose_time_merge)+
- geom_smooth(aes(x = day_seq, y = Perc.JV),
+ geom_smooth(aes(x = day_seq, y = propjuv),
            method = "loess", lwd = 0.5)+
-  geom_smooth(aes(x = day_seq, y = Perc.JV),
+  geom_smooth(aes(x = day_seq, y = propjuv),
               method = "glm", col = 2, lwd = 0.2)+
   geom_hline(aes(yintercept = mean_jprop), goose_means,
              lty = 3, lwd = 0.5)+
@@ -279,104 +256,24 @@ ggplot(data = goose_time_merge)+
 
 # Family size trend
 
-```{r, include=FALSE}
-#'load knitr
-library(knitr)
-library(ggplot2)
-#'suppress all code output but run code
-opts_chunk$set(echo = FALSE)
-opts_knit$set(root.dir = "~/git/thesis/")
-```
+```{r import_fams, include = FALSE}
+fams = read.csv("fams.csv", row.names = 1)
 
-```{r load data, include=FALSE}
-#'load libs
-library(readxl)
-library(RColorBrewer)
-
-#'import data
-lt_geese = read_excel("~/git/thesis/Age-ratiodata-GWfG-toPratik.xlsx",
-    sheet = "Plain_table", col_types = c("text",
-        "numeric", "numeric", "numeric",
-        "numeric", "text", "text", "text",
-        "text", "numeric", "text", "text",
-        "numeric", "numeric", "numeric",
-        "numeric", "numeric", "numeric",
-        "numeric", "numeric", "numeric",
-        "numeric", "numeric", "numeric",
-        "numeric", "numeric", "numeric",
-        "numeric", "numeric", "text", "text",
-        "text"))
-```
-
-```{r reduce_data}
-#'all records in the netherlands or nrw after than 2000
-
-#'first keep only nl or nrw after 2000
-study_site = lt_geese[lt_geese$Country %in% c("NL","NRW"),]
-
-study_site = study_site[study_site$Breeding_year %in% c(2001:2011),]
-```
-
-
-```{r assign_time, include=FALSE}
-#'fix missing days
-study_site$Day = ifelse(is.na(study_site$Day),
-                        15, study_site$Day)
-
-#'use a time column of the posixct class
-study_site$time = as.POSIXct(paste(study_site$Year,
-                                   study_site$Month,study_site$Day),
-                             format="%Y %m %d")
-#'fix flock size
-study_site$Total_flock = ifelse(is.na(study_site$Total_flock),
-        ifelse(is.na(study_site$N_sampled),
-               study_site$N_Adult+study_site$juvs,
-               study_site$N_sampled),
-                        study_site$Total_flock)
-
-#'fix juvenile percentage
-study_site$`Perc-JV` = ifelse(is.na(study_site$`Perc-JV`),
-          study_site$juvs*100/study_site$Total_flock,
-                        study_site$`Perc-JV`)
-
-#'check for NAs
-apply(study_site, 2, function(x){sum(is.na(x))})
-
-#remove dates over May 2012
-study_site = study_site[study_site$time < "2012-05-01",]
-
-#'rename
-geese = study_site
-```
-
-```{r assign_zones, include=FALSE}
 #'assign zones
-geese$zone = ifelse(geese$Region %in% c("DU","KLE","RG","WES","WG"),
+fams$zone = ifelse(fams$Region %in% c("DU","KLE","RG","WES","WG","LI"),
        "Rhinelands",
-       ifelse(geese$Region %in% c("LER","DR","GR"),
+       ifelse(fams$Region %in% c("LER","DR","GR"),
               "East Frisia",
-       ifelse(geese$Region %in% c("FR","FL","NH"),
-              "IJsselmeer",
-              ifelse(geese$Region %in% c("ZL","ZH"),
+       ifelse(fams$Region %in% c("FR","FL","NH"),
+              "IJsselmeer", 
+              ifelse(fams$Region %in% c("ZL","ZH"),
                      "Southwest", "Other"))))
-#'rename percjv
-library(plyr)
-geese = rename(geese, replace = c("Perc-JV" = "propjuv",
-                                  "N_Juvenile" = "juvs"))
-
-#'keep relevant columns
-geese = geese[,c(2,7,14:29,33,34)]
-
-#'count number of families
-geese$fams = apply(geese[,c(8:17)], 1, function(x){sum(x, na.rm = T)})
-
-#'subset
-fams = geese[geese$fams > 0,]
 ```
+
 
 ```{r sum_fams_peryear_perzone, include=FALSE}
 #'try to get a representation of the number of families of each size recorded per zone per year.
-fam_count2 = ddply(fams[,c(1,8:17,20)], c("zone","Breeding_year"), numcolwise(sum, na.rm = T))
+fam_count2 = ddply(fams[,c(1,9:18,21)], c("zone","Breeding_year"), numcolwise(sum, na.rm = T))
 
 library(reshape)
 

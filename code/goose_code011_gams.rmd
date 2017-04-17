@@ -1,0 +1,149 @@
+---
+title: GAMs on juvenile proportion
+---
+
+```{r, include=TRUE}
+#'load knitr
+library(knitr)
+library(ggplot2)
+library(lme4)
+library(lubridate)
+library(car)
+library(mgcv)
+#'suppress all code output but run code
+opts_chunk$set(echo = FALSE)
+opts_knit$set(root.dir = "~/git/thesis/code")
+```
+
+```{r import_data}
+#'load geese, fams and fams expanded
+geese = read.csv("data.goose.clean.csv", row.names = 1)
+fams = read.csv("fams.csv", row.names = 1)
+fams.expand = read.csv("fams.expand.csv")
+
+#'convery perc to prop
+geese$propjuv = round(geese$propjuv/100, 4)
+
+#'drop zone Other
+geese = geese[geese$zone != "Other",]
+
+#'juvenile proportion is actually N_juv/N_sampled
+#plot(geese$propjuv2 ~ geese$propjuv,
+  #   main = "Calculated vs provided juv prop.",
+  #   xlab = "Provided in data",
+  #   ylab = "Calculated as N_juvs/No. of whitefronts")
+
+#'change class of time variable to Date
+geese$time = as.Date(geese$time)
+fams$time = as.Date(fams$time)
+fams.expand$time = as.Date(fams.expand$time)
+
+#'add month and day
+geese$month = month(geese$time)
+geese$day = day(geese$time)
+```
+
+# Juvenile proportion
+
+## Juvenile proportion ~ time
+
+### No random effects
+
+```{r gam_time01}
+library(mgcv)
+#'run a trial gam
+gam_time01 = gam(propjuv ~ s(as.numeric(time)), 
+                 family = "binomial", data = geese,
+                 na.action = na.omit)
+
+#'plot it
+mgcv::plot.gam(gam_time01, residuals = T, shade = T,
+               shade.col = "seagreen")
+#'doesn't look too bad. the pattern seen earlier with the ggplot fitted gam is back, using time as a numeric object.
+
+#'summary
+summary(gam_time01)
+
+#'time is has a significant effect, but the model explains only 30% of the variance.
+```
+
+### Random effects
+
+```{r gamm_time01}
+#'random effects are added: observer, flocksize, foodtype/habitat. the underlying mixed effects model is taken from the package nlme, could be updated to use lme4 via the gamm4 package.
+
+gamm_time01 = gamm(propjuv ~ s(as.numeric(time)),
+          random = list(flocksize=~1, Observer=~1, Food_type=~1),
+                   data = geese)
+
+#'summary
+plot(gamm_time01$gam, residuals = T)
+
+summary(gamm_time01$gam)
+summary(gamm_time01$lme)
+#'compare mixed and non-mixed model?
+```
+
+## Juvenile proportion ~ year * month
+
+### GAM
+
+```{r gam_time02}
+#'attempt to separate the effects of year and month in the gam
+gam_time02 = gam(propjuv ~ s(Breeding_year), 
+                 family = "binomial", data = geese,
+                 na.action = na.omit)
+
+#'plot
+plot(gam_time02, residuals = T)
+
+summary(gam_time02)
+```
+
+### GAMM
+
+```{r gamm_time02}
+gamm_time02 = gamm(propjuv ~ s(month),
+                   random = list(flocksize=~1, Observer=~1, Food_type=~1, Breeding_year=~1), family = "binomial", data = geese,
+                 na.action = na.omit)
+
+#'summary
+summary(gamm_time02$gam)
+```
+
+## Juvenile proportion ~ zone
+
+```{r gam}
+gam.zone01 = mgcv::gam(propjuv ~ s(Breeding_year * zone) + s(flocksize),
+                 data = geese, family = "binomial",
+                 na.action = na.omit)
+
+#gamm.zone01 = gamm(propjuv ~ s(Breeding_year*month*zone*flocksize),
+#                   random = list(Observer=~1, Food_type=~1), family = "binomial", data = geese,
+#                 na.action = na.omit)
+ 
+plot(gam.zone01, residuals = T, select=1, shade.col = 'red')
+abline(h=0, col= 2, lty = 3)
+summary(gam.zone01)
+
+#'use family coordinates
+fams.coords = read.csv("data.fams.coords.csv", row.names = 1)
+
+#'each record is assigned a random longitude drawn from a normal distribution with the longitude of that record's zone as the mean and a standard deviation of 0.1. even an high latitudes, a 0.1 decimal degree variation would result in a concentration of records within 20km of the defined zonal longitude.
+
+geese$rand.lon = rnorm(length(geese$lon), geese$lon, 0.1)
+
+#'a density plot of the random longitudes
+plot(density(geese$rand.lon))
+
+#'this plot looks like one would expect.
+
+gam.zone02 = mgcv::gamm(propjuv ~ s(Breeding_year,month), random = list(rand.lon=~1), data = geese, family = "binomial", na.action = na.omit)
+
+plot(gam.zone02)
+
+summary(gam.zone02)
+
+anova(gam)
+```
+

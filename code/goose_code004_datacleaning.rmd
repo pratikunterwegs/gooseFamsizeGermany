@@ -216,7 +216,6 @@ write.csv(fams.expand.coords, "fams.expand.coords.csv")
 ```{r export_shapefile}
 #'save as shapefiles
 library(rgdal)
-
 #'make spatial
 coordinates(fams.coords) = ~lon+lat
 coordinates(fams.expand.coords) = ~ lon+lat
