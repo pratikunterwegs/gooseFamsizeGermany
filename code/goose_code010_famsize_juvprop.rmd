@@ -93,6 +93,7 @@ glmm_time02 = glmer(propjuv ~ Breeding_year*month +
                    data = geese, family = "binomial",
                    na.action = na.omit)
 
+car::Anova(glmm_time02)
 #'breeding year and month have significant effects, year*month interaction is not significant, random effects don't explain sufficient variance to be included.
 ```
 
@@ -172,6 +173,9 @@ glm_zone01 = glm(propjuv ~ zone*Breeding_year+ zone* month,
 
 #'summary
 summary(glm_zone01)
+
+#'Anova
+car::Anova(glm_zone01)
 ```
 
 
@@ -211,13 +215,15 @@ summary(glm_lonlat_add)
 plot(glm_lonlat_add)
 ```
 
-
+```{r model_latitude}
 #'the next model should try using lat.x as a predictor, which might help determine in which direction the gradient if any lies.
 mod_zone04 = glmer(propjuv ~ lat.x*log(Breeding_year)+ lat.x*month +
                      (1|Food_type) + (1|Observer) + (1|flocksize),
                    data = geese, family = "binomial")
 #'lat.x approaches significance, with a p-value of 0.08, but doesn't appear sufficient to reject the null.
+```
 
+```{r model_coords_fixed}
 #'the next model uses both zone latitude and longitude as fixed effects.
 mod_zone_05 = glmer(propjuv ~ lat.x + lon.x+ Breeding_year + month+
                           (1|Observer)+(1|flocksize)+(1|Food_type), data = geese, family = "binomial", na.action = na.omit,
@@ -254,8 +260,3 @@ qqline(resid(mod_zone_random))
 hist(predict(mod_zone_random02, type = "response"))
 hist(geese$propjuv)
 ```
-
-```{r}
-
-```
-

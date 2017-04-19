@@ -1,0 +1,117 @@
+---
+title: Juvenile proportion models
+output: 
+  beamer_presentation: 
+    colortheme: seagull
+    theme: Luebeck
+fontsize: 8pt  
+---
+
+```{r, include=FALSE}
+#'load knitr
+library(knitr)
+library(ggplot2)
+library(lme4)
+library(lubridate)
+library(car)
+library(mgcv)
+library(gamm4)
+
+#'suppress all code output but run code
+opts_chunk$set(echo = FALSE)
+opts_knit$set(root.dir = "~/git/thesis/code")
+
+#load models
+load("~/git/thesis/code/goose_code012_gams.RData")
+load("~/git/thesis/code/goose_code010_glmers.RData")
+```
+
+# Linear models
+
+- ```glmer(propjuv ~ zone*Breeding_year+ zone* month +
+                     (1|Food_type) + (1|Observer) + (1|flocksize), data = geese, family = "binomial")```
+
+# Breeding year and month are significant predictors
+
+```{r warning=FALSE}
+car:: Anova(glmm_zone01)
+```
+
+# Random effects don't explain much variance
+
+```{r, warning=FALSE}
+summary(glmm_zone01)
+```
+
+
+# Additive models
+
+- ```propjuv ~ s(as.numeric(time))```
+- ```propjuv ~ s(Breeding_year)```
+- ```propjuv ~ ti(Breeding_year) + ti(winter_month) + ti(Breeding_year, winter_month)```
+- ```propjuv ~ ti(rand.lon) + ti(rand.lat) + ti(rand.lon, rand.lat)```
+    
+
+# Time is a significant predictor
+
+```{r}
+summary(gam_time01)
+```
+
+# Breeding year has a significant effect
+
+```{r}
+summary(gam_time01b)
+```
+
+# Month doesn't have a significant effect
+
+```{r}
+summary(gam_time02a)
+```
+
+# Model fits
+
+```{r plot_gam_time, echo=FALSE, fig.cap= "Breeding year is the major component determing the GAM fit."}
+#'plot both side by side
+par(mfrow = c(2,1))
+plot(gam_time01, residuals = T, shade = T,
+               main = "GAM, propjuv ~ s(time)", xlab = "time", 
+               ylab = "s(time)")
+
+plot(gam_time01b, residuals = T, shade = T,
+               main = "GAM, propjuv ~ s(Br_yr)", xlab = "Breeding_year", 
+               ylab = "s(Breeding_year)")
+par(mfrow = c(1,1))
+```
+
+# Model response ~ year*month
+
+```{r plot_gamtime02a, echo=FALSE, message=FALSE, warning=FALSE, fig.cap="GAM fitted surface. The main feature is the likely response to the lemming cycle. From 2003-4, juvenile proportion rises with winter."}
+#'visualise it
+vis.gam(gam_time02a, 
+        theta = 10, phi = 25, 
+        plot.type = "persp", 
+        ticktype = "detailed", 
+        type = "response", 
+        zlab = "juvenile proportion",
+        color = "terrain")
+```
+
+# Location does not have an effect
+
+```{r}
+summary(gam.zone01a)
+```
+
+# Model surface
+
+```{r plot_gamzone01a, warning=FALSE, message=FALSE, fig.cap="Proportions are higher in the northwest and southeast, but not significantly."}
+#'visualise as a 3d surface
+vis.gam(gam.zone01a, type = "response", theta = 10, phi = 45, 
+        plot.type = "persp", 
+        ticktype = "detailed",
+        zlab = "juvenile proportion",
+        color = "terrain")
+```
+
