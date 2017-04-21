@@ -12,107 +12,75 @@ output:
 ```{r, include=FALSE}
 #'load knitr
 library(knitr)
-library(ggplot2)
 library(lme4)
 library(lubridate)
 library(car)
-library(mgcv)
+library(broom)
 library(gamm4)
+library(mgcv)
+library(itsadug)
 #'suppress all code output but run code
 opts_chunk$set(echo = FALSE)
 opts_knit$set(root.dir = "~/git/thesis/code")
 ```
 
-```{r import_data, include = FALSE}
-#'load geese, fams and fams expanded
-geese = read.csv("data.goose.clean.csv", row.names = 1)
-fams = read.csv("fams.csv", row.names = 1)
-fams.expand = read.csv("fams.expand.coords.csv")
+```{r read_data, eval=FALSE}
+fams = read.csv("fams.csv",row.names = 1)
+fams.expand = read.csv("fams.expand.csv")
 
-#'convery perc to prop
-geese$propjuv = round(geese$propjuv/100, 4)
-
-#'drop zone Other
-geese = geese[geese$zone != "Other",]
-
-#'juvenile proportion is actually N_juv/N_sampled
-#plot(geese$propjuv2 ~ geese$propjuv,
-  #   main = "Calculated vs provided juv prop.",
-  #   xlab = "Provided in data",
-  #   ylab = "Calculated as N_juvs/No. of whitefronts")
-
-#'change class of time variable to Date
-geese$time = as.Date(geese$time)
+#'set date
 fams$time = as.Date(fams$time)
 fams.expand$time = as.Date(fams.expand$time)
 
-#'add month and day
-geese$month = month(geese$time)
-geese$day = day(geese$time)
-
-#'assign  random coords for gams
-geese$rand.lon = rnorm(length(geese$lon), geese$lon, 0.1)
-geese$rand.lat = rnorm(length(geese$lat), geese$lat, 0.1)
-```
-
-```{r winter_month}
-#'classify months based on their order in the winter
-geese$winter_month =  c(c(1:8), geese$month)[match(geese$month, c(c(9:12,1:4), geese$month))]
-
-#'also for fams.expand
-#'first assign month
+#'assign month
+fams$month = month(fams$time)
 fams.expand$month = month(fams.expand$time)
-#'now wintermonth
+
+#'assign wintermonth
+fams$winter_month =  c(c(1:8), fams$month)[match(fams$month, c(c(9:12,1:4), fams$month))]
+#'to fams.expand
 fams.expand$winter_month =  c(c(1:8), fams.expand$month)[match(fams.expand$month, c(c(9:12,1:4), fams.expand$month))]
+
+#'source days since
+source("days_since.r")
+
+#'get days since the start of winter (Sep 1)
+fams.expand$days = days_since(fams.expand$time)
+fams$days = days_since(fams$time)
+
+
+#'source omega squared
+source("mixed_mods_rsquared.r")
+
+#'remove zone Other
+fams = fams[fams$zone != "Other",]
+fams = droplevels(fams)
+
+#'from fams.expand
+fams.expand = fams.expand[fams.expand$zone != "Other",]
+fams.expand = droplevels(fams.expand)
 ```
 
-# Mean family size as response
-
-## Linear model
-
-```{r glm_global}
-glm_famsize01 = glm(meanfam ~ Breeding_year*winter_month*zone, family = "poisson", data = geese, na.action = na.omit)
-
-#'summary
-summary(glm_famsize01)
-
-#'plot
-plot(glm_famsize01)
-
-#'look for significance of predictors
-Anova(glm_famsize01)
-
-#'winter month is a significant pedictors of mean family size, but the model doesn't explain more than 10% of the variance in the data
+```{r order_zone, include=FALSE}
+#'make ordered factor
+fams$zone1 = as.ordered(fams$zone)
+fams.expand$zone1 = as.ordered(fams.expand$zone)
+#'set contrasts
+contrasts(fams$zone1) = 'contr.treatment'
+contrasts(fams.expand$zone1) = 'contr.treatment'
 ```
 
-```{r glm_global}
-#'use fams.coords
-glm_famsize02 = glm(famsize ~ Breeding_year*winter_month*zone, family = "poisson", data = fams.expand, na.action = na.omit)
+# Mean family size GAM
 
-summary(glm_famsize02)
-
-plot(glm_famsize02)
+```{r meanfam_gam}
+mfsgam01 = gam(meanfam ~ s(Breeding_year) + s(Breeding_year, by = zone1) + s(days) + s(days, by = zone1) + ti(Breeding_year, days, by=zone1), data = fams, family = "poisson")
 ```
 
-```{r gam_meanfam}
-gam_meanfam01 = gam(meanfam ~ ti(Breeding_year) + ti(Breeding_year, winter_month), data = fams.expand, family = "poisson")
+```{r summary_mfsgam}
+summary(mfsgam01)
 
-summary(gam_meanfam01)
-
-plot(gam_meanfam01, residuals = T)
-
-vis.gam(gam_meanfam01, 
-        theta = 10, phi = 25, 
-        plot.type = "persp", 
-        ticktype = "detailed", 
-        type = "response", 
-        zlab = "mean fam size",
-        color = "terrain")
+vis.gam(mfsgam01, type = "response", theta = 50, phi = 45,
+        color = "terrain", plot.type = "persp",
+        main = "meanfam size", view = c("zone1","days"),
+        n.grid = 20, ticktype = "detailed")
 ```
-
-```{r gam_meanfam_global}
-
-gam_meanfam_global01 = gamm(meanfam ~ ti(Breeding_year) + ti(winter_month) + ti(Breeding_year, winter_month) + s(lon, lat) + te(Breeding_year,winter_month,lon,lat), random = list(Observer=~1, Food_type=~1, flocksize=~1), data = fams.expand, family = "poisson")
-
-```
-

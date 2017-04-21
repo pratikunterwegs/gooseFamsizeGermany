@@ -1,0 +1,276 @@
+---
+title: GAMs on juvenile proportion
+output:
+  beamer_presentation: 
+    colortheme: seahorse
+    theme: Luebeck
+classoption: aspectratio=1610
+fontsize: 8pt
+---
+
+```{r, include=FALSE}
+#'load knitr
+library(knitr)
+library(ggplot2)
+library(lme4)
+library(lubridate)
+library(car)
+library(mgcv)
+library(gamm4)
+#'suppress all code output but run code
+opts_chunk$set(echo = FALSE)
+opts_knit$set(root.dir = "~/git/thesis/code")
+
+#'load models
+load("~/git/thesis/code/goose_code011_gams.RData")
+```
+
+```{r read_data, eval=FALSE}
+geese = read.csv("data.goose.clean.csv",row.names = 1)
+geese$time = as.Date(geese$time)
+#'assign month
+geese$month = month(geese$time)
+#'make percentages proportions
+geese$propjuv = geese$propjuv/100
+
+#'assign wintermonth
+geese$winter_month =  c(c(1:8), geese$month)[match(geese$month, c(c(9:12,1:4), geese$month))]
+
+#'assign randomised coordinates
+geese$rand.lon = rnorm(length(geese$lon), geese$lon, 0.1)
+geese$rand.lat = rnorm(length(geese$lat), geese$lat, 0.1)
+```
+
+# Single effect models
+
+- ```time```
+- ```Breeding year```
+- ```winter month```
+- ```rand.lat + rand.lon```
+
+```{r single_effect_gams,eval = FALSE}
+#'time as a continuous variable
+gam_pj01 = gam(propjuv ~ s(as.numeric(time)), 
+                 family = "binomial", data = geese,
+                 na.action = na.omit)
+
+#'breeding year as a variable
+gam_pj02 = gam(propjuv ~ s(Breeding_year),
+                 family = "binomial", data = geese,
+                 na.action = na.omit)
+
+#'winter_month as a variable
+gam_pj03 = gam(propjuv ~ ti(winter_month),
+                 family = "binomial", data = geese,
+                 na.action = na.omit)
+
+#'zone coordinates as a variable
+gam_pj04 = gam(propjuv ~ s(rand.lat) + s(rand.lon),
+               family = "binomial", data = geese,
+                 na.action = na.omit)
+```
+
+# Visualise simple GAMs
+
+```{r plot_simple_gams, echo=FALSE}
+par(mfrow = c(2,3))
+
+plot(gam_pj01, residuals = T, shade = T, ylab = "s(time)")
+plot(gam_pj02, residuals = T, shade = T, ylab = "s(breeding year)")
+plot(gam_pj03, residuals = T, shade = T, ylab = "s(winter month)")
+plot(gam_pj04, residuals = T, shade = T, ylab = "s(rand.lon or rand.lat)")
+
+par(mfrow=c(1,1))
+```
+
+# Simple GAMs: Deviance explained
+
+```{r summarise, eval=FALSE}
+summary(gam_pj01); summary(gam_pj02); summary(gam_pj03); summary(gam_pj04)
+```
+
+- GAM 1 $R^2$: ```r summary(gam_pj01)$dev.expl*100```%
+- GAM 2 $R^2$: ```r summary(gam_pj02)$dev.expl*100```%
+- GAM 3 $R^2$: ```r summary(gam_pj03)$dev.expl*100```%
+- GAM 4 $R^2$: ```r summary(gam_pj04)$dev.expl*100```%
+
+# Multiple effects models
+
+- ```Breeding_year + winter_month + Breeding_year*winter_month```
+- ```Breeding_year + lat*lon + Breeding_year*lat + Breeding_year*lon```
+- ```Winter_month + lat*lon + winter_month*rand.lat + winter_month*lon```
+
+```{r interaction_gams, eval=FALSE}
+#'gams with interactions
+#'breeding year and month
+gamintpj01 = gam(propjuv ~ ti(Breeding_year) + ti(winter_month)+
+                   ti(Breeding_year, winter_month),
+               family = "binomial", data = geese,
+                 na.action = na.omit)
+
+#'breeding year and zone
+gamintpj02 = gam(propjuv ~ s(Breeding_year) + s(rand.lat, rand.lon)+
+                te(Breeding_year, rand.lat) + te(Breeding_year, rand.lon),
+               family = "binomial", data = geese,
+                 na.action = na.omit)
+
+#'winter month and zone
+gamintpj03 = gam(propjuv ~ ti(winter_month) + s(rand.lat, rand.lon)+
+                te(winter_month, rand.lat) + te(winter_month, rand.lon),
+               family = "binomial", data = geese,
+                 na.action = na.omit)
+```
+
+```{r summarise_interacting_gams, eval=FALSE}
+summary(gamintpj01); summary(gamintpj02); summary(gamintpj03)
+```
+
+***
+
+## Breeding year and winter month
+
+```{r plot_gamintpj01, echo=FALSE, fig.cap="The effect of breeding year can be seen. Proportion rises with winter, but not in all years."}
+vis.gam(gamintpj01, 
+        theta = 10, phi = 25, 
+        plot.type = "persp", 
+        ticktype = "detailed", 
+        type = "response", 
+        zlab = "juvenile proportion",
+        color = "terrain")
+```
+
+***
+
+## Breeding year and location
+
+```{r plot_gamintpj02, echo=FALSE, fig.cap="Juvenile proportion decreases from east to west. Location does not modify the effect of year."}
+par(mfrow = c(1,2))
+#'lon lat
+vis.gam(gamintpj02, view = c("rand.lon","rand.lat"),
+        theta = 10, phi = 25, 
+        plot.type = "persp", 
+        ticktype = "detailed", 
+        type = "response", 
+        zlab = "juvenile proportion",
+        color = "terrain")
+#'year lon
+vis.gam(gamintpj02, view = c("Breeding_year","rand.lon"),
+        theta = 10, phi = 25, 
+        plot.type = "persp", 
+        ticktype = "detailed", 
+        type = "response", 
+        zlab = "juvenile proportion",
+        color = "terrain")
+par(mfrow = c(1,1))
+```
+
+# Mixed effects models
+
+Random effects added:
+
+- ```Food_type```
+- ```Observer```
+- ```flocksize```
+
+Nested so: ```1|Food_type/Observer/flocksize```
+
+```{r mixed_effects_gams, eval=FALSE}
+#'temporal variables as fixed effects
+gamm_pj01 = gamm4(propjuv ~ t2(Breeding_year) + t2(winter_month)+
+                 t2(Breeding_year, winter_month),
+                 random=~(1|Food_type/Observer/flocksize),
+                 family = "binomial", data = geese,
+                 na.action = na.omit)
+
+#'spatial variables as fixed effects
+gamm_pj02 = gamm4(propjuv ~ s(rand.lat, rand.lon),
+                 random=~(1|Food_type/Observer/flocksize),
+                 family = "binomial", data = geese,
+                 na.action = na.omit)
+
+#'spatial and temporal variables
+gamm_pj03 = gamm4(propjuv ~ t2(Breeding_year,rand.lon),
+                 random=~(1|Food_type/Observer/flocksize),
+                 family = "binomial", data = geese,
+                 na.action = na.omit)
+```
+
+# Mixed model summaries
+
+- Mod 1: ```Breeding_year * winter_month```, $R^2$: ```r summary(gamm_pj01$gam)$r.sq```
+
+- Mod 2: ```lat * lon```, $R^2$: ```r summary(gamm_pj02$gam)$r.sq```
+
+- Mod 3: ```Breeding year * lon```, $R^2$: ```r summary(gamm_pj03$gam)$r.sq```
+
+***
+
+```{r examine_mixedgams}
+anova(gamm_pj01$gam)
+
+```
+
+***
+
+```{r}
+anova(gamm_pj02$gam)
+```
+
+***
+
+```{r}
+anova(gamm_pj03$gam)
+```
+
+# Mixed models: random factors
+
+```{r echo=FALSE}
+summary(gamm_pj01$mer)
+```
+
+
+```{r, eval=FALSE}
+vis.gam(gamm_pj01$gam, 
+        theta = 10, phi = 25, 
+        plot.type = "persp", 
+        ticktype = "detailed", 
+        type = "response", 
+        zlab = "juvenile proportion",
+        color = "terrain")
+```
+
+```{r, eval=FALSE}
+vis.gam(gamm_pj02$gam, view = c("rand.lon","rand.lat"),
+        theta = 10, phi = 25, 
+        plot.type = "persp", 
+        ticktype = "detailed", 
+        type = "response", 
+        zlab = "juvenile proportion",
+        color = "terrain")
+```
+
+```{r, eval=FALSE}
+vis.gam(gamm_pj03$gam,
+        theta = 10, phi = 25, 
+        plot.type = "persp", 
+        ticktype = "detailed", 
+        type = "response", 
+        zlab = "juvenile proportion",
+        color = "terrain")
+```
+
+# Mixed model: zone as a random factor
+
+Breeding year explains almost no variance when zone is a random effect.
+
+```{r gamm_global, eval=FALSE}
+
+gamm_global01 = gamm4(propjuv ~ s(Breeding_year),
+                    random = ~(1|zone/Food_type/Observer/flocksize),
+                    data = geese, family = "binomial")
+```
+
+```{r}
+summary(gamm_global01$mer)
+```
+

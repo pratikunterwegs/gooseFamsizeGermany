@@ -1,0 +1,226 @@
+---
+title: Flock size and family size
+bibliography: ~/git/thesis/geese_citations.bib
+output: 
+  beamer_presentation: 
+    colortheme: seagull
+    theme: Luebeck
+fontsize: 8pt
+link-citations: true
+citecolor: Emerald
+---
+
+# Reconstructing number of families
+
+```{r, include=FALSE}
+#'load knitr
+library(knitr)
+library(ggplot2)
+#'suppress all code output but run code
+opts_chunk$set(echo = FALSE)
+opts_knit$set(root.dir = "~/git/thesis/code")
+```
+
+```{r import_data}
+#'load geese and fams
+geese = read.csv("geese.csv")
+fams = read.csv("fams.csv")
+
+geese$time = as.POSIXct(geese$time)
+geese = geese[complete.cases(geese$time),]
+
+fams$time = as.Date(fams$time)
+fams$fams = as.numeric(fams$fams)
+
+#'remove outlier flock
+geese = geese[-which(geese$juvs == max(geese$juvs,na.rm = T)),]
+
+#'rename
+library(plyr)
+fams$X =NULL
+geese$X = NULL
+geese = rename(geese, replace = c("Total_flock" = "flocksize"))
+
+fams = rename(fams, replace = c("Total_flock" = "flocksize"))
+```
+
+```{r reconstruct_famsum}
+#'run lm
+fam_juvs_lm1 = lm(log(fams) ~ log(juvs), data = fams[fams$juvs >0,])
+
+#'predict new famsums from the full dataset
+geese_famsum = exp(predict.lm(fam_juvs_lm1, newdata = geese))
+
+#'assign the reconstructed number of families to each flock
+geese$fams = ifelse(geese$fams <= 0,
+                    geese_famsum, geese$fams)
+```
+
+```{r plot_reconstruct, fig.cap = "Total families reconstructed from juvenile count are distributed similar to real data.", fig.height=5}
+#'plot hists
+par(mfrow =c(1,2))
+hist(fams$fams, main = "Real data", xlab = "Total families",
+     xlim = c(0,200), breaks = 50, col = "grey90")
+
+hist(geese$fams, main = "Reconstructed data", xlab = "Total families",
+     xlim = c(0,200), breaks = 50, col = "grey90")
+par(mfrow = c(1,1))
+
+```
+
+# Family size ~ flock size
+
+```{r flock_juvs, warning=FALSE, include = FALSE, fig.cap="Number of families increase with flock size. Juvenile % higher in lemming-peak years."}
+library(plot3D)
+ggplot()+
+  geom_point(data = fams[fams$Breeding_year %in% c(2003,2005,2007,2008,20111) & fams$zone != "Other",], aes(y=flocksize, x = fams, col = propjuv),
+             pch = 20)+
+  scale_color_gradientn(colours = jet.col(20))+
+  facet_grid(zone~Breeding_year, scales = "fixed")+ylim(0,2000)+xlim(0,150)+
+  labs(list(x = "Number of families",y="Flocksize",
+            col = "Juv %"))
+```
+
+```{r expand_data, include=FALSE}
+
+#set all fams from NA to 0
+fams[,c(9:18)][is.na(fams[,c(9:18)])] = 0
+
+#'get expanded fams data, zone, time, etc
+fams.expand <- fams[rep(row.names(fams), fams$fams),c(1:8,19:21)]
+#'get the families as a list
+famrep = apply(fams[,c(9:18)], 1, function(x){rep(c(1:10), x)})
+#'unlist it for a fam sequence
+famrep = unlist(famrep)
+
+#'bind with famsexpand
+fams.expand$famsize = as.numeric(famrep)
+
+#'check by searching for fams of size 10
+fams.expand[fams.expand$famsize == 10,]
+```
+
+```{r famsize~flocksize, fig.width=10, warning=FALSE, message=FALSE, fig.cap="Violin plot. Black line: median flock size. Families > 4 are found in flocks > median in lemming peak years ('05). Red dotted line: median flock size.", fig.height=7}
+#median flocksizes
+medflocks = ddply(geese, "Breeding_year", summarise, medflock = median(flocksize, na.rm = T))
+#'plot
+
+library(dplyr) # With dplyr for example
+fams.expand <- fams.expand %>% group_by(as.factor(Breeding_year)) %>%   dplyr::mutate(med = quantile(flocksize, na.rm = T)[3])
+
+
+library(plot3D)
+ggplot(data = fams.expand[fams.expand$Breeding_year %in% c(2003, 2005, 2008, 2011) & fams.expand$famsize <7,])+
+  geom_violin(aes(y=flocksize, x = as.factor(famsize)),
+              size = 0.6, draw_quantiles = 0.5)+ 
+  coord_flip()+ 
+  facet_wrap(~Breeding_year, scales = "free_x")+
+  geom_hline(aes(yintercept = med,
+                 group = "Breeding_year"),
+             col = 2, lty = 3, size = 1)+
+  labs(list(x = "Family size", y = "Flock size"))+theme_minimal()
+```
+
+# Family size ~ flock size
+
+```{r log_transform_fam_flock, warning = FALSE, fig.cap="Family size ~ ln(flock size). Flocks of all sizes have families of all sizes.", fig.height=6}
+ggplot(data = fams.expand)+
+  geom_jitter(aes(x=(flocksize), y = (famsize),
+                  col = Mean_Fam),
+              size = 0.5, pch = 20)+xlim(0,2000)+
+  scale_color_gradientn(colours = jet.col(20), limits = c(1,4))+
+  labs(list(x = "Flock size", y = "Family size"))+
+  facet_wrap(~zone)
+```
+
+```{r famsize_meanfam, eval = FALSE}
+ggplot(data = fams.expand)+
+  geom_jitter(aes(x= log2(Mean_Fam), y = famsize,
+                  col = propjuv),
+              size = 0.5, pch = 20)+
+  scale_color_gradientn(colours = jet.col(20))+
+  labs(list(x = "Mean family size", y = "Family size"))
+```
+
+```{r, eval=FALSE, include=FALSE}
+p1 = plot_ly(fams.expand[fams$propjuv <=50 & fams$flocksize <=2000 & fams$propjuv <=40,], x = ~flocksize, y = ~fams, z=~famsize, color = ~Mean_Fam,
+            colors = jet2.col(20),
+            text = ~paste('flocksize:', flocksize, 'families:', fams, 'juvenile%:', round(propjuv))) %>%
+  add_markers() %>%
+  layout(scene = list(xaxis = list(title = "flocksize"),
+                      yaxis = list(title = "total fam"),
+                      zaxis = list(title = "famsize")))
+```
+
+# Family size spatial pattern
+
+```{r get_coords, include=FALSE}
+#'load data
+sites = read.csv("family_sites.csv")[,c(2:4)]
+
+#merge with data
+fams.expand = merge(fams.expand, sites, by.x = "Site_name",by.y="places")
+
+#'clean data
+fams.expand2 = fams.expand[fams.expand$lat >49 &
+                                   fams.expand$lon > 0 &
+                                   fams.expand$lon <=10,]
+fams.expand2 = fams.expand2[complete.cases(fams.expand2$famsize),]
+```
+
+```{r famsize_long, fig.cap= "Families > 3 have a lower median longitude.", fig.height=5}
+#'familysize ~longitude
+
+#'load provinces
+provinces = read.csv("province_coords.csv")
+
+ggplot()+
+  geom_violin(data=fams.expand2[fams.expand2$famsize <7,], aes(x = as.factor(famsize), y = lon, fill = as.factor(famsize)), alpha = 0.5, draw_quantiles = 0.5)+
+  
+  geom_hline(yintercept = c(provinces[provinces$V2 %in% c("LER","DU","RG"),]$lon), col = 2, size = 0.5, lty =3)+
+  geom_text(inherit.aes = F, aes(y = c(provinces[provinces$V2 %in% c("LER","DU","RG"),]$lon), x = c(6.5,5.5,5.5), label = c("Duisburg","Leer","Netherlands")))+
+  coord_flip()+
+  guides(fill = FALSE)+
+  labs(list(y = "Longitude",x="Family size"))+theme_minimal()
+  
+```
+
+# Flock size spatial pattern
+
+```{r merge_geese_sites, include=FALSE}
+geese.coords = merge(geese, sites, by.x = "Site_name",
+                     by.y = "places")
+geese.coords = geese.coords[geese.coords$lat >49 &
+                                   geese.coords$lon > 0 &
+                                   geese.coords$lon <=10,]
+geese.coords = geese.coords[complete.cases(geese.coords$flocksize),]
+
+#load lubridate
+library(lubridate)
+```
+
+
+```{r flock_size_long, fig.cap="Flocks are larger in the east in some years. Dotted red line: Friesland (L) & Rhinelands (R).", warning=FALSE, fig.height=5}
+ggplot(data = geese.coords[geese.coords$Breeding_year %in% c(2003,2004,2005,2008,2009,2010,2011),])+
+  geom_violin(aes(x = flocksize, y = lon), alpha = 0.6, col = 1, lwd = 0.2,
+              draw_quantiles = 0.5)+
+  coord_flip()+ geom_hline(yintercept = c(5.7, 6.6), col = 2, lty = 3, size = 0.5)+
+  labs(list(y = "Longitude",x="Flock size", fill = "Month"))+theme_minimal()+facet_wrap(~Breeding_year)
+```
+
+```{r, eval = FALSE}
+library(plotly)
+
+fams_flock_juvs <- plot_ly(fams, x = ~Mean_Fam, z = ~flocksize, y = ~propjuv, color = ~Mean_Fam, colors = rev(RColorBrewer::brewer.pal(9, "Spectral"))) %>%
+  add_markers() %>%
+  layout(scene = list(xaxis = list(title = 'mean_fam_size'),
+                     yaxis = list(title = 'juvenile %'),
+                     zaxis = list(title = 'flocksize')))
+library(htmlwidgets)
+saveWidget(fams_flock_juvs, "fams_flock_meanfams3d.html")
+
+#library(htmlwidgets)
+#saveWidget(fams_flock_juvs, "fams_flock_juvs3d.html")
+```
+
+
