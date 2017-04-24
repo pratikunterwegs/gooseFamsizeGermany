@@ -1,0 +1,132 @@
+---
+title: Processing family tracks with bouts removed
+---
+  
+```{r load_env}
+source("knitr_options.r")
+#'suppress all code output but run code
+opts_chunk$set(echo = FALSE)
+opts_knit$set(root.dir = "~/git/thesis/code")
+```
+
+```{r load_famtracks}
+#'load the famtracks object
+load("famtracks.Rdata")
+```
+
+```{r remove_spring}
+#'remove all dates after where month is in 4:9
+#'duplicate
+f2 = famtracks
+#'get range of dates, now remove over 3 and less than 9
+#lapply(f2, function(x){lapply(x, function(y){range(y$time)})})
+#'load lubridate
+library(lubridate)
+#'remove dates
+f2 = lapply(f2, function(x){lapply(x, function(y){y = y[month(y$time) %in% c(1:3, 9:12),]})})
+```
+
+```{r assign_sex_age}
+#'get layer names from kml files
+library(rgdal);library(maptools)
+famfiles = list.files("NoBoutFamilies/", pattern = ".kml", full.names = T)
+
+#'get layer names
+famlayers = list()
+for(i in 1:length(famfiles)){
+famlayers[[i]] = list(ogrListLayers(famfiles[i]))
+}
+#'get goose names
+#unlist(famlayers)
+```
+
+```{r unlist_listoflists, eval=FALSE}
+#'unlist to get 64 spdfs
+f3 = unlist(f2)
+
+#'read in goosenames.csv
+goosenames = read.csv("goosenames.csv")
+goosenames$name = as.character(goosenames$name)
+goosenames$family = as.character(goosenames$family)
+```
+
+```{r mean_coords, eval=FALSE}
+#'don't run any of this. might be useful later.
+#utm proj4 string for the netherlands
+#+proj=utm +zone=31 +ellps=WGS84 +datum=WGS84 +units=m +no_defs
+
+crsnl = crs("+proj=utm +zone=31 +ellps=WGS84 +datum=WGS84 +units=m +no_defs")
+```
+
+```{r convert_to_utm}
+#'convert list of lists to utm coords zone 31N. optional.
+#f2 = lapply(f2, function(x){lapply(x, function(y){y = spTransform(y, crsnl)})})
+```
+
+```{r get_distances}
+#'for each element in the list, get distances in km
+famdists = vector("list",13)
+
+for(i in 1:length(f2)){
+  for(j in 1:length(f2[[i]])){
+      famdists[[i]][[j]] = diag(spDists(coordinates(f2[[i]][[1]])[,-3],
+                                     coordinates(f2[[i]][[j]])[,-3], longlat = T))
+ }
+}
+
+```
+
+```{r get_famsizes}
+#'get famsizes at 250m
+famsizes250 = lapply(famdists, function(x){apply(do.call("cbind",x), 1, function(y){sum(y<.250)})})
+
+#'get famsizes at 100m
+famsizes100 = lapply(famdists, function(x){apply(do.call("cbind",x), 1, function(y){sum(y<.100)})})
+
+#'get famsizes at 1000m
+famsizes1000 = lapply(famdists, function(x){apply(do.call("cbind",x), 1, function(y){sum(y<1.000)})})
+
+#'make dataframe
+famsizes250 = lapply(famsizes250, function(x){x = as.data.frame(x)})
+
+#'add fam
+for(i in 1:length(famsizes250)){
+  famsizes250[[i]]$fam = names(f2)[i]
+}
+#'add times
+for(i in 1:length(famsizes250)){
+  famsizes250[[i]]$time = f2[[i]][[1]]$time
+}
+
+#'add 100m sizes
+for(i in 1:length(famsizes250)){
+  famsizes250[[i]]$s100 = famsizes100[[i]]
+}
+
+#'add 1000m sizes
+for(i in 1:length(famsizes250)){
+  famsizes250[[i]]$s1000 = famsizes1000[[i]]
+}
+```
+
+```{r make_df}
+library(reshape)
+#'make a single df
+famsizes = rbindlist(famsizes250)
+
+#'rename x
+famsizes = rename(famsizes, replace = c("x" = "s250"))
+```
+
+```{r melt_df}
+library(reshape)
+#'reshape and make long
+famsize.melt = melt(famsizes, id.vars = c("fam","time"))
+```
+
+```{r plot}
+ggplot()+
+  geom_line(data = famsize.melt, aes(x = time, y = value, col = variable))+
+  facet_wrap(fam~variable, scales = "free_x", ncol = 6)
+```
+

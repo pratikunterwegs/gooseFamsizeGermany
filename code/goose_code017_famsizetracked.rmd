@@ -1,5 +1,5 @@
 ---
-title: Family size of tracked birds
+title: Processing family tracks with bouts removed
 ---
 
 ```{r load_env}
@@ -37,7 +37,7 @@ for(i in 1:length(famfiles)){
 }
 ```
 
-```{r remove_spring_dates}
+```{r assign_dates}
 
 #'get all times as date objects
 famtracktimes = lapply(famtracks, function(x){

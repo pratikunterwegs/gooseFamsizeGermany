@@ -22,6 +22,7 @@ library(broom)
 library(lubridate)
 library(plyr)
 library(dplyr)
+library(data.table)
 
 library(fields)
 library(reshape)
