@@ -713,3 +713,57 @@ qqline(resid(mod_zone_random))
 hist(predict(mod_zone_random02, type = "response"))
 hist(geese$propjuv)
 ```
+
+
+
+```{r merge_by_day}
+#'slice by time and dmap the minimum
+fdistm = lapply(fdistm, function(x){x %>% slice_rows("time") %>% dmap(function(y){min(na.omit(y))})})
+
+#'replace nans
+fdistm = lapply(fdistm, function(x){do.call(data.frame,lapply(x, function(y) {replace(y, is.infinite(y), NA)}))})
+```
+
+```{r}
+a = fdistm[[2]]
+a = melt(as.data.frame(a),"time")
+
+ggplot()+
+  geom_line(data=a, aes(x=time,y=value, col = variable))
+```
+
+
+```{r famsizes, eval = FALSE}
+#'use a for loop on the mean dist object to count rows with distances below 250
+for(i in 1:length(f5_mean)){
+  f5_mean[[i]]$d1000 = f5_mean[[i]][,c(as.character())] %>%
+    apply(1, function(x){
+      sum(x < 1000)})
+f5_mean[[i]]$d250 = f5_mean[[i]][,grep("X", colnames(f5_mean[[i]]))] %>%
+    apply(1, function(x){
+      sum(x < 250) })
+f5_mean[[i]]$complete = complete.cases(f5_mean[[i]])
+}
+```
+
+```{r melt_dfs}
+#'assign fams
+for(i in 1:length(f5_mean)){
+  f5_mean[[i]]$fam = names(f5)[i]
+}
+
+#'merge list dfs
+fsize = rbindlist(f5_mean, fill = T)
+
+#'melt df
+fsize = melt(fsize[,c("y","fam","d250","d1000")], id.vars = c("y","fam"))
+```
+
+```{r plot}
+library(ggplot2)
+
+ggplot()+
+  geom_line(data = fsize, aes(x = y, y = as.numeric(value), col = variable))+
+  facet_wrap(~fam, scales = "free_x")
+
+```
