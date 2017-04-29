@@ -2,9 +2,10 @@
 title: "Juvenile proportions GAM by zone"
 output:
   beamer_presentation: 
-    colortheme: seagull
+    colortheme: seahorse
     fonttheme: structurebold
-    theme: Luebeck
+    theme: Malmoe
+classoption: aspectratio=1610
 fontsize: 8pt
 ---
 
@@ -62,12 +63,12 @@ par(mfrow = c(1,2))
 vis.gam(gam01, type = "response", theta = 50, phi = 45,
         color = "cm", plot.type = "persp",
         main = "juvenile proportion", view = c("zone","Breeding_year"),
-        n.grid = 20, ticktype = "detailed")
+        n.grid = 20)
 
 vis.gam(gam01, type = "response", theta = 50, phi = 45,
         color = "cm", plot.type = "persp",
         main = "juvenile proportion", view = c("zone","days"),
-        n.grid = 20, ticktype = "detailed")
+        n.grid = 20)
 par(mfrow = c(1,1))
 ```
 
@@ -75,91 +76,65 @@ par(mfrow = c(1,1))
 summary(gam01)
 ```
 
-```{r order_zone, eval=FALSE}
+# GAM with ordered levels and reference smooth
+
+```{r order_zone, include=FALSE}
 #'make ordered factor
 geese$zone1 = as.ordered(geese$zone)
 #'set contrasts
 contrasts(geese$zone1) = 'contr.treatment'
 ```
 
-```{r gam02_ordered_facs, eval=FALSE}
+```{r gam02_ordered_facs, include=FALSE}
 #'global gam without mixed effects, but added reference smooth
 gam02 = gam(propjuv ~ s(Breeding_year) + s(Breeding_year, by = zone1) +
               s(days) + s(days, by = zone1), 
             data = geese, family = "binomial")
 ```
 
-```{r summary_gam02, eval=FALSE}
+```{r summary_gam02}
 summary(gam02)
-```
-
-# Effects of year
-
-```{r plot_gam02, echo=FALSE, fig.cap="Lemming cycle effect appears dampened in more recent years."}
-plot.gam(gam02, select = 1, shade = T,
-         rug =T, residuals = T,
-        main = "juvenile proportion")
-```
-
-```{r vis_gam02, eval=FALSE}
-par(mfrow = c(1,2))
-vis.gam(gam02, type = "response", theta = 50, phi = 45,
-        color = "cm", plot.type = "persp",
-        main = "juvenile proportion", view = c("zone1","Breeding_year"),
-        n.grid = 20, ticktype = "detailed")
-
-vis.gam(gam02, type = "response", theta = 50, phi = 45,
-        color = "cm", plot.type = "persp",
-        main = "juvenile proportion", view = c("zone1","days"),
-        n.grid = 20, ticktype = "detailed")
-
-par(mfrow = c(1,1))
-```
-
-# With random effects
-
-```{r gamm01, eval=FALSE}
-#'global gam without mixed effects, but added reference smooth
-gamm01 = gam(propjuv ~ s(Breeding_year) + s(Breeding_year, by = zone1) + s(Food_type, Breeding_year, bs="re") + s(Observer, Breeding_year, bs = "re") + s(flocksize, Breeding_year, bs = "re"),
-            data = geese, family = "binomial")
-```
-
-```{r summary_gamm01, eval=FALSE}
-summary(gamm01)
-```
-
-```{r gamm02, eval=FALSE}
-#'global gamm including days
-gamm02 = gam(propjuv ~ s(Breeding_year) + s(Breeding_year, by = zone1) +
-               +s(days) +s(days, by=zone1) + s(Food_type, Breeding_year, bs="re") + s(Observer, Breeding_year, bs = "re") + s(flocksize, Breeding_year, bs = "re"),
-            data = geese, family = "binomial")
-```
-
-```{r summary_gamm02}
-summary(gamm02)
 ```
 
 - Breeding year is the only significant predictor
 - Days in winter is not significant.
 
+# GAM: Zones and model w/o ref smooth
+
+- No differences between zones when a reference smooth is added.
+- AIC (GAM with ref. smooths): ```r AIC(gam02)```
+- AIC (GAM without ref. smooths): ```r AIC(gam02)```
+- GAM with reference smooths has a lower AIC despite more terms.
+
+# Effects of year
+
+```{r plot_gam02, echo=FALSE}
+plot.gam(gam02, select = 1, shade = T,
+         rug =T, residuals = T,
+        main = "juvenile proportion")
+```
+
 # Effect of year and days by zone
-```{r vis_gamm02, fig.height=8, fig.width=12}
+```{r vis_gam02, echo=FALSE}
 par(mfrow = c(1,2))
-vis.gam(gamm02, type = "response", theta = 50, phi = 45,
-        color = "cm", plot.type = "persp",
+vis.gam(gam02, type = "response", theta = 50, phi = 45,
+        color = "terrain", plot.type = "persp",
         main = "juvenile proportion", view = c("zone1","Breeding_year"),
         n.grid = 20, ticktype = "detailed")
 
-vis.gam(gamm02, type = "response", theta = 50, phi = 45,
-        color = "cm", plot.type = "persp",
+vis.gam(gam02, type = "response", theta = 50, phi = 45,
+        color = "terrain", plot.type = "persp",
         main = "juvenile proportion", view = c("zone1","days"),
         n.grid = 20, ticktype = "detailed")
 
 par(mfrow = c(1,1))
 ```
 
-# Including mixed effects
+# GAMM
 
-- Including mixed effects reduces AIC significantly.
-- AIC (GAM without mixed effects): ```r AIC(gam02)```
-- AIC (GAM with mixed effects): ```r AIC(gamm02)```
+```{r gamm01}
+#'global gam without mixed effects, but added reference smooth
+gamm01 = gam(propjuv ~ s(Breeding_year) + s(Breeding_year, by = zone1) + s(Food_type, Breeding_year, bs="re") + s(Observer, Breeding_year, bs = "re") + s(flocksize, Breeding_year, bs = "re"),
+            data = geese, family = "binomial")
+```
+

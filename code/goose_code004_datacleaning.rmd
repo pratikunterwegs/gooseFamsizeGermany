@@ -9,7 +9,7 @@ output:
 library(knitr)
 
 #'suppress all code output but run code
-opts_chunk$set(eval = FALSE)
+opts_chunk$set(echo = FALSE)
 opts_knit$set(root.dir = "~/git/thesis/")
 ```
 
@@ -57,8 +57,8 @@ goose.clean$Day = ifelse(is.na(goose.clean$Day),
 goose.clean$time = as.POSIXct(paste(goose.clean$Year,                                    goose.clean$Month,goose.clean$Day),
                              format="%Y %m %d")
 
-#'remove records after may 2017
-goose.clean = goose.clean[goose.clean$time < "2017-05-01",]
+#'remove records after may 2012
+goose.clean = goose.clean[goose.clean$time < "2012-05-01",]
 ```
 
 # Fix missing counts
@@ -75,9 +75,8 @@ goose.clean$Total_flock = ifelse(is.na(goose.clean$Total_flock),
                         goose.clean$Total_flock)
 
 #'fix juvenile percentage: if the field perc-jv is NA, calculate the juvenile percentage as number of juveniles*100 divided by the field total_flock
-#'this is changed now. the juvenile percentage is calculated on whitefronts ONLY!!!
 goose.clean$`Perc-JV` = ifelse(is.na(goose.clean$`Perc-JV`),
-          (goose.clean$N_Juvenile/goose.clean$N_sampled)*100,
+          (goose.clean$N_Juvenile/goose.clean$Total_flock)*100,
                         goose.clean$`Perc-JV`)
 
 #'check for NAs
@@ -89,7 +88,7 @@ apply(goose.clean, 2, function(x){sum(is.na(x))})
 ```{r export_basic_clean_data}
 #export to csv
 
-write.csv(goose.clean, "~/git/thesis/code/data.goose.clean.csv")
+write.csv(goose.clean, "~/git/thesis/data.clean.goose.csv")
 ```
 
 # Add zone as a variable, rename some variables
@@ -132,7 +131,8 @@ fams = goose.clean[goose.clean$fams > 0,]
 
 # Geocode the data
 
-```{r geocoding_and_spatial_sites}
+```{r geocoding_and_spatial}
+
 #'merge the dataframe fams which has detailed family count data with geocoded sites, and with geocoded zones
 #'get coords
 sites.coords = read.csv("coords.csv", row.names = 1)
@@ -146,9 +146,7 @@ fams.coords = fams.coords[complete.cases(fams.coords[,c("lon","lat")]),]
 #'set spatial extent for both
 fams.coords = fams.coords[fams.coords$lat > 0 & fams.coords$lat <56 &
                           fams.coords$lon >0 & fams.coords$lon <10,]
-```
 
-```{r coordinates_zones}
 #'get the province coordinates
 #'preceding code was:
 zones = read.csv("province_coords.csv", row.names = 1)
@@ -159,7 +157,7 @@ zones$zone = c("Rhinelands","IJsselmeer","East Frisia","Southwest")
 goose.clean = merge(goose.clean, zones[,c("lon","lat","zone")], by.x = "zone", by.y = "zone", all.x = T)
 ```
 
-# Export data
+# Export non-spatial data
 
 ```{r export_data}
 #'write to csv as data.goose.clean
