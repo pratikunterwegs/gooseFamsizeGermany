@@ -17,7 +17,6 @@ library(car)
 library(broom)
 library(gamm4)
 library(mgcv)
-library(itsadug)
 #'suppress all code output but run code
 opts_chunk$set(echo = FALSE)
 opts_knit$set(root.dir = "~/git/thesis/code")
@@ -119,7 +118,7 @@ par(mfrow = c(1,1))
 # With random effects
 
 ```{r gamm01, eval=FALSE}
-#'global gam without mixed effects, but added reference smooth
+#'global gam with mixed effect as added reference smooth
 gamm01 = gam(propjuv ~ s(Breeding_year) + s(Breeding_year, by = zone1) + s(Food_type, Breeding_year, bs="re") + s(Observer, Breeding_year, bs = "re") + s(flocksize, Breeding_year, bs = "re"),
             data = geese, family = "binomial")
 ```
@@ -143,6 +142,7 @@ summary(gamm02)
 - Days in winter is not significant.
 
 # Effect of year and days by zone
+
 ```{r vis_gamm02, fig.height=8, fig.width=12}
 par(mfrow = c(1,2))
 vis.gam(gamm02, type = "response", theta = 50, phi = 45,

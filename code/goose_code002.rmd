@@ -1,7 +1,5 @@
 ---
-title: Goose Flock Geocoding 01
-output: 
-  tufte::tufte_handout
+title: Goose Flock Geocoding
 ---
 ```{r "setup", include=FALSE}
 require("knitr")
@@ -23,19 +21,7 @@ library(RColorBrewer)
 #'load libs
 library(readxl)
 
-#'import data
-lt_geese = read_excel("~/git/thesis/Age-ratiodata-GWfG-toPratik.xlsx", 
-    sheet = "Plain_table", col_types = c("text", 
-        "numeric", "numeric", "numeric", 
-        "numeric", "text", "text", "text", 
-        "text", "numeric", "text", "text", 
-        "numeric", "numeric", "numeric", 
-        "numeric", "numeric", "numeric", 
-        "numeric", "numeric", "numeric", 
-        "numeric", "numeric", "numeric", 
-        "numeric", "numeric", "numeric", 
-        "numeric", "numeric", "text", "text", 
-        "text"))
+
 ```
 
 ```{r get family sites, include=FALSE}

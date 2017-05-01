@@ -6,7 +6,7 @@ output:
 
 ```{r, include=FALSE}
 #'load knitr
-library(knitr)
+library(knitr);library(plyr);library(dplyr)
 
 #'suppress all code output but run code
 opts_chunk$set(eval = FALSE)
@@ -108,7 +108,7 @@ goose.clean$zone = ifelse(goose.clean$Region %in% c("DU","KLE","RG","WES","WG","
                      "Southwest", "Other"))))
 
 #'rename columns to make typing easier
-library(plyr)
+
 goose.clean = rename(goose.clean, replace = c("Perc-JV" = "propjuv",
                                   "N_Juvenile" = "juvs",
                                   "Total_flock" = "flocksize",
@@ -135,16 +135,16 @@ fams = goose.clean[goose.clean$fams > 0,]
 ```{r geocoding_and_spatial_sites}
 #'merge the dataframe fams which has detailed family count data with geocoded sites, and with geocoded zones
 #'get coords
-sites.coords = read.csv("coords.csv", row.names = 1)
+geocode.sites = read.csv("geocode.sites.csv", row.names = 1)
 
 #'merge the same for families, creating a new object called fams.coords
-fams.coords = merge(fams, sites.coords, by.x = "Site_name", by.y = "places")
+fams.coords = merge(fams, geocode.sites[,c("Site_name","lon","lat")], by = "Site_name")
 
 #'remove sites where no coordinates were found
 fams.coords = fams.coords[complete.cases(fams.coords[,c("lon","lat")]),]
 
 #'set spatial extent for both
-fams.coords = fams.coords[fams.coords$lat > 0 & fams.coords$lat <56 &
+fams.coords = fams.coords[fams.coords$lat > 50 & fams.coords$lat <56 &
                           fams.coords$lon >0 & fams.coords$lon <10,]
 ```
 
@@ -152,16 +152,31 @@ fams.coords = fams.coords[fams.coords$lat > 0 & fams.coords$lat <56 &
 #'get the province coordinates
 #'preceding code was:
 zones = read.csv("province_coords.csv", row.names = 1)
-zones = zones[zones$regions %in% c("Leer","Friesland","Duisburg","Rotterdam"),]
+zones = zones %>% filter(regions %in% c("Leer","Friesland","Duisburg","Rotterdam"))
+
 zones$zone = c("Rhinelands","IJsselmeer","East Frisia","Southwest")
 
-#'merge goose.clean with the zones
-goose.clean = merge(goose.clean, zones[,c("lon","lat","zone")], by.x = "zone", by.y = "zone", all.x = T)
+#'merge with site names, and if lon-lat is NA, then with zone coords
+goose.clean = merge(goose.clean, geocode.sites[,c("Site_name","lon","lat")], by = "Site_name")
+
+#'where do NAs remain, and how many?
+dim(goose.clean[complete.cases(goose.clean[,c("lon","lat")]),])
+
+missing.sites = goose.clean %>% filter(is.na(lon)) %>% summarise(sites = unique(Site_name))
+
+#'geocode for these sites
+#missing.coords = geocode(missing.sites$sites)
+
+#'bind missing sites and coords
+#missing.sites = cbind(missing.sites, missing.coords)
 ```
 
 # Export data
 
 ```{r export_data}
+#'remove oob points
+goose.clean = goose.clean %>% filter(lon > 0 & lon < 10, lat >=50 & lat <56)
+
 #'write to csv as data.goose.clean
 write.csv(goose.clean, "data.goose.clean.csv")
 
@@ -174,7 +189,7 @@ write.csv(fams.coords, "data.fams.coords.csv")
 
 # Expand family data
 
-```{r expand_family_data}
+```{r expand_family_data, eval=FALSE}
 #set all fams from NA to 0
 fams[,c(9:18,22)][is.na(fams[,c(9:18,22)])] = 0
 
@@ -191,14 +206,14 @@ fams.expand$famsize = as.numeric(famrep)
 
 # Export non-spatial family data
 
-```{r write_expanded_family_data}
+```{r write_expanded_family_data, eval=FALSE}
 #'write the expanded family data to csv. this data is not geocoded
 write.csv(fams.expand, "fams.expand.csv", row.names = F)
 ```
 
 # Make data spatial
 
-```{r make_expanded_data_spatial}
+```{r make_expanded_data_spatial, eval=FALSE}
 #'make expanded data spatial
 fams.expand.coords = merge(fams.expand, sites.coords, by.x = "Site_name",by.y="places")
 

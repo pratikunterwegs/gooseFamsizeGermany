@@ -1,0 +1,134 @@
+---
+title: "Migration data"
+---
+# Assign activity levels to data
+
+```{r, include=FALSE}
+#'load knitr
+library(knitr)
+library(lubridate)
+library(dplyr)
+library(readxl)
+
+#'suppress all code output but run code
+opts_chunk$set(echo = FALSE)
+opts_knit$set(root.dir = "~/git/thesis/code")
+```
+
+```{r import_data}
+spring = read_excel("~/git/thesis/Migration_data.xlsx", sheet = 2)
+autumn = read_excel("~/git/thesis/Migration_data.xlsx", sheet = 3)
+
+#'remove NAs
+spring = spring[complete.cases(spring),]
+autumn = autumn[complete.cases(autumn),]
+```
+
+```{r classify_data}
+#'get percentiles and quantiles for non-zero values
+spring2 = spring %>% filter(NumberperHour > 0) %>% group_by(Year) %>% mutate(percentile = findInterval(NumberperHour,                 quantile(NumberperHour, probs=seq(0,1,0.01), include.lowest = T)),
+   quantile = findInterval(NumberperHour, quantile(NumberperHour, 1:4/4, include.lowest = T)))
+
+#'same for autumn
+autumn2 = autumn %>% filter(NumberperHour > 0) %>% group_by(Year) %>% mutate(percentile = findInterval(NumberperHour,                 quantile(NumberperHour, probs=seq(0,1,0.01), include.lowest = T)),
+   quantile = findInterval(NumberperHour, quantile(NumberperHour, 1:4/4, include.lowest = T)))
+```
+
+```{r merge_data}
+#'merge classified dfs to originals
+spring = merge(spring, spring2[,c("Date","percentile","quantile")], by= "Date", all.x = T)
+
+autumn = merge(autumn, autumn2[,c("Date","percentile","quantile")], by= "Date", all.x = T)
+
+#'set all NAs to zero. these are true zeroes.
+spring[,c("percentile","quantile")] = do.call(data.frame, lapply(spring[,c("percentile","quantile")], function(y) {replace(y, is.na(y), 0)}))
+
+autumn[,c("percentile","quantile")] = do.call(data.frame, lapply(autumn[,c("percentile","quantile")], function(y) {replace(y, is.na(y), 0)}))
+
+#'rbind
+a1 = rbind(spring, autumn)
+
+#assign season
+a1$season = ifelse(a1$Month > 6, "autumn","spring")
+```
+
+```{r merge_obs_dateseq}
+#'create a sequence from 2000 to april 2017
+a = data.frame(Date = round_date(seq.POSIXt(as.POSIXct("2000-01-01"),as.POSIXct("2017-04-01"),"day"), "day"))
+
+
+#' convert to character
+a$Date = as.character(a$Date)
+a1$Date = as.character(a1$Date)
+
+#'merge the observations with the date sequence
+a = left_join(a, a1, by = "Date")
+a$Date = as.POSIXct(a$Date)
+
+#'assign activity
+b = data.frame(quantile = 0:4, activity = c("none","low","medium","high","max"))
+
+#'merge with a
+a = merge(a, b, by="quantile", all.x = T)
+
+library(reshape)
+a = sort_df(a, vars = "Date")
+```
+
+# Where are the peaks?
+
+```{r mean_maxs}
+#'find the mean date for all "high" and "max" values of activity/activity in each year and each season
+
+peaks = a %>% group_by(Year, season) %>% filter(activity %in% c("high","max")) %>% summarize(peak = round_date(mean(Date), "day"))
+
+#'add peaks to df
+a = merge(a, peaks, by = c("Year","season"))
+
+#'get time to peak from each record
+a$timetopeak = as.numeric(abs(difftime(a$Date, a$peak, units = "days")))
+```
+
+# Another way of getting peaks
+
+```{r}
+
+```
+
+```{r write_csv}
+write.csv(a, "migration_data.csv")
+```
+
+
+# Where are the sites?
+
+```{r plot}
+#'read in the site data
+spring.sites = read_excel("~/git/thesis/Migration_data.xlsx", sheet = 4)
+spring.sites$season = "spring"
+autumn.sites = read_excel("~/git/thesis/Migration_data.xlsx", sheet = 5)
+autumn.sites$season = "autumn"
+migration.sites = rbind(spring.sites, autumn.sites)
+
+#'map it, get nl
+library(maps); library(ggplot2)
+nl = map_data("world", region = "Netherlands")
+
+#'plot sites
+ggplot()+
+  geom_polygon(data=nl, aes(x=long, y=lat, group = group))+
+  geom_point(data = migration.sites, aes(x=Lon, y=Lat, shape = season, col = season), size = 2)+
+  scale_shape_manual(values = c(4,20))+
+  theme_bw()
+```
+
+Sites probably confound any relation of proportions with activity. As sites are spread across the Netherlands, it is not presently possible to separate activity related to seasonal migration from movements within the wintering grounds.
+
+```{r}
+library(ggplot2)
+ggplot(data = migration,
+       aes(x=as.factor(Year), y= as.factor(Month), fill = activity))+
+  scale_fill_brewer(palette = "Greens")+
+  geom_tile()+ theme_minimal()
+```
+
