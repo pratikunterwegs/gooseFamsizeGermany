@@ -1,8 +1,11 @@
 ---
-title: Juvenile proportion ~ migration
+title: "Juvenile proportion ~ migration"
 ---
 
-```{r, include=FALSE}
+# Suspended
+Pending receipt of raw data or some way to differentiate within wintering ground activity from migration, work on this code is **suspended**.
+
+```{r, include=FALSE, warning=FALSE, message=FALSE}
 #'load libs
 library(knitr);library(lme4);library(lubridate);library(car);library(broom)
 library(gamm4)
@@ -12,7 +15,7 @@ opts_chunk$set(echo = FALSE)
 opts_knit$set(root.dir = "~/git/thesis/code")
 ```
 
-```{r read_goose_data, eval=FALSE}
+```{r read_goose_data, echo=FALSE}
 geese = read.csv("data.goose.clean.csv",row.names = 1)
 geese$time = as.Date(geese$time)
 #'assign month
@@ -52,38 +55,3 @@ contrasts(geese$zone1) = 'contr.treatment'
 #'merge by date
 a = merge(geese, migration, by.x = "time",by.y="Date", all.x=T)
 ```
-
-```{r violin plot, fig.height=20}
-
-library(ggplot2); library(dplyr)
-
-migration %>% filter(activity %in% c("high")) %>%
-ggplot()+
-  geom_jitter(aes(x=activity, y = Date))+
-  geom_violin(aes(x=activity, y = Date), alpha = 0.5, draw_quantiles = c(0.75))+
-  facet_wrap(~Year+season, scales = "free")+ coord_flip()
-```
-
-
-```{r order_activity}
-a$activity = as.ordered(a$activity)
-contrasts(a$activity) = "contr.treatment"
-```
-
-```{r gam_migration, fig.height=10}
-
-gam_mig01 = gam(propjuv ~ activity*zone1 +
-                  s(timetopeak) +
-                  s(timetopeak, by=activity)+
-                  s(timetopeak, by=zone1),
-                data = a, family = "binomial")
-
-summary(gam_mig01)
-AIC(gam_mig01)
-
-o2.mixed.mods(gam_mig01)
-
-
-```
-
-

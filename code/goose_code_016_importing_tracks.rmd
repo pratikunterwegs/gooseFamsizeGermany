@@ -34,7 +34,8 @@ birds2016 = getMovebankAnimals(study=newtags, login=cred)
 birds2016$name = sub("(.*)_.*", "\\1", birds2016$animalName_deployment)
 familynames2016 = birds2016$name[-c((grep("KOL", birds2016$name)),
                                      grep("RIET", birds2016$name))]
-
+kolguyevbirds2016 = unique(birds2016$name[c((grep("KOL", birds2016$name)),
+                                     grep("RIET", birds2016$name))])
 ```
 
 ```{r get_2014_birds}
@@ -51,19 +52,10 @@ familynames2014 = birds2014$name
 #'get all families
 tracks2016 = getMovebankData(study=newtags,
                           animalName=familynames2016, login=cred)
+
+#get the kolguyev birds
+kolguyev2016 = getMovebankData(study = newtags, animalName = kolguyevbirds2016, login =cred )
+
+#'save to rdata file
+save(kolguyev2016, file = "kolguyev2016tracks.rdata")
 ```
-
-```{r download_2014_tracks, eval=FALSE}
-
-```
-
-```{r remove spring records}
-#'remove records after 1st april
-tracks2016 = tracks2016[tracks2016$timestamp < "2017-04-01",]
-
-#'save to file as rdata
-save(tracks2016, file = "fams2016.rdata")
-
-```
-
-

@@ -1,17 +1,17 @@
 ---
-title: Processing family tracks with bouts removed
+title: "Processing family tracks 01"
 ---
   
-```{r load_env}
+```{r load_env, message=FALSE, warning=FALSE}
 source("knitr_options.r")
 #'suppress all code output but run code
-opts_chunk$set(echo = FALSE)
+opts_chunk$set(eval = FALSE)
 opts_knit$set(root.dir = "~/git/thesis/code")
 ```
 
-```{r load_famtracks}
+```{r load_famtracks, eval=TRUE}
 #'load the famtracks object
-load("famtracks.Rdata")
+load("goose_code_018.RData")
 ```
 
 ```{r remove_spring}
@@ -93,7 +93,7 @@ fdists = vector("list", 13)
 for(z in 1:length(f5)){
  for(i in 1:dim(f5[[z]])[1]){
   for(j in seq(1, length(f5[[z]])-2 ,2))
-   fdists[[z]] = c(fdists[[z]], distGeo(p1 = f5[[z]][i,c(2,3)], p2 = f5[[z]][i,c(j+1,j+2)]))
+   fdists[[z]] = c(fdists[[z]], distVincentyEllipsoid(p1 = f5[[z]][i,c(2,3)], p2 = f5[[z]][i,c(j+1,j+2)]))
 }
 }
 ```
@@ -135,7 +135,7 @@ for(i in 1:length(f5)){
 
 ```
 
-# Get max fam size per day
+# Max fam size per day
 
 ```{r meltdfs_maxfamsize_day}
 #'round to the day
@@ -166,7 +166,7 @@ fsize = rbindlist(fsize)
 fsize[fsize == 0,] = NA
 ```
 
-```{r plot_data}
+```{r plot_data, eval=TRUE, fig.height=10, fig.width=10}
 #'load libs and run plot
 library(ggplot2)
 

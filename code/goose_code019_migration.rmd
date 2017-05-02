@@ -89,12 +89,6 @@ a = merge(a, peaks, by = c("Year","season"))
 a$timetopeak = as.numeric(abs(difftime(a$Date, a$peak, units = "days")))
 ```
 
-# Another way of getting peaks
-
-```{r}
-
-```
-
 ```{r write_csv}
 write.csv(a, "migration_data.csv")
 ```
@@ -102,7 +96,7 @@ write.csv(a, "migration_data.csv")
 
 # Where are the sites?
 
-```{r plot}
+```{r plot, fig.height=10, fig.width=10}
 #'read in the site data
 spring.sites = read_excel("~/git/thesis/Migration_data.xlsx", sheet = 4)
 spring.sites$season = "spring"
@@ -116,8 +110,8 @@ nl = map_data("world", region = "Netherlands")
 
 #'plot sites
 ggplot()+
-  geom_polygon(data=nl, aes(x=long, y=lat, group = group))+
-  geom_point(data = migration.sites, aes(x=Lon, y=Lat, shape = season, col = season), size = 2)+
+  geom_polygon(data=nl, aes(x=long, y=lat, group = group), fill = "grey90")+
+  geom_point(data = migration.sites, aes(x=Lon, y=Lat, shape = season, col = season), size = 4)+
   scale_shape_manual(values = c(4,20))+
   theme_bw()
 ```
@@ -125,10 +119,10 @@ ggplot()+
 Sites probably confound any relation of proportions with activity. As sites are spread across the Netherlands, it is not presently possible to separate activity related to seasonal migration from movements within the wintering grounds.
 
 ```{r}
-library(ggplot2)
-ggplot(data = migration,
+library(ggplot2);library(plot3D)
+ggplot(data = a,
        aes(x=as.factor(Year), y= as.factor(Month), fill = activity))+
-  scale_fill_brewer(palette = "Greens")+
+  scale_fill_manual(values = heat.colors(5))+
   geom_tile()+ theme_minimal()
 ```
 

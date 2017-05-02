@@ -1,7 +1,5 @@
 ---
 title: Cleaning Data
-output: 
-  tufte::tufte_handout
 ---
 
 ```{r, include=FALSE}
@@ -33,6 +31,7 @@ data.raw.goose = read_excel("~/git/thesis/Age-ratiodata-GWfG-toPratik.xlsx",
         "numeric", "numeric", "numeric", 
         "numeric", "numeric", "text", "text", 
         "text"))
+
 ```
 
 # Define general spatio-temporal extent
@@ -109,7 +108,7 @@ goose.clean$zone = ifelse(goose.clean$Region %in% c("DU","KLE","RG","WES","WG","
 
 #'rename columns to make typing easier
 
-goose.clean = rename(goose.clean, replace = c("Perc-JV" = "propjuv",
+goose.clean = plyr::rename(goose.clean, replace = c("Perc-JV" = "propjuv",
                                   "N_Juvenile" = "juvs",
                                   "Total_flock" = "flocksize",
                                   "Mean_Fam" = "meanfam",
@@ -161,8 +160,6 @@ goose.clean = merge(goose.clean, geocode.sites[,c("Site_name","lon","lat")], by 
 
 #'where do NAs remain, and how many?
 dim(goose.clean[complete.cases(goose.clean[,c("lon","lat")]),])
-
-missing.sites = goose.clean %>% filter(is.na(lon)) %>% summarise(sites = unique(Site_name))
 
 #'geocode for these sites
 #missing.coords = geocode(missing.sites$sites)
