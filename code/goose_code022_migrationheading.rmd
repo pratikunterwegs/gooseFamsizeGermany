@@ -8,7 +8,7 @@ library(lubridate)
 library(broom)
 library(move)
 library(RCurl)
-library(bitops)
+library(bitops);library(circular)
 
 #'suppress all code output but run code
 opts_chunk$set(eval = FALSE)
@@ -46,7 +46,7 @@ goose.s = lapply(goose.s, setNames, c("d","v","lag","t","dist"))
 
 
 #'remove stationary segs and takeoff bursts
-goose.s2 = lapply(goose.s, function(x){x = x %>% filter(v >=2 & lag >= 300 & dist >= 5000)})
+goose.s2 = lapply(goose.s, function(x){x = x %>% filter(v >=2 & lag >= 300)})
 ```
 
 ```{r assign_seasons}
@@ -59,6 +59,7 @@ goose.s2 = lapply(goose.s2, function(x){x %>% mutate(season = ifelse(month(t) %i
 
 ```{r rbindlist}
 #'exclude the time and rbind the list
+library(data.table)
 goose.move = rbindlist(goose.s2)
 
 goose.move = goose.move %>% filter(v < 40)
@@ -117,7 +118,7 @@ library(scales)
 points(I(goose.move$v*cos(rad(goose.move$d)))~I(goose.move$v*sin(rad(goose.move$d))), pch=16,
        col=alpha(goose.move$cols, 0.3), cex=1)
 points(I(goose.move$v*cos(rad(goose.move$d)))~I(goose.move$v*sin(rad(goose.move$d))),
-       col=alpha(goose.move$cols, 0.7), cex=1)
+       col=alpha(goose.move$cols, 0.5), cex=1)
 
 #'draw circles for speed representation
 for(i in rep(seq(0, 40, length.out=5)))

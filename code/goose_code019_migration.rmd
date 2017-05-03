@@ -25,12 +25,12 @@ autumn = autumn[complete.cases(autumn),]
 ```
 
 ```{r classify_data}
-#'get percentiles and quantiles for non-zero values
-spring2 = spring %>% filter(NumberperHour > 0) %>% group_by(Year) %>% mutate(percentile = findInterval(NumberperHour,                 quantile(NumberperHour, probs=seq(0,1,0.01), include.lowest = T)),
+#'get percentiles and quantiles for count values
+spring2 = spring %>% group_by(Year) %>% mutate(percentile = findInterval(NumberperHour,                 quantile(NumberperHour, probs=seq(0,1,0.01), include.lowest = T)),
    quantile = findInterval(NumberperHour, quantile(NumberperHour, 1:4/4, include.lowest = T)))
 
 #'same for autumn
-autumn2 = autumn %>% filter(NumberperHour > 0) %>% group_by(Year) %>% mutate(percentile = findInterval(NumberperHour,                 quantile(NumberperHour, probs=seq(0,1,0.01), include.lowest = T)),
+autumn2 = autumn %>% group_by(Year) %>% mutate(percentile = findInterval(NumberperHour,                 quantile(NumberperHour, probs=seq(0,1,0.01), include.lowest = T)),
    quantile = findInterval(NumberperHour, quantile(NumberperHour, 1:4/4, include.lowest = T)))
 ```
 
@@ -54,43 +54,69 @@ a1$season = ifelse(a1$Month > 6, "autumn","spring")
 
 ```{r merge_obs_dateseq}
 #'create a sequence from 2000 to april 2017
-a = data.frame(Date = round_date(seq.POSIXt(as.POSIXct("2000-01-01"),as.POSIXct("2017-04-01"),"day"), "day"))
+#a = data.frame(Date = round_date(seq.POSIXt(as.POSIXct("2000-01-01"),as.POSIXct("2017-04-01"),"day"), "day"))
 
 
 #' convert to character
-a$Date = as.character(a$Date)
-a1$Date = as.character(a1$Date)
+#a$Date = as.character(a$Date)
+#a1$Date = as.character(a1$Date)
 
 #'merge the observations with the date sequence
-a = left_join(a, a1, by = "Date")
-a$Date = as.POSIXct(a$Date)
+#a = left_join(a, a1, by = "Date")
+#a$Date = as.POSIXct(a$Date)
 
 #'assign activity
 b = data.frame(quantile = 0:4, activity = c("none","low","medium","high","max"))
 
 #'merge with a
-a = merge(a, b, by="quantile", all.x = T)
+a1 = merge(a1, b, by="quantile", all.x = T)
 
 library(reshape)
-a = sort_df(a, vars = "Date")
+a1 = sort_df(a1, vars = "Date")
 ```
+
+```{r vis, fig.height=12, fig.width = 15, eval = FALSE}
+library(ggplot2)
+pdf("goose_num_date.pdf", width = 15, height = 12)
+ggplot(a1)+
+  geom_line(aes(x=Date, y = NumberperHour))+
+  facet_wrap(~Year+season, scales = "free")+
+  labs(list(title = "No./hr ~ Date"))+
+  theme_bw()
+dev.off()
+```
+
 
 # Where are the peaks?
 
 ```{r mean_maxs}
-#'find the mean date for all "high" and "max" values of activity/activity in each year and each season
+#'find the first or last date, for autumn and spring respectively, for greater than 95th percentile values of activity in each year and each season
 
-peaks = a %>% group_by(Year, season) %>% filter(activity %in% c("high","max")) %>% summarize(peak = round_date(mean(Date), "day"))
+peaks = a1 %>% group_by(Year, season) %>% filter(percentile > 95) %>% summarize(peak = if(season == "spring") last(Date) else first(Date))
 
 #'add peaks to df
-a = merge(a, peaks, by = c("Year","season"))
+a1 = merge(a1, peaks, by = c("Year","season"))
 
 #'get time to peak from each record
-a$timetopeak = as.numeric(abs(difftime(a$Date, a$peak, units = "days")))
+a1$timetopeak = as.numeric(abs(difftime(a1$Date, a1$peak, units = "days")))
 ```
 
+```{r plot_peaks}
+#'plot peaks as a line
+library(ggplot2)
+pdf("goose_num_date.pdf", width = 15, height = 12)
+ggplot(a1)+
+  geom_line(aes(x=Date, y = NumberperHour))+
+  geom_vline(aes(xintercept = as.numeric(peak), group = c("Year")), col = 2)+
+  facet_wrap(~Year+season, scales = "free")+
+  labs(list(title = "No./hr ~ Date"))+
+  theme_bw()
+dev.off()
+```
+
+
 ```{r write_csv}
-write.csv(a, "migration_data.csv")
+write.csv(a1, "migration_data.csv")
 ```
 
 

@@ -1,0 +1,101 @@
+---
+title: Cleaning geese.org data
+---
+```{r, include=FALSE}
+#'load knitr
+library(knitr);library(plyr);library(dplyr);library(data.table);library(purrr);library(ggplot2);library(readxl)
+
+#'suppress all code output but run code
+opts_chunk$set(eval = FALSE)
+opts_knit$set(root.dir = "~/git/thesis/")
+```
+
+# Load and clean data
+
+```{r load_data, warning=FALSE}
+#'read in the first sheet
+library(readxl)
+gorg <- read_excel("~/git/thesis/export-kees-andrea.xls")
+
+#'summary
+summary(gorg)
+
+unique(gorg$THIS_EURING_CODE)
+#'rename to make things easier
+gorg = plyr::rename(gorg, replace = c("THIS_BIRD" = "id",
+                            "DATUM" = "date",
+                            "X" = "lon",
+                            "Y" = "lat",
+                            "THIS_BIRD_RING_TYPE" = "ringtype",
+                            "THIS_BIRD_NECK_RING" = "neckring",
+                            "THIS_YEAR_OF_BIRTH" = "birthyear",
+                            "THIS_AGE_AT_RINGING" = "ringing.age",
+                            "PARTNER_NECK_RING" = "partner.neckring",
+                            "NUMBER_OF_YOUNG" = "famsize",
+                            "PARTNER" = "partner.ringed.status"))
+
+useful = c("id","date","lon","lat","ringtype","neckring","birthyear",
+           "ringing.age","partner.neckring","famsize","partner.ringed.status")
+
+#'retain useful columns only
+gorg = gorg[,useful]
+
+#'make date posixct
+gorg$date = as.POSIXct(gorg$date, format = "%d-%m-%Y")
+```
+
+```{r remove_paired_records}
+#'remove records where the neckring and partner.neckring are the same
+#'filter by partner neckring not NA
+gorg.partner = gorg %>% filter(!is.na(partner.neckring))
+#'filter by partner neckring not identical to neckring
+gorg.partner = gorg %>% filter(partner.neckring != neckring)
+#'filter for all records where partner.neckring is NA
+gorg = gorg %>% filter(is.na(partner.neckring))
+#'bind to unique partner and bird neckrings.
+gorg = rbind(gorg, gorg.partner)
+```
+
+```{r remove_juvs}
+#'remove all where ringing.age is juvenile
+#'first save all who have a birth year
+gorg.byear = gorg %>% filter(!is.na(birthyear))
+#'remove all except adults
+gorg = gorg %>% filter(ringing.age=="A")
+
+#'keep birds where birthyear - year(date) is 2 or more
+gorg.byear = gorg.byear %>% filter(year(date)-birthyear >= 2)
+
+#'bind again
+gorg = rbind(gorg, gorg.byear)
+```
+
+```{r check_famsize}
+#'how many famsizes
+unique(gorg$famsize)
+
+#'create a search string
+a = gregexpr("[0-9]+", gorg$famsize)
+#'find numbers
+unique(unlist(regmatches(gorg$famsize, a)))
+unique(substring(gorg$famsize, 1, 2))
+
+#'subset
+gorg = gorg %>% filter(as.numeric(substring(famsize, 1, 2)) %in% c(0:12))
+
+#'make numeric
+gorg$famsize = as.numeric(gorg$famsize)
+```
+
+```{r export}
+write.csv(gorg, "data.geeseorg.csv")
+```
+
+
+# Data distribution
+
+```{r data_density, fig.width=20}
+ggplot(gorg)+
+  geom_tile(aes(x = year(date), y = month(date), fill = famsize))
+```
+

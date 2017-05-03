@@ -191,7 +191,8 @@ write.csv(fams.coords, "data.fams.coords.csv")
 fams[,c(9:18,22)][is.na(fams[,c(9:18,22)])] = 0
 
 #'get expanded fams data, zone, time, etc
-fams.expand <- fams[rep(row.names(fams), fams$fams), c(1:8,19:dim(fams)[2])]
+fams.expand = untable(fams[,c(1:8,19:dim(fams)[2])], num=fams$fams)
+
 #'get the families as a list
 famrep = apply(fams[,c(9:18)], 1, function(x){rep(c(1:10), x)})
 #'unlist it for a fam sequence
@@ -212,14 +213,10 @@ write.csv(fams.expand, "fams.expand.csv", row.names = F)
 
 ```{r make_expanded_data_spatial, eval=FALSE}
 #'make expanded data spatial
-fams.expand.coords = merge(fams.expand, sites.coords, by.x = "Site_name",by.y="places")
+fams.expand.coords = merge(fams.expand, geocode.sites, by = "Site_name", all.x = T)
 
-#'clean data
-fams.expand.coords = fams.expand.coords[fams.expand.coords$lat >0 &
-                                   fams.expand.coords$lon > 0 &
-                                   fams.expand.coords$lon <=10,]
-#'remove NA coords
-fams.expand.coords = fams.expand.coords[complete.cases(fams.expand.coords[,c("lon","lat")]),]
+#'if NA assign coordinates from the province
+fams.expand.coords = fams.expand.coords %>% filter(complete.cases(lon,lat))
 
 #'write to csv
 write.csv(fams.expand.coords, "fams.expand.coords.csv")
