@@ -46,14 +46,11 @@ gorg$date = as.POSIXct(gorg$date, format = "%d-%m-%Y")
 
 ```{r remove_paired_records}
 #'remove records where the neckring and partner.neckring are the same
-#'filter by partner neckring not NA
-gorg.partner = gorg %>% filter(!is.na(partner.neckring))
+
+#'set partner neckring NAs to none
+gorg$partner.neckring[is.na(gorg$partner.neckring)] = "none"
 #'filter by partner neckring not identical to neckring
-gorg.partner = gorg %>% filter(partner.neckring != neckring)
-#'filter for all records where partner.neckring is NA
-gorg = gorg %>% filter(is.na(partner.neckring))
-#'bind to unique partner and bird neckrings.
-gorg = rbind(gorg, gorg.partner)
+gorg = gorg %>% filter(partner.neckring != neckring)
 ```
 
 ```{r remove_juvs}
@@ -85,17 +82,36 @@ gorg = gorg %>% filter(as.numeric(substring(famsize, 1, 2)) %in% c(0:12))
 
 #'make numeric
 gorg$famsize = as.numeric(gorg$famsize)
+
+unique(gorg$famsize)
 ```
+
+```{r remove_metal_rings}
+unique(gorg$ringtype)
+#'these rings have no clues regarding colour
+```
+
+```{r famsize_trajectory}
+#'how many geese are recorded more than once in the same season?
+
+#'assign a breeding year 
+gorg$breedyr = ifelse(month(gorg$date) < 6, year(gorg$date)-1, year(gorg$date))
+
+#'get geese recorded twice or more in the same breeding year
+fam.traj = gorg[which(duplicated(gorg$id, gorg$breedyr)),]
+
+#'how many unique individuals?
+length(unique(fam.traj$id))
+
+
+#ggplot(gorg)+
+ # geom_line(aes(x=date, y = famsize, col = as.factor(id)))+
+  #guides(colour = F)+
+  #facet_wrap(~breedyr, scales = "free")
+```
+
+
 
 ```{r export}
 write.csv(gorg, "data.geeseorg.csv")
 ```
-
-
-# Data distribution
-
-```{r data_density, fig.width=20}
-ggplot(gorg)+
-  geom_tile(aes(x = year(date), y = month(date), fill = famsize))
-```
-

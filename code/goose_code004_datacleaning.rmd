@@ -143,8 +143,7 @@ fams.coords = merge(fams, geocode.sites[,c("Site_name","lon","lat")], by = "Site
 fams.coords = fams.coords[complete.cases(fams.coords[,c("lon","lat")]),]
 
 #'set spatial extent for both
-fams.coords = fams.coords[fams.coords$lat > 50 & fams.coords$lat <56 &
-                          fams.coords$lon >0 & fams.coords$lon <10,]
+fams.coords = fams.coords %>% filter(lon > 0 & lon < 10, lat >=50 & lat <56)
 ```
 
 ```{r coordinates_zones}
@@ -160,12 +159,6 @@ goose.clean = merge(goose.clean, geocode.sites[,c("Site_name","lon","lat")], by 
 
 #'where do NAs remain, and how many?
 dim(goose.clean[complete.cases(goose.clean[,c("lon","lat")]),])
-
-#'geocode for these sites
-#missing.coords = geocode(missing.sites$sites)
-
-#'bind missing sites and coords
-#missing.sites = cbind(missing.sites, missing.coords)
 ```
 
 # Export data
