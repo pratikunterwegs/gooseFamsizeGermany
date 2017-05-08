@@ -1,0 +1,110 @@
+---
+title: Hypothesis testing 1 - 5, family level data
+---
+```{r set_env}
+#'load knitr
+library(knitr);library(plyr);library(dplyr);library(data.table);library(purrr);library(ggplot2)
+
+#'load model libs
+library(gam);library(mgcv);library(gamm4);library(itsadug)
+
+#'suppress all code output but run code
+opts_chunk$set(eval = FALSE)
+```
+
+```{r load_data}
+#'load data.goose.clean
+source("dataprep.R")
+
+fams.expand = fams.expand %>% filter(flocksize > 0)
+
+fams.expand$pred = as.factor(fams.expand$pred)
+fams$pred = as.factor(fams$pred)
+
+fams.expand = fams.expand[complete.cases(fams.expand),]
+```
+
+```{r bryear_to_factor}
+#'set the breeding year to be a factor
+fams.expand$Breeding_year = as.factor(as.character(fams.expand$Breeding_year))
+```
+
+# Hypotheses 01, 02 and 03
+
+1. Families with more juveniles are found in the west, and, 
+2. Families with more juveniles are found in smaller flocks, and,
+3. Family size decreases over the winter.
+
+Data used: Family size data (51,000 families), and geese.org data (12,500 individual observations with pair duplicates removed).
+
+## Model 01
+
+Includes only the three main hypothesised predictors.
+
+```{r m01}
+#'run a gamm with the smoothing applied only to the coordinates
+library(mgcv)
+
+mod01 = bam(famsize ~ s(lon) + flocksize + days, data = fams.expand, family = "poisson")
+```
+
+```{r summary01}
+summary(mod01)
+AIC(mod01)
+vis.gam(mod01, type = "response",
+        view = c("lon","days"), theta = 45, color = "terrain")
+```
+
+## Model 02
+
+Substitute days with t_to_out and t_since_in to check which date is more important. Remove s(lat) and flocksize as not significant.
+
+```{r m02}
+#'run a gam with the smoothing applied only to the coordinates
+mod02 = bam(famsize ~ s(lon) + flocksize + t_since_in + t_to_out + s(Food_type, bs = "re") + s(Observer, bs = "re") + s(Breeding_year, bs = "re"), data = fams.expand, family = "poisson")
+```
+
+```{r summary02}
+summary(mod02)
+AIC(mod02) -  AIC(mod01)
+o2.mixed.mods(mod02)
+plot(mod02, select = 1, residuals = F, scheme = 2)
+
+vis.gam(mod02, view = c("lon","t_to_out"), color = "terrain", plot.type = "contour", type = "response")
+```
+
+```{r m03}
+#'split days into t to out and t since in
+mod03 = bam(famsize ~ s(lon) + flocksize + t_since_in + s(Food_type, bs = "re") + s(Observer, bs = "re") + s(Breeding_year, bs = "re"), data = fams.expand, family = "poisson")
+```
+
+```{r summary03}
+AIC(mod03) - AIC(mod02)
+summary(mod03)
+library(car)
+anova(mod03, mod02)
+```
+
+```{r vis.gam03}
+vis.gam(mod03, view = c("lon", "t_since_in"), type = "response", color = "terrain", theta = -45)
+
+acf(mod03$residuals)
+```
+
+Mods 4-5 removed.
+
+# Model 06
+
+Run the same as a ```gamm```. Include breeding year, foodtype and observers as random effects.
+
+```{r gamm}
+mod06 = gamm(famsize ~ s(lon) + s(lat) + ti(lon,lat) + flocksize + t_since_in, random = list(Breeding_year=~1, Food_type=~1, Observer=~1), data = fams.expand, family = poisson(), na.action = na.exclude)
+```
+
+```{r}
+summary(mod06$gam)
+plot(mod06$gam, select = 1)
+```
+
+Save gams and check for autocorrelation in another script.
+

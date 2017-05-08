@@ -1,0 +1,66 @@
+---
+title: Check spatial autocorrelation
+---
+
+# Load environment
+
+```{r set_env}
+#'load knitr
+library(knitr);library(plyr);library(dplyr);library(data.table);library(purrr);library(ggplot2)
+
+#'load model libs
+library(gam);library(mgcv);library(gamm4);library(itsadug)
+
+#'suppress all code output but run code
+opts_chunk$set(eval = FALSE)
+```
+
+```{r load_data}
+#'load data.goose.clean
+source("dataprep.R")
+
+fams.expand = fams.expand %>% filter(flocksize > 0)
+
+fams.expand$pred = as.factor(fams.expand$pred)
+fams$pred = as.factor(fams$pred)
+```
+
+```{r bryear_to_factor}
+#'set the breeding year to be a factor
+fams.expand$Breeding_year = as.factor(as.character(fams.expand$Breeding_year))
+```
+
+```{r load_libs}
+#'male fams.expand spatial
+library(sp);library(gstat)
+```
+
+```{r check_spa_autocorr}
+#'use variogram from gstat. specify directions EWNS, seq(0,270, 90)
+#'get df of coords and residuals
+mod6resids = as.data.frame(cbind(fams.expand[,c("lon","lat")], resid = resid(mod06$lme)))
+
+#'make spatial
+coordinates(mod6resids) = ~ lon+lat
+```
+
+```{r svargram}
+#'get semivariogram
+var.mod<-variogram(resid~1, data=mod6resids, alpha= seq(0,270,90))
+```
+
+```{r plot}
+#plot semivariogram
+plot(var.mod, smooth = T)
+```
+
+# Variogram from ```nlme```
+
+```{r nlme_vgram}
+#'load lib
+library(nlme)
+var.mod2 = Variogram(mod06$lme, form = ~lon+lat, main = "Lon-wise semivariogram")
+```
+
+
+

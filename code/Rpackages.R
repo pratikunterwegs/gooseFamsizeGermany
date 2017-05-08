@@ -142,3 +142,10 @@ library(lme4)
 library(nlme)
 library(gamm4)
 library(mgcv)
+library(itsadug)
+library(ncf)
+
+####Spatial autocorrelation####
+library(ncf)
+library(spdep)
+library(pgirmess)

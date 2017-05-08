@@ -1,0 +1,149 @@
+---
+title: Which way do migrating geese go?
+---
+```{r set_env}
+#'load knitr
+library(knitr)
+library(lubridate)
+library(broom)
+library(move)
+library(RCurl)
+library(bitops);library(circular)
+
+#'suppress all code output but run code
+opts_chunk$set(eval = FALSE)
+opts_knit$set(root.dir = "~/git/thesis/code")
+```
+
+```{r import_kolguyev}
+#'import downloaded kolguyev
+#load("fams2016.rdata")
+load("kolguyev2016tracks.rdata")
+```
+
+```{r crop_movestack}
+#'crop to april 1
+kolguyev2016 = kolguyev2016[kolguyev2016$timestamp %in% c(as.POSIXct("2016-09-20"):as.POSIXct("2017-05-01")),]
+
+#'check summary
+summary(timestamps(kolguyev2016))
+```
+
+```{r get_headings}
+library(dplyr)
+#'split by goose
+goose.split = split(kolguyev2016, f=kolguyev2016$deployment_id)
+
+#'now, on every movestack and thus on each goose, make a new list where each element is a dataframe with the name and the timestamp and the turning angle
+goose.s = lapply(goose.split, function(x){x = data.frame(d=angle(x),
+                                              v = speed(x),
+                                        lag = timeLag(x, units = "secs"),
+                                              t = timestamps(x)[-1],
+                                        dist = distance(x))})
+
+#'assign proper column names
+goose.s = lapply(goose.s, setNames, c("d","v","lag","t","dist"))
+
+
+#'remove stationary segs and takeoff bursts
+goose.s2 = lapply(goose.s, function(x){x = x %>% filter(v >=2 & lag >= 300)})
+```
+
+```{r assign_seasons}
+#'assigns season, with 8:10 autumn, 11:1 winter, and 2:4 spring
+
+goose.s2 = lapply(goose.s2, function(x){x %>% mutate(season = ifelse(month(t) %in% c(8:10), "autumn", 
+         ifelse(month(t) %in% c(3:4), "spring", "winter")))})
+
+```
+
+```{r rbindlist}
+#'exclude the time and rbind the list
+library(data.table)
+goose.move = rbindlist(goose.s2)
+
+goose.move = goose.move %>% filter(v < 40)
+
+```
+
+```{r by_season}
+library(plot3D)
+pdf("goose_movements.pdf")
+par(mar=c(5, 4, 4, 2) + 2)
+par(mfrow = c(2,2))
+for(i in c("autumn","winter","spring")){
+windrose(x = as.circular(goose.move$d[goose.move$season == i], 
+                 rotation="clock", 
+                 units="degrees", 
+                 type="angles", 
+                 modulo="asis", 
+                 zero=0, 
+                 template="geographic"), 
+      y=goose.move$v[goose.move$season == i],
+      main = i,
+           plot.mids=T, cir.ind = 0.2, mids.size=0.5,
+           increment=5, bins=36, fill.col=(jet.col(10)), 
+           shrink=1, axes = T)
+}
+par(mar=c(5, 4, 4, 2) + 0.1)
+dev.off()
+```
+
+```{r more_complex_plot}
+pdf("goose_migration.pdf")
+#'assign colours to seasons
+goose.move$cols = "grey20"
+goose.move$cols[goose.move$season == "spring"] = "blue"
+goose.move$cols[goose.move$season == "autumn"] = "red"
+
+#'order df by speed
+goose.move = goose.move[order(goose.move$v),]
+
+#'change plot margins
+par(mar=c(rep(1, 4))+0.1)
+
+#'first an empty plot
+plot(I(goose.move$v*sin(rad(goose.move$d))) ~ I(goose.move$v*cos(rad(goose.move$d))),
+     asp =1, xaxt="n",yaxt="n",type="n",
+      xlim=c(-40, 40), ylim=c(-40, 40), bty="n",
+     xlab=NA, ylab=NA)
+
+#'draw axes
+segments(0,-31,0,31);segments(-31,0,31,0)
+
+#'library for transparency
+library(scales)
+
+#'add data
+points(I(goose.move$v*cos(rad(goose.move$d)))~I(goose.move$v*sin(rad(goose.move$d))), pch=16,
+       col=alpha(goose.move$cols, 0.3), cex=1)
+points(I(goose.move$v*cos(rad(goose.move$d)))~I(goose.move$v*sin(rad(goose.move$d))),
+       col=alpha(goose.move$cols, 0.5), cex=1)
+
+#'draw circles for speed representation
+for(i in rep(seq(0, 40, length.out=5)))
+{lines(I(rep(i, 1000)*sin(seq(0,2*pi,length.out=1000)))~ 
+          I(rep(i, 1000)*cos(seq(0,2*pi,length.out=1000))), lty=2, col="grey")
+}
+
+#'add speed label holders to each circle 
+for(i in rep(seq(0, 31, length.out=5)))
+{ rect(-1.33, i-1.33, 1.33, i+1.33, col=alpha("white",0.75), border=NA)
+  text(0, i, as.character(signif(i,2)), cex=0.5)
+}
+
+
+#'add text to the labels
+text(42, 40, "Ground speed", pos=2, cex=1)
+text(42, 35, substitute(paste("[", ms^-1, "]", sep="")), pos=2, cex=0.75)
+text(0, -40, "S", cex=1)
+text(-40, 0, "W", cex=1)
+text(0, 40, "N", cex=1)
+text(40, 0, "E", cex=1)
+
+#'reset margins
+par(mar=c(5, 4, 4, 2) + 0.1)
+
+dev.off()
+```
+

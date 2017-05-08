@@ -195,6 +195,30 @@ famrep = unlist(famrep)
 fams.expand$famsize = as.numeric(famrep)
 ```
 
+# Get flock-wise family size count data
+
+```{r fsize_count_data}
+#'assign a flock id
+fams$flockid = seq(1:dim(fams)[1])
+
+#'make a count dataframe, with the numbers of each family size in a flock
+flock.fams = melt(fams, measure.vars = c(grep("Fam",colnames(fams))),
+                  variable.name = "fsize", value.name = "count")
+
+#'set NAs to 0. these are likely true zeroes. large families are easier to detect.
+flock.fams$count[is.na(flock.fams$count)] = 0
+
+#'make data spatial
+flock.fams = merge(flock.fams, geocode.sites[,c("Site_name","lon","lat")], by = "Site_name", all.x = T)
+
+#'check for complete cases
+dim(flock.fams[complete.cases(flock.fams[,c("lon","lat")]),])
+
+#'write to file
+write.csv(flock.fams, "flock.fams.csv")
+```
+
+
 # Export non-spatial family data
 
 ```{r write_expanded_family_data, eval=FALSE}

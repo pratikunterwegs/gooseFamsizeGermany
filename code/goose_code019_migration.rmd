@@ -26,7 +26,7 @@ autumn = autumn[complete.cases(autumn),]
 
 ```{r classify_data}
 #'get percentiles and quantiles for count values
-spring2 = spring %>% group_by(Year) %>% mutate(percentile = findInterval(NumberperHour,                 quantile(NumberperHour, probs=seq(0,1,0.01), include.lowest = T)),
+spring2 = spring %>% group_by(Year) %>% mutate(percentile = findInterval(NumberperHour, quantile(NumberperHour, probs=seq(0,1,0.01), include.lowest = T)),
    quantile = findInterval(NumberperHour, quantile(NumberperHour, 1:4/4, include.lowest = T)))
 
 #'same for autumn
@@ -50,6 +50,9 @@ a1 = rbind(spring, autumn)
 
 #assign season
 a1$season = ifelse(a1$Month > 6, "autumn","spring")
+
+#'assign bryear
+a1$bryear = ifelse(a1$Month > 6, a1$Year, a1$Year-1)
 ```
 
 ```{r merge_obs_dateseq}
@@ -90,15 +93,23 @@ dev.off()
 # Where are the peaks?
 
 ```{r mean_maxs}
-#'find the first or last date, for autumn and spring respectively, for greater than 95th percentile values of activity in each year and each season
+#'find the first or last date, for autumn and spring respectively, for greater than 90th percentile values of activity in each year and each season
 
-peaks = a1 %>% group_by(Year, season) %>% filter(percentile > 95) %>% summarize(peak = if(season == "spring") last(Date) else first(Date))
+#'get peaks by season by bryear
+peaks = a1 %>% group_by(bryear, season) %>% filter(percentile > 90) %>% summarise(peak = if(season == "spring") as.character(last(Date)) else as.character(first(Date)))
+
+library(reshape2)
+peaks = dcast(peaks, bryear ~ season, value.var = "peak")
+
+peaks$durwinter = as.numeric(abs(difftime(peaks$autumn, peaks$spring)))
 
 #'add peaks to df
-a1 = merge(a1, peaks, by = c("Year","season"))
+a1 = merge(a1, peaks, by = c("bryear"))
 
 #'get time to peak from each record
-a1$timetopeak = as.numeric(abs(difftime(a1$Date, a1$peak, units = "days")))
+a1$t_since_in = as.numeric(abs(difftime(a1$Date, a1$autumn, units = "days")))
+
+a1$t_to_out = as.numeric(abs(difftime(a1$Date, a1$spring, units = "days")))
 ```
 
 ```{r plot_peaks}

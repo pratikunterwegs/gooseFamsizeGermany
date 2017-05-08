@@ -1,0 +1,177 @@
+---
+title: "Processing family tracks 01"
+---
+  
+```{r load_env, message=FALSE, warning=FALSE}
+source("knitr_options.r")
+#'suppress all code output but run code
+opts_chunk$set(eval = FALSE)
+opts_knit$set(root.dir = "~/git/thesis/code")
+```
+
+```{r load_famtracks, eval=TRUE}
+#'load the famtracks object
+load("goose_code_018.RData")
+```
+
+```{r remove_spring}
+#'remove all dates after where month is in 4:9
+#'duplicate
+f2 = famtracks
+
+#'get range of dates, now remove over 3 and less than 9
+#lapply(f2, function(x){lapply(x, function(y){range(y$time)})})
+#'load lubridate
+library(lubridate); library(dplyr); library(purrr)
+#'remove dates
+f2 = lapply(f2, function(x){lapply(x, function(y){y = y[month(y$Name) %in% c(1:3, 9:12),]})})
+```
+
+```{r get_layer_name}
+#'get layer names from kml files
+library(rgdal);library(maptools)
+famfiles = list.files("NoBoutFamilies/", pattern = ".kml", full.names = T)
+
+#'get layer names
+famlayers = list()
+for(i in 1:length(famfiles)){
+famlayers[[i]] = list(ogrListLayers(famfiles[i]))
+}
+
+#'get goose names
+#unlist(famlayers)
+```
+
+```{r make_time}
+#'get times as posixct class objects
+
+f3 = lapply(f2, function(x){lapply(x, function(y){y$time = as.POSIXct(y$Name)})})
+
+#'round time 30mins
+f3 = lapply(f3, function(x){lapply(x, function(y){y = round_date(y, "30 minute")})})
+```
+
+```{r make_position_df}
+#'make the timestamps the first column in a dataframe
+library(data.table)
+f4 = lapply(f3, function(x){lapply(x, function(y){y = as.data.frame(y)})})
+
+#'add coordinates, a for loop is required
+for(i in 1:length(f4)){
+  for(j in 1:length(f4[[i]])){
+    f4[[i]][[j]]$lon = coordinates(f2[[i]][[j]])[,1]
+    f4[[i]][[j]]$lat = coordinates(f2[[i]][[j]])[,2]
+  }
+}
+
+#'get mean positions every 30 mins
+f4 = lapply(f4, function(x){lapply(x, function(z){z %>% slice_rows("y") %>% dmap(mean)})})
+```
+
+```{r reverse_fam_wo}
+#'reverse the order of f4[[13]], where the male is the last unit
+f4[[13]] = rev(f4[[13]])
+```
+
+```{r merge_df_by_date}
+library(plyr);library(dplyr)
+library(purrr)
+
+#'perform a full join, all rows and cols of x and y
+
+f5 = lapply(f4, function(x){reduce(x, full_join, by = "y")})
+```
+
+
+```{r get_distances}
+library(geosphere)
+
+#'get distances in another list
+
+fdists = vector("list", 13)
+
+for(z in 1:length(f5)){
+ for(i in 1:dim(f5[[z]])[1]){
+  for(j in seq(1, length(f5[[z]])-2 ,2))
+   fdists[[z]] = c(fdists[[z]], distVincentyEllipsoid(p1 = f5[[z]][i,c(2,3)], p2 = f5[[z]][i,c(j+1,j+2)]))
+}
+}
+```
+
+# Distance matrix
+
+```{r dist_matrix}
+#'make a duplicate
+fdistm = fdists
+
+#'make each numeric column a matrix. this will need a for loop
+for(i in 1:length(f5)){
+  fdistm[[i]] = matrix(fdistm[[i]], ncol = length(f4[[i]]), byrow = T)
+}
+```
+
+```{r bind_to_df}
+#'make dists a df
+fdistm = lapply(fdistm, function(x){x = as.data.frame(x)})
+
+#'add names to dfs
+names(fdistm) = names(f3)
+```
+
+```{r get_size}
+#'get sizes within 1km
+for(i in 1:length(fdistm)){
+  fdistm[[i]]$d = apply(fdistm[[i]], 1, function(y){
+    sum(y<1000, na.rm = T)
+  })
+}
+```
+
+```{r add_time}
+#'add the timestamps to the matrix
+for(i in 1:length(f5)){
+  fdistm[[i]] = cbind(fdistm[[i]], time = (f5[[i]]$y))
+}
+
+```
+
+# Max fam size per day
+
+```{r meltdfs_maxfamsize_day}
+#'round to the day
+for(i in 1:length(fdistm)){
+  fdistm[[i]]$time = round_date(fdistm[[i]]$time, "day")
+}
+
+#'now ddply by time, getting max d
+fdistm2 = lapply(fdistm, function(x){
+  x %>% ddply("time", summarise, mfam = max(d, na.rm=T))
+})
+
+#'assign families
+for(i in 1:length(f5)){
+ fdistm2[[i]]$fam = names(f3)[i]
+}
+
+#'melt each df and make a new list fsize
+fsize = lapply(fdistm2, function(y){y = melt(as.data.frame(y), id.vars = c("fam","time","mfam"))
+})
+```
+
+```{r pool all data}
+#'rbind the data to create one dataframe
+fsize = rbindlist(fsize)
+
+#'remove all zeros
+fsize[fsize == 0,] = NA
+```
+
+```{r plot_data, eval=TRUE, fig.height=10, fig.width=10}
+#'load libs and run plot
+library(ggplot2)
+
+ggplot(fsize)+
+  geom_line(aes(x=time,y=mfam))+
+  facet_wrap(~fam, scales="free_x")
+```
+

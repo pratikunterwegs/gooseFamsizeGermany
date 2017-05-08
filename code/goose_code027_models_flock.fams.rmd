@@ -1,0 +1,56 @@
+---
+title: Hypothesis testing 1 - 5, family sizes in flocks
+---
+```{r set_env}
+#'load knitr
+library(knitr);library(plyr);library(dplyr);library(data.table);library(purrr);library(ggplot2)
+
+#'load model libs
+library(gam);library(mgcv);library(gamm4);library(itsadug)
+
+#'suppress all code output but run code
+opts_chunk$set(eval = FALSE)
+```
+
+```{r load_data}
+#'load data.goose.clean
+source("dataprep.R")
+
+#'remove flocksizes below 1
+
+flock.fams = flock.fams[flock.fams$flocksize > 0,]
+flock.fams$pred = as.factor(flock.fams$pred)
+```
+
+# Counts of family sizes in flocks
+
+1. Families with more juveniles are found in the west, and, 
+2. Families with more juveniles are found in smaller flocks, and,
+3. Family size decreases over the winter.
+
+or
+
+1. Counts of larger families are higher in the west.
+2. Counts of larger families are higher in smaller flocks.
+3. Counts of larger families decrease over the winter.
+
+```{r m01}
+#'a simple gam with only the three main effects, and family size
+mod01 = gam(count ~ fsize + s(lon) + flocksize + days, data = flock.fams, family = poisson)
+```
+
+```{r m02}
+#'a simple gam with only the three main effects, and family size
+mod02 = bam(count ~ fsize + s(lon, bs = "cr") + flocksize + days + t_since_in + t_to_out + s(pred, bs = "re") + s(flockid, bs = "re") + s(Breeding_year, bs = "re") + s(Observer, bs = "re") + s(Food_type, bs = "re"), data = flock.fams, family = poisson)
+```
+
+```{r s01}
+summary(mod02)
+AIC(mod02)
+
+vis.gam(mod02, type = "response", view = c("fsize", "days"), color = "terrain", theta = 45)
+
+gam.check(mod01)
+```
+
+
