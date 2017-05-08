@@ -46,7 +46,7 @@ coordinates(mod6resids) = ~ lon+lat
 
 ```{r svargram}
 #'get semivariogram
-var.mod<-variogram(resid~1, data=mod6resids, alpha= seq(0,270,90))
+var.mod<-variogram(resid~1, data=mod6resids, alpha= 90)
 ```
 
 ```{r plot}
@@ -59,7 +59,9 @@ plot(var.mod, smooth = T)
 ```{r nlme_vgram}
 #'load lib
 library(nlme)
-var.mod2 = Variogram(mod06$lme, form = ~lon+lat, main = "Lon-wise semivariogram")
+var.mod2 = Variogram(mod06$lme, form = ~lon)
+
+plot(var.mod2)
 ```
 
 
