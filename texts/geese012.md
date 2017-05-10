@@ -1,5 +1,7 @@
 ---
 title: Model building
+header-includes:
+  - \usepackage{gentium}
 ---
 
 Model selection was carried out as follows. The three hypotheses related to family size were listed. The predictors for these hypotheses were longitude, flock size, and number of days elapsed since the beginning of the wintering period. The predictor selected was family size, ie, the number of juveniles in a family. This process was run on the SOVON flock level data. Data were 'untabled' in R to yield a separate record for each family.
@@ -33,3 +35,5 @@ I further included a smooth over the longitude and latitude in a single isotropi
 # Checking spatial autocorrelation
 
 Plotting a semivariogram of the model residuals against their locations is an accepted way of checking visually for spatial autocorrelation. An increasing trend in the semivariance over distance would indicate the presence of spatial autocorrelation. Two libraries in R allow for the computation and plotting of variograms: **gstat** and **nlme**.
+
+There does not appear to be spatial autocorrelation along X or Y axes.

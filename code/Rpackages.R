@@ -143,9 +143,13 @@ library(nlme)
 library(gamm4)
 library(mgcv)
 library(itsadug)
-library(ncf)
+
+####multinomial logistic regression####
+library(nnet)
+library(MCMCglmm)
 
 ####Spatial autocorrelation####
 library(ncf)
 library(spdep)
 library(pgirmess)
+

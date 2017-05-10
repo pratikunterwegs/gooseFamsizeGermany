@@ -1,6 +1,8 @@
 ---
 title: What does Kami suggest?
-fontsize: 11pt
+fontsize: 12pt
+header-includes:
+  - \usepackage{gentium}
 ---
 # Kami suggests:
 

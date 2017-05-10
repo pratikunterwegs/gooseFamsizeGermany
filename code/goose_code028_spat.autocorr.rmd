@@ -1,5 +1,5 @@
 ---
-title: Check spatial autocorrelation
+title: Checking spatial autocorrelation
 ---
 
 # Load environment
@@ -44,9 +44,12 @@ mod6resids = as.data.frame(cbind(fams.expand[,c("lon","lat")], resid = resid(mod
 coordinates(mod6resids) = ~ lon+lat
 ```
 
+## Variogram from ```gstat```
+
 ```{r svargram}
 #'get semivariogram
-var.mod<-variogram(resid~1, data=mod6resids, alpha= 90)
+vgram_gstat_mod06 = variogram(resid~1, data=mod6resids, alpha= c(90,270))
+
 ```
 
 ```{r plot}
@@ -54,15 +57,29 @@ var.mod<-variogram(resid~1, data=mod6resids, alpha= 90)
 plot(var.mod, smooth = T)
 ```
 
-# Variogram from ```nlme```
+## Variogram from ```nlme```
 
 ```{r nlme_vgram}
 #'load lib
 library(nlme)
-var.mod2 = Variogram(mod06$lme, form = ~lon)
-
-plot(var.mod2)
+vgram_nlme_mod06 = Variogram(mod06$lme, form = ~lon)
+plot(vgram_gstat_mod06)
 ```
 
+# For ```mod07```
+
+```{r vgram_mod07}
+#'first using gstat
+#'specify directions EWNS
+mod7resids = as.data.frame(cbind(fams.expand[,c("lon","lat")], resid = resid(mod07$lme)))
+
+#'make spatial
+coordinates(mod7resids) = ~ lon+lat
+
+vgram_gstat_mod07 = variogram(resid~1, data=mod7resids, alpha= c(0,90,180,270))
+
+plot(vgram_gstat_mod07)
+plot(vgram_nlme_mod06)
+```
 
 

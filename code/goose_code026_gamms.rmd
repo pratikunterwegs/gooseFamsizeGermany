@@ -1,7 +1,7 @@
 ---
-title: Hypothesis testing 1 - 5, family level data
+title: GAMs for Hypothesis 1 - 3, SOVON data
 ---
-```{r set_env}
+```{r set_env, message=FALSE}
 #'load knitr
 library(knitr);library(plyr);library(dplyr);library(data.table);library(purrr);library(ggplot2)
 
@@ -35,7 +35,7 @@ fams.expand$Breeding_year = as.factor(as.character(fams.expand$Breeding_year))
 2. Families with more juveniles are found in smaller flocks, and,
 3. Family size decreases over the winter.
 
-Data used: Family size data (51,000 families), and geese.org data (12,500 individual observations with pair duplicates removed).
+Data used: Family size data (51,000 families, 45,000 complete cases).
 
 ## Model 01
 
@@ -115,8 +115,16 @@ mod06 = gamm(famsize ~ s(lon) + flocksize + t_to_out, random = list(Breeding_yea
 
 ```{r}
 summary(mod06$gam)
-plot(mod06$gam, select = 3)
+plot(mod06$gam, select = 1)
+
+qqnorm(resid(mod06$gam))
+
+library(lattice)
+qqmath(mod06)
 ```
+
+# Mod 07
+Include latitude to check for north south autocorrelation in a separate file.
 
 ```{r mod07}
 mod07 = gamm(famsize ~ s(lon,lat) + flocksize + t_to_out, random = list(Breeding_year=~1, Food_type=~1, Observer=~1), data = fams.expand, family = poisson)
@@ -126,6 +134,10 @@ mod07 = gamm(famsize ~ s(lon,lat) + flocksize + t_to_out, random = list(Breeding
 ```{r}
 plot(mod07$gam, select = 1, scheme = 2)
 summary(mod07$gam)
+
+#'check residuals. worst ever.
+qqnorm(resid(mod07$gam))
+qqline(resid(mod07$lme), qtype = 1, probs = (0,0.5))
 ```
 
 

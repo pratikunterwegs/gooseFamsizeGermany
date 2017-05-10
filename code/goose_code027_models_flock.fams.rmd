@@ -1,5 +1,5 @@
 ---
-title: Hypothesis testing 1 - 5, family sizes in flocks
+title: Modelling counts of family sizes in flocks
 ---
 ```{r set_env}
 #'load knitr
@@ -17,9 +17,10 @@ opts_chunk$set(eval = FALSE)
 source("dataprep.R")
 
 #'remove flocksizes below 1
-
-flock.fams = flock.fams[flock.fams$flocksize > 0,]
 flock.fams$pred = as.factor(flock.fams$pred)
+#flock.fams$fsize = as.factor(flock.fams$fsize)
+
+flock.fams =  flock.fams %>% filter(flocksize > 0, lon < 10)
 ```
 
 # Counts of family sizes in flocks
@@ -35,22 +36,16 @@ or
 3. Counts of larger families decrease over the winter.
 
 ```{r m01}
-#'a simple gam with only the three main effects, and family size
-mod01 = gam(count ~ fsize + s(lon) + flocksize + days, data = flock.fams, family = poisson)
+#'run a model with counts as the response. family size (fsize) is the major predictor along with number of families (fams)
+m01 = gamm(count ~ fsize + fams + flocksize + s(lon) + days, random = list(pred=~1, Breeding_year=~1, Food_type=~1, Observer=~1), data = flock.fams, family = "poisson")
 ```
 
-```{r m02}
-#'a simple gam with only the three main effects, and family size
-mod02 = bam(count ~ fsize + s(lon, bs = "cr") + flocksize + days + t_since_in + t_to_out + s(pred, bs = "re") + s(flockid, bs = "re") + s(Breeding_year, bs = "re") + s(Observer, bs = "re") + s(Food_type, bs = "re"), data = flock.fams, family = poisson)
-```
 
 ```{r s01}
-summary(mod02)
-AIC(mod02)
+summary(m01$gam)
 
-vis.gam(mod02, type = "response", view = c("fsize", "days"), color = "terrain", theta = 45)
+plot(m01$gam, all.terms = T)
 
-gam.check(mod01)
+qqnorm(resid(m01$lme))
 ```
-
 

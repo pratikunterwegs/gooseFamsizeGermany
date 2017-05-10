@@ -1,0 +1,50 @@
+---
+title: Exploratory transformations for family size data
+---
+
+```{r set_env, message=FALSE}
+#'load knitr
+library(knitr);library(plyr);library(dplyr);library(data.table);library(purrr);library(ggplot2)
+
+#'load model libs
+library(gam);library(mgcv);library(gamm4);library(itsadug)
+
+#'suppress all code output but run code
+opts_chunk$set(eval = FALSE)
+```
+
+```{r load_data}
+#'load data.goose.clean
+source("dataprep.R")
+
+fams.expand = fams.expand %>% filter(flocksize > 0)
+
+fams.expand$pred = as.factor(fams.expand$pred)
+fams$pred = as.factor(fams$pred)
+
+#fams.expand = fams.expand[complete.cases(fams.expand),]
+```
+
+```{r bryear_to_factor}
+#'set the breeding year to be a factor
+fams.expand$Breeding_year = as.factor(as.character(fams.expand$Breeding_year))
+```
+
+```{r check_error_str}
+#'glms
+glm01 = glm(famsize ~ lon + lat + flocksize + days, family = poisson, data = fams.expand)
+
+plot(glm01)
+```
+
+Box-Cox transform it.
+
+```{r}
+a = boxcox(glm01)
+b = a$x[which.max(a$y)]
+
+glm02 = glm(log(famsize) ~ lon + lat + log(flocksize) + log(days), family = gaussian, data = fams.expand)
+
+plot(glm02)
+```
+

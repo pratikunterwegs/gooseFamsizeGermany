@@ -1,0 +1,66 @@
+---
+title: Exploratory GLMs
+---
+---
+title: GAMs for Hypothesis 1 - 3
+---
+```{r set_env, message=FALSE}
+#'load knitr
+library(knitr);library(plyr);library(dplyr);library(data.table);library(purrr);library(ggplot2)
+
+#'load model libs
+library(gam);library(mgcv);library(gamm4);library(itsadug)
+
+#'suppress all code output but run code
+opts_chunk$set(eval = FALSE)
+```
+
+```{r load_data}
+#'load data.goose.clean
+source("dataprep.R")
+
+fams.expand = fams.expand %>% filter(flocksize > 0)
+
+fams.expand$pred = as.factor(fams.expand$pred)
+fams$pred = as.factor(fams$pred)
+
+fams.expand = fams.expand[complete.cases(fams.expand),]
+```
+
+```{r bryear_to_factor}
+#'set the breeding year to be a factor
+fams.expand$Breeding_year = as.factor(as.character(fams.expand$Breeding_year))
+
+fams.expand = fams.expand %>% filter(famsize < 5, flocksize < 4000)
+```
+
+```{r glmer1}
+#'first glmer
+g1 = glm(famsize ~ lon + lat + flocksize + days, data = fams.expand, family = "categorical")
+
+a = boxcox(g1)
+b = a$x[which.max(a$y)]
+
+
+
+library(MASS)
+summary(g1)
+
+qqnorm(resid(g1))
+qqline(resid(g1))
+?plot.merMod
+
+plot(g1, qqnorm(resid(g1)))
+library(sjPlot)
+qqnorm(g1, ~ranef(., level=2))
+require(lattice)
+qqmath(g1, id = 0.05)
+
+plot(g1, Breeding_year ~ resid(., scaled=TRUE))
+
+plot(g1, resid(., scaled=TRUE) ~ fitted(.) | Breeding_year, abline = 0)
+
+sjp.glmer(g1, type = "fe")
+plot(g1)
+```
+
