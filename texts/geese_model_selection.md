@@ -23,7 +23,7 @@ The semivariogram of the residuals was plotted using functions from two differen
 
 ## Model diagnostic plots
 
-Without exception, the model diagnostic plots are far from ideal. This prompted a look at two other ways of modelling family sizes. It might be that the assumption of a Poisson error distribution made when fitted these generalised models is not a good one. Transforming the data (advised against by @MEE3:MEE321) did not improve the diagnostic plots. The main issue might be that the family size is very strictly bounded between 1 and 10 and forced to take integer values. The following approaches were tried to help with this.
+Without exception, the model diagnostic plots are far from ideal. This prompted a look at two other ways of modelling family sizes. It might be that the assumption of a Poisson error distribution made when fitted these generalised models is not a good one. Transforming the data (advised against by [@MEE3:MEE321]) did not improve the diagnostic plots. The main issue might be that the family size is very strictly bounded between 1 and 10 and forced to take integer values. The following approaches were tried to help with this.
 
 ## Using family size counts
 
@@ -35,6 +35,7 @@ This model can't be used with the geese.org data.
 Since the family sizes can only take 10 values, I tried modelling them as polychotomous categorical responses using the ```MCMCglmm``` function. This is time-consuming, and not to be pursued unless there's a very good reason.
 
 # Issues
+
 
 1. A Poisson distribution may not be the right one. A quasipoisson distribution was tried and did not help the model. A negative binomial error structure could be tried.
 2. Three possible response variables are possible: the number of juveniles (absolute family size) in each family, the mean number of juveniles in a family per flock, and the counts of families of size *x* in a flock. A choice other than family size prevents the comparison of the SOVON and geese.org datasets.

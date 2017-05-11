@@ -1,6 +1,9 @@
 ---
-title: GAMs for Hypothesis 1 - 3, SOVON data
+title: bams for Hypothesis 1 - 3, SOVON data
 ---
+
+# Load environment
+
 ```{r set_env, message=FALSE}
 #'load knitr
 library(knitr);library(plyr);library(dplyr);library(data.table);library(purrr);library(ggplot2)
@@ -12,24 +15,30 @@ library(gam);library(mgcv);library(gamm4);library(itsadug)
 opts_chunk$set(eval = FALSE)
 ```
 
+# Source data
+
 ```{r load_data}
 #'load data.goose.clean
 source("dataprep.R")
 
+#'remove any flocksizes mistakenly assigned 0
 fams.expand = fams.expand %>% filter(flocksize > 0)
 
+#'make level of predation a factor. currently being modelled as the numeric value p.index
 fams.expand$pred = as.factor(fams.expand$pred)
-fams$pred = as.factor(fams$pred)
 
-fams.expand = fams.expand[complete.cases(fams.expand),]
+#'should only complete cases be considered? yes, for the predictors.
+fams.expand = fams.expand[complete.cases(fams.expand[,c("lon","lat","flocksize","famsize","Breeding_year","p.index","days","t_to_out","t_since_in","durwinter")]),]
 ```
 
 ```{r bryear_to_factor}
 #'set the breeding year to be a factor
 fams.expand$Breeding_year = as.factor(as.character(fams.expand$Breeding_year))
+
+geeseorg$breedyr = as.factor(geeseorg$breedyr)
 ```
 
-# Hypotheses 01, 02 and 03
+# List hypotheses 01, 02 and 03
 
 1. Families with more juveniles are found in the west, and, 
 2. Families with more juveniles are found in smaller flocks, and,
@@ -37,107 +46,86 @@ fams.expand$Breeding_year = as.factor(as.character(fams.expand$Breeding_year))
 
 Data used: Family size data (51,000 families, 45,000 complete cases).
 
-## Model 01
+# SOVON data
 
+## Model 01
 Includes only the three main hypothesised predictors.
 
 ```{r m01}
-#'run a gamm with the smoothing applied only to the coordinates
+#'run a bamm with the smoothing applied only to the coordinates
 library(mgcv)
 
-mod01 = bam(famsize ~ s(lon) + s(lat) + flocksize + days, data = fams.expand, family = "poisson")
+#mod01 = bam(famsize ~ (lon) + flocksize + days, data = fams.expand, family = "poisson")
 ```
 
 ```{r summary01}
 summary(mod01)
 AIC(mod01)
 vis.gam(mod01, type = "response",
-        view = c("lon","days"), theta = 45, color = "terrain")
+        view = c("flocksize","days"), theta = -235, color = "terrain")
 ```
 
 ## Model 02
 
-Substitute days with t_to_out and t_since_in to check which date is more important. Remove s(lat) and flocksize as not significant.
+Substitute days with t_to_out and t_since_in to check which date is more important.
 
 ```{r m02}
-#'run a gam with the smoothing applied only to the coordinates
-mod02 = bam(famsize ~ s(lon) + s(lat) + flocksize + t_since_in + t_to_out + s(Food_type, bs = "re") + s(Observer, bs = "re") + s(Breeding_year, bs = "re"), data = fams.expand, family = "poisson")
+#'run a bam with the smoothing applied only to the coordinates
+#mod02 = bam(famsize ~ (lon) + flocksize + t_since_in + t_to_out + p.index + s(Food_type, bs = "re") + s(Observer, bs = "re") + s(Breeding_year, bs = "re"), data = fams.expand, family = "poisson")
 ```
 
 ```{r summary02}
 summary(mod02)
 AIC(mod02) -  AIC(mod01)
 o2.mixed.mods(mod02)
-plot(mod02, select = 1, residuals = F, scheme = 2)
+plot(mod02, select = 2, residuals = F, scheme = 2)
 
-vis.gam(mod02, view = c("lon","t_to_out"), color = "terrain", plot.type = "contour", type = "response")
+vis.gam(mod02, view = c("lon","t_since_in"), color = "terrain", plot.type = "persp", type = "response", theta = -235)
 ```
 
+## Model 03
+Remove time to departure.
+
 ```{r m03}
-#'split days into t to out and t since in
-mod03 = bam(famsize ~ s(lon) + s(lat) + flocksize + t_to_out + s(Food_type, bs = "re") + s(Observer, bs = "re") + s(Breeding_year, bs = "re"), data = fams.expand, family = "poisson")
+#'remove t_since_in
+mod03 = bam(famsize ~ lon + flocksize + t_since_in + p.index + s(Food_type, bs = "re") + s(Observer, bs = "re") + s(Breeding_year, bs = "re"), data = fams.expand, family = "poisson")
+
+mod03.1 = bam(famsize ~ lon + t_since_in + p.index + s(Food_type, bs = "re") + s(Observer, bs = "re") + s(Breeding_year, bs = "re"), data = fams.expand, family = "poisson")
+
+mod03.2 = bam(famsize ~ lon + lat + t_since_in + p.index + s(Food_type, bs = "re") + s(Observer, bs = "re") + s(Breeding_year, bs = "re"), data = fams.expand, family = "poisson")
 ```
 
 ```{r summary03}
-AIC(mod03) - AIC(mod02)
-summary(mod03)
-library(car)
+AIC(mod03.1) - AIC(mod03)
+summary(mod03.2)
+
+#'model 02 and 03 are not significantly different.
 anova(mod02, mod03, test = "F")
 ```
 
-```{r vis.gam03}
-vis.gam(mod03, view = c("lon", "t_to_out"), type = "response", color = "terrain", theta = -45)
+```{r vis.bam03}
+vis.bam(mod03, view = c("lon", "t_to_out"), type = "response", color = "terrain", theta = -45)
 
+#'check for autocorrelation in the residuals
 acf(mod03$residuals)
 ```
 
-# Model 04
+# geese.org data
+Run model three on geese.org data. Random effects now include "id", and do not include observer and habitat type. Fixed effects do not include flock size.
 
-```{r m03}
-#'split days into t to out and t since in
-mod04 = bam(famsize ~ s(lon) + flocksize + t_to_out + s(Food_type, bs = "re") + s(Observer, bs = "re") + s(Breeding_year, bs = "re"), data = fams.expand, family = "poisson")
+## Remove remaining outliers
+
+```{r gorg_clean_again}
+geeseorg = geeseorg %>% filter(round(lon) %in% 0:10, round(lat) %in% 50:56)
 ```
 
-```{r summary03}
-AIC(mod04) - AIC(mod03)
-summary(mod04)
-library(car)
-anova(mod02, mod04, test = "F")
-```
 
-# Model 06
-
-Run the same as a ```gamm```. Include breeding year, foodtype and observers as random effects.
-
-```{r gamm}
-mod06 = gamm(famsize ~ s(lon) + flocksize + t_to_out, random = list(Breeding_year=~1, Food_type=~1, Observer=~1), data = fams.expand, family = poisson)
+```{r gorg.m03}
+mod03.gorg = bam(famsize ~ lon + p.index + t_since_in + s(id, bs = "re") + s(breedyr, bs = "re"), data = geeseorg, family = poisson, na.action = na.exclude)
 ```
 
 ```{r}
-summary(mod06$gam)
-plot(mod06$gam, select = 1)
-
-qqnorm(resid(mod06$gam))
-
-library(lattice)
-qqmath(mod06)
+vis.gam(mod03.gorg, view = c("t_since_in","p.index"), type = "response", plot.type = "contour", color = "terrain", main = "famsize: geese.org: days ~ lon")
 ```
 
-# Mod 07
-Include latitude to check for north south autocorrelation in a separate file.
-
-```{r mod07}
-mod07 = gamm(famsize ~ s(lon,lat) + flocksize + t_to_out, random = list(Breeding_year=~1, Food_type=~1, Observer=~1), data = fams.expand, family = poisson)
-```
-
-
-```{r}
-plot(mod07$gam, select = 1, scheme = 2)
-summary(mod07$gam)
-
-#'check residuals. worst ever.
-qqnorm(resid(mod07$gam))
-qqline(resid(mod07$lme), qtype = 1, probs = (0,0.5))
-```
-
-
+---

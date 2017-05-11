@@ -3,32 +3,7 @@ title: Checking spatial autocorrelation
 ---
 
 # Load environment
-
-```{r set_env}
-#'load knitr
-library(knitr);library(plyr);library(dplyr);library(data.table);library(purrr);library(ggplot2)
-
-#'load model libs
-library(gam);library(mgcv);library(gamm4);library(itsadug)
-
-#'suppress all code output but run code
-opts_chunk$set(eval = FALSE)
-```
-
-```{r load_data}
-#'load data.goose.clean
-source("dataprep.R")
-
-fams.expand = fams.expand %>% filter(flocksize > 0)
-
-fams.expand$pred = as.factor(fams.expand$pred)
-fams$pred = as.factor(fams$pred)
-```
-
-```{r bryear_to_factor}
-#'set the breeding year to be a factor
-fams.expand$Breeding_year = as.factor(as.character(fams.expand$Breeding_year))
-```
+Only works when gams have already been run. See code026_gamms.
 
 ```{r load_libs}
 #'male fams.expand spatial
@@ -38,23 +13,27 @@ library(sp);library(gstat)
 ```{r check_spa_autocorr}
 #'use variogram from gstat. specify directions EWNS, seq(0,270, 90)
 #'get df of coords and residuals
-mod6resids = as.data.frame(cbind(fams.expand[,c("lon","lat")], resid = resid(mod06$lme)))
+
+#'subset fams.expand
+fams.expand.sub = fams.expand[complete.cases(fams.expand[,c("Food_type","Observer","Breeding_year")]),]
+
+mod3resids = as.data.frame(cbind(fams.expand.sub[,c("lon","lat")], resid = resid(mod03)))
 
 #'make spatial
-coordinates(mod6resids) = ~ lon+lat
+coordinates(mod3resids) = ~ lon+lat
 ```
 
 ## Variogram from ```gstat```
 
 ```{r svargram}
 #'get semivariogram
-vgram_gstat_mod06 = variogram(resid~1, data=mod6resids, alpha= c(90,270))
+vgram_gstat_mod03 = variogram(resid~1, data=mod3resids, alpha= c(90))
 
 ```
 
 ```{r plot}
 #plot semivariogram
-plot(var.mod, smooth = T)
+plot(vgram_gstat_mod03, smooth = T)
 ```
 
 ## Variogram from ```nlme```
@@ -62,7 +41,7 @@ plot(var.mod, smooth = T)
 ```{r nlme_vgram}
 #'load lib
 library(nlme)
-vgram_nlme_mod06 = Variogram(mod06$lme, form = ~lon)
+vgram_nlme_mod03 = Variogram(mod03, form = ~lon)
 plot(vgram_gstat_mod06)
 ```
 
@@ -76,7 +55,7 @@ mod7resids = as.data.frame(cbind(fams.expand[,c("lon","lat")], resid = resid(mod
 #'make spatial
 coordinates(mod7resids) = ~ lon+lat
 
-vgram_gstat_mod07 = variogram(resid~1, data=mod7resids, alpha= c(0,90,180,270))
+#vgram_gstat_mod07 = variogram(resid~1, data=mod7resids, alpha= c(0,90,180,270))
 
 plot(vgram_gstat_mod07)
 plot(vgram_nlme_mod06)

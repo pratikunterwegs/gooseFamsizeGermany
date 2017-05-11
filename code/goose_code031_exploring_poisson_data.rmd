@@ -1,0 +1,15 @@
+---
+title: Exploring count data
+---
+```{r, eval= FALSE}
+#'model diagnostics
+library(vcd)
+library(countreg)
+
+a = goodfit(fams.expand$famsize)
+rootogram(a, shade=T, type = "standing")
+
+b = countreg::rootogram(mod04)
+
+Ord_plot(fams.expand$famsize)
+```
