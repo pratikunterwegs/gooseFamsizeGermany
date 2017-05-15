@@ -28,6 +28,7 @@ library(fields)
 library(reshape)
 library(reshape2)
 library(stringi)
+library(stringr)
 
 ####Functions for analysis###
 library(vegan)
@@ -62,6 +63,7 @@ library(rworldmap)
  #apt-get install r-cran-rjava
 library(ggmap)
 library(RgoogleMaps)
+library(ggspatial)
 
 #spatial statistics
 library(spatstat)

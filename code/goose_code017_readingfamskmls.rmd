@@ -23,7 +23,7 @@ famlayers[[i]] = ogrListLayers(famfiles[i])
 f = readOGR("NoBoutFamilies/NoBout_Adfamily.kml", layer = "43_AdrieII_M", require_geomType = "wkbPoint")
 
 library(maptools)
-#'create a list of named lists
+#'create a list of named lists. yes, there are better ways of doing this...like creating a list of lists and then assigning names.
 famtracks = list(ad = list(), an = list(), ja = list(),
                  ev = list(), ha = list(), he = list(),
                  ch = list(), jo = list(), ma = list(),

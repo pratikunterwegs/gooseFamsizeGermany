@@ -129,3 +129,19 @@ vis.gam(mod03.gorg, view = c("t_since_in","p.index"), type = "response", plot.ty
 ```
 
 ---
+
+# GLMERs
+
+```{r}
+glmer03 = glmer(famsize ~ lon + flocksize + t_since_in + p.index + (1|Food_type) + (1|Observer) + (1|Breeding_year), data = fams.expand, family = "poisson")
+```
+
+```{r}
+glmer03gorg = glmer(famsize ~ lon + t_since_in + p.index + (1|breedyr) + (1|id), data = geeseorg, family = "poisson")
+```
+
+```{r}
+glmer.onlylon = glmer(famsize ~ lon + flocksize + t_since_in + p.index + (1|Food_type) + (1|Observer) + (1|Breeding_year), data = fams.expand, family = "poisson")
+```
+
+

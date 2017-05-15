@@ -7,7 +7,7 @@ title: Flock level models
 ```{r load_dataprep}
 library(maps); library(sjPlot)
 source("dataprep.R")
-
+library(mgcv)
 geese$Breeding_year = as.factor(geese$Breeding_year)
 fams$Breeding_year = as.factor(fams$Breeding_year)
 
@@ -43,3 +43,4 @@ sjp.glmer(famsmod, type = "eff", show.values = T, show.ci = T,
 #qqmath(famsmod)
 ```
 
+$y =  f(x)$

@@ -10,8 +10,8 @@ opts_knit$set(root.dir = "~/git/thesis/code")
 ```
 
 ```{r load_famtracks, eval=TRUE}
-#'load the famtracks object
-load("goose_code_018.RData")
+load("~/git/thesis/code/fams2016.nobursts.rdata")
+load("~/git/thesis/code/fams2014.nobursts.rdata")
 ```
 
 ```{r remove_spring}
@@ -52,7 +52,7 @@ f3 = lapply(f3, function(x){lapply(x, function(y){y = round_date(y, "30 minute")
 ```
 
 ```{r make_position_df}
-#'make the timestamps the first column in a dataframe
+#'begin a data frame
 library(data.table)
 f4 = lapply(f3, function(x){lapply(x, function(y){y = as.data.frame(y)})})
 
@@ -78,6 +78,7 @@ library(plyr);library(dplyr)
 library(purrr)
 
 #'perform a full join, all rows and cols of x and y
+#'actually a left or inner join might have been better.
 
 f5 = lapply(f4, function(x){reduce(x, full_join, by = "y")})
 ```

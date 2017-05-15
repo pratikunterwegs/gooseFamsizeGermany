@@ -2,29 +2,34 @@
 title: Importing Movebank family tracks
 ---
 
+# Load environment
+
 ```{r set_env}
 #'load knitr
-library(knitr)
-library(lubridate)
-library(broom)
-library(move)
-library(RCurl)
-library(bitops)
+library(knitr);library(lubridate);library(broom)
+
+library(move);library(RCurl);library(bitops)
+
+library(plyr);library(dplyr)
 
 #'suppress all code output but run code
 opts_chunk$set(echo = FALSE)
 opts_knit$set(root.dir = "~/git/thesis/code")
 ```
 
+# Movebank login and study search
+
 ```{r login_search_studies}
 #'store cred
-cred <- movebankLogin(username="pratik", password="ccgFDRSFBS")
+cred <- movebankLogin(username="pratik")
 
 #'search studies
 oldtags = searchMovebankStudies(x="LifeTrack Geese IG-RAS MPIO", login=cred)
 
 newtags = searchMovebankStudies(x="Geese_MPIO_Kolguev2016", login=cred)
 ```
+
+# Get 2016 study animal names
 
 ```{r get_2016_birds}
 #'find animals
@@ -38,6 +43,8 @@ kolguyevbirds2016 = unique(birds2016$name[c((grep("KOL", birds2016$name)),
                                      grep("RIET", birds2016$name))])
 ```
 
+# Get 2014 study animal names
+
 ```{r get_2014_birds}
 #'find animals
 birds2014 = getMovebankAnimals(study = oldtags[2], login = cred)
@@ -47,10 +54,11 @@ birds2014$name = sub("(.*)_.*", "\\1", birds2014$animalName_deployment)
 familynames2014 = birds2014$name
 ```
 
+# Download 2016 families
 
 ```{r download_2016_tracks, eval=FALSE}
 #'get all families
-tracks2016 = getMovebankData(study=newtags,
+familytracks2016 = getMovebankData(study=newtags,
                           animalName=familynames2016, login=cred)
 
 #get the kolguyev birds
@@ -58,4 +66,177 @@ kolguyev2016 = getMovebankData(study = newtags, animalName = kolguyevbirds2016, 
 
 #'save to rdata file
 save(kolguyev2016, file = "kolguyev2016tracks.rdata")
+
+save(tracks2016, file = "fams2016.rdata")
 ```
+
+---
+
+# Import 2016 families
+
+```{r import2016data}
+#'load new tags
+load("fams2016.rdata")
+
+#'rename
+fams2016 = tracks2016
+```
+
+```{r remove excess data}
+#'remove positions after 31 March, and where location error is below 250m
+fams2016 = fams2016[fams2016$timestamp < "2017-04-01",]
+fams2016 = fams2016[fams2016$location_error_numerical <= 20,]
+
+#'remove positions where coordinates are above 56N or 7E
+
+fams2016 = fams2016[fams2016$location_lat < 56 & fams2016$location_long < 7,]
+```
+
+```{r set_factor_fam}
+#'set family names
+a= fams2016@trackId
+
+#'set family vector
+fams = ifelse(grepl("Ad", a), "Ad",
+              ifelse(grepl("Ch", a), "Ch",
+                     ifelse(grepl("Ti", a), "Ti",
+                            ifelse(grepl("Ev",a), "Ev",
+                     ifelse(grepl("Ja",a), "Ja", "Other")))))
+
+#'add to movestack after making factor
+fams = as.factor(fams); fams2016$fam = fams
+```
+
+```{r split_by_fam}
+#'make a new list
+fams2016.3 = list()
+
+#'select by family and then split by id
+for(i in unique(fams)){
+  fams2016.3[[i]] = list(split(fams2016[fams2016$fam == i,]))
+}
+
+#'unlist the main list
+fams2016.3 = lapply(fams2016.3, function(x) x = unlist(x))
+```
+
+```{r make_list_dfs}
+#'make this a list of dataframes, keeping only useful fields
+fams2016.4 = lapply(fams2016.3, function(x){lapply(x, function(y){y = data.frame(lon = y$location_long, lat = y$location_lat, v = y$ground_speed, t = y$timestamp, fam = y$fam, lag = c(0,timeLag(y)))})})
+
+```
+
+```{r filter_by_lag}
+#'remove lags below 1000, where speed is also above 2
+fams2016.4 = lapply(fams2016.4, function(x){lapply(x, function(y){y = y %>% filter(lag >= 600, lag <= 2000)})})
+
+#'save as rdata
+save(fams2016.4, file = "fams2016.nobursts.rdata")
+```
+
+---
+
+# Import 2014 families from csv
+
+Families from 2014 have duplications and can't be downloaded as move objects directly from movebank.
+
+```{r import_oldbirds}
+#'list all files in famtracks
+files = list.files("famtracks/", full.names = T)
+#'get only files with csv extensions
+oldfams = files[grep(pattern = ".csv", files)]
+#'get their names
+oldbirds = list.files("famtracks/")
+#'get the bird names
+oldbirds = sub("\\_.*", "", oldfams); oldbirds = gsub(".*//","",oldbirds)
+#'read the csv files in as a list
+fams2014 = lapply(oldfams, read.csv)
+#'set the names to be the names in oldbirds
+names(fams2014) = oldbirds
+
+```
+
+# Filter dfs
+
+```{r reduce_df_vars}
+#'remove useless variables
+fams2014.2 = lapply(fams2014, function(x){x = data.frame(lon = x$location.long, lat = x$location.lat, v = x$ground.speed, t = as.POSIXct(as.character(x$timestamp)), error = x$eobs.horizontal.accuracy.estimate)})
+```
+
+```{r give_names14}
+#'make families vector
+oldfamnames = c(rep("An",4),rep("Ha",5),rep("He",6),rep("Jo",7),rep("Ma",4),rep("Na",5),rep("Ro",4))
+
+#'assign families to each bird
+for(i in 1:length(fams2014.2)){
+  fams2014.2[[i]]$fam = oldfamnames[i]
+}
+
+#'assign names to each bird
+for(i in 1:length(fams2014.2)){
+  fams2014.2[[i]]$name = oldbirds[i]
+}
+```
+
+```{r filter2014}
+#'rbindlist
+library(data.table)
+library(plyr);library(dplyr)
+#'make df from rbound list
+fams2014.3 = (rbindlist(fams2014.2))
+
+#'arrange by animal and timestamp
+fams2014.3 = fams2014.3 %>% arrange(name, t)
+
+#'complete cases?
+fams2014.3 = fams2014.3[complete.cases(fams2014.3),]
+
+#'filter
+fams2014.3 = fams2014.3 %>% filter(lon <=7, lat <=56,            error < quantile(error, seq(0,1,0.1))[10])
+
+#'remove duplicates again
+fams2014.3 = fams2014.3[!duplicated(fams2014.3[,c("name", "t")]),]
+```
+
+```{r makemove2014}
+#'make move
+fams2014move = move(x = fams2014.3$lon, y = fams2014.3$lat,
+                    time = fams2014.3$t, data = fams2014.3,
+                    proj=CRS("+proj=longlat +datum=WGS84"),
+                    animal = fams2014.3$name)
+
+#'assign families again. move has used them as an id variable.
+fams2014move$fam = fams2014.3$fam
+
+#'make list, follow as before
+fams2014.4 = list()
+
+#'split by fams
+for(i in unique(oldfamnames)){
+  fams2014.4[[i]] = split(fams2014move[fams2014move$fam == i,])
+}
+```
+
+# Remove low lags
+
+```{r}
+#'save move object
+save(fams2014move, file = "fams2014move.rdata")
+#'check nlocs. too high.
+lapply(fams2014.4, function(x){lapply(x, n.locs)})
+
+#'make dfs
+#'make this a list of dataframes, keeping only useful fields
+fams2014.5 = lapply(fams2014.4, function(x){lapply(x, function(y){y = data.frame(lon = y$lon, lat = y$lat, v = y$v, t = timestamps(y), fam = y$fam, lag = c(1800,timeLag(y, units = "secs")))})})
+
+```
+
+```{r filter_by_lag2014}
+#'remove lags below 1000, where speed is also above 2
+fams2014.5 = lapply(fams2014.5, function(x){lapply(x, function(y){y = y %>% filter(lag >= 600)})})
+```
+
+```{r exportfams2014}
+save(fams2014.5, file = "fams2014.nobursts.rdata")
+```
+

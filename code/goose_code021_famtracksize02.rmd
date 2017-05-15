@@ -9,184 +9,102 @@ opts_chunk$set(eval = FALSE)
 opts_knit$set(root.dir = "~/git/thesis/code")
 ```
 
-```{r load_famtracks, eval=TRUE}
-#'load the famtracks object
-load("famtracks.Rdata")
+```{r load_famtracks}
+load("~/git/thesis/code/fams2016.nobursts.rdata")
+load("~/git/thesis/code/oldfams.nobursts.rdata")
 ```
 
-```{r remove_spring}
-#'remove all dates after where month is in 4:9
-#'duplicate
-f2 = famtracks
+```{r separate_2015}
+#'get 2015 fams, Ha, He, Jo, and Na
+fams2015 = fams2014.5[c("Ha", "He", "Jo", "Na")]
+#'remove from fams2014
+fams2014 = fams2014.5[c("An","Ma","Ro")]
 
-#'get range of dates, now remove over 3 and less than 9
-#lapply(f2, function(x){lapply(x, function(y){range(y$time)})})
-#'load lubridate
-library(lubridate); library(plyr);library(dplyr); library(purrr)
-#'remove dates
-f2 = lapply(f2, function(x){lapply(x, function(y){y = y[month(y$Name) %in% c(1:3, 9:12),]})})
-
-#'reduce spatial extent to the netherlands
-e = extent(f2[[1]][[1]])
-
-e[1]=4;e[2]=10;e[4]=54
-
-f2 = lapply(f2, function(x){lapply(x, function(y){y = crop(y, e)})})
 ```
 
-```{r get_layer_name}
-#'get layer names from kml files
-library(rgdal);library(maptools)
-famfiles = list.files("NoBoutFamilies/", pattern = ".kml", full.names = T)
-
-#'get layer names
-famlayers = list()
-for(i in 1:length(famfiles)){
-famlayers[[i]] = list(ogrListLayers(famfiles[i]))
-}
-
-#'get goose names
-#unlist(famlayers)
-```
-
-```{r make_time}
-#'get times as posixct class objects
-
-f3 = lapply(f2, function(x){lapply(x, function(y){y$time = as.POSIXct(y$Name)})})
-
-#'round time to the minute
-f3 = lapply(f3, function(x){lapply(x, function(y){y = round_date(y, "minute")})})
-```
-
-```{r check_intersections}
-#'how many intersections between timestamps of individuals in a family?
-#'try on family ad and family he
+```{r export}
+save(fams2015, file = "fams2015.rdata")
+save(fams2014, file = "fams2014.rdata")
 ```
 
 
-```{r make_position_df}
-#'make the timestamps the first column in a dataframe
-library(data.table)
-f4 = lapply(f3, function(x){lapply(x, function(y){y = as.data.frame(y)})})
+```{r join_lists}
+#'modify lists to have the adult in position
+#'fam An
+fams2014[["An"]] = rev(fams2014[["An"]])
+#'fam Ro
+fams2014[["Ro"]] = fams2014[["Ro"]][c(2,3,1,4)]
 
-#'add coordinates, a for loop is required
-for(i in 1:length(f4)){
-  for(j in 1:length(f4[[i]])){
-    f4[[i]][[j]]$lon = coordinates(f2[[i]][[j]])[,1]
-    f4[[i]][[j]]$lat = coordinates(f2[[i]][[j]])[,2]
-  }
-}
+#'family Ha
+fams2015[["Ha"]] = fams2015[["Ha"]][c(3,1,2,4,5)]
 
-#'get mean positions every minute
-f4 = lapply(f4, function(x){lapply(x, function(z){z %>% slice_rows("y") %>% dmap(mean, na.rm =T)})})
+#'family Jo
+fams2015[["Jo"]] = rev(fams2015[["Jo"]])
+
+#'family Na
+fams2015[["Na"]] = rev(fams2015[["Na"]])
 ```
 
-```{r reverse_fam_wo}
-#'reverse the order of f4[[13]], where the male is the last unit
-f4[[13]] = rev(f4[[13]])
+```{r append_lists}
+f1 = append(fams2014, c(fams2015, fams2016.4))
 ```
 
-```{r merge_df_by_date}
 
+```{r round_time}
+#'round time to the nearest minute
+f1 = lapply(f1, function(x){lapply(x, function(y){y %>% mutate(t = round_date(t, "minute"))})})
+
+#'remove v, fam, and lag
+f1 = lapply(f1, function(x){lapply(x, function(y){y %>% select(t, lon, lat)})})
+```
+
+```{r distances}
 library(purrr)
-
-#'perform an inner join, common rows of x and y and cols of x and y, so merging on the first goose, who could be the male or the female (most cases it's the male)
-f5 = lapply(f4, function(x){reduce(x, inner_join, by = "y")})
+#'a left join here
+f2 = lapply(f1, function(x){reduce(x, left_join, by = "t")})
 ```
-
 
 ```{r get_distances}
 library(geosphere)
 
-#'get distances between the first goose and all other geese at each timestamp, into another list
+#'get distances in another list
 
 fdists = vector("list", 13)
 
-for(z in 1:length(f5)){
- for(i in 1:dim(f5[[z]])[1]){
-  for(j in seq(1, length(f5[[z]])-2 ,2))
-   fdists[[z]] = c(fdists[[z]], distVincentyEllipsoid(p1 = f5[[z]][i,c(2,3)], p2 = f5[[z]][i,c(j+1,j+2)]))
+for(z in 1:length(f2)){
+ for(i in 1:dim(f2[[z]])[1]){
+  for(j in seq(1, length(f2[[z]])-2 ,2))
+   fdists[[z]] = c(fdists[[z]], distVincentyEllipsoid(p1 = f2[[z]][i,c(2,3)], p2 = f2[[z]][i,c(j+1,j+2)]))
 }
 }
 ```
-
-# Distance matrix
 
 ```{r dist_matrix}
 #'make a duplicate
 fdistm = fdists
 
 #'make each numeric column a matrix. this will need a for loop
-for(i in 1:length(f5)){
-  fdistm[[i]] = matrix(fdistm[[i]], ncol = length(f4[[i]]), byrow = T)
+for(i in 1:length(f2)){
+  fdistm[[i]] = matrix(fdistm[[i]], ncol = length(f1[[i]]), byrow = T)
 }
 ```
 
-```{r bind_to_df}
+```{r convert_to_df}
 #'make dists a df
 fdistm = lapply(fdistm, function(x){x = as.data.frame(x)})
 
 #'add names to dfs
-names(fdistm) = names(f3)
+names(fdistm) = names(f2)
 ```
 
 ```{r add_time}
 #'add the timestamps to the matrix
-for(i in 1:length(f5)){
-  fdistm[[i]] = cbind(fdistm[[i]], time = (f5[[i]]$y))
+for(i in 1:length(f2)){
+  fdistm[[i]] = cbind(fdistm[[i]], time = (f2[[i]]$t))
 }
 ```
 
-```{r round_time}
-#'round timestamps to the day
-for(i in 1:length(fdistm)){
-  fdistm[[i]]$time = round_date(fdistm[[i]]$time, "day")
-}
-
-#'get the mean distances every day
-fdistm2 = lapply(fdistm, function(x){
-  x %>% slice_rows("time") %>% dmap(mean, na.rm=T)
-})
-
-#'set infinities to NA across the whole dataframes
-fdistm2 = lapply(fdistm2, function(y){y = do.call(data.frame,lapply(y, function(x) replace(x, is.nan(x), NA)))})
-```
-
-```{r get_size}
-#'get sizes within 1km from the day-minimum distance dataframe. if the distances are NA, the size is NA too
-for(i in 1:length(fdistm2)){
-  fdistm2[[i]]$d = apply(fdistm2[[i]], 1, function(x){
-    sum(x<1000)
-  })
-}
-```
-
-```{r meltdfs_maxfamsize_day}
-#'assign families
-for(i in 1:length(f5)){
- fdistm2[[i]]$fam = names(f3)[i]
-}
-library(reshape)
-#'melt each df and make a new list fsize
-fsize = lapply(fdistm2, function(y){y = melt(as.data.frame(y), id.vars = c("fam","time","d"))
-})
-```
-
-```{r pool all data}
-#'rbind the data to create one dataframe
-library(data.table)
-fsize = rbindlist(fsize)
-
-#'remove all zeros
-fsize[fsize == 0,] = NA
-```
-
-```{r plot_data, eval=TRUE, fig.height=10, fig.width=10}
-#'load libs and run plot
-library(ggplot2)
-
-ggplot(fsize)+
-  geom_line(aes(x=time,y=d))+
-  facet_wrap(~fam, scales="free_x")
+```{r}
+save(fdistm, f2, file = "famdists02.rdata")
 ```
 
