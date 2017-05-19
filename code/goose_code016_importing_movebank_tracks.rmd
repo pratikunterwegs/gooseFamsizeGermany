@@ -58,11 +58,11 @@ familynames2014 = birds2014$name
 
 ```{r download_2016_tracks, eval=FALSE}
 #'get all families
-familytracks2016 = getMovebankData(study=newtags,
+#familytracks2016 = getMovebankData(study=newtags,
                           animalName=familynames2016, login=cred)
 
 #get the kolguyev birds
-kolguyev2016 = getMovebankData(study = newtags, animalName = kolguyevbirds2016, login =cred )
+#kolguyev2016 = getMovebankData(study = newtags, animalName = kolguyevbirds2016, login =cred )
 
 #'save to rdata file
 save(kolguyev2016, file = "kolguyev2016tracks.rdata")
@@ -89,7 +89,7 @@ fams2016 = fams2016[fams2016$location_error_numerical <= 20,]
 
 #'remove positions where coordinates are above 56N or 7E
 
-fams2016 = fams2016[fams2016$location_lat < 56 & fams2016$location_long < 7,]
+fams2016 = fams2016[fams2016$location_lat < 56 & fams2016$location_long <= 8,]
 ```
 
 ```{r set_factor_fam}
@@ -101,7 +101,7 @@ fams = ifelse(grepl("Ad", a), "Ad",
               ifelse(grepl("Ch", a), "Ch",
                      ifelse(grepl("Ti", a), "Ti",
                             ifelse(grepl("Ev",a), "Ev",
-                     ifelse(grepl("Ja",a), "Ja", "Other")))))
+                     ifelse(grepl("Ja",a), "Ja", "Wo")))))
 
 #'add to movestack after making factor
 fams = as.factor(fams); fams2016$fam = fams
@@ -121,14 +121,14 @@ fams2016.3 = lapply(fams2016.3, function(x) x = unlist(x))
 ```
 
 ```{r make_list_dfs}
-#'make this a list of dataframes, keeping only useful fields
-fams2016.4 = lapply(fams2016.3, function(x){lapply(x, function(y){y = data.frame(lon = y$location_long, lat = y$location_lat, v = y$ground_speed, t = y$timestamp, fam = y$fam, lag = c(0,timeLag(y)))})})
+#'make this a list of dataframes, keeping only useful fields. set the first lag to 1800s.
+fams2016.4 = lapply(fams2016.3, function(x){lapply(x, function(y){y = data.frame(lon = y$location_long, lat = y$location_lat, v = y$ground_speed, t = y$timestamp, fam = y$fam, lag = c(1800,timeLag(y)))})})
 
 ```
 
 ```{r filter_by_lag}
-#'remove lags below 1000, where speed is also above 2
-fams2016.4 = lapply(fams2016.4, function(x){lapply(x, function(y){y = y %>% filter(lag >= 600, lag <= 2000)})})
+#'remove lags below 600s (10mins)
+fams2016.4 = lapply(fams2016.4, function(x){lapply(x, function(y){y = y %>% filter(lag >= 600)})})
 
 #'save as rdata
 save(fams2016.4, file = "fams2016.nobursts.rdata")
@@ -159,7 +159,7 @@ names(fams2014) = oldbirds
 # Filter dfs
 
 ```{r reduce_df_vars}
-#'remove useless variables
+#'retain relevant vars
 fams2014.2 = lapply(fams2014, function(x){x = data.frame(lon = x$location.long, lat = x$location.lat, v = x$ground.speed, t = as.POSIXct(as.character(x$timestamp)), error = x$eobs.horizontal.accuracy.estimate)})
 ```
 
@@ -192,7 +192,7 @@ fams2014.3 = fams2014.3 %>% arrange(name, t)
 fams2014.3 = fams2014.3[complete.cases(fams2014.3),]
 
 #'filter
-fams2014.3 = fams2014.3 %>% filter(lon <=7, lat <=56,            error < quantile(error, seq(0,1,0.1))[10])
+fams2014.3 = fams2014.3 %>% filter(lon <=8, lat <=56, error < quantile(error, seq(0,1,0.1))[10])
 
 #'remove duplicates again
 fams2014.3 = fams2014.3[!duplicated(fams2014.3[,c("name", "t")]),]
@@ -232,11 +232,23 @@ fams2014.5 = lapply(fams2014.4, function(x){lapply(x, function(y){y = data.frame
 ```
 
 ```{r filter_by_lag2014}
-#'remove lags below 1000, where speed is also above 2
+#'remove lags below 600 and above 3600s
 fams2014.5 = lapply(fams2014.5, function(x){lapply(x, function(y){y = y %>% filter(lag >= 600)})})
 ```
 
 ```{r exportfams2014}
-save(fams2014.5, file = "fams2014.nobursts.rdata")
+save(fams2014.5, file = "oldfams.nobursts.rdata")
 ```
 
+```{r separate_2015}
+#'get 2015 fams, Ha, He, Jo, and Na
+fams2015 = fams2014.5[c("Ha", "He", "Jo", "Na")]
+#'remove from fams2014
+fams2014 = fams2014.5[c("An","Ma","Ro")]
+
+```
+
+```{r export}
+save(fams2015, file = "fams2015.rdata")
+save(fams2014, file = "fams2014.rdata")
+```

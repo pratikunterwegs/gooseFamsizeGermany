@@ -20,27 +20,43 @@ Model with flocksize as response, lon-lat, days, p.index, as predictors, others 
 
 ```{r run_glmer}
 
-flockmod = glmer(flocksize ~ lon + lat + days + p.index + (1|Breeding_year) + (1|Observer) + (1|Food_type), data = geese, family = poisson)
+flockmod = bam(flocksize ~ lon + (days) + p.index + s(Breeding_year, bs = "re") + s(Observer, bs = "re") + s(Food_type, bs = "re"), data = geese, family = gaussian)
 
 ```
 
 ```{r summary}
 summary(flockmod)
-
-sjp.glmer(flockmod, type = "eff")
 ```
 
 # Number of families ~ flocksize
 
 ```{r glmer_fams}
-famsmod = glmer(fams ~ log(flocksize) + (1|Breeding_year) + (1|Observer) + (1|Food_type) + (1|zone), data = fams[fams$flocksize > 0,], family = poisson)
+famsmod = bam(fams ~ flocksize + s(Breeding_year, bs = "re") + s(Observer, bs = "re") + s(Food_type, bs = "re"), data = fams[fams$flocksize > 0,], family = poisson)
+```
+
+# Juveniles in flocks
+
+```{r}
+#'run bam
+gamjuvs = bam(propjuv ~ lon + flocksize + s(p.index) + s(t_since_in) + s(Breeding_year, bs = "re") + s(Observer, bs = "re") + s(Food_type, bs = "re"), data = geese, family = binomial)
+
 ```
 
 ```{r}
-sjp.setTheme(base = theme_bw())
-sjp.glmer(famsmod, type = "eff", show.values = T, show.ci = T,
-          geom.colors = "")
-#qqmath(famsmod)
+summary(gamjuvs)
+
+AIC(gamjuvs)
+
+pdf(file = "juvpropgam.pdf")
+vis.gam(gamjuvs, view=c("t_since_in","p.index"), type = 'response', plot.type = "contour", color = "terrain", main = NULL)
+dev.off()
+
+save(gamjuvs, flockmod, famsmod, glmer03, mod03, mod03.gorg, file = "goosemods_pres.rdata")
 ```
 
-$y =  f(x)$
+# Do flocksizes decrease with time?
+
+```{r}
+
+```
+

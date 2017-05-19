@@ -1,0 +1,149 @@
+---
+title: Mapping goose families
+---
+
+```{r}
+#'source r dataprep file
+source("dataprep.R")
+```
+
+```{r}
+library(sp);library(raster);library(rgdal);library(maptools);library(tmap)
+library(RColorBrewer)
+```
+
+```{r load_data}
+#'load map data
+land = readOGR("vector/ne_10m_admin_0_boundary_lines_land.shp")
+coasts = readOGR("vector/ne_10m_land.shp")
+rivers = readOGR("vector/ne_10m_rivers_lake_centerlines.shp")
+lakes = readOGR("vector/ne_10m_lakes.shp")
+
+#'make data spatial
+fams.expand.spatial = fams.expand
+coordinates(fams.expand.spatial) = ~lon+lat
+fams.spatial = fams
+coordinates(fams.spatial) = ~lon+lat
+geeseorg.spatial = geeseorg
+coordinates(geeseorg.spatial) = ~lon+lat
+
+#'tracked family sizes
+load("fsize.rdata")
+
+#'set extent
+e = extent(3.5,7.75,50.75,53.5)
+```
+
+
+```{r}
+#'map migration tracking sites
+library(readxl)
+spring.sites = read_excel("~/git/thesis/Migration_data.xlsx", sheet = 4)
+spring.sites$season = "spring"
+autumn.sites = read_excel("~/git/thesis/Migration_data.xlsx", sheet = 5)
+autumn.sites$season = "autumn"
+migration.sites = rbind(spring.sites, autumn.sites)
+
+coordinates(migration.sites) = ~ Lon+Lat
+```
+
+
+# Map sovon data
+
+```{r map_sovon}
+#pdf(file = "datamap.pdf", width = 10, height = 10)
+#'map locations
+tm_shape(coasts, bbox = e)+
+  tm_polygons(col = "white", border.col = "grey70", alpha = 0.7)+
+tm_shape(land)+
+  tm_lines(col = "grey80")+
+tm_shape(rivers)+
+  tm_lines(col = "grey40")+
+tm_shape(lakes)+
+  tm_polygons(alpha = 0.5, col = "grey70", border.col = "grey70")+
+  
+tm_shape(geeseorg.spatial)+
+  tm_symbols(col = "grey50", shape = 3, scale = 0.3, jitter = 0.01, title.col = "Marked goose", shapes.legend = "Some")+
+  
+tm_shape(fams.expand.spatial)+
+  tm_symbols(col = "grey10", shape = 4, scale = 0.5, title.shape = "Flock counting site")+
+  
+tm_shape(migration.sites)+
+  tm_symbols(col = "white", shape = 21, alpha = 0.5, size = 0.7, border.col = "grey70")+
+  
+  tm_scale_bar(position = c("left","bottom"), breaks=c(0,25,50))+
+  tm_format_NLD()+
+  tm_layout(frame = T, title = "Geese in the Netherlands", title.size = 1.5, fontfamily = "serif")
+#dev.off()
+```
+
+
+```{r}
+library(data.table)
+load("famtracks.nobursts.Rdata")
+#'round to the day
+f2 = lapply(f1, function(x){lapply(x, function(y){y = y %>% mutate(day = round_date(t, "day"))})})
+
+f2 = lapply(f2, function(x){lapply(x, function(y){y = y %>% slice_rows("day") %>% dmap(mean)})})
+
+names(f2)[[11]] = "Wo"
+
+for(i in 1:length(f2)){
+  for(j in 1:length(f2[[i]])){
+    f2[[i]][[j]]$name = names(f2[[i]])[[j]]
+    f2[[i]][[j]]$fam = names(f2)[[i]]
+  }
+}
+
+#'bind lists
+f3 = lapply(f2, bind_rows)
+f3 = bind_rows(f3)
+#'assign years
+famyears = data.frame(fam = names(f2), year = as.factor(c(2013,2014,2014,2014,2014,2013,2013,rep(2016,6))))
+
+f3 = merge(f3, famyears, by = "fam")
+f3$fam = as.factor(f3$fam)
+
+#'make spatial
+coordinates(f3) = ~lon+lat
+```
+
+```{r, eval=FALSE}
+#pdf(file = "families.pdf", width = 10, height = 10)
+#'map locations
+tm_shape(coasts, bbox = e)+
+  tm_polygons(col = "white", border.col = "grey70", alpha = 0.4)+
+tm_shape(land)+
+  tm_lines(col = "grey70")+
+tm_shape(rivers)+
+  tm_lines(col = "lightblue")+
+  tm_shape(lakes)+
+  tm_polygons(alpha = 0.5, col = "lightblue", border.col = "grey70")+
+tm_shape(f3)+
+  tm_dots(col = "fam", size = 0.5, alpha = 0.7, title = "Family")+
+  
+  tm_scale_bar(position = c("left","bottom"), breaks=c(0,25,50))+
+  
+  tm_format_NLD()+
+  
+  tm_layout(frame = T, title = "Goose families, 2013 - 2016")
+#dev.off()
+```
+
+# Family sizes
+
+```{r}
+#'load and plot
+load("fsize_coords.rdata")
+
+pdf(file = "tracked_fams_change.pdf", width = 10, height = 10)
+daycoords %>% filter(fam %in% c("Ev","Ha","Ti","Wo")) %>%
+ggplot()+
+  geom_path(aes(x=time, y=fsize, col = lon), size = 4)+
+  scale_color_gradientn(colours = rev(gray.colors(6)))+
+  facet_wrap(~fam, scales = "free")+
+  labs(list(x = "Time",y = "Family size (incl. ads.)"))+
+  theme_minimal()
+dev.off()
+```
+

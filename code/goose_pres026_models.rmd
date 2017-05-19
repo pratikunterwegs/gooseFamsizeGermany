@@ -1,13 +1,10 @@
 ---
 title: "Family size models"
 output:
-  pdf_document:
-    toc: yes
-  html_document:
-    toc: yes
+  beamer_presentation
 ---
 
-```{r set_env, message=FALSE, echo=FALSE}
+```{r set_env, message=FALSE, echo=FALSE, warning=FALSE}
 #'load knitr
 library(knitr);library(plyr);library(dplyr);library(data.table);library(purrr);library(ggplot2)
 
@@ -21,90 +18,56 @@ library(sp);library(gstat)
 opts_chunk$set(echo = FALSE)
 ```
 
-```{r load_rdata, message=FALSE}
-load("gamms026forpres.rdata.RData")
-source("dataprep.R")
+```{r, message=FALSE, echo=FALSE, warning=FALSE}
+load("goosemods_pres.rdata")
+source("reduce_rhine.r")
 ```
 
+# Family size ~ longitude
 
-# Hypotheses
+* Not a significant effect
 
-1. Families with more juveniles are found in the west, and, 
-2. Families with more juveniles are found in smaller flocks, and,
-3. Family size decreases over the winter.
-4. Flock sizes are lower in the west.
-5. Larger flocks have more families.
-
-# Hpotheses 1 - 3
-
-## Family size plots
-
-```{r vis.mod03, fig.height=12, fig.width=10}
-par(mfrow = c(2,2))
-vis.gam(mod03.1, view = c("lon","t_since_in"), type = "response", plot.type = "contour", color = "terrain", main = "famsize: SOVON: days ~ lon")
-
-vis.gam(mod03.gorg, view = c("lon","t_since_in"), type = "response", plot.type = "contour", color = "cm", main = "famsize: geese.org: days ~ lon")
-
-vis.gam(mod03, view = c("p.index","t_since_in"), type = "response", plot.type = "contour", color = "terrain", main = "famsize: SOVON: days ~ p.index")
-
-vis.gam(mod03.gorg, view = c("p.index","t_since_in"), type = "response", plot.type = "contour", color = "cm", main = "famsize: geese.org: days ~ p.index")
-par(mfrow = c(1,1))
+```{r, message=FALSE, echo=FALSE, warning=FALSE}
+plot(mod03, all.terms = T, select = 5)
 ```
 
-# Hypothesis 04
+# Family size ~ flocksize
 
-```{r flocksize_lon}
-library(sjPlot)
-sjp.setTheme(base = theme_minimal())
-sjp.glmer(flockmod, type = "pred.fe", vars = "lon", show.values = T, show.p = T, show.ci = T)
+* Not a significant effect
+
+```{r, message=FALSE, echo=FALSE, warning=FALSE}
+plot(mod03, all.terms = T, select = 6)
 ```
 
----
+# Family size ~ time in winter
 
-# H1-3 GAM summaries
+* Highly significant effect
 
-## SOVON data summary
-
-```{r summary_sovon_data}
-summary(mod03)
+```{r, message=FALSE, echo=FALSE, warning=FALSE}
+plot(mod03, all.terms = T, select = 7)
 ```
 
+# Flocksize ~ longitude
 
-## geese.org data summary
+* Highly significant effect. Flocks are smaller in the west.
 
-```{r summary_geeseorg_data}
-summary(mod03.gorg)
+```{r, message=FALSE, echo=FALSE, warning=FALSE}
+plot(flockmod, all.terms = T, select = 4)
 ```
 
-# H1-3 GAM checks
+# Number of families ~ flocksize
 
-## SOVON data
+* Significant effect
 
-```{r model_check03}
-par(mfrow = c(2,2))
-gam.check(mod03)
-par(mfrow = c(1,1))
+```{r, message=FALSE, echo=FALSE, warning=FALSE}
+plot(famsmod, all.terms = T, select = 4)
 ```
 
-## geese.org data
+# Juvenile % ~ winter
 
-```{r model_check03gorg}
-par(mfrow = c(2,2))
-gam.check(mod03.gorg)
-par(mfrow = c(1,1))
-```
+* Significant effect
 
----
-
-# H4 model summary
-
-```{r}
-summary(flockmod)
-```
-
-# H5 model summary
-
-```{r}
-summary(famsmod)
+```{r, message=FALSE, echo=FALSE, warning=FALSE}
+plot(gamjuvs, select = 2, residuals = T)
 ```
 

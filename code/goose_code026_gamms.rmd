@@ -38,6 +38,25 @@ fams.expand$Breeding_year = as.factor(as.character(fams.expand$Breeding_year))
 geeseorg$breedyr = as.factor(geeseorg$breedyr)
 ```
 
+# Reduce the Rhinelands data
+
+```{r}
+#'how many families from the Rhinelands?
+plyr::count(fams.expand, "zone")
+#'as many as from the other zones combined, almost
+
+#'subsample to have only half as many. first remove rhinelands data from the frame
+fams.expand.sub = fams.expand %>% filter(zone !=  "Rhinelands")
+#'now subsample
+fams.rhine = fams.expand %>% filter(zone == "Rhinelands")
+n.rhine = dim(fams.rhine)[1]
+fams.rhine = fams.rhine[runif(n.rhine/2, 1, n.rhine),]
+
+#'reattach to the main data
+fams.expand.sub = rbind(fams.expand.sub, fams.rhine)
+```
+
+
 # List hypotheses 01, 02 and 03
 
 1. Families with more juveniles are found in the west, and, 
@@ -65,49 +84,21 @@ vis.gam(mod01, type = "response",
         view = c("flocksize","days"), theta = -235, color = "terrain")
 ```
 
-## Model 02
-
-Substitute days with t_to_out and t_since_in to check which date is more important.
-
-```{r m02}
-#'run a bam with the smoothing applied only to the coordinates
-#mod02 = bam(famsize ~ (lon) + flocksize + t_since_in + t_to_out + p.index + s(Food_type, bs = "re") + s(Observer, bs = "re") + s(Breeding_year, bs = "re"), data = fams.expand, family = "poisson")
-```
-
-```{r summary02}
-summary(mod02)
-AIC(mod02) -  AIC(mod01)
-o2.mixed.mods(mod02)
-plot(mod02, select = 2, residuals = F, scheme = 2)
-
-vis.gam(mod02, view = c("lon","t_since_in"), color = "terrain", plot.type = "persp", type = "response", theta = -235)
-```
-
 ## Model 03
 Remove time to departure.
 
 ```{r m03}
-#'remove t_since_in
-mod03 = bam(famsize ~ lon + flocksize + t_since_in + p.index + s(Food_type, bs = "re") + s(Observer, bs = "re") + s(Breeding_year, bs = "re"), data = fams.expand, family = "poisson")
-
-mod03.1 = bam(famsize ~ lon + t_since_in + p.index + s(Food_type, bs = "re") + s(Observer, bs = "re") + s(Breeding_year, bs = "re"), data = fams.expand, family = "poisson")
-
-mod03.2 = bam(famsize ~ lon + lat + t_since_in + p.index + s(Food_type, bs = "re") + s(Observer, bs = "re") + s(Breeding_year, bs = "re"), data = fams.expand, family = "poisson")
+#'remove t_to_out
+mod03 = bam(famsize ~ lon + flocksize + t_since_in  + s(Food_type, bs = "re") + s(Observer, bs = "re") + s(Breeding_year, bs = "re") + s(Site_name, bs = "re"), data = fams.expand.sub, family = "poisson")
 ```
 
-```{r summary03}
-AIC(mod03.1) - AIC(mod03)
-summary(mod03.2)
-
-#'model 02 and 03 are not significantly different.
-anova(mod02, mod03, test = "F")
-```
 
 ```{r vis.bam03}
-vis.bam(mod03, view = c("lon", "t_to_out"), type = "response", color = "terrain", theta = -45)
+#pdf(file = "gam03days_lon.pdf")
+vis.gam(mod03, view = c("lon", "t_since_in"), color = rev("terrain"), plot.type = "contour", type = "response", main = NULL, xlab = "Long", ylab = "Days since first arrivals")
+#dev.off()
 
-#'check for autocorrelation in the residuals
-acf(mod03$residuals)
+summary(mod03)
 ```
 
 # geese.org data
@@ -121,11 +112,17 @@ geeseorg = geeseorg %>% filter(round(lon) %in% 0:10, round(lat) %in% 50:56)
 
 
 ```{r gorg.m03}
-mod03.gorg = bam(famsize ~ lon + p.index + t_since_in + s(id, bs = "re") + s(breedyr, bs = "re"), data = geeseorg, family = poisson, na.action = na.exclude)
+mod03.gorg = bam(famsize ~ lon + t_since_in + s(id, bs = "re") + s(breedyr, bs = "re"), data = geeseorg, family = poisson)
 ```
 
 ```{r}
-vis.gam(mod03.gorg, view = c("t_since_in","p.index"), type = "response", plot.type = "contour", color = "terrain", main = "famsize: geese.org: days ~ lon")
+summary(mod03.gorg)
+o2.mixed.mods(mod03.gorg)
+```
+
+
+```{r}
+vis.gam(mod03.gorg, view = c("lon", "t_since_in"), type = "response", plot.type = "contour", color = "terrain", main = NULL, xlab = "Long",ylab = "Days since first arrivals")
 ```
 
 ---
@@ -133,15 +130,24 @@ vis.gam(mod03.gorg, view = c("t_since_in","p.index"), type = "response", plot.ty
 # GLMERs
 
 ```{r}
-glmer03 = glmer(famsize ~ lon + flocksize + t_since_in + p.index + (1|Food_type) + (1|Observer) + (1|Breeding_year), data = fams.expand, family = "poisson")
+glmer03 = glmer(famsize ~ lon + flocksize + t_since_in + lon:t_since_in + p.index + (1|Food_type) + (1|Observer) + (1|Breeding_year), data = fams.expand.sub, family = "poisson")
+
+glmer04 = glmer(famsize ~ t_since_in + (1|Food_type) + (1|Observer) + (1|Breeding_year), data = fams.expand.sub, family = "poisson")
 ```
 
 ```{r}
-glmer03gorg = glmer(famsize ~ lon + t_since_in + p.index + (1|breedyr) + (1|id), data = geeseorg, family = "poisson")
+summary(glmer03)
+
+o2.mixed.mods(glmer03)
+
+anova(glmer03, glmer04)
 ```
 
+
+# Time gam
+
 ```{r}
-glmer.onlylon = glmer(famsize ~ lon + flocksize + t_since_in + p.index + (1|Food_type) + (1|Observer) + (1|Breeding_year), data = fams.expand, family = "poisson")
+timegam = gam(lon ~ time + s(Breeding_year, bs = "re") + s(Observer, bs = "re") + s(Food_type, bs = "re"), data = fams.expand, family = gaussian)
 ```
 
 

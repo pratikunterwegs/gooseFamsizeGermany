@@ -15,9 +15,9 @@ library(sp);library(gstat)
 #'get df of coords and residuals
 
 #'subset fams.expand
-fams.expand.sub = fams.expand[complete.cases(fams.expand[,c("Food_type","Observer","Breeding_year")]),]
+fams.expand.test = fams.expand.sub[complete.cases(fams.expand.sub[,c("Food_type","Observer","Breeding_year")]),]
 
-mod3resids = as.data.frame(cbind(fams.expand.sub[,c("lon","lat")], resid = resid(mod03)))
+mod3resids = as.data.frame(cbind(fams.expand.test[,c("lon","lat")], resid = resid(mod03)))
 
 #'make spatial
 coordinates(mod3resids) = ~ lon+lat
@@ -41,24 +41,20 @@ plot(vgram_gstat_mod03, smooth = T)
 ```{r nlme_vgram}
 #'load lib
 library(nlme)
-vgram_nlme_mod03 = Variogram(mod03, form = ~lon)
+vgram_nlme_mod03 = Variogram(resid(mod03), form = ~lon, robust = T)
 plot(vgram_gstat_mod06)
 ```
 
-# For ```mod07```
+# Check Moran's I
 
-```{r vgram_mod07}
-#'first using gstat
-#'specify directions EWNS
-mod7resids = as.data.frame(cbind(fams.expand[,c("lon","lat")], resid = resid(mod07$lme)))
+```{r}
+fams.rand = fams.expand[runif(1000, 1, dim(fams.expand)[1]),]
 
-#'make spatial
-coordinates(mod7resids) = ~ lon+lat
+library(ncf)
+fam.correlog = with(fams.rand, correlog(lon, lat, famsize, resamp = 100, latlon = T, increment = 0.1))
 
-#vgram_gstat_mod07 = variogram(resid~1, data=mod7resids, alpha= c(0,90,180,270))
+a = 
 
-plot(vgram_gstat_mod07)
-plot(vgram_nlme_mod06)
 ```
 
 

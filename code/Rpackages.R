@@ -36,7 +36,7 @@ library(MASS)
 
 ####Spatial packages####
 library(rgeos)
-library(ks) #installs shiny, needs rgl install via sudo, r-cran-rgl
+library(ks) #installs shiny, needs rgl install via sudo apt-get install r-cran-rgl
 require(raster)
 library(rasterVis)
 #basic spatial
