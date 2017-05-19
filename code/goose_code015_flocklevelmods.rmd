@@ -31,7 +31,7 @@ summary(flockmod)
 # Number of families ~ flocksize
 
 ```{r glmer_fams}
-famsmod = bam(fams ~ flocksize + s(Breeding_year, bs = "re") + s(Observer, bs = "re") + s(Food_type, bs = "re"), data = fams[fams$flocksize > 0,], family = poisson)
+famsmod = bam(fams ~ flocksize + p.index + lon + s(Breeding_year, bs = "re") + s(Observer, bs = "re") + s(Food_type, bs = "re"), data = fams[fams$flocksize > 0,], family = poisson)
 ```
 
 # Juveniles in flocks

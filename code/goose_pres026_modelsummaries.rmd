@@ -1,0 +1,78 @@
+---
+title: "Model summaries"
+output: pdf_document
+---
+
+```{r set_env, message=FALSE, echo=FALSE, warning=FALSE}
+#'load knitr
+library(knitr);library(plyr);library(dplyr);library(data.table);library(purrr);library(ggplot2)
+
+#'load model libs
+library(gam);library(mgcv);library(gamm4);library(itsadug)
+
+#'load variogram libraries
+library(sp);library(gstat)
+
+#'suppress all code output but run code
+opts_chunk$set(echo = FALSE)
+```
+
+```{r, message=FALSE, echo=FALSE, warning=FALSE}
+load("goosemods_pres.rdata")
+source("reduce_rhine.r")
+```
+
+# Family size model: SOVON data
+
+```{r, echo = FALSE}
+summary(mod03)
+```
+
+```{r, message=FALSE, warning = FALSE}
+plot(mod03, all.terms = T, residuals = T, select = c(5:7))
+```
+
+
+# Family size model: geese.org data
+
+```{r}
+summary(mod03.gorg)
+```
+
+```{r message = FALSE, warning = FALSE}
+plot(mod03.gorg, all.terms = T, select = c(3:4))
+```
+
+
+
+# Families in flocks model
+
+```{r}
+summary(famsmod)
+```
+
+```{r, warning = FALSE}
+plot(famsmod, all.terms = T, select = 4:6)
+```
+
+
+# Flock size model
+
+```{r}
+summary(flockmod)
+```
+```{r}
+plot(flockmod, all.terms = T, select = c(4:6))
+```
+
+
+# Juvenile proportion model
+
+```{r}
+summary(gamjuvs)
+```
+
+```{r}
+plot(gamjuvs, all.terms = T)
+```
+

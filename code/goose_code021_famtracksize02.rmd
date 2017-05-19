@@ -31,7 +31,7 @@ fams2015[["Ha"]] = fams2015[["Ha"]][c(3,1,2,4,5)]
 fams2015[["Jo"]] = rev(fams2015[["Jo"]])
 
 #'family Na
-fams2015[["Na"]] = rev(fams2015[["Na"]])
+fams2015[["Na"]] = fams2015[["Na"]][c(2,3,1,4,5)]
 
 #'family Ad
 fams2016.4[["Ad"]] = fams2016.4[["Ad"]][c(3,2,1,4,5)]
@@ -60,7 +60,6 @@ f1 = append(fams2014, c(fams2015, fams2016.4))
 
 
 ```{r round_time}
-library(plyr);library(dplyr)
 f1 = lapply(f1, function(x){lapply(x, function(y){y %>% mutate(t = round_date(t, "30 minute"))})})
 #'round time to the nearest minute
 f1 = lapply(f1, function(x){lapply(x, function(y){y %>% mutate(t = round_date(t, "30 minute"))})})
@@ -122,41 +121,19 @@ If more than 20 points are consecutively missing, ie, after 10 hours, set the re
 
 ```{r}
 #'set all NA to Inf. turns the dfs into a list again.
-fdistm2 = lapply(fdistm, function(x){lapply(x, function(y){replace(y, which(is.na(y)), NA)})})
+#fdistm2 = lapply(fdistm, function(x){lapply(x, function(y){replace(y, which(is.na(y)), NA)})})
+fdistm2 = fdistm
 ```
 
-```{r check_na}
-fdistm2 = lapply(fdistm2, function(x){lapply(x, function(y){
-  cbind(as.data.frame(y), c = rollapply(is.na(y), c(rep(100, length(y)-100), seq(100,1)), sum, align = "left"))
-})})
-```
-
-```{r assign_missing}
-#'here, if the y value is NA, and the c value for that row is > 100, assign that value and all following to Inf. if the value is NA, and the c value is < 100, assign -Inf.
-
-fdistm3 = lapply(fdistm2, function(x){lapply(x, function(y){
-  y = ifelse(is.na(y$y) & y$c >=100, Inf,
-         ifelse(is.na(y$y), -Inf, y$y))
-})})
-```
-
-```{r family_or_not}
-#'if a distance value is Inf, the next 100 values are NA. this is a function of the logger, not the goose, but values of Inf are indistinguishable from values above 250m. 
-#'to check if the family is migrating together, if the last distance to each goose is less than 1000m (very generous), set all Inf to -Inf, which indicates logger error, rather than juvenile dispersal.
-
-fdistm3 = lapply(fdistm3, function(x){lapply(x, function(y){
-  y = ifelse(last(y) <= 1000 & y == Inf, -Inf, y)
-})})
-```
 
 ```{r make_df_sizes}
 #'make df
-fdistm3 = lapply(fdistm3, as.data.frame)
+fdistm3 = fdistm2
+#fdistm3 = lapply(fdistm3, as.data.frame)
 
 #'get family sizes per half hour
-fdistm3 = lapply(fdistm3, function(x){x %>% mutate(fsize= apply(x, 1, function(y){sum(y<1250)}))})
+fdistm3 = lapply(fdistm3, function(x){x %>% mutate(fsize= apply(x, 1, function(y){sum(y<1000, na.rm = T)}))})
 ```
-
 
 
 ```{r add_time}
@@ -172,12 +149,12 @@ fsize = lapply(fdistm3, function(x){x = x %>% plyr::summarise(time = round_date(
 ```
 
 ```{r get_maxsize}
-library(purrr)
+library(purrr);library(zoo)
 #'get max family size per day
 fsize2 = lapply(fsize, function(x){x = x %>% slice_rows("time") %>% dmap(max)})
 
 #'set famsize to the max famsize in the next 10 days
-fsize2 = lapply(fsize2, function(x){x = x %>% mutate(fsize = rollapply(fsize, c(rep(30, dim(x)[1]-30), seq(30,1)), max, align = "left"))})
+fsize2 = lapply(fsize2, function(x){x = x %>% mutate(fsize = rollapply(fsize, seq(dim(x)[1],1), max, align = "left"))})
 ```
 
 ```{r}
@@ -188,7 +165,7 @@ save(fsize2, file = "fsize.rdata")
 
 ```{r get_coords}
 #'get coords
-daycoords = lapply(f2, function(x){x %>% select(t, lon.x, lat.x) %>% plyr::summarise(time = round_date(t, "day"), lon = lon.x, lat = lat.x)})
+daycoords = lapply(f2, function(x){x %>% select(t, lon.x, lat.x) %>% plyr::summarise(time = round_date(t, "day"), lon = lon.x, lat = lat.x) %>% slice_rows("time") %>% dmap(mean)})
 
 #'merge coords with fsize2 and assign families
 for(i in 1:length(daycoords)){
@@ -203,32 +180,40 @@ save(daycoords, file = "fsize_coords.rdata")
 write.csv(daycoords, file = "trackedfamilysizes.csv")
 ```
 
+# Plot
+
 ```{r}
 library(ggplot2)
+#load("tracked_family_sizes.RData")
 
-pdf()
-daycoords %>% filter(fam %in% c("Ev","Ha","Ti","Wo")) %>%
+#pdf(file = "trackedfamilysizes.pdf", height = 10, width = 12)
+daycoords %>% #filter(fam %in% c("Ev","Ha","Ti","Wo", "Na", "Ro")) %>%
 ggplot()+
   geom_path(aes(x=time, y=fsize, col = lon), size = 4)+
-  scale_color_gradientn(colours = rev(gray.colors(6)))+
+  scale_color_gradientn(colours = rev(brewer.pal(6, "RdBu")))+
   facet_wrap(~fam, scales = "free")+
   labs(list(x = "Time",y = "Family size (incl. ads.)"))+
   theme_minimal()
+#dev.off()
 ```
 
-# Juvenile distances over winter
+# Get split attributes
 
 ```{r}
-#'load data
-load("famdists02.rdata")
+#'split by family
+splits = split(daycoords, f =daycoords$fam)
 
-#'get the mean distances excluding the first two columns
-fdmean = lapply(fdistm, function(x){select(x,-c(V1,V2)) %>% apply(1, function(y){mean(y, na.rm = T)})})
+#'get attrs at split
+splits = lapply(splits, function(x){rbind(x[1,],x[which(diff(x$fsize)<0)+1,], x[dim(x)[1],])})
 
-#'add timestamps
-for(i in 1:length(fdmean)){
-  fdmean[[i]] = data.frame(meandist = fdmean[[i]])
-  fdmean[[i]]$time = f2[[i]]$t
-}
+#'bind rows
+splits = bind_rows(splits)
+```
+
+```{r plot_splits}
+#'plot split positions
+ggplot()+
+  geom_path(data=splits, aes(x=lon, y = lat, col = fam), size = 2)+
+  geom_
 ```
 

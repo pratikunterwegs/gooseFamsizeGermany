@@ -1,4 +1,4 @@
-library(lubridate)
+library(lubridate);library(plyr);library(dplyr)
 ####Load goose flock data####
 geese = read.csv("data.goose.clean.csv",row.names = 1)
 geese$time = as.Date(geese$time)
