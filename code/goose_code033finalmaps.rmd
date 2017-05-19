@@ -69,11 +69,16 @@ geeseorg.grid$breedyr = over(geeseorg.grid, geeseorg.spatial[2], fn = max)
 geeseorg.grid = geeseorg.grid[!is.na(geeseorg.grid$breedyr),]
 ```
 
+```{r}
+#'get splits and lines between splits
+load("fsize_coords.rdata")
+```
+
 
 # Basic datamap
 
 ```{r map_sovon}
-#pdf(file = "datamap.pdf", width = 10, height = 10)
+pdf(file = "datamap.pdf", width = 10, height = 10)
 #'map locations
 tm_shape(land, bbox = e - c(0,0,-0.2,0))+
   tm_polygons(col = "white", border.col = "grey70", alpha = 0.7)+
@@ -84,15 +89,21 @@ tm_shape(rivers)+
 tm_shape(lakes)+
   tm_polygons(alpha = 0.5, col = "grey70", border.col = "grey70")+
 tm_shape(geeseorg.grid)+
-  tm_polygons(col = "breedyr",alpha = 0.5, border.col = "grey50", border.alpha = 0.3, palette = "Greys", title = "geese.org data from", style = "cont")+
+  tm_polygons(col = "grey90",alpha = 0.5, border.col = "grey80", border.alpha = 0.3)+
   
 tm_shape(fams.spatial)+
   tm_symbols(col = "black", shape = 21, scale = 0.5, border.col = "grey80")+
   
+tm_shape(famlines)+
+  tm_lines(col = "black", lty = "dotted")+
+  
+tm_shape(splits2)+
+  tm_symbols(shape = "event", shapes = c(25, 4), size = 0.5, col = "grey", showNA = F, shapeNA = NA, border.col = "grey20", legend.shape.show = F)+
+  
 tm_scale_bar(position = c("left","bottom"), breaks=c(0,25,50))+
 tm_format_NLD()+
-tm_layout(frame = T, title = "Geese in the Netherlands", title.size = 1.5, fontfamily = "Heuristica")
-#dev.off()
+tm_layout(frame = T, title = "Geese in the Netherlands", title.size = 1.5, fontfamily = "serif")
+dev.off()
 ```
 
 # Plot families

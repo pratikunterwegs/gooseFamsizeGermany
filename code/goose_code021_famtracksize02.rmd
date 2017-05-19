@@ -153,7 +153,7 @@ library(purrr);library(zoo)
 #'get max family size per day
 fsize2 = lapply(fsize, function(x){x = x %>% slice_rows("time") %>% dmap(max)})
 
-#'set famsize to the max famsize in the next 10 days
+#'set famsize to the max famsize in the next n days
 fsize2 = lapply(fsize2, function(x){x = x %>% mutate(fsize = rollapply(fsize, seq(dim(x)[1],1), max, align = "left"))})
 ```
 
@@ -184,7 +184,11 @@ write.csv(daycoords, file = "trackedfamilysizes.csv")
 
 ```{r}
 library(ggplot2)
-#load("tracked_family_sizes.RData")
+#load
+
+daycoords.spat = daycoords
+
+coordinates(daycoords.spat) =  ~lon+lat
 
 #pdf(file = "trackedfamilysizes.pdf", height = 10, width = 12)
 daycoords %>% #filter(fam %in% c("Ev","Ha","Ti","Wo", "Na", "Ro")) %>%
@@ -201,19 +205,45 @@ ggplot()+
 
 ```{r}
 #'split by family
-splits = split(daycoords, f =daycoords$fam)
+splits = split(daycoords, f = daycoords$fam)
 
 #'get attrs at split
-splits = lapply(splits, function(x){rbind(x[1,],x[which(diff(x$fsize)<0)+1,], x[dim(x)[1],])})
+splits2 = lapply(splits, function(x){x[which(diff(x$fsize)<0)+1,]})
+
+ends = lapply(splits, function(x){rbind(x[1,], x[dim(x)[1],])})
+
+splits2 = bind_rows(splits2)
+splits2$event = "Split"
+
+ends = bind_rows(ends)      
+ends$event = rep(NA, 26)
+
+splits = rbind(splits2, ends)
+
+splits = splits %>% plyr::arrange(fam, time)
 
 #'bind rows
-splits = bind_rows(splits)
+splits2 = bind_rows(splits)
+
+coordinates(splits2) = ~lon+lat
+
+#'convert to spatial lines for tmap
+famlines = split(splits[,c("lon","lat")], f = splits$fam)
+
+famlines = spLines(lapply(famlines, function(x){as.matrix(x)}))
 ```
 
 ```{r plot_splits}
+library(ggspatial)
 #'plot split positions
+splits2 %>%
 ggplot()+
-  geom_path(data=splits, aes(x=lon, y = lat, col = fam), size = 2)+
-  geom_
+  geom_point(aes(x=lon, y = lat, shape = event), size = 3, fill = 2)+
+  scale_shape_manual(values = c(NA, 25, 20))+
+  geom_spatial(famlines, lty = 3)
+```
+
+```{r}
+save(daycoords, famlines, splits2, file = "fsize_coords.rdata")
 ```
 
