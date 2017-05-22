@@ -155,3 +155,7 @@ library(ncf)
 library(spdep)
 library(pgirmess)
 
+####Visualisation####
+library(sjPlot)
+library(visreg)
+

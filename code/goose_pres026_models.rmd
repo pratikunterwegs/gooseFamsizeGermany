@@ -1,7 +1,5 @@
 ---
-title: "Family size models"
-output:
-  beamer_presentation
+title: Goose Flock Data Description
 ---
 
 ```{r set_env, message=FALSE, echo=FALSE, warning=FALSE}
@@ -15,59 +13,375 @@ library(gam);library(mgcv);library(gamm4);library(itsadug)
 library(sp);library(gstat)
 
 #'suppress all code output but run code
+opts_chunk$set(eval = FALSE)
 opts_chunk$set(echo = FALSE)
 ```
 
-```{r, message=FALSE, echo=FALSE, warning=FALSE}
-load("goosemods_pres.rdata")
+```{r, message=FALSE, echo=FALSE, warning=FALSE, eval=TRUE}
+
+load("goosemods_pres.RData")
 source("reduce_rhine.r")
 ```
 
-# Family size ~ longitude
+# Plot 01: Family size ~ longitude: SOVON
 
-* Not a significant effect
+* Slight non significant increasing effect
 
-```{r, message=FALSE, echo=FALSE, warning=FALSE}
-plot(mod03, all.terms = T, select = 5)
+```{r pred_famsize_lon, message=FALSE, echo=FALSE, warning=FALSE}
+#'get model response for lon
+vis.mod03 = visreg(mod03, "lon", gg = TRUE, scale = "response", line.par = list(col = 1), plot = F)
+
+#'make data frame
+vis.mod03.data = vis.mod03$fit
 ```
 
-# Family size ~ flocksize
+```{r export_fams_lon, eval = FALSE}
+#postscript(file = "plot01sovonfamlon.eps", colormodel = "grey", horizontal = FALSE, onefile = FALSE, height = 4, width = 5)
 
-* Not a significant effect
+#'plot
+p1 = ggplot()+
+   #geom_path(data = vis.mod03.data, aes(x = lon, y = visregLwr), lty = 2)+
+  #geom_path(data = vis.mod03.data, aes(x = lon, y = visregUpr), lty = 2)+
+  geom_ribbon(data = vis.mod03.data, aes(x = lon, ymin = visregLwr, ymax = visregUpr), fill = "grey90")+
+  geom_line(data = vis.mod03.data, aes(x = lon, y = visregFit))+
+  labs(list(x = NULL, y = "Family size"))+
 
-```{r, message=FALSE, echo=FALSE, warning=FALSE}
-plot(mod03, all.terms = T, select = 6)
+  geom_segment(data = splits %>% filter(event %in% c("Split")), aes(x = lon, y = fsize+1, xend = lon, yend = 0), lty = 3, col = "grey30")+
+  geom_text(data = splits %>% filter(fam %in% c("Ev","Wo","Ha","Na","Ti","Ma","Ro","An","Jo"), event == "Split"), aes(x=lon, y = fsize+1, label = fam, angle = 0), hjust = 1, vjust = 0, size = 3, angle = -30)+
+  ylim(0,7.5)+
+  theme_bw()
+
+#dev.off()
 ```
 
-# Family size ~ time in winter
+# Plot 02: Family size ~ time: SOVON data
 
-* Highly significant effect
+* Highly significant decreasing effect
 
-```{r, message=FALSE, echo=FALSE, warning=FALSE}
-plot(mod03, all.terms = T, select = 7)
+```{r modresponse_fam_time}
+#'get model response for t_since_in
+vis.mod03.time = visreg(mod03, "t_since_in", gg = TRUE, scale = "response", line.par = list(col = 1), plot = F)
+
+#'make data frame
+vis.mod03.time.data = vis.mod03.time$fit
+
+#'add t_since_in to splits data
+splits$time = as.Date(splits$time)
+
+#'merge mig.red and splits
+splits = merge(splits, mig.red, by.x = "time", by.y = "Date")
 ```
 
-# Flocksize ~ longitude
+```{r export_fam_time, warning=FALSE, message=FALSE}
+#postscript(file = "plot02sovonfamtime.eps", colormodel = "grey", horizontal = FALSE, onefile = FALSE, height = 4, width = 5)
+
+p2 = ggplot()+
+  # geom_path(data = vis.mod03.time.data, aes(x = t_since_in, y = visregLwr), lty = 2)+
+  #geom_path(data = vis.mod03.time.data, aes(x = t_since_in, y = visregUpr), lty = 2)+
+  geom_ribbon(data = vis.mod03.time.data, aes(x = t_since_in, ymin = visregLwr, ymax = visregUpr), fill = "grey90")+
+  geom_line(data = vis.mod03.time.data, aes(x = t_since_in, y = visregFit), size = 1)+
+  geom_path(data = splits %>% filter(event %in% c("Start", "Split")), aes(x = t_since_in, y = fsize, group = fam), arrow = arrow(length = unit(0.02, "npc"), type = "closed"), lty = 3, col = "grey30")+
+  geom_text(data = splits %>% filter(fam %in% c("Ev","Wo","Ha","Na","Ti","Ma","Ro","An","Jo"), event == "Start"), aes(x=t_since_in, y = fsize, label = fam, angle = 0), hjust = 1, vjust = 0, size = 3, angle = -30)+
+   ylim(0,7.5)+ xlim(0,200)+
+  labs(list(x = NULL, y = NULL))+
+  theme_bw()
+
+#dev.off()
+```
+
+# Plot 03: Family size ~ longitude: geese.org
+
+```{r pred_gamjuvs}
+vis.famsize.lon.gorg = visreg(mod03.gorg, "lon", scale = "response",plot = F)
+
+vis.famsize.lon.gorg.data = vis.famsize.lon.gorg$fit
+```
+
+```{r}
+#postscript(file = "plot03famsize_lon_gorg.eps", colormodel = "grey", horizontal = FALSE, onefile = FALSE, height = 4, width = 5)
+
+p3 = ggplot()+
+  # geom_path(data = vis.famsize.lon.gorg.data, aes(x = lon, y = visregLwr), lty = 2)+
+  #geom_path(data = vis.famsize.lon.gorg.data, aes(x = lon, y = visregUpr), lty = 2)+
+  geom_ribbon(data = vis.famsize.lon.gorg.data, aes(x = lon, ymin = visregLwr, ymax = visregUpr), fill = "grey90")+
+  geom_line(data = vis.famsize.lon.gorg.data, aes(x = lon, y = visregFit), size = 1)+
+  labs(list(x = "Longitude", y = "Family size"))+
+  geom_segment(data = splits %>% filter(event %in% c("Split")), aes(x = lon, y = fsize+1, xend = lon, yend = 0), lty = 3, col = "grey30")+
+  geom_text(data = splits %>% filter(fam %in% c("Ev","Wo","Ha","Na","Ti","Ma","Ro","An","Jo"), event == "Split"), aes(x=lon, y = fsize+1, label = fam, angle = 0), hjust = 1, vjust = 0, size = 3, angle = -30)+
+  ylim(0,7.5)+
+  theme_bw()
+
+#dev.off()
+```
+
+# Plot 04: Family size ~ time: geese.org
+
+```{r pred_famsize-time_gorg}
+vis.famsize.time.gorg = visreg(mod03.gorg, "t_since_in", scale = "response",plot = F)
+
+vis.famsize.time.gorg.data = vis.famsize.time.gorg$fit
+```
+
+```{r}
+#postscript(file = "plot04famsize_time_gorg.eps", colormodel = "grey", horizontal = FALSE, onefile = FALSE, height = 4, width = 5)
+
+p4 = ggplot()+
+  #geom_path(data = vis.famsize.time.gorg.data, aes(x = t_since_in, y = visregLwr), lty = 2)+
+  #geom_path(data = vis.famsize.time.gorg.data, aes(x = t_since_in, y = visregUpr), lty = 2)+
+  geom_ribbon(data = vis.famsize.time.gorg.data, aes(x = t_since_in, ymin = visregLwr, ymax = visregUpr), fill = "grey90")+
+  geom_line(data = vis.famsize.time.gorg.data, aes(x = t_since_in, y = visregFit), size = 1)+
+  labs(list(x = "Days since first arrivals", y = NULL))+
+  geom_path(data = splits %>% filter(event %in% c("Start", "Split")), aes(x = t_since_in, y = fsize, group = fam), arrow = arrow(length = unit(0.02, "npc"), type = "closed"), lty = 3, col = "grey30")+
+  geom_text(data = splits %>% filter(fam %in% c("Ev","Wo","Ha","Na","Ti","Ma","Ro","An","Jo"), event == "Start"), aes(x=t_since_in, y = fsize, label = fam, angle = 0), hjust = 1, vjust = 0, size = 3, angle = -30)+
+   ylim(0,7.5)+ xlim(0,200)+
+  theme_bw()
+
+#dev.off()
+```
+
+# Plot 05: Flocksize ~ longitude
 
 * Highly significant effect. Flocks are smaller in the west.
 
-```{r, message=FALSE, echo=FALSE, warning=FALSE}
-plot(flockmod, all.terms = T, select = 4)
+```{r model_pred_flockmod}
+#'get model pred
+vis.flockmod = visreg(flockmod, "lon", scale = "response", plot = F)
+
+vis.flockmod.data = vis.flockmod$fit
 ```
 
-# Number of families ~ flocksize
+```{r export_flock_lon_plot}
+#postscript(file = "plot05flocksize_lon.eps", colormodel = "grey", horizontal = FALSE, onefile = FALSE, height = 4, width = 5)
+
+p5 = ggplot(data = vis.flockmod.data)+
+  #geom_path(aes(x = lon, y = visregLwr), lty = 2)+
+  #geom_path(aes(x = lon, y = visregUpr), lty = 2)+
+  geom_ribbon(data = vis.flockmod.data, aes(x = lon, ymin = visregLwr+10, ymax = visregUpr+10), fill = "grey90")+
+  geom_line(data = vis.flockmod.data, aes(x = lon, y = visregFit), size = 1)+
+  labs(list(x = "Longitude", y = "Flock size"))+
+  theme_bw()
+
+#dev.off()
+```
+
+# Plot 06: Flocksize ~ time
+
+* Significant effect, flocks are larger in the late winter
+
+```{r model_pred_flockmod_time}
+#'get model pred
+vis.flockmod.days = visreg(flockmod, "days", scale = "response", plot = F)
+
+vis.flockmod.days.data = vis.flockmod.days$fit
+```
+
+```{r export_flock_time_plot}
+#postscript(file = "plot06flocksize_days.eps", colormodel = "grey", horizontal = FALSE, onefile = FALSE, height = 4, width = 5)
+
+p6 = ggplot(data = vis.flockmod.days.data)+
+  #geom_path(aes(x = days, y = visregLwr), lty = 2)+
+  #geom_path(aes(x = days, y = visregUpr), lty = 2)+
+  geom_ribbon(data = vis.flockmod.days.data, aes(x = days, ymin = visregLwr, ymax = visregUpr), fill = "grey90")+
+  geom_line(data = vis.flockmod.days.data, aes(x = days, y = visregFit), size = 1)+ylim(0,1000)+
+  labs(list(x = "Days since September 1st", y = NULL))+
+  theme_bw()
+
+#dev.off()
+```
+
+# Plot 07: Number of families ~ flock size
+
+```{r pred_famsmod}
+visfamsmod = visreg(famsmod, "flocksize", plot = F, scale = "response")
+
+visfamsmod.data = visfamsmod$fit
+```
+
+```{r plot_pred_famsmod}
+#postscript(file = "plot07fams_in_flocks.eps", colormodel = "grey", horizontal = FALSE, onefile = FALSE, height = 4, width = 5)
+
+p7 = ggplot(data = visfamsmod.data)+
+ # geom_path(aes(x = flocksize, y = visregLwr), lty = 2)+
+ # geom_path(aes(x = flocksize, y = visregUpr), lty = 2)+
+  geom_ribbon(data = visfamsmod.data, aes(x = flocksize, ymin = visregLwr, ymax = visregUpr), fill = "grey90")+
+  geom_line(data = visfamsmod.data, aes(x = flocksize, y = visregFit), size = 1)+
+  labs(list(x = "Flock size", y = "Number of families"))+
+  theme_bw()
+
+#dev.off()
+```
+
+# Plot 08: Family size ~ flock size
+
+* Not a significant effect
+
+```{r modpred_fam_flocksize}
+#'predictions of family size from flocksizes
+vis.mod03.famflock = visreg(mod03, "flocksize", scale = "response", plot = F)
+
+#'make data frame
+vis.mod03.famflock.data = vis.mod03.famflock$fit
+```
+
+```{r plot_mod}
+#postscript(file = "plot08fam_flock.eps", colormodel = "grey", horizontal = FALSE, onefile = FALSE, height = 4, width = 5)
+
+p8 = ggplot(data = vis.mod03.famflock.data)+
+  #geom_path(aes(x = flocksize, y = visregLwr), lty = 2)+
+  #geom_path(aes(x = flocksize, y = visregUpr), lty = 2)+
+  geom_ribbon(data = vis.mod03.famflock.data, aes(x = flocksize, ymin = visregLwr, ymax = visregUpr), fill = "grey90", alpha = 1)+
+  geom_line(data = vis.mod03.famflock.data, aes(x = flocksize, y = visregFit), size = 1)+
+  labs(list(x = "Flock size", y = "Family size"))+
+  theme_bw()
+
+#dev.off()
+```
+
+# Plot 09: Juvenile % ~ winter
 
 * Significant effect
 
-```{r, message=FALSE, echo=FALSE, warning=FALSE}
-plot(famsmod, all.terms = T, select = 4)
+```{r pred_gamjuvs_time}
+vis.juvs.time = visreg(gamjuvs, "t_since_in", scale = "response",plot = F)
+
+vis.juvs.time.data = vis.juvs.time$fit
 ```
 
-# Juvenile % ~ winter
+```{r}
+#postscript(file = "plot09juvprop_time.eps", colormodel = "grey", horizontal = FALSE, onefile = FALSE, height = 4, width = 5)
 
-* Significant effect
+p9 = ggplot(data = vis.juvs.time.data)+
+  #geom_path(aes(x = t_since_in, y = visregLwr), lty = 2)+
+  #geom_path(aes(x = t_since_in, y = visregUpr), lty = 2)+
+  geom_ribbon(data = vis.juvs.time.data, aes(x = t_since_in, ymin = visregLwr, ymax = visregUpr), fill = "grey90")+
+  geom_line(data = vis.juvs.time.data, aes(x = t_since_in, y = visregFit), size = 1)+
+  labs(list(x = "Time since first arrivals", y = "Juvenile proportion"))+ylim(0.05, 0.6)+
+  theme_bw()
 
-```{r, message=FALSE, echo=FALSE, warning=FALSE}
-plot(gamjuvs, select = 2, residuals = T)
+#dev.off()
 ```
 
+# Plot 10: Juvenile % ~ longitude
+
+```{r pred_gamjuvs_lon}
+vis.juvs.flock = visreg(gamjuvs, "flocksize", scale = "response",plot = F)
+
+vis.juvs.flock.data = vis.juvs.flock$fit
+```
+
+```{r}
+#postscript(file = "plot10juvprop_flocksize.eps", colormodel = "grey", horizontal = FALSE, onefile = FALSE, height = 4, width = 5)
+
+p10 = ggplot(data = vis.juvs.flock.data)+
+  #geom_path(aes(x = flocksize, y = visregLwr), lty = 2)+
+  #geom_path(aes(x = flocksize, y = visregUpr), lty = 2)+
+ geom_ribbon(data = vis.juvs.flock.data, aes(x = flocksize, ymin = visregLwr, ymax = visregUpr), fill = "grey90")+
+  geom_line(data = vis.juvs.flock.data, aes(x = flocksize, y = visregFit), size = 1)+ylim(0.05, 0.6)+
+  labs(list(x = "Flock size", y = NULL))+
+  theme_bw()
+
+#dev.off()
+```
+
+# Predation plots
+
+# Plot 11: Flock size ~ p.index
+
+```{r pred_flocksize_pindex}
+vis.flocksize.pred = visreg(flockmod, "p.index", scale = "response", plot = F)
+
+vis.flocksize.pred.data = vis.flocksize.pred$fit
+```
+
+```{r}
+#postscript(file = "plot13flocksize_pred.eps", colormodel = "grey", horizontal = FALSE, onefile = FALSE, height = 4, width = 5)
+
+p11 = ggplot(data = vis.flocksize.pred.data)+
+  #geom_path(aes(x = p.index, y = visregLwr), lty = 2)+
+  #geom_path(aes(x = p.index, y = visregUpr), lty = 2)+
+  geom_ribbon(aes(x = p.index, ymin = visregLwr, ymax = visregUpr), fill= "grey90")+
+  geom_line(data = vis.flocksize.pred.data, aes(x = p.index, y = visregFit), size = 1)+ ylim(350, 1000)+
+  labs(list(x = "Predation index", y = "Flock size"))+
+  theme_bw()
+
+#dev.off()
+```
+
+# Plot : Juvenile % ~ p.index
+
+```{r}
+vis.juvprop.pred = visreg(gamjuvs, "p.index", scale = "response", plot = F)
+
+vis.juvprop.pred.data = vis.juvprop.pred$fit
+```
+
+```{r}
+#postscript(file = "plot13juvprop_pred.eps", colormodel = "grey", horizontal = FALSE, onefile = FALSE, height = 4, width = 5)
+
+p12 = ggplot(data = vis.juvprop.pred.data)+
+  #geom_path(aes(x = p.index, y = visregLwr), lty = 2)+
+  #geom_path(aes(x = p.index, y = visregUpr), lty = 2)+
+  geom_ribbon(aes(x = p.index, ymin = visregLwr, ymax = visregUpr), fill= "grey90")+
+  geom_line(data = vis.juvprop.pred.data, aes(x = p.index, y = visregFit), size = 1)+
+  labs(list(x = "Predation index", y = "Juvenile proportion in flocks"))+ylim(0.05, 0.3)+
+  theme_bw()
+
+#dev.off()
+```
+
+
+# Plot 13: Number of families ~ p.index: SOVON data
+```{r}
+vis.nfams.pred = visreg(famsmod, "p.index", scale = "response", plot = F)
+
+vis.nfams.pred.data = vis.nfams.pred$fit
+```
+
+```{r}
+p13 = ggplot(data = vis.nfams.pred.data)+
+  #geom_path(aes(x = p.index, y = visregLwr), lty = 2)+
+  #geom_path(aes(x = p.index, y = visregUpr), lty = 2)+
+  geom_ribbon(aes(x = p.index, ymin = visregLwr, ymax = visregUpr), fill= "grey90")+
+  geom_line(data = vis.nfams.pred.data, aes(x = p.index, y = visregFit), size = 1)+
+  labs(list(x = "Predation index", y = "Number of families in flocks"))+ylim(20,30)+
+  theme_bw()
+```
+
+# Plot 14: Family size: Family size ~ p.index: Both datasets
+
+```{r pred_famsize_pindex}
+vis.famsize.pred = visreg(mod03, "p.index", scale = "response", plot = F)
+
+vis.famsize.pred.data = vis.famsize.pred$fit
+
+vis.famsize.gorg.pred = visreg(mod03.gorg, "p.index", scale = "response", plot = F)
+
+vis.famsize.gorg.pred.data = vis.famsize.gorg.pred$fit
+```
+
+```{r plot_famsize_pred}
+p14 = ggplot()+
+  geom_ribbon(data = vis.famsize.pred.data, aes(x = p.index, ymin = visregLwr, ymax = visregUpr), fill = "grey90")+
+  geom_ribbon(data = vis.famsize.gorg.pred.data, aes(x = p.index, ymin = visregLwr, ymax = visregUpr), fill = "grey90")+
+  geom_line(data = vis.famsize.pred.data, aes(x = p.index, y = visregFit), lty = 2)+
+  geom_line(data = vis.famsize.gorg.pred.data, aes(x = p.index, y = visregFit), lty = 1)+
+  geom_text(aes(x = 1.25, y = c(1.75, 0.75), label = c("w/o unsuccessful pairs", "w/ unsuccessful pairs")))+
+  labs(list(x = "Predation index", y = "Family size"))+
+  theme_bw()
+```
+
+
+
+
+# Plot 
+
+# Export plots
+```{r}
+save(p1,p2,p3,p4,p5,p6,p7,p8,p9,p10, p11, p12, p13, p14, file = "goose_dataplots.Rdata")
+```
+
+```{r yr_month_heatmap, fig.fullwidth=TRUE, fig.height=6, fig.width=8, fig.cap= "Heatmap of samples in each month in each year between 2001 - 2011. Colour scale represents the number of records.", warning=FALSE, eval = TRUE}
+
+library(gridExtra);library(ggplot2)
+grid.arrange(p1, p2, p3, p4)
+```

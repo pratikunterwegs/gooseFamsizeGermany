@@ -89,7 +89,9 @@ Remove time to departure.
 
 ```{r m03}
 #'remove t_to_out
-mod03 = bam(famsize ~ lon + flocksize + t_since_in  + s(Food_type, bs = "re") + s(Observer, bs = "re") + s(Breeding_year, bs = "re") + s(Site_name, bs = "re"), data = fams.expand.sub, family = "poisson")
+mod03 = bam(famsize ~ lon + flocksize + t_since_in  + p.index + s(Food_type, bs = "re") + s(Observer, bs = "re") + s(Breeding_year, bs = "re") + s(Site_name, bs = "re"), data = fams.expand.sub, family = "poisson", na.action = na.omit)
+
+mod03pred = predict(mod03, newdata = fams.expand.sub, by = "terms", type = "response")
 ```
 
 
@@ -112,7 +114,7 @@ geeseorg = geeseorg %>% filter(round(lon) %in% 0:10, round(lat) %in% 50:56)
 
 
 ```{r gorg.m03}
-mod03.gorg = bam(famsize ~ lon + t_since_in + s(id, bs = "re") + s(breedyr, bs = "re"), data = geeseorg, family = poisson)
+mod03.gorg = bam(famsize ~ lon + t_since_in + p.index + s(id, bs = "re") + s(breedyr, bs = "re"), data = geeseorg, family = poisson)
 ```
 
 ```{r}

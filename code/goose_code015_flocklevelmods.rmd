@@ -38,7 +38,7 @@ famsmod = bam(fams ~ flocksize + p.index + lon + s(Breeding_year, bs = "re") + s
 
 ```{r}
 #'run bam
-gamjuvs = bam(propjuv ~ lon + flocksize + s(p.index) + s(t_since_in) + s(Breeding_year, bs = "re") + s(Observer, bs = "re") + s(Food_type, bs = "re"), data = geese, family = binomial)
+gamjuvs = bam(propjuv ~ lon + flocksize + (p.index) + s(t_since_in, k = 4) + s(Breeding_year, bs = "re") + s(Observer, bs = "re") + s(Food_type, bs = "re"), data = geese, family = binomial)
 
 ```
 
@@ -51,12 +51,5 @@ pdf(file = "juvpropgam.pdf")
 vis.gam(gamjuvs, view=c("t_since_in","p.index"), type = 'response', plot.type = "contour", color = "terrain", main = NULL)
 dev.off()
 
-save(gamjuvs, flockmod, famsmod, glmer03, mod03, mod03.gorg, file = "goosemods_pres.rdata")
+save(gamjuvs, flockmod, famsmod, mod03, mod03.gorg, file = "goosemods_pres.RData")
 ```
-
-# Do flocksizes decrease with time?
-
-```{r}
-
-```
-

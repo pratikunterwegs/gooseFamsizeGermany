@@ -216,7 +216,7 @@ splits2 = bind_rows(splits2)
 splits2$event = "Split"
 
 ends = bind_rows(ends)      
-ends$event = rep(NA, 26)
+ends$event = rep(c("Start","Exit"), 13)
 
 splits = rbind(splits2, ends)
 
@@ -244,6 +244,6 @@ ggplot()+
 ```
 
 ```{r}
-save(daycoords, famlines, splits2, file = "fsize_coords.rdata")
+save(daycoords, famlines, splits, splits2, file = "fsize_coords.rdata")
 ```
 

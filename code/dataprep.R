@@ -77,4 +77,4 @@ flock.fams = merge(flock.fams, lemming[,-4], by.x = "Breeding_year", by.y = "yea
 flock.fams = merge(flock.fams, mig.red, by.x = "time", by.y = "Date", all.x = T)
 
 ####Remove supporting data####
-rm(migration);rm(mig.red);rm(lemming)
+rm(migration);rm(lemming)
