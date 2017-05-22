@@ -1,8 +1,5 @@
 ---
 title: Goose Flock Data Description
-output: 
-  tufte::tufte_handout:
-   toc: yes
 ---
 
 ```{r, include=FALSE}
@@ -161,6 +158,8 @@ goose_country_year = data.frame(table(lt_geese[lt_geese$Breeding_year>=2001,][,c
 #'melt it
 goose_country_year = melt(goose_country_year)
 ```
+
+
 
 ```{r fig.fullwidth=TRUE, fig.height=3, fig.width=9, fig.cap= "Heatmap of records in each breeding year from each country, 2001 - 2011. Colour scale represents number of records."}
 #'heatmap it

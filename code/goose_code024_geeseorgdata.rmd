@@ -113,5 +113,7 @@ length(unique(fam.traj$id))
 
 
 ```{r export}
+gorg = gorg %>% filter(breedyr >= 2000, lon < 10, lon > 0, lat>=50, lat<=54)
+
 write.csv(gorg, "data.geeseorg.csv")
 ```

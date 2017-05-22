@@ -35,7 +35,6 @@ fams.expand$days = days_since(fams.expand$time)
 geeseorg = read.csv("data.geeseorg.csv", row.names = 1)
 geeseorg$date = as.Date(geeseorg$date)
 geeseorg$days = days_since(geeseorg$date)
-geeseorg = geeseorg %>% filter(breedyr >= 2001, lon <=8, lon >=0, lat>=50, lat<=56)
 
 ####Load lemming data####
 lemming = read.csv("lemmings.csv", row.names = 1)

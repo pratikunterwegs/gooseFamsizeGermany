@@ -40,9 +40,9 @@ data.raw.goose = read_excel("~/git/thesis/Age-ratiodata-GWfG-toPratik.xlsx",
 #'all records in the netherlands or nrw after than 2000
 
 #'first keep only nl or nrw after 2000
-goose.clean = data.raw.goose[data.raw.goose$Country %in% c("NL","NRW"),]
+goose.clean = data.raw.goose %>% filter(Country %in% c("NL","NRW"))
 
-goose.clean = goose.clean[goose.clean$Breeding_year > 2000,]
+goose.clean = goose.clean %>% filter(Breeding_year >= 2000)
 ```
 
 # Get time as a new column, define explicit temporal extents
@@ -76,7 +76,7 @@ goose.clean$Total_flock = ifelse(is.na(goose.clean$Total_flock),
 #'fix juvenile percentage: if the field perc-jv is NA, calculate the juvenile percentage as number of juveniles*100 divided by the field total_flock
 #'this is changed now. the juvenile percentage is calculated on whitefronts ONLY!!!
 goose.clean$`Perc-JV` = ifelse(is.na(goose.clean$`Perc-JV`),
-          (goose.clean$N_Juvenile/goose.clean$N_sampled)*100,
+          (goose.clean$N_Juvenile/goose.clean$Total_flock)*100,
                         goose.clean$`Perc-JV`)
 
 #'check for NAs
@@ -143,7 +143,7 @@ fams.coords = merge(fams, geocode.sites[,c("Site_name","lon","lat")], by = "Site
 fams.coords = fams.coords[complete.cases(fams.coords[,c("lon","lat")]),]
 
 #'set spatial extent for both
-fams.coords = fams.coords %>% filter(lon > 0 & lon < 10, lat >=50 & lat <56)
+fams.coords = fams.coords %>% filter(lon > 0 & lon < 10, lat >=50 & lat =<54)
 ```
 
 ```{r coordinates_zones}
@@ -165,7 +165,7 @@ dim(goose.clean[complete.cases(goose.clean[,c("lon","lat")]),])
 
 ```{r export_data}
 #'remove oob points
-goose.clean = goose.clean %>% filter(lon > 0 & lon < 10, lat >=50 & lat <56)
+goose.clean = goose.clean %>% filter(lon > 0 & lon < 10, lat >=50 & lat <=54)
 
 #'write to csv as data.goose.clean
 write.csv(goose.clean, "data.goose.clean.csv")

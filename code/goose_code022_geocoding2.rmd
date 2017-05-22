@@ -26,9 +26,9 @@ geocode.sites =  sites %>% filter(Country %in% c("NL","NRW")) %>% group_by(Site_
 #'geocode unique lookup names
 library(ggmap)
 #'unique lookups
-lookups = as.character(na.omit(unique(geocode.sites$lookup)))
+#lookups = as.character(na.omit(unique(geocode.sites$lookup)))
 #'get coords
-site.coords = geocode(lookups)
+#site.coords = geocode(lookups)
 ```
 
 ```{r merge_data}
