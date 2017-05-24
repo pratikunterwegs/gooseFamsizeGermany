@@ -17,7 +17,7 @@ opts_knit$set(root.dir = "~/git/thesis/code")
 tufte::tufte_handout()
 
 #'load data
-load("goose_maps.RData")
+load("goose_datamap.rdata")
 load("goose_dataplots.Rdata")
 ```
 
@@ -28,33 +28,29 @@ map01
 ```
 
 **Data collection sites in the study area.**
+Three datasets used in the study are represented on a map of the main wintering grounds of the North Sea population of Whitefronts. Lines represent coasts (light) and major rivers (dark).
 
-Three datasets used in the study are represented on a map of the Netherlands, western Germany, and northern Belgium. Lines represent coasts and major rivers.
-
-Crosses mark sites where the sizes of flocks of Greater White-fronted geese (*Anser albifrons*), and the numbers of families with at least one juvenile within them were recorded, between autumn 2001 and spring 2017.
-Triangles mark positions from 13 GPS tracked families of geese (3 in 2013, 4 in 2014, 6 in 2016) where individuals left the family. Sites where geese with numbered neckbands were observed between 2001 and 2017 are bounded by a kernel shaded grey.
+Crosses mark sites (*n* = 64) where the sizes of flocks of Whitefronts, and the numbers of families with at least one juvenile within them were recorded between autumn 2000 and spring 2017.
+Triangles mark positions (*n* = 19) from 13 GPS tracked families of geese (3 in 2013, 4 in 2014, 6 in 2016) where individuals left the family (see details in text). Sites where geese with numbered neckbands were observed, and their family sizes counted, between 2000 and 2017, are bounded by a kernel shaded grey (*n* = 10,635).
 
 # Trends in family size
 
-```{r plot_grid1, fig.fullwidth=TRUE, fig.height=6, fig.width=8, warning=FALSE}
+```{r plot_grid1, fig.fullwidth=TRUE, fig.height=6, fig.width=8, warning=FALSE, message=FALSE}
 
 library(gridExtra);library(ggplot2)
 grid.arrange(p1, p2, p3, p4)
 ```
 
-**Family size trends of Greater White-fronted geese.**
+**Family size trends of Whitefronts.**
+Model output for generalised models run on two datasets and their subsets. Figure 1.a shows the fitted GAM predictions for family size as the reponse and longitudinal position as a fixed parametric predictor, with the habitat type, observer, and breeding year as iid. random effects modelled using a "re" smoothing basis, using data on 
 
-Analysis of a flock level dataset (top row), shows no significant change in family size from west to east (top left), and a significant decrease of family size since the first day in autum with above 90th percentile goose flight activity (top right). The same analysis on a dataset of observations of geese with numbered neckbands (bottom row) that included individuals and pairs without any juveniles, shows a significant decrease of family size from west to east (bottom left), and a significant decrease since the first peak of goose flight activity in autumn (bottom right). 95% confidence intervals are shaded grey.
-
-In both rows, dotted lines (left-hand column) mark longitudes at which GPS tracked families lost one or more individuals, and dotted arrows (right-hand column) mark the decrease of the number of juveniles in the same families over time.
-
+\newpage
 # Trends in flock size
 ```{r plot_grid2, fig.fullwidth=TRUE, fig.height=3, fig.width=8, warning=FALSE}
 grid.arrange(p5, p6, ncol = 2)
 ```
 
 **Trends in flock sizes of Greater White-fronted geese.**
-
 Flock sizes of Greater White-fronted geese (*Anser albifrons*) show significant increases from west to east (left), and through the winter (right), counted as the number of days since each September 1st. 95% confidence intervals are shaded grey.
 
 # Families in flocks
@@ -63,9 +59,9 @@ grid.arrange(p7, p8, nrow = 1)
 ```
 
 **Trends in families of Greater White-fronted geese in flocks.**
-
 The number of families of geese present in a flock increases significantly with the size of the flock (left). The size of a families shows a non-significant decrease with the increasing size of flocks (right). 95% confidence intervals are shaded grey.
 
+\newpage
 # Trends in juvenile proportions
 
 ```{r plot4, fig.fullwidth=TRUE, fig.height=3, fig.width=8, warning=FALSE}
@@ -73,7 +69,6 @@ grid.arrange(p9, p10, nrow = 1)
 ```
 
 **Trends in the proportion of first winter birds in flocks of Greater White-fronted geese.**
-
 The proportion of first winter juveniles present in flocks shows a non-linear trend over the winter (left), with an initial increase as flocks of birds that bred successfully arrive later in the autumn, a subsequent plateau when the population has fully arrived, and a final increase as adults leave earlier for the breeding grounds, leaving juveniles behind.
 
 A significantly lower proportion of larger flocks is comprised of first winter juveniles (right), despite the number of families increasing with flock size (see previous).
@@ -82,23 +77,11 @@ A significantly lower proportion of larger flocks is comprised of first winter j
 \newpage
 # The effect of summer predation on flocks
 
-```{r echo =FALSE, message=FALSE,warning=FALSE, fig.height=3, fig.width=8, fig.fullwidth = TRUE}
-grid.arrange(p11, p12, nrow = 1)
+```{r echo =FALSE, message=FALSE,warning=FALSE, fig.height=6, fig.width=8, fig.fullwidth = TRUE}
+grid.arrange(p11, p12, p13, p14, nrow = 2)
 ```
 
 **Trends in flock size and proportion of first winter juveniles in relation to summer predation.**
-
-Flock sizes of geese are significantly smaller when summer predation, estimated from an index of lemming abundance in each year and the preceding one, is higher (left). The proportion of juveniles in flocks is, however, not significantly affected by summer predation (right). 
-
-\newpage
-# The effect of summer predation on families
-
-```{r, echo =FALSE, message=FALSE,warning=FALSE, fig.height=3, fig.width=8, fig.fullwidth = TRUE}
-grid.arrange(p13, p14, nrow = 1)
-
-```
-
-**Trends in the number of families and family sizes in relation to summer predation.**
-
+Flock sizes of geese are significantly smaller when summer predation, estimated from an index of lemming abundance in each year and the preceding one, is higher (left). The proportion of juveniles in flocks is, however, not significantly affected by summer predation (right).
 The number of goose families counted in flocks does not vary significantly over different levels of summer predation (left) as estimated for each year from an index of lemming abundance in that year and the preceding one.
 The effect of summer predation is better seen when comparing family sizes at different levels of summer predation (right). Families when recorded as pairs that have bred successfully, ie, with at least one juvenile, do not show a significant response to summer predation (dashed line). Summer predation instead appears to reduce the number of successful families overall (solid line), as seen when unsuccessful pairs, ie, with no juveniles, are also recorded in the data.

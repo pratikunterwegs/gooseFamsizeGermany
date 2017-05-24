@@ -10,8 +10,6 @@ source("dataprep.R")
 library(mgcv)
 geese$Breeding_year = as.factor(geese$Breeding_year)
 fams$Breeding_year = as.factor(fams$Breeding_year)
-
-geese = geese %>% filter(lon < 7)
 ```
 
 # Flocksize ~ longitude
@@ -20,7 +18,7 @@ Model with flocksize as response, lon-lat, days, p.index, as predictors, others 
 
 ```{r run_glmer}
 
-flockmod = bam(flocksize ~ lon + (days) + p.index + s(Breeding_year, bs = "re") + s(Observer, bs = "re") + s(Food_type, bs = "re"), data = geese, family = gaussian)
+flockmod = bam(flocksize ~ lon + t_since_in + p.index + s(Breeding_year, bs = "re") + s(Observer, bs = "re") + s(Food_type, bs = "re"), data = geese, family = gaussian)
 
 ```
 
@@ -30,9 +28,14 @@ summary(flockmod)
 
 # Number of families ~ flocksize
 
-```{r glmer_fams}
-famsmod = bam(fams ~ flocksize + p.index + lon + s(Breeding_year, bs = "re") + s(Observer, bs = "re") + s(Food_type, bs = "re"), data = fams[fams$flocksize > 0,], family = poisson)
+```{r gam_fams}
+famsmod = bam(fams ~ log(flocksize) + p.index + lon + propjuv + s(Breeding_year, bs = "re") + s(Observer, bs = "re") + s(Food_type, bs = "re"), data = fams %>% filter(flocksize>0, flocksize == N_sampled) %>% plyr::mutate(propjuv = propjuv/100), family = poisson)
 ```
+
+```{r}
+summary(famsmod)
+```
+
 
 # Juveniles in flocks
 
@@ -42,14 +45,8 @@ gamjuvs = bam(propjuv ~ lon + flocksize + (p.index) + s(t_since_in, k = 4) + s(B
 
 ```
 
+# Export models
+
 ```{r}
-summary(gamjuvs)
-
-AIC(gamjuvs)
-
-pdf(file = "juvpropgam.pdf")
-vis.gam(gamjuvs, view=c("t_since_in","p.index"), type = 'response', plot.type = "contour", color = "terrain", main = NULL)
-dev.off()
-
-save(gamjuvs, flockmod, famsmod, mod03, mod03.gorg, file = "goosemods_pres.RData")
+save(gamjuvs, flockmod, famsmod, mod03, mod03full, mod03.gorg, mod03.gorg.s, fams.expand.sub, fams.expand, file = "goosemods_pres.RData")
 ```

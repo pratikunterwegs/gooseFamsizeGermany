@@ -1,5 +1,5 @@
 ---
-title: Goose Flock Data Description
+title: thesis model plots
 ---
 
 ```{r set_env, message=FALSE, echo=FALSE, warning=FALSE}
@@ -10,7 +10,7 @@ library(knitr);library(plyr);library(dplyr);library(data.table);library(purrr);l
 library(gam);library(mgcv);library(gamm4);library(itsadug)
 
 #'load variogram libraries
-library(sp);library(gstat)
+library(sp);library(gstat);library(visreg)
 
 #'suppress all code output but run code
 opts_chunk$set(eval = FALSE)
@@ -18,9 +18,14 @@ opts_chunk$set(echo = FALSE)
 ```
 
 ```{r, message=FALSE, echo=FALSE, warning=FALSE, eval=TRUE}
-
+source("dataprep.R")
+source("multiplot.R")
 load("goosemods_pres.RData")
-source("reduce_rhine.r")
+load("fsize_coords.rdata")
+
+#'define ggplot axis and grid options
+a = theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+b = theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text.y = element_blank(), axis.ticks.y = element_blank())
 ```
 
 # Plot 01: Family size ~ longitude: SOVON
@@ -33,6 +38,8 @@ vis.mod03 = visreg(mod03, "lon", gg = TRUE, scale = "response", line.par = list(
 
 #'make data frame
 vis.mod03.data = vis.mod03$fit
+
+p1.res = vis.mod03$res
 ```
 
 ```{r export_fams_lon, eval = FALSE}
@@ -40,17 +47,15 @@ vis.mod03.data = vis.mod03$fit
 
 #'plot
 p1 = ggplot()+
-   #geom_path(data = vis.mod03.data, aes(x = lon, y = visregLwr), lty = 2)+
-  #geom_path(data = vis.mod03.data, aes(x = lon, y = visregUpr), lty = 2)+
-  geom_ribbon(data = vis.mod03.data, aes(x = lon, ymin = visregLwr, ymax = visregUpr), fill = "grey90")+
-  geom_line(data = vis.mod03.data, aes(x = lon, y = visregFit))+
-  labs(list(x = NULL, y = "Family size"))+
+  geom_ribbon(data = vis.mod03.data, aes(x = lon, ymin = visregLwr, ymax = visregUpr), fill = "grey90", alpha = 0.9)+
+  geom_line(data = vis.mod03.data, aes(x = lon, y = visregFit), col = 2)+
+  labs(list(x = NULL, y = "Family size", title = "a"))+
 
-  geom_segment(data = splits %>% filter(event %in% c("Split")), aes(x = lon, y = fsize+1, xend = lon, yend = 0), lty = 3, col = "grey30")+
-  geom_text(data = splits %>% filter(fam %in% c("Ev","Wo","Ha","Na","Ti","Ma","Ro","An","Jo"), event == "Split"), aes(x=lon, y = fsize+1, label = fam, angle = 0), hjust = 1, vjust = 0, size = 3, angle = -30)+
-  ylim(0,7.5)+
-  theme_bw()
-
+  geom_segment(data = splits %>% filter(event %in% c("Split")), aes(x = lon, y = fsize+1, xend = lon, yend = 0), lty = 1, lwd = 0.2, col = "grey30")+
+  geom_text(data = splits %>% filter(fam %in% c("Ev","Wo","Ha","Na","Ti","Ma","Ro","An","Jo"), event == "Split"), aes(x=lon, y = fsize+1, label = substr(fam,1,1), angle = 0), hjust = 1, vjust = 0, size = 3, angle = -30)+
+  ylim(0,7.5)+xlim(3,10)+
+  geom_text(aes(x =9, y = 7, label = "Adj.~R^2==0.084"), parse = T)+
+  theme_bw()+a
 #dev.off()
 ```
 
@@ -76,15 +81,13 @@ splits = merge(splits, mig.red, by.x = "time", by.y = "Date")
 #postscript(file = "plot02sovonfamtime.eps", colormodel = "grey", horizontal = FALSE, onefile = FALSE, height = 4, width = 5)
 
 p2 = ggplot()+
-  # geom_path(data = vis.mod03.time.data, aes(x = t_since_in, y = visregLwr), lty = 2)+
-  #geom_path(data = vis.mod03.time.data, aes(x = t_since_in, y = visregUpr), lty = 2)+
   geom_ribbon(data = vis.mod03.time.data, aes(x = t_since_in, ymin = visregLwr, ymax = visregUpr), fill = "grey90")+
-  geom_line(data = vis.mod03.time.data, aes(x = t_since_in, y = visregFit), size = 1)+
-  geom_path(data = splits %>% filter(event %in% c("Start", "Split")), aes(x = t_since_in, y = fsize, group = fam), arrow = arrow(length = unit(0.02, "npc"), type = "closed"), lty = 3, col = "grey30")+
-  geom_text(data = splits %>% filter(fam %in% c("Ev","Wo","Ha","Na","Ti","Ma","Ro","An","Jo"), event == "Start"), aes(x=t_since_in, y = fsize, label = fam, angle = 0), hjust = 1, vjust = 0, size = 3, angle = -30)+
+  geom_line(data = vis.mod03.time.data, aes(x = t_since_in, y = visregFit), size = 1, col = 2)+
+  geom_path(data = splits %>% filter(event %in% c("Start", "Split")), aes(x = t_since_in, y = fsize, group = fam), arrow = arrow(length = unit(0.02, "npc"), type = "closed"), lty = 1, lwd = 0.2, col = "grey30")+
+  geom_text(data = splits %>% filter(fam %in% c("Ev","Wo","Ha","Na","Ti","Ma","Ro","An","Jo"), event == "Start"), aes(x=t_since_in, y = fsize, label = substr(fam,1,1), angle = 0), hjust = 1, vjust = 0, size = 3, angle = -30)+
    ylim(0,7.5)+ xlim(0,200)+
-  labs(list(x = NULL, y = NULL))+
-  theme_bw()
+  labs(list(x = NULL, y = NULL, title = "b"))+
+  theme_bw()+b
 
 #dev.off()
 ```
@@ -95,21 +98,27 @@ p2 = ggplot()+
 vis.famsize.lon.gorg = visreg(mod03.gorg, "lon", scale = "response",plot = F)
 
 vis.famsize.lon.gorg.data = vis.famsize.lon.gorg$fit
+
+vis.famsize.lon.gorg.s = visreg(mod03.gorg.s, "lon", scale = "response",plot = F)
+
+vis.famsize.lon.gorg.s.data = vis.famsize.lon.gorg.s$fit
 ```
 
 ```{r}
 #postscript(file = "plot03famsize_lon_gorg.eps", colormodel = "grey", horizontal = FALSE, onefile = FALSE, height = 4, width = 5)
 
 p3 = ggplot()+
-  # geom_path(data = vis.famsize.lon.gorg.data, aes(x = lon, y = visregLwr), lty = 2)+
-  #geom_path(data = vis.famsize.lon.gorg.data, aes(x = lon, y = visregUpr), lty = 2)+
   geom_ribbon(data = vis.famsize.lon.gorg.data, aes(x = lon, ymin = visregLwr, ymax = visregUpr), fill = "grey90")+
-  geom_line(data = vis.famsize.lon.gorg.data, aes(x = lon, y = visregFit), size = 1)+
-  labs(list(x = "Longitude", y = "Family size"))+
-  geom_segment(data = splits %>% filter(event %in% c("Split")), aes(x = lon, y = fsize+1, xend = lon, yend = 0), lty = 3, col = "grey30")+
-  geom_text(data = splits %>% filter(fam %in% c("Ev","Wo","Ha","Na","Ti","Ma","Ro","An","Jo"), event == "Split"), aes(x=lon, y = fsize+1, label = fam, angle = 0), hjust = 1, vjust = 0, size = 3, angle = -30)+
-  ylim(0,7.5)+
-  theme_bw()
+  geom_ribbon(data = vis.famsize.lon.gorg.s.data, aes(x = lon, ymin = visregLwr, ymax = visregUpr), fill = "grey90")+
+  geom_line(data = vis.famsize.lon.gorg.data, aes(x = lon, y = visregFit), size = 1, col = 2)+
+  geom_line(data = vis.famsize.lon.gorg.s.data, aes(x = lon, y = visregFit), size = 0.5, lty = 2, col = 2)+
+  labs(list(x = "Longitude", y = "Family size",title = "c"))+
+  geom_segment(data = splits %>% filter(event %in% c("Split")), aes(x = lon, y = fsize+1, xend = lon, yend = 0), lty = 1, lwd = 0.2, col = "grey30")+
+  geom_text(data = splits %>% filter(fam %in% c("Ev","Wo","Ha","Na","Ti","Ma","Ro","An","Jo"), event == "Split"), aes(x=lon, y = fsize+1, label = substr(fam,1,1), angle = 0), hjust = 1, vjust = 0, size = 3, angle = -30)+
+  geom_text(aes(x=8,y = c(1,2.5)), label = c("with zeros","w/o zeros"), hjust = "outward")+
+  ylim(0,7.5)+xlim(3,10)+
+  geom_text(aes(x =10, y = c(7,6), label = c("with~0~Adj.~R^2==0.007", "w/o~0~Adj.~R^2==0.005")), hjust = "inward", parse = T)+
+  theme_bw()+a
 
 #dev.off()
 ```
@@ -126,15 +135,14 @@ vis.famsize.time.gorg.data = vis.famsize.time.gorg$fit
 #postscript(file = "plot04famsize_time_gorg.eps", colormodel = "grey", horizontal = FALSE, onefile = FALSE, height = 4, width = 5)
 
 p4 = ggplot()+
-  #geom_path(data = vis.famsize.time.gorg.data, aes(x = t_since_in, y = visregLwr), lty = 2)+
-  #geom_path(data = vis.famsize.time.gorg.data, aes(x = t_since_in, y = visregUpr), lty = 2)+
   geom_ribbon(data = vis.famsize.time.gorg.data, aes(x = t_since_in, ymin = visregLwr, ymax = visregUpr), fill = "grey90")+
-  geom_line(data = vis.famsize.time.gorg.data, aes(x = t_since_in, y = visregFit), size = 1)+
-  labs(list(x = "Days since first arrivals", y = NULL))+
-  geom_path(data = splits %>% filter(event %in% c("Start", "Split")), aes(x = t_since_in, y = fsize, group = fam), arrow = arrow(length = unit(0.02, "npc"), type = "closed"), lty = 3, col = "grey30")+
-  geom_text(data = splits %>% filter(fam %in% c("Ev","Wo","Ha","Na","Ti","Ma","Ro","An","Jo"), event == "Start"), aes(x=t_since_in, y = fsize, label = fam, angle = 0), hjust = 1, vjust = 0, size = 3, angle = -30)+
+  geom_line(data = vis.famsize.time.gorg.data, aes(x = t_since_in, y = visregFit), size = 1, col = 2)+
+  labs(list(x = "Days since first arrivals", y = NULL, title = "d"))+
+  geom_path(data = splits %>% filter(event %in% c("Start", "Split")), aes(x = t_since_in, y = fsize, group = fam), arrow = arrow(length = unit(0.02, "npc"), type = "closed"), lty = 1,lwd = 0.2, col = "grey30")+
+  geom_text(data = splits %>% filter(fam %in% c("Ev","Wo","Ha","Na","Ti","Ma","Ro","An","Jo"), event == "Start"), aes(x=t_since_in, y = fsize, label = substr(fam,1,1), angle = 0), hjust = 1, vjust = 0, size = 3, angle = -30)+
+  annotate("text", x = 100, y = 6, label = "", parse = T)+
    ylim(0,7.5)+ xlim(0,200)+
-  theme_bw()
+  theme_bw()+b
 
 #dev.off()
 ```
@@ -148,18 +156,21 @@ p4 = ggplot()+
 vis.flockmod = visreg(flockmod, "lon", scale = "response", plot = F)
 
 vis.flockmod.data = vis.flockmod$fit
+
+p5.res = vis.flockmod$res
 ```
 
 ```{r export_flock_lon_plot}
 #postscript(file = "plot05flocksize_lon.eps", colormodel = "grey", horizontal = FALSE, onefile = FALSE, height = 4, width = 5)
 
-p5 = ggplot(data = vis.flockmod.data)+
-  #geom_path(aes(x = lon, y = visregLwr), lty = 2)+
-  #geom_path(aes(x = lon, y = visregUpr), lty = 2)+
-  geom_ribbon(data = vis.flockmod.data, aes(x = lon, ymin = visregLwr+10, ymax = visregUpr+10), fill = "grey90")+
-  geom_line(data = vis.flockmod.data, aes(x = lon, y = visregFit), size = 1)+
-  labs(list(x = "Longitude", y = "Flock size"))+
-  theme_bw()
+p5 = ggplot()+
+  geom_point(data = geese, aes(x =lon, y = flocksize), size = 0.1)+
+  geom_ribbon(data = vis.flockmod.data, aes(x = lon, ymin = visregLwr+10, ymax = visregUpr+10), fill = "grey90", alpha = 0.9)+
+  geom_line(data = vis.flockmod.data, aes(x = lon, y = visregFit), size = 1, col = 2)+
+  ylim(0,5000)+
+  labs(list(x = "Longitude", y = "Flock size", title = "a"))+
+  geom_text(aes(x =9, y = 4500, label = "Adj.~R^2==0.14"), hjust = "inward", parse = T)+
+  theme_bw()+a
 
 #dev.off()
 ```
@@ -170,21 +181,23 @@ p5 = ggplot(data = vis.flockmod.data)+
 
 ```{r model_pred_flockmod_time}
 #'get model pred
-vis.flockmod.days = visreg(flockmod, "days", scale = "response", plot = F)
+vis.flockmod.days = visreg(flockmod, "t_since_in", scale = "response", plot = F)
 
 vis.flockmod.days.data = vis.flockmod.days$fit
+
+p6.res = vis.flockmod.days$res
 ```
 
 ```{r export_flock_time_plot}
 #postscript(file = "plot06flocksize_days.eps", colormodel = "grey", horizontal = FALSE, onefile = FALSE, height = 4, width = 5)
 
-p6 = ggplot(data = vis.flockmod.days.data)+
-  #geom_path(aes(x = days, y = visregLwr), lty = 2)+
-  #geom_path(aes(x = days, y = visregUpr), lty = 2)+
-  geom_ribbon(data = vis.flockmod.days.data, aes(x = days, ymin = visregLwr, ymax = visregUpr), fill = "grey90")+
-  geom_line(data = vis.flockmod.days.data, aes(x = days, y = visregFit), size = 1)+ylim(0,1000)+
-  labs(list(x = "Days since September 1st", y = NULL))+
-  theme_bw()
+p6 = ggplot()+
+  geom_point(data = geese, aes(x = t_since_in, y = flocksize), size = 0.1)+
+  geom_ribbon(data = vis.flockmod.days.data, aes(x = t_since_in, ymin = visregLwr, ymax = visregUpr), fill = "grey90", alpha = 0.9)+
+  geom_line(data = vis.flockmod.days.data, aes(x = t_since_in, y = visregFit), size = 1, col = 2)+
+  labs(list(x = "Days since first arrivals", y = NULL, title = "b"))+
+  ylim(0,5000)+
+  theme_bw()+b
 
 #dev.off()
 ```
@@ -200,20 +213,20 @@ visfamsmod.data = visfamsmod$fit
 ```{r plot_pred_famsmod}
 #postscript(file = "plot07fams_in_flocks.eps", colormodel = "grey", horizontal = FALSE, onefile = FALSE, height = 4, width = 5)
 
-p7 = ggplot(data = visfamsmod.data)+
- # geom_path(aes(x = flocksize, y = visregLwr), lty = 2)+
- # geom_path(aes(x = flocksize, y = visregUpr), lty = 2)+
-  geom_ribbon(data = visfamsmod.data, aes(x = flocksize, ymin = visregLwr, ymax = visregUpr), fill = "grey90")+
-  geom_line(data = visfamsmod.data, aes(x = flocksize, y = visregFit), size = 1)+
-  labs(list(x = "Flock size", y = "Number of families"))+
-  theme_bw()
+p7= ggplot()+
+  geom_point(data = fams, aes(x = log(flocksize), y = fams), size = 0.1)+
+  geom_ribbon(data = visfamsmod.data, aes(x = log(flocksize), ymin = visregLwr, ymax = visregUpr), fill = "grey90", alpha = 0.9)+
+  geom_line(data = visfamsmod.data, aes(x = log(flocksize), y = visregFit), size = 1, col = 2)+ ylim(0,2e2)+
+  labs(list(x = "Flock size", y = "Number of families", title = "a"))+
+  geom_text(aes(x =1.5, y = 150, label = "Adj.~R^2==0.923"), hjust = "inward", parse = T)+
+  theme_bw()+a
 
 #dev.off()
 ```
 
 # Plot 08: Family size ~ flock size
 
-* Not a significant effect
+* Significant effect
 
 ```{r modpred_fam_flocksize}
 #'predictions of family size from flocksizes
@@ -226,13 +239,13 @@ vis.mod03.famflock.data = vis.mod03.famflock$fit
 ```{r plot_mod}
 #postscript(file = "plot08fam_flock.eps", colormodel = "grey", horizontal = FALSE, onefile = FALSE, height = 4, width = 5)
 
-p8 = ggplot(data = vis.mod03.famflock.data)+
-  #geom_path(aes(x = flocksize, y = visregLwr), lty = 2)+
-  #geom_path(aes(x = flocksize, y = visregUpr), lty = 2)+
-  geom_ribbon(data = vis.mod03.famflock.data, aes(x = flocksize, ymin = visregLwr, ymax = visregUpr), fill = "grey90", alpha = 1)+
-  geom_line(data = vis.mod03.famflock.data, aes(x = flocksize, y = visregFit), size = 1)+
-  labs(list(x = "Flock size", y = "Family size"))+
-  theme_bw()
+p8 = ggplot()+
+  geom_point(data = fams.expand, aes(x = (flocksize), y = famsize), size = 0.1)+
+  geom_ribbon(data = vis.mod03.famflock.data, aes(x = flocksize, ymin = visregLwr, ymax = visregUpr), fill = "grey90", alpha = 0.9)+
+  geom_line(data = vis.mod03.famflock.data, aes(x = flocksize, y = visregFit), size = 1, col = 2)+
+  labs(list(x = "Flock size", y = "Family size", title = "b"))+
+  geom_text(data = NULL, aes(x = 9500, y = 10, label = "Adj.~R^2==0.084"), hjust = "inward", parse = T)+
+  theme_bw()+a
 
 #dev.off()
 ```
@@ -250,18 +263,19 @@ vis.juvs.time.data = vis.juvs.time$fit
 ```{r}
 #postscript(file = "plot09juvprop_time.eps", colormodel = "grey", horizontal = FALSE, onefile = FALSE, height = 4, width = 5)
 
-p9 = ggplot(data = vis.juvs.time.data)+
-  #geom_path(aes(x = t_since_in, y = visregLwr), lty = 2)+
-  #geom_path(aes(x = t_since_in, y = visregUpr), lty = 2)+
-  geom_ribbon(data = vis.juvs.time.data, aes(x = t_since_in, ymin = visregLwr, ymax = visregUpr), fill = "grey90")+
-  geom_line(data = vis.juvs.time.data, aes(x = t_since_in, y = visregFit), size = 1)+
-  labs(list(x = "Time since first arrivals", y = "Juvenile proportion"))+ylim(0.05, 0.6)+
-  theme_bw()
+p9 = ggplot()+
+  geom_point(data = geese, aes(x = t_since_in, y = propjuv), size = 0.1)+
+  geom_ribbon(data = vis.juvs.time.data, aes(x = t_since_in, ymin = visregLwr, ymax = visregUpr), fill = "grey90", alpha = 0.9)+
+  geom_line(data = vis.juvs.time.data, aes(x = t_since_in, y = visregFit), size = 1, col = 2)+
+  labs(list(x = "Days since first arrivals", y = "Juvenile proportion", title = "a"))+
+  ylim(0.05, 0.7)+
+  geom_text(aes(x = 200, y = 0.7, label = "R^2==0.137"), hjust = "inward", parse = T)+
+  theme_bw()+a
 
 #dev.off()
 ```
 
-# Plot 10: Juvenile % ~ longitude
+# Plot 10: Juvenile % ~ flocksize
 
 ```{r pred_gamjuvs_lon}
 vis.juvs.flock = visreg(gamjuvs, "flocksize", scale = "response",plot = F)
@@ -271,14 +285,14 @@ vis.juvs.flock.data = vis.juvs.flock$fit
 
 ```{r}
 #postscript(file = "plot10juvprop_flocksize.eps", colormodel = "grey", horizontal = FALSE, onefile = FALSE, height = 4, width = 5)
-
-p10 = ggplot(data = vis.juvs.flock.data)+
-  #geom_path(aes(x = flocksize, y = visregLwr), lty = 2)+
-  #geom_path(aes(x = flocksize, y = visregUpr), lty = 2)+
- geom_ribbon(data = vis.juvs.flock.data, aes(x = flocksize, ymin = visregLwr, ymax = visregUpr), fill = "grey90")+
-  geom_line(data = vis.juvs.flock.data, aes(x = flocksize, y = visregFit), size = 1)+ylim(0.05, 0.6)+
-  labs(list(x = "Flock size", y = NULL))+
-  theme_bw()
+p10 = ggplot()+
+  geom_point(data=geese, aes(x = flocksize, y = propjuv), size = 0.1)+
+ geom_ribbon(data = vis.juvs.flock.data, aes(x = flocksize, ymin = visregLwr, ymax = visregUpr), fill = "grey90", alpha = 0.9)+
+  geom_line(data = vis.juvs.flock.data, aes(x = flocksize, y = visregFit), size = 1, col = 2)+
+  ylim(0.05, 0.7)+
+  xlim(0,9000)+
+  labs(list(x = "Flock size", y = NULL, title = "b"))+
+  theme_bw()+b
 
 #dev.off()
 ```
@@ -296,13 +310,14 @@ vis.flocksize.pred.data = vis.flocksize.pred$fit
 ```{r}
 #postscript(file = "plot13flocksize_pred.eps", colormodel = "grey", horizontal = FALSE, onefile = FALSE, height = 4, width = 5)
 
-p11 = ggplot(data = vis.flocksize.pred.data)+
-  #geom_path(aes(x = p.index, y = visregLwr), lty = 2)+
-  #geom_path(aes(x = p.index, y = visregUpr), lty = 2)+
-  geom_ribbon(aes(x = p.index, ymin = visregLwr, ymax = visregUpr), fill= "grey90")+
-  geom_line(data = vis.flocksize.pred.data, aes(x = p.index, y = visregFit), size = 1)+ ylim(350, 1000)+
-  labs(list(x = "Predation index", y = "Flock size"))+
-  theme_bw()
+p11 = ggplot()+
+  geom_point(data = geese, aes(x = p.index, y = flocksize), size = 0.1)+
+  geom_ribbon(data = vis.flocksize.pred.data, aes(x = p.index, ymin = visregLwr, ymax = visregUpr), fill= "grey90", alpha = 0.9)+
+  geom_line(data = vis.flocksize.pred.data, aes(x = p.index, y = visregFit), size = 1, col = 2)+
+  labs(list(x = NULL, y = "Flock size", title = "a"))+
+  ylim(0,9e3)+
+  geom_text(aes(x = 1.5, y = 8500, label = "Adj.~R^2==0.14"), hjust = "inward", parse = T)+
+  theme_bw()+a
 
 #dev.off()
 ```
@@ -318,19 +333,20 @@ vis.juvprop.pred.data = vis.juvprop.pred$fit
 ```{r}
 #postscript(file = "plot13juvprop_pred.eps", colormodel = "grey", horizontal = FALSE, onefile = FALSE, height = 4, width = 5)
 
-p12 = ggplot(data = vis.juvprop.pred.data)+
-  #geom_path(aes(x = p.index, y = visregLwr), lty = 2)+
-  #geom_path(aes(x = p.index, y = visregUpr), lty = 2)+
-  geom_ribbon(aes(x = p.index, ymin = visregLwr, ymax = visregUpr), fill= "grey90")+
-  geom_line(data = vis.juvprop.pred.data, aes(x = p.index, y = visregFit), size = 1)+
-  labs(list(x = "Predation index", y = "Juvenile proportion in flocks"))+ylim(0.05, 0.3)+
-  theme_bw()
+p12 = ggplot()+
+  geom_point(data = geese, aes(x=p.index, y = propjuv), size = 0.1)+
+  geom_ribbon(data = vis.juvprop.pred.data, aes(x = p.index, ymin = visregLwr, ymax = visregUpr), fill= "grey90", alpha = 0.9)+
+  geom_line(data = vis.juvprop.pred.data, aes(x = p.index, y = visregFit), size = 1, col=2)+
+  labs(list(x = NULL, y = "Juvenile proportion in flocks", title = "b"))+
+  geom_text(aes(x = 1.5, y = 0.8, label = "R^2==0.137"), hjust = "inward", parse = T)+
+  theme_bw()+a
 
 #dev.off()
 ```
 
 
 # Plot 13: Number of families ~ p.index: SOVON data
+
 ```{r}
 vis.nfams.pred = visreg(famsmod, "p.index", scale = "response", plot = F)
 
@@ -338,13 +354,14 @@ vis.nfams.pred.data = vis.nfams.pred$fit
 ```
 
 ```{r}
-p13 = ggplot(data = vis.nfams.pred.data)+
-  #geom_path(aes(x = p.index, y = visregLwr), lty = 2)+
-  #geom_path(aes(x = p.index, y = visregUpr), lty = 2)+
-  geom_ribbon(aes(x = p.index, ymin = visregLwr, ymax = visregUpr), fill= "grey90")+
-  geom_line(data = vis.nfams.pred.data, aes(x = p.index, y = visregFit), size = 1)+
-  labs(list(x = "Predation index", y = "Number of families in flocks"))+ylim(20,30)+
-  theme_bw()
+p13 = ggplot()+
+  geom_point(data = geese, aes(x = p.index, y = fams), size = 0.1)+
+  geom_ribbon(data = vis.nfams.pred.data, aes(x = p.index, ymin = visregLwr, ymax = visregUpr), fill= "grey90", alpha = 0.9)+
+  geom_line(data = vis.nfams.pred.data, aes(x = p.index, y = visregFit), size = 1, col = 2)+
+  labs(list(x = "Predation index", y = "Successful families in flock", title = "c"))+
+  ylim(0,200)+
+  geom_text(aes(x = 1.5, y = 200, label = "Adj.~R^2==0.923"), hjust = "inward", parse = T)+
+  theme_bw()+a
 ```
 
 # Plot 14: Family size: Family size ~ p.index: Both datasets
@@ -357,17 +374,28 @@ vis.famsize.pred.data = vis.famsize.pred$fit
 vis.famsize.gorg.pred = visreg(mod03.gorg, "p.index", scale = "response", plot = F)
 
 vis.famsize.gorg.pred.data = vis.famsize.gorg.pred$fit
+
+vis.famsize.gorg.s.pred = visreg(mod03.gorg.s, "p.index", scale = "response", plot = F)
+
+vis.famsize.gorg.s.pred.data = vis.famsize.gorg.s.pred$fit
 ```
 
 ```{r plot_famsize_pred}
-p14 = ggplot()+
-  geom_ribbon(data = vis.famsize.pred.data, aes(x = p.index, ymin = visregLwr, ymax = visregUpr), fill = "grey90")+
-  geom_ribbon(data = vis.famsize.gorg.pred.data, aes(x = p.index, ymin = visregLwr, ymax = visregUpr), fill = "grey90")+
-  geom_line(data = vis.famsize.pred.data, aes(x = p.index, y = visregFit), lty = 2)+
-  geom_line(data = vis.famsize.gorg.pred.data, aes(x = p.index, y = visregFit), lty = 1)+
-  geom_text(aes(x = 1.25, y = c(1.75, 0.75), label = c("w/o unsuccessful pairs", "w/ unsuccessful pairs")))+
-  labs(list(x = "Predation index", y = "Family size"))+
-  theme_bw()
+p14 =  ggplot()+
+  geom_point(data = geeseorg, aes(x = p.index, y = famsize),
+             col = ifelse(geeseorg$famsize>0, 1,4), size = 0.1)+
+  geom_ribbon(data = vis.famsize.pred.data, aes(x = p.index, ymin = visregLwr, ymax = visregUpr), fill = "grey90", alpha = 0.9)+
+  geom_ribbon(data = vis.famsize.gorg.pred.data, aes(x = p.index, ymin = visregLwr, ymax = visregUpr), fill = "grey90", alpha = 0.9)+
+  geom_ribbon(data = vis.famsize.gorg.s.pred.data, aes(x = p.index, ymin = visregLwr, ymax = visregUpr), fill = "grey90", alpha = 0.9)+
+  geom_line(data = vis.famsize.pred.data, aes(x = p.index, y = visregFit), lty = 2, col = 2)+
+  geom_line(data = vis.famsize.gorg.pred.data, aes(x = p.index, y = visregFit), lty = 1, col = 2)+
+  geom_line(data = vis.famsize.gorg.s.pred.data, aes(x = p.index, y = visregFit), lty = 3, col = 2)+
+  ylim(0,8)+
+  #geom_text(aes(x = 1.25, y = c(2.5, 0.75), label = c("w/o unsuccessful pairs", "w/ unsuccessful pairs")))+
+  geom_text(aes(x = 1.4, y = c(2.3, 1.5,0.75), label = c("1","2","3")))+
+  geom_text(aes(x = 1.45, y = c(8,7,6), label = c("Adj.~R^2~1==0.00459", "Adj.~R^2~2==0.084","Adj.~R^2~3==0.00715")), hjust = "inward", parse = T)+
+  labs(list(x = "Predation index", y = "Family size", title = "d"))+
+  theme_bw()+a
 ```
 
 

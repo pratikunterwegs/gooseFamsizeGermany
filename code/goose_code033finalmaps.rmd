@@ -20,6 +20,9 @@ land = readOGR("vector/ne_10m_land.shp")
 rivers = readOGR("vector/ne_10m_rivers_lake_centerlines.shp")
 lakes = readOGR("vector/ne_10m_lakes.shp")
 
+#'how many unique sites?
+dim(fams[!duplicated(fams[,c("lon","lat")]),])
+
 #'make point observation data spatial
 fams.spatial = fams[!duplicated(fams[,"Site_name"]),]
 coordinates(fams.spatial) = ~lon+lat
@@ -73,6 +76,9 @@ geeseorg.grid = geeseorg.grid[!is.na(geeseorg.grid$breedyr),]
 ```{r}
 #'get splits and lines between splits
 load("fsize_coords.rdata")
+
+#'how many splits?
+dim(splits %>% filter(event == "Split"))
 ```
 
 # geese.org KDE
@@ -80,7 +86,6 @@ load("fsize_coords.rdata")
 ```{r}
 library(adehabitat); library(adehabitatHR)
 library(ks);library(Grid2Polygons)
-pos = coordinates(geeseorg.spatial)
 
 #'ks is great for plots, not so much for making spatial objects
 #kdegeese = kde(x= pos, compute.cont=TRUE)
@@ -102,8 +107,7 @@ kdegeese2 = gIntersection(kdegeese, land, byid = TRUE, drop_lower_td = TRUE)
 #'map locations
 map01 = tm_shape(land, bbox = e - c(0,0,-0.2,0))+
   tm_polygons(col = "white", border.col = "grey70", alpha = 0.7)+
-#'country boundaries?
-  #tm_shape(admin)+ tm_lines(col = "grey80")+
+
 tm_shape(kdegeese2)+
   tm_polygons(col = "grey90", alpha = 1, border.col = "grey70", border.alpha = 1)+
 tm_shape(lakes)+
@@ -112,16 +116,13 @@ tm_shape(rivers)+
   tm_lines(col = "grey40")+
 
 tm_shape(fams.spatial)+
-  tm_dots(col = "black", shape = 4, size = 0.5)+
-
-#'family event paths?
-#tm_shape(famlines)+ tm_lines(col = "black", lty = "dotted")+
+  tm_dots(col = "black", shape = 4, size = 0.3)+
   
-tm_shape(splits2)+
-  tm_symbols(shape = "event", shapes = c(25, 4), size = 0.5, col = "grey50", showNA = F, shapeNA = NA, border.col = "grey20", legend.shape.show = F)+
+tm_shape(splits2[splits2$event == "Split",])+
+  tm_symbols(shape = "event", col = "white", shapes = c(25, 4), size = 0.2, border.col = "grey10", showNA = F, shapeNA = NA, legend.shape.show = F)+
 
 tm_format_NLD()+
-tm_scale_bar(position = c("left","bottom"), breaks=c(0,25,50))+
+tm_scale_bar(position = c("left","bottom"), breaks=c(0,25,50), size = 1)+
 
 tm_layout(frame = TRUE)
 #dev.off()

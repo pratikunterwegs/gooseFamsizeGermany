@@ -7,12 +7,17 @@ fams.expand = fams.expand %>% filter(flocksize > 0)
 fams.expand$pred = as.factor(fams.expand$pred)
 
 #'should only complete cases be considered? yes, for the predictors.
-fams.expand = fams.expand[complete.cases(fams.expand[,c("lon","lat","flocksize","famsize","Breeding_year","p.index","days","t_to_out","t_since_in","durwinter")]),]
+fams.expand = fams.expand[complete.cases(fams.expand[,c("lon","lat","flocksize","famsize","Breeding_year","p.index","days","t_to_out","t_since_in")]),]
+
+
 
 #'set the breeding year to be a factor
 fams.expand$Breeding_year = as.factor(as.character(fams.expand$Breeding_year))
 
 geeseorg$breedyr = as.factor(geeseorg$breedyr)
+
+
+# Reduce the Rhinelands data
 
 
 #'how many families from the Rhinelands?
@@ -28,3 +33,7 @@ fams.rhine = fams.rhine[runif(n.rhine/2, 1, n.rhine),]
 
 #'reattach to the main data
 fams.expand.sub = rbind(fams.expand.sub, fams.rhine)
+
+# Export
+
+#write.csv(fams.expand.sub, file = "fams.expand.sub.csv")

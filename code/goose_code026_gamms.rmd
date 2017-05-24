@@ -28,7 +28,7 @@ fams.expand = fams.expand %>% filter(flocksize > 0)
 fams.expand$pred = as.factor(fams.expand$pred)
 
 #'should only complete cases be considered? yes, for the predictors.
-fams.expand = fams.expand[complete.cases(fams.expand[,c("lon","lat","flocksize","famsize","Breeding_year","p.index","days","t_to_out","t_since_in","durwinter")]),]
+fams.expand = fams.expand[complete.cases(fams.expand[,c("lon","lat","flocksize","famsize","Breeding_year","p.index","days","t_to_out","t_since_in")]),]
 ```
 
 ```{r bryear_to_factor}
@@ -91,7 +91,7 @@ Remove time to departure.
 #'remove t_to_out
 mod03 = bam(famsize ~ lon + flocksize + t_since_in  + p.index + s(Food_type, bs = "re") + s(Observer, bs = "re") + s(Breeding_year, bs = "re") + s(Site_name, bs = "re"), data = fams.expand.sub, family = "poisson", na.action = na.omit)
 
-mod03pred = predict(mod03, newdata = fams.expand.sub, by = "terms", type = "response")
+mod03full = bam(famsize ~ lon + flocksize + t_since_in  + p.index + s(Food_type, bs = "re") + s(Observer, bs = "re") + s(Breeding_year, bs = "re") + s(Site_name, bs = "re"), data = fams.expand, family = "poisson", na.action = na.omit)
 ```
 
 
@@ -106,13 +106,6 @@ summary(mod03)
 # geese.org data
 Run model three on geese.org data. Random effects now include "id", and do not include observer and habitat type. Fixed effects do not include flock size.
 
-## Remove remaining outliers
-
-```{r gorg_clean_again}
-geeseorg = geeseorg %>% filter(round(lon) %in% 0:10, round(lat) %in% 50:56)
-```
-
-
 ```{r gorg.m03}
 mod03.gorg = bam(famsize ~ lon + t_since_in + p.index + s(id, bs = "re") + s(breedyr, bs = "re"), data = geeseorg, family = poisson)
 ```
@@ -122,34 +115,19 @@ summary(mod03.gorg)
 o2.mixed.mods(mod03.gorg)
 ```
 
-
 ```{r}
 vis.gam(mod03.gorg, view = c("lon", "t_since_in"), type = "response", plot.type = "contour", color = "terrain", main = NULL, xlab = "Long",ylab = "Days since first arrivals")
 ```
 
+# geese.org successful fams
+
+```{r gorg.success}
+mod03.gorg.s = bam(famsize ~ lon + t_since_in + p.index + s(id, bs = "re") + s(breedyr, bs = "re"), data = geeseorg %>% filter(famsize > 0), family = poisson)
+```
+
+```{r}
+summary(mod03.gorg.s)
+```
+
 ---
-
-# GLMERs
-
-```{r}
-glmer03 = glmer(famsize ~ lon + flocksize + t_since_in + lon:t_since_in + p.index + (1|Food_type) + (1|Observer) + (1|Breeding_year), data = fams.expand.sub, family = "poisson")
-
-glmer04 = glmer(famsize ~ t_since_in + (1|Food_type) + (1|Observer) + (1|Breeding_year), data = fams.expand.sub, family = "poisson")
-```
-
-```{r}
-summary(glmer03)
-
-o2.mixed.mods(glmer03)
-
-anova(glmer03, glmer04)
-```
-
-
-# Time gam
-
-```{r}
-timegam = gam(lon ~ time + s(Breeding_year, bs = "re") + s(Observer, bs = "re") + s(Food_type, bs = "re"), data = fams.expand, family = gaussian)
-```
-
 

@@ -110,6 +110,16 @@ length(unique(fam.traj$id))
   #facet_wrap(~breedyr, scales = "free")
 ```
 
+```{r}
+#'remove records where the parnter is NA or no partner, and the family size is 0.
+
+#'remove if partner status is NA or no partner, and the family size is 0
+gorg = gorg %>% mutate(famsize = ifelse(famsize == 0 & partner.ringed.status %in% c(NA, "Geen partner") & is.na(partner.neckring), NA, famsize))
+
+#'remove NAs
+gorg = gorg %>% filter(!is.na(famsize))
+```
+
 
 
 ```{r export}

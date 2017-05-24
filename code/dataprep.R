@@ -46,12 +46,6 @@ migration$spring = as.Date(migration$spring)
 migration$autumn = as.Date(migration$autumn)
 mig.red = migration[,c("Date","Count_effort.min.","NumberperHour","t_since_in","t_to_out","durwinter")]
 
-####Load flocks.fams####
-flock.fams = read.csv("flock.fams.csv", row.names = 1)
-flock.fams$time = as.Date(flock.fams$time)
-flock.fams$fsize = as.numeric(flock.fams$fsize)
-flock.fams$days = days_since(flock.fams$time)
-
 ####Prepare geese####
 geese = merge(geese, lemming[,-4], by.x = "Breeding_year", by.y = "year", all.x=T)
 geese = merge(geese, mig.red, by.x = "time", by.y = "Date", all.x = T)
@@ -70,10 +64,6 @@ fams.expand = merge(fams.expand, mig.red, by.x = "time", by.y = "Date", all.x = 
 ####Prep geeseorg####
 geeseorg = merge(geeseorg, lemming[,-4], by.x = "breedyr", by.y = "year", all.x = T)
 geeseorg = merge(geeseorg, mig.red, by.x = "date", by.y = "Date", all.x = T)
-
-####Prep flock.fams####
-flock.fams = merge(flock.fams, lemming[,-4], by.x = "Breeding_year", by.y = "year", all.x = T)
-flock.fams = merge(flock.fams, mig.red, by.x = "time", by.y = "Date", all.x = T)
 
 ####Remove supporting data####
 rm(migration);rm(lemming)
