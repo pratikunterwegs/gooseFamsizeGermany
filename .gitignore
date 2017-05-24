@@ -2,6 +2,7 @@
 .Rhistory
 *.RData
 *.rdata
+*.Rdata
 .Ruserdata
 
 *.xlsx
