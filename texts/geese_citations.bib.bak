@@ -1,4 +1,3 @@
-% This file was created with JabRef 2.10.
 % Encoding: UTF-8
 
 @Article {MEE3:MEE321,
@@ -31,7 +30,7 @@ year = {2007}
 }
 
 @Article{JZO:JZO76,
-  Title                    = {Costs and benefits of flocking in foraging white-fronted geese (Anser albifrons): effects of resource depletion},
+  Title                    = {Costs and benefits of flocking in foraging {W}hite-fronted geese ({\it {A}nser albifrons}): effects of resource depletion},
   Author                   = {Amano, T. and Ushiyama, K. and Fujita, G. and Higuchi, H.},
   Journal                  = {Journal of Zoology},
   Year                     = {2006},
@@ -56,7 +55,7 @@ year = {2007}
 }
 
 @Article{BirdStudy1380,
-  Title                    = {Circumpolar variation in morphological characteristics of Greater White-fronted Geese (Anser albifrons)},
+  Title                    = {Circumpolar variation in morphological characteristics of {G}reater {W}hite-fronted Geese ({\it {A}nser albifrons})},
   Author                   = { Craig R. Ely and Anthony D. Fox and Ray T. Alisauskas and Alexander Andreev and Robert G. Bromley and A.G. Degtyarev and Barwolt Ebbinge and E.N. Gurtovaya and Richard Kerbes and Alexander V. Kondratyev and Igor Kostin and Arseni V. Krechmar and Konstantin E. Litvin and Yoshihiko Miyabayashi and Johan H. Mooij and Russell M. Oates and Dennis L. Orthmeyer and Yutaka Sabano and S. Gay Simpson and Diana V. Solovieva and Michael A. Spindler and Ye. V. Syroechkovsky and John Y. Takekawa and Alyn Walsh },
   Journal                  = {Bird Study},
   Year                     = {2005},
@@ -90,8 +89,8 @@ year = {2007}
 }
 
 @Article{IBI:IBI151,
-  Title                    = {Mutual benefits of associations between breeding and non-breeding White-fronted Geese (Anser albifrons)},
-  Author                   = {FOX, A. D. and BOYD, H. and BROMLEY, R. G.},
+  Title                    = {Mutual benefits of associations between breeding and non-breeding {W}hite-fronted {G}eese ({\it {A}nser albifrons})},
+  Author                   = {Fox, A. D. and Boyd, H. and Bromley, R. G.},
   Journal                  = {Ibis},
   Year                     = {1995},
   Number                   = {2},
@@ -103,6 +102,86 @@ year = {2007}
   Publisher                = {Blackwell Publishing Ltd},
   Url                      = {http://dx.doi.org/10.1111/j.1474-919X.1995.tb03233.x}
 }
+@article{mooij1991numbers,
+  title={Numbers and distribution of grey geese (genus Anser) in the Federal Republic of Germany, with special reference to the lower Rhine region},
+  author={Mooij, Johan H.},
+  journal={Ardea},
+  volume={79},
+  pages={125--134},
+  year={1991}
+}
+@article{Ballasus2008,
+  author    = {Hauke Ballasus},
+  title     = {Habitatwahl und pr{\"a}ferenz der Bless- und Saatgans {\it {Anser {a}lbifrons}, {Anser {f}abalis}}, am Unteren Niederrhein : historische Ver{\"a}nderungen und m{\"o}gliche Ursachen},
+  journal   = {Vogelwarte : Zeitschrift f{\"u}r Vogelkunde},
+  volume    = {43},
+  number    = {2},
+  pages     = {123 -- 131},
+  year      = {2008}
+}
+
+@Article{Fox1995,
+  author    = {Fox, Anthony D. and Boyd, Hugh and Bromley, R. G.},
+  title     = {Mutual benefits of associations between breeding and non-breeding White-fronted Geese Anser albifrons},
+  journal   = {Ibis},
+  year      = {1995},
+  volume    = {137},
+  number    = {2},
+  pages     = {151--156},
+  issn      = {1474-919X},
+  doi       = {10.1111/j.1474-919X.1995.tb03233.x},
+  publisher = {Blackwell Publishing Ltd},
+  url       = {http://dx.doi.org/10.1111/j.1474-919X.1995.tb03233.x},
+}
+
+
+@article{Poisbleau20061351,
+title = "Social dominance correlates and family status in wintering dark-bellied brent geese, Branta bernicla bernicla ",
+journal = "Animal Behaviour ",
+volume = "71",
+number = "6",
+pages = "1351 - 1358",
+year = "2006",
+note = "",
+issn = "0003-3472",
+doi = "https://doi.org/10.1016/j.anbehav.2005.09.014",
+url = "http://www.sciencedirect.com/science/article/pii/S0003347206001291",
+author = "Maud Poisbleau and Hervé Fritz and Marion Valeix and Pierre-Yves Perroi and Sébastien Dalloyau and Marcel M. Lambrechts"
+}
+
+
+
+@article {JANE:JANE325,
+author = {Loonen, Maarten J. J. E. and Bruinzeel, Leo W. and Black, Jeff M. and Drent, Rudi H.},
+title = {The benefit of large broods in barnacle geese: a study using natural and experimental manipulations},
+journal = {Journal of Animal Ecology},
+volume = {68},
+number = {4},
+publisher = {Blackwell Science Ltd},
+issn = {1365-2656},
+url = {http://dx.doi.org/10.1046/j.1365-2656.1999.00325.x},
+doi = {10.1046/j.1365-2656.1999.00325.x},
+pages = {753--768},
+keywords = {adoption, Branta leucopsis, brood size manipulation, fitness, social dominance},
+year = {1999},
+}
+
+
+@article{Black1989199,
+title = "Agonistic behaviour in barnacle goose flocks: assessment, investment and reproductive success ",
+journal = "Animal Behaviour ",
+volume = "37, Part 2",
+number = "",
+pages = "199 - 209",
+year = "1989",
+note = "",
+issn = "0003-3472",
+doi = "https://doi.org/10.1016/0003-3472(89)90110-3",
+url = "http://www.sciencedirect.com/science/article/pii/0003347289901103",
+author = {Black, Jeffrey and Owen, Myrfyn}
+}
+
+
 
 @Article{jonsson2008lesser,
   Title                    = {Lesser Snow Geese and Ross's Geese form mixed flocks during winter but differ in family maintenance and social status},
@@ -116,6 +195,21 @@ year = {2007}
   Publisher                = {BioOne}
 }
 
+@article{10.2307/4088245,
+ ISSN = {00048038, 19384254},
+ URL = {http://www.jstor.org/stable/4088245},
+ author = {Stephanie M. Warren and A. D. Fox and Alyn Walsh and Paddy O'Sullivan},
+ journal = {The Auk},
+ number = {1},
+ pages = {145-148},
+ publisher = {American Ornithologists' Union},
+ title = {Extended Parent-Offspring Relationships in Greenland White-Fronted Geese (Anser albifrons flavirostris)},
+ volume = {110},
+ year = {1993}
+}
+
+@misc{poulsen_east_2017, title={Europe}, url={https://www.britannica.com/place/Europe}, journal={Europe: Relief}, publisher={Encyclopædia Britannica, inc.}, author={Poulsen, Thomas M. and East, W. Gordon}, year={2017}, month={Apr}}
+
 @Article{johnson1988weak,
   Title                    = {Weak family associations in Cackling Geese during winter: effects of body size and food resources on goose social organization},
   Author                   = {Johnson, James C and Raveling, Dennis G},
@@ -127,7 +221,7 @@ year = {2007}
 }
 
 @Article{kondratyev2008greater,
-  Title                    = {Greater White-fronted Geese (Anser albifrons) and Bean Geese (A. fabalis) on Kolguev Island--abundance, habitat distribution, and breeding biology},
+  Title                    = {Greater White-fronted Geese ({\it {A}nser albifrons}) and Bean Geese (A. fabalis) on Kolguev Island--abundance, habitat distribution, and breeding biology},
   Author                   = {Kondratyev, Alexander and Zaynagutdinova, Elmira},
   Journal                  = {Vogelwelt},
   Year                     = {2008},
@@ -136,7 +230,7 @@ year = {2007}
 }
 
 @Article{10.2307/4511184,
-  Title                    = {Regrouping of Family Members of the White-Fronted Goose (Anser albifrons) after Individual Release},
+  Title                    = {Regrouping of Family Members of the {W}hite-{F}ronted goose ({\it {A}nser albifrons}) after Individual Release},
   Author                   = {Miller, Harvey and Dzubin, Alex},
   Journal                  = {Bird-Banding},
   Year                     = {1965},
@@ -147,6 +241,80 @@ year = {2007}
   ISSN                     = {00063630, 23271280},
   Publisher                = {[Wiley, Association of Field Ornithologists]},
   Url                      = {http://www.jstor.org/stable/4511184}
+}
+@article{stroud1982observations,
+  title={Observations on the incubation and post-hatching behaviour of the Greenland White-fronted Goose},
+  author={Stroud, David A},
+  journal={Wildfowl},
+  volume={33},
+  number={33},
+  pages={63--72},
+  year={1982}
+}
+
+@article{wood2013simple,
+  title={A simple test for random effects in regression models},
+  author={Wood, Simon N},
+  journal={Biometrika},
+  volume={100},
+  number={4},
+  pages={1005--1010},
+  year={2013},
+  publisher={University of Bath}
+}
+
+@Manual{mumin,
+    title = {MuMIn: Multi-Model Inference},
+    author = {Kamil Bartoń},
+    year = {2016},
+    note = {R package version 1.15.6},
+    url = {https://CRAN.R-project.org/package=MuMIn},
+  }
+
+  @article{burnham2002information,
+  title={Information and likelihood theory: a basis for model selection and inference},
+  author={Burnham, KP and Anderson, DR},
+  journal={Model selection and multimodel inference: a practical information-theoretic approach},
+  volume={2},
+  pages={49--97},
+  year={2002},
+  publisher={Springer-Verlag New York}
+}
+
+@Article{lme4,
+    title = {Fitting Linear Mixed-Effects Models Using {lme4}},
+    author = {Douglas Bates and Martin M{\"a}chler and Ben Bolker and Steve Walker},
+    journal = {Journal of Statistical Software},
+    year = {2015},
+    volume = {67},
+    number = {1},
+    pages = {1--48},
+    doi = {10.18637/jss.v067.i01},
+}
+
+@Book{wood2013gam,
+    title = {Generalized Additive Models: An Introduction with R},
+    year = {2013},
+    edition = {2},
+    author = {S.N Wood},
+    publisher = {Chapman and Hall/CRC},
+  }
+
+@book{ely1979breeding,
+  title={Breeding biology of the white-fronted goose (Anser albifrons frontalis) on the Yukon-Kuskokwim Delta, Alaska},
+  author={Ely, Craig Robert},
+  year={1979}
+}
+
+@Article{wood2011mgcv,
+    title = {Fast stable restricted maximum likelihood and marginal
+likelihood estimation of semiparametric generalized linear models},
+    journal = {Journal of the Royal Statistical Society (B)},
+    volume = {73},
+    number = {1},
+    pages = {3-36},
+    year = {2011},
+    author = {S. N. Wood},
 }
 
 @Article{Wildfowl914,
@@ -173,18 +341,27 @@ year = {2007}
   Url                      = {http://dx.doi.org/10.1111/j.1365-2656.2012.02036.x}
 }
 
-@Article{10.2307/4088245,
-  Title                    = {Extended Parent-Offspring Relationships in Greenland White-Fronted Geese (Anser albifrons flavirostris)},
-  Author                   = { Warren, Stephanie M. and Fox, A. D. and Walsh, Alyn and O'Sullivan, Paddy },
-  Journal                  = {The Auk},
-  Year                     = {1993},
-  Number                   = {1},
-  Pages                    = {145-148},
-  Volume                   = {110},
+@Article{Warren1993,
+  author    = {Warren, Stephanie M. and Fox, A. D. and Walsh, Alyn and O'Sullivan, Paddy},
+  title     = {Extended Parent-Offspring Relationships in Greenland White-Fronted Geese ({\it {A}nser albifrons flavirostris})},
+  journal   = {The Auk},
+  year      = {1993},
+  volume    = {110},
+  number    = {1},
+  pages     = {145-148},
+  issn      = {00048038, 19384254},
+  publisher = {American Ornithologists' Union},
+  url       = {http://www.jstor.org/stable/4088245},
+}
 
-  ISSN                     = {00048038, 19384254},
-  Publisher                = {American Ornithologists' Union},
-  Url                      = {http://www.jstor.org/stable/4088245}
+@article{kruckenberg2008white,
+  title={White-fronted goose flyway population status},
+  author={Kruckenberg, Helmut and Kondratyev, Alexander and MOOIJ, J and Z{\"o}ckler, Christoph and Zarigudinova, E},
+  journal={Angew. Feldbiol},
+  volume={2},
+  number={1},
+  pages={77},
+  year={2008}
 }
 
 @Article{OIK:OIK20083,
@@ -203,7 +380,7 @@ year = {2007}
 }
 
 @Article{wilson1991winter,
-  Title                    = {Winter site fidelity in Greenland White-fronted Geese (Anser albifrons flavirostris), implications for conservation and management},
+  Title                    = {Winter site fidelity in Greenland White-fronted Geese ({\it {A}nser albifrons flavirostris}), implications for conservation and management},
   Author                   = {Wilson, HJ and Norriss, DW and Walsh, A and Fox, AD and Stroud, DA},
   Journal                  = {Ardea},
   Year                     = {1991},
@@ -421,8 +598,27 @@ eprint = {/oup/backfile/Content_public/Journal/beheco/6/2/10.1093/beheco/6.2.159
   year={1961},
   publisher={H. Jenkins}
 }
+
+@book{philippona1972blessgans,
+  title={Die Blessgans: Zug und {\"U}berwinterung in Europa und S{\"u}dwestasien},
+  author={Philippona, Jules},
+  year={1972},
+  publisher={Ziemsen}
+}
+
+@article{ganter2001examination,
+  title={An examination of methods to estimate population size in wintering geese},
+  author={Ganter, Barbara and Madsen, Jesper},
+  journal={Bird Study},
+  volume={48},
+  number={1},
+  pages={90--101},
+  year={2001},
+  publisher={Taylor \& Francis}
+}
+
 @book{philippona1960het,
-  title={Het voorkomen van de Europese kolgans, Anser a. albifrons (Scop.) in het bijzonder in Nederland},
+  title={Het voorkomen van de Europese kolgans, {\it {A}nser a. albifrons} (Scop.) in het bijzonder in Nederland},
   author={Philippona, J and Mulder, Th},
   year={1960}
 }
@@ -435,16 +631,12 @@ eprint = {/oup/backfile/Content_public/Journal/beheco/6/2/10.1093/beheco/6.2.159
   pages={95--123},
   year={1959}
 }
-
-@article{couzin2005effective,
-  title={Effective leadership and decision-making in animal groups on the move},
-  author={Couzin, Iain D and Krause, Jens and Franks, Nigel R and Levin, Simon A},
-  journal={Nature},
-  volume={433},
-  number={7025},
-  pages={513--516},
-  year={2005},
-  publisher={Nature Publishing Group}
+@Manual{move,
+    title = {move: Visualizing and Analyzing Animal Track Data},
+    author = {Bart Kranstauber and Marco Smolla},
+    year = {2016},
+    note = {R package version 2.1.0},
+    url = {https://CRAN.R-project.org/package=move},
 }
 @article{gueron1993self,
   title={Self-organization of front patterns in large wildebeest herds},
@@ -557,7 +749,7 @@ year = {1980},
   year={1994}
 }
 @article{alpheraky1904geese,
-  title={The geese ofEuropeand Asia},
+  title={The geese of Europe and Asia},
   author={Alph{\'e}raky, S},
   journal={Translated version, London},
   year={1904}
@@ -628,7 +820,7 @@ note = "",
 issn = "0003-3472",
 doi = "http://dx.doi.org/10.1006/anbe.1994.1213",
 url = "http://www.sciencedirect.com/science/article/pii/S0003347284712139",
-author = "Sharmila Choudhury and Jeffrey M. Black"
+author = {Sharmila Choudhury and Jeffrey M. Black}
 }
 @article{Rees19871685,
 title = "Conflict of choice within pairs of Bewick's swans regarding their migratory movement to and from the wintering grounds ",
@@ -994,15 +1186,15 @@ year = {2003},
   publisher={Springer}
 }
 
-@article{bety2001goose,
-  title={Are goose nesting success and lemming cycles linked? Interplay between nest density and predators},
-  author={B{\^e}ty, Jo{\"e}l and Gauthier, Gilles and Giroux, Jean-Fran{\c{c}}ois and Korpim{\"a}ki, Erkki},
-  journal={Oikos},
-  volume={93},
-  number={3},
-  pages={388--400},
-  year={2001},
-  publisher={Wiley Online Library}
+@Article{Bety2001,
+  author    = {B{\^e}ty, Jo{\"e}l and Gauthier, Gilles and Giroux, Jean-Fran{\c{c}}ois and Korpim{\"a}ki, Erkki},
+  title     = {Are goose nesting success and lemming cycles linked? Interplay between nest density and predators},
+  journal   = {Oikos},
+  year      = {2001},
+  volume    = {93},
+  number    = {3},
+  pages     = {388--400},
+  publisher = {Wiley Online Library},
 }
 
 @article{koffijberg2010breeding,
@@ -1053,3 +1245,5 @@ year = {2003},
     note = {R package version 1.5-5},
     url = {https://CRAN.R-project.org/package=geosphere},
   }
+
+@Comment{jabref-meta: databaseType:bibtex;}

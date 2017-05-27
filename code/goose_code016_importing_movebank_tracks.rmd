@@ -89,7 +89,7 @@ fams2016 = fams2016[fams2016$location_error_numerical <= 20,]
 
 #'remove positions where coordinates are above 56N or 7E
 
-fams2016 = fams2016[fams2016$location_lat < 56 & fams2016$location_long <= 8,]
+fams2016 = fams2016[fams2016$location_lat < 56 & fams2016$location_long <= 10,]
 ```
 
 ```{r set_factor_fam}
@@ -192,7 +192,7 @@ fams2014.3 = fams2014.3 %>% arrange(name, t)
 fams2014.3 = fams2014.3[complete.cases(fams2014.3),]
 
 #'filter
-fams2014.3 = fams2014.3 %>% filter(lon <=8, lat <=56, error < quantile(error, seq(0,1,0.1))[10])
+fams2014.3 = fams2014.3 %>% filter(lon <=10, lat <=56, error < quantile(error, seq(0,1,0.1))[10])
 
 #'remove duplicates again
 fams2014.3 = fams2014.3[!duplicated(fams2014.3[,c("name", "t")]),]
