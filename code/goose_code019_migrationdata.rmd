@@ -141,6 +141,10 @@ autumn.sites = read_excel("~/git/thesis/Migration_data.xlsx", sheet = 5)
 autumn.sites$season = "autumn"
 migration.sites = rbind(spring.sites, autumn.sites)
 
+a = table(migration.sites$Name_site, migration.sites$season)
+
+sum(apply(a, 1, function(x){sum(x)>1}))
+
 #'map it, get nl
 library(maps); library(ggplot2)
 nl = map_data("world", region = "Netherlands")

@@ -24,4 +24,4 @@ Especially for ```bibtex``` files.
 
 **To use special characters and Tufte classes**
 
-Pandoc uses a template which, when used with XeTeX calls mathspec.sty; mathspec.sty calls fontspec.sty with some options. If something else calls fontspec.sty then there will be a clash, and tufte-handout.cls does so. One solution would be to edit the template Pandoc uses. Taking out mathspec.sty would do the trick.
+/usr/lib/rstudio/bin/pandoc/pandoc +RTS -K512m -RTS goose_mmdata.utf8.md --to latex --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash --output goose_mmdata.pdf --template /home/pratik/R/x86_64-pc-linux-gnu-library/3.4/tufte/rmarkdown/templates/tufte_handout/resources/tufte-handout.tex --highlight-style pygments --latex-engine xelatex --variable 'documentclass:tufte-handout' --bibliography geese_citations.bib --filter /usr/lib/rstudio/bin/pandoc/pandoc-citeproc
