@@ -153,8 +153,6 @@ ggplot()+
   theme_bw()
 ```
 
-Sites probably confound any relation of proportions with activity. As sites are spread across the Netherlands, it is not presently possible to separate activity related to seasonal migration from movements within the wintering grounds.
-
 ```{r}
 library(ggplot2);library(plot3D)
 ggplot(data = a,

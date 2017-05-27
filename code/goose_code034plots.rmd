@@ -1,6 +1,5 @@
 ---
-output: 
-  tufte::tufte_handout
+output:
 ---
 
 # Study area and datasets
@@ -31,7 +30,7 @@ map01
 Three datasets used in the study are represented on a map of the main wintering grounds of the North Sea population of Whitefronts. Lines represent coasts (light) and major rivers (dark).
 
 Crosses mark sites (*n* = 64) where the sizes of flocks of Whitefronts, and the numbers of families with at least one juvenile within them were recorded between autumn 2000 and spring 2017.
-Triangles mark positions (*n* = 19) from 13 GPS tracked families of geese (3 in 2013, 4 in 2014, 6 in 2016) where individuals left the family (see details in text). Sites where geese with numbered neckbands were observed, and their family sizes counted, between 2000 and 2017, are bounded by a kernel shaded grey (*n* = 10,635).
+Triangles mark positions (*n* = 19) from 13 GPS tracked families of geese (3 in 2013, 4 in 2014, 6 in 2016) where individuals left the family (see details in text). Sites where geese with numbered neckbands were observed, and their family sizes counted, between 2000 and 2017, are bounded by a kernel shaded grey ($n_{obs}$ = 10,635, $n_{sites}$ = 8,416).
 
 # Trends in family size
 
@@ -41,8 +40,11 @@ library(gridExtra);library(ggplot2)
 grid.arrange(p1, p2, p3, p4)
 ```
 
-**Family size trends of Whitefronts.**
-Model output for generalised models run on two datasets and their subsets. Figure 1.a shows the fitted GAM predictions for family size as the reponse and longitudinal position as a fixed parametric predictor, with the habitat type, observer, and breeding year as iid. random effects modelled using a "re" smoothing basis, using data on 
+**Model output for generalised models run on two datasets with family size as response.**
+
+GAM fit with longitudinal position, days since first autumn arrivals, predation index, and flock size as fixed parametric effects. Habitat type, observer, and breeding year are iid. random effects modelled using a "re" smoothing basis (adjusted $R^2$ = 0.0084). Data used were counts (*n* = 51,037) of successful families in flocks. Lines show partial fit for longitude (a), and partial fit for days since arrivals (b).
+
+GAM fit with longitudinal position, days since first autumn arrivals, and predation index as fixed parametric effects. Individual identity and breeding year are iid. random effects modelled using a "re" smoothing basis (adjusted $R^2$ = 0.007 including, and = 0.005 excluding unsuccessful pairs). Data used were counts (*n* = 10,635) of marked geese in pairs or famlies. Lines show partial fit, including (solid) and excluding (dashed) unsuccessful pairs, for longitude (c), and partial fit for days since arrivals (d).
 
 \newpage
 # Trends in flock size
@@ -50,8 +52,10 @@ Model output for generalised models run on two datasets and their subsets. Figur
 grid.arrange(p5, p6, ncol = 2)
 ```
 
-**Trends in flock sizes of Greater White-fronted geese.**
-Flock sizes of Greater White-fronted geese (*Anser albifrons*) show significant increases from west to east (left), and through the winter (right), counted as the number of days since each September 1st. 95% confidence intervals are shaded grey.
+**Model output of generalised models run on flock count data.**
+
+GAM fit with flock size as response and longitude as fixed parametric effect, (b) GAM fit with flock size as response and days since first autumn migration arrivals as fixed parametric effect, and with breeding year, 
+
 
 # Families in flocks
 ```{r plot_grid3, fig.fullwidth=TRUE, fig.height=3, fig.width=8, warning=FALSE}

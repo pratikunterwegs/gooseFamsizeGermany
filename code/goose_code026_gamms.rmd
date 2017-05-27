@@ -9,7 +9,7 @@ title: bams for Hypothesis 1 - 3, SOVON data
 library(knitr);library(plyr);library(dplyr);library(data.table);library(purrr);library(ggplot2)
 
 #'load model libs
-library(gam);library(mgcv);library(gamm4);library(itsadug)
+library(gam);library(mgcv);library(gamm4);library(visreg)
 
 #'suppress all code output but run code
 opts_chunk$set(eval = FALSE)
@@ -65,49 +65,38 @@ fams.expand.sub = rbind(fams.expand.sub, fams.rhine)
 
 Data used: Family size data (51,000 families, 45,000 complete cases).
 
-# SOVON data
+# Which time proxy?
 
-## Model 01
-Includes only the three main hypothesised predictors.
+```{r}
+mtime = glmer(famsize ~ t_to_out + t_since_in+ (1|Breeding_year) + (1|Observer) + (1|Food_type), data = fams.expand.sub[runif(10000, 1, dim(fams.expand.sub)[1]),], family = "poisson", na.action = na.omit)
 
-```{r m01}
-#'run a bamm with the smoothing applied only to the coordinates
-library(mgcv)
+mtime2 = update(mtime, .~. -t_since_in)
+mtime3 = update(mtime, .~. -t_to_out)
+library(MuMIn)
 
-#mod01 = bam(famsize ~ (lon) + flocksize + days, data = fams.expand, family = "poisson")
+timesel = model.sel(mtime2, mtime3)
 ```
 
-```{r summary01}
-summary(mod01)
-AIC(mod01)
-vis.gam(mod01, type = "response",
-        view = c("flocksize","days"), theta = -235, color = "terrain")
-```
+
 
 ## Model 03
 Remove time to departure.
 
 ```{r m03}
+#'remove NAs
+
+fams.expand.sub = fams.expand.sub %>% filter(complete.cases(lon, flocksize, t_since_in, p.index, Breeding_year, Observer, Food_type))
+
 #'remove t_to_out
-mod03 = bam(famsize ~ lon + flocksize + t_since_in  + p.index + s(Food_type, bs = "re") + s(Observer, bs = "re") + s(Breeding_year, bs = "re") + s(Site_name, bs = "re"), data = fams.expand.sub, family = "poisson", na.action = na.omit)
-
-mod03full = bam(famsize ~ lon + flocksize + t_since_in  + p.index + s(Food_type, bs = "re") + s(Observer, bs = "re") + s(Breeding_year, bs = "re") + s(Site_name, bs = "re"), data = fams.expand, family = "poisson", na.action = na.omit)
+mod03 = bam(famsize ~ lon + flocksize + t_since_in + p.index + s(Breeding_year, bs = "re") + s(Observer, bs = "re") + s(Food_type, bs = "re"), data = fams.expand.sub, family = "poisson", na.action = na.omit)
 ```
 
-
-```{r vis.bam03}
-#pdf(file = "gam03days_lon.pdf")
-vis.gam(mod03, view = c("lon", "t_since_in"), color = rev("terrain"), plot.type = "contour", type = "response", main = NULL, xlab = "Long", ylab = "Days since first arrivals")
-#dev.off()
-
-summary(mod03)
-```
 
 # geese.org data
 Run model three on geese.org data. Random effects now include "id", and do not include observer and habitat type. Fixed effects do not include flock size.
 
 ```{r gorg.m03}
-mod03.gorg = bam(famsize ~ lon + t_since_in + p.index + s(id, bs = "re") + s(breedyr, bs = "re"), data = geeseorg, family = poisson)
+mod03.gorg = bam(famsize ~ lon + t_since_in + p.index + s(neckring, bs = "re") + s(breedyr, bs = "re"), data = geeseorg, family = poisson)
 ```
 
 ```{r}
@@ -115,14 +104,10 @@ summary(mod03.gorg)
 o2.mixed.mods(mod03.gorg)
 ```
 
-```{r}
-vis.gam(mod03.gorg, view = c("lon", "t_since_in"), type = "response", plot.type = "contour", color = "terrain", main = NULL, xlab = "Long",ylab = "Days since first arrivals")
-```
-
 # geese.org successful fams
 
 ```{r gorg.success}
-mod03.gorg.s = bam(famsize ~ lon + t_since_in + p.index + s(id, bs = "re") + s(breedyr, bs = "re"), data = geeseorg %>% filter(famsize > 0), family = poisson)
+mod03.gorg.s = bam(famsize ~ lon + t_since_in + p.index + s(neckring, bs = "re") + s(breedyr, bs = "re"), data = geeseorg %>% filter(famsize > 0), family = poisson)
 ```
 
 ```{r}
