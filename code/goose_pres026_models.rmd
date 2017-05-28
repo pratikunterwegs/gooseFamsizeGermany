@@ -19,7 +19,6 @@ opts_chunk$set(echo = FALSE)
 
 ```{r, message=FALSE, echo=FALSE, warning=FALSE, eval=TRUE}
 source("dataprep.R")
-source("multiplot.R")
 load("goosemods_pres.RData")
 load("fsize_coords.rdata")
 
@@ -54,7 +53,7 @@ p1 = ggplot()+
   geom_segment(data = splits %>% filter(event %in% c("Split")), aes(x = lon, y = fsize+1, xend = lon, yend = 0), lty = 1, lwd = 0.2, col = "grey30")+
   geom_text(data = splits %>% filter(fam %in% c("Ev","Wo","Ha","Na","Ti","Ma","Ro","An","Jo"), event == "Split"), aes(x=lon, y = fsize+1, label = substr(fam,1,1), angle = 0), hjust = 1, vjust = 0, size = 3, angle = -30)+
   ylim(0,7.5)+xlim(3,10)+
-  geom_text(aes(x =9, y = 7, label = "Adj.~R^2==0.084"), parse = T)+
+  geom_text(aes(x =9, y = 7, label = "{Omega[0]}^2==0.563"), parse = T)+
   theme_bw()+a
 #dev.off()
 ```
@@ -117,7 +116,7 @@ p3 = ggplot()+
   geom_text(data = splits %>% filter(fam %in% c("Ev","Wo","Ha","Na","Ti","Ma","Ro","An","Jo"), event == "Split"), aes(x=lon, y = fsize+1, label = substr(fam,1,1), angle = 0), hjust = 1, vjust = 0, size = 3, angle = -30)+
   geom_text(aes(x=8,y = c(1,2.5)), label = c("with zeros","w/o zeros"), hjust = "outward")+
   ylim(0,7.5)+xlim(3,10)+
-  geom_text(aes(x =10, y = c(7,6), label = c("with~0~Adj.~R^2==0.007", "w/o~0~Adj.~R^2==0.005")), hjust = "inward", parse = T)+
+  geom_text(aes(x =10, y = c(7,6), label = c("with~0~{Omega[0]}^2==0.786", "w/o~0~{Omega[0]}^2==0.661")), hjust = "inward", parse = T)+
   theme_bw()+a
 
 #dev.off()
@@ -169,7 +168,7 @@ p5 = ggplot()+
   geom_line(data = vis.flockmod.data, aes(x = lon, y = visregFit), size = 1, col = 2)+
   ylim(0,5000)+
   labs(list(x = "Longitude", y = "Flock size", title = "a"))+
-  geom_text(aes(x =9, y = 4500, label = "Adj.~R^2==0.14"), hjust = "inward", parse = T)+
+  geom_text(aes(x =9, y = 4500, label = "{Omega[0]}^2==0.99"), hjust = "inward", parse = T)+
   theme_bw()+a
 
 #dev.off()
@@ -217,8 +216,8 @@ p7= ggplot()+
   geom_point(data = fams, aes(x = log(flocksize), y = fams), size = 0.1)+
   geom_ribbon(data = visfamsmod.data, aes(x = log(flocksize), ymin = visregLwr, ymax = visregUpr), fill = "grey90", alpha = 0.9)+
   geom_line(data = visfamsmod.data, aes(x = log(flocksize), y = visregFit), size = 1, col = 2)+ ylim(0,2e2)+
-  labs(list(x = "Flock size", y = "Number of families", title = "a"))+
-  geom_text(aes(x =1.5, y = 150, label = "Adj.~R^2==0.923"), hjust = "inward", parse = T)+
+  labs(list(x = "Flock size", y = "Number of families", title = "c"))+
+  geom_text(aes(x =1.5, y = 190, label = "{Omega[0]}^2==0.99"), hjust = "inward", parse = T)+
   theme_bw()+a
 
 #dev.off()
@@ -240,11 +239,11 @@ vis.mod03.famflock.data = vis.mod03.famflock$fit
 #postscript(file = "plot08fam_flock.eps", colormodel = "grey", horizontal = FALSE, onefile = FALSE, height = 4, width = 5)
 
 p8 = ggplot()+
-  geom_point(data = fams.expand, aes(x = (flocksize), y = famsize), size = 0.1)+
+  geom_point(data = fams.expand[runif(10000, 1, 34e3),], aes(x = (flocksize), y = famsize), size = 0.1)+
   geom_ribbon(data = vis.mod03.famflock.data, aes(x = flocksize, ymin = visregLwr, ymax = visregUpr), fill = "grey90", alpha = 0.9)+
   geom_line(data = vis.mod03.famflock.data, aes(x = flocksize, y = visregFit), size = 1, col = 2)+
-  labs(list(x = "Flock size", y = "Family size", title = "b"))+
-  geom_text(data = NULL, aes(x = 9500, y = 10, label = "Adj.~R^2==0.084"), hjust = "inward", parse = T)+
+  labs(list(x = "Flock size", y = "Family size", title = "d"))+
+  geom_text(data = NULL, aes(x = 1e4, y = 9.5, label = "{Omega[0]}^2==0.562"), hjust = "inward", parse = T)+
   theme_bw()+a
 
 #dev.off()
@@ -255,7 +254,7 @@ p8 = ggplot()+
 * Significant effect
 
 ```{r pred_gamjuvs_time}
-vis.juvs.time = visreg(gamjuvs, "t_since_in", scale = "response",plot = F)
+vis.juvs.time = visreg(modjuvs, "t_since_in", scale = "response",plot = F)
 
 vis.juvs.time.data = vis.juvs.time$fit
 ```
@@ -269,7 +268,7 @@ p9 = ggplot()+
   geom_line(data = vis.juvs.time.data, aes(x = t_since_in, y = visregFit), size = 1, col = 2)+
   labs(list(x = "Days since first arrivals", y = "Juvenile proportion", title = "a"))+
   ylim(0.05, 0.7)+
-  geom_text(aes(x = 200, y = 0.7, label = "R^2==0.137"), hjust = "inward", parse = T)+
+  geom_text(aes(x = 200, y = 0.7, label = "R^2==0.104"), hjust = "inward", parse = T)+
   theme_bw()+a
 
 #dev.off()
@@ -278,7 +277,7 @@ p9 = ggplot()+
 # Plot 10: Juvenile % ~ flocksize
 
 ```{r pred_gamjuvs_lon}
-vis.juvs.flock = visreg(gamjuvs, "flocksize", scale = "response",plot = F)
+vis.juvs.flock = visreg(modjuvs, "flocksize", scale = "response",plot = F)
 
 vis.juvs.flock.data = vis.juvs.flock$fit
 ```
@@ -316,7 +315,7 @@ p11 = ggplot()+
   geom_line(data = vis.flocksize.pred.data, aes(x = p.index, y = visregFit), size = 1, col = 2)+
   labs(list(x = NULL, y = "Flock size", title = "a"))+
   ylim(0,9e3)+
-  geom_text(aes(x = 1.5, y = 8500, label = "Adj.~R^2==0.14"), hjust = "inward", parse = T)+
+  geom_text(aes(x = 1.5, y = 8500, label = "{Omega[0]}^2==0.99"), hjust = "inward", parse = T)+
   theme_bw()+a
 
 #dev.off()
@@ -325,7 +324,7 @@ p11 = ggplot()+
 # Plot : Juvenile % ~ p.index
 
 ```{r}
-vis.juvprop.pred = visreg(gamjuvs, "p.index", scale = "response", plot = F)
+vis.juvprop.pred = visreg(modjuvs, "p.index", scale = "response", plot = F)
 
 vis.juvprop.pred.data = vis.juvprop.pred$fit
 ```
@@ -338,7 +337,7 @@ p12 = ggplot()+
   geom_ribbon(data = vis.juvprop.pred.data, aes(x = p.index, ymin = visregLwr, ymax = visregUpr), fill= "grey90", alpha = 0.9)+
   geom_line(data = vis.juvprop.pred.data, aes(x = p.index, y = visregFit), size = 1, col=2)+
   labs(list(x = NULL, y = "Juvenile proportion in flocks", title = "b"))+
-  geom_text(aes(x = 1.5, y = 0.8, label = "R^2==0.137"), hjust = "inward", parse = T)+
+  geom_text(aes(x = 1.5, y = 0.8, label = "R^2==0.104"), hjust = "inward", parse = T)+
   theme_bw()+a
 
 #dev.off()
@@ -359,8 +358,8 @@ p13 = ggplot()+
   geom_ribbon(data = vis.nfams.pred.data, aes(x = p.index, ymin = visregLwr, ymax = visregUpr), fill= "grey90", alpha = 0.9)+
   geom_line(data = vis.nfams.pred.data, aes(x = p.index, y = visregFit), size = 1, col = 2)+
   labs(list(x = "Predation index", y = "Successful families in flock", title = "c"))+
-  ylim(0,200)+
-  geom_text(aes(x = 1.5, y = 200, label = "Adj.~R^2==0.923"), hjust = "inward", parse = T)+
+  ylim(0,190)+
+  geom_text(aes(x = 1.5, y = 185, label = "{Omega[0]}^2==0.99"), hjust = "inward", parse = T)+
   theme_bw()+a
 ```
 
@@ -382,8 +381,7 @@ vis.famsize.gorg.s.pred.data = vis.famsize.gorg.s.pred$fit
 
 ```{r plot_famsize_pred}
 p14 =  ggplot()+
-  geom_point(data = geeseorg, aes(x = p.index, y = famsize),
-             col = ifelse(geeseorg$famsize>0, 1,4), size = 0.1)+
+  geom_point(data = geeseorg, aes(x = p.index, y = famsize), size = 0.1)+
   geom_ribbon(data = vis.famsize.pred.data, aes(x = p.index, ymin = visregLwr, ymax = visregUpr), fill = "grey90", alpha = 0.9)+
   geom_ribbon(data = vis.famsize.gorg.pred.data, aes(x = p.index, ymin = visregLwr, ymax = visregUpr), fill = "grey90", alpha = 0.9)+
   geom_ribbon(data = vis.famsize.gorg.s.pred.data, aes(x = p.index, ymin = visregLwr, ymax = visregUpr), fill = "grey90", alpha = 0.9)+
@@ -393,7 +391,7 @@ p14 =  ggplot()+
   ylim(0,8)+
   #geom_text(aes(x = 1.25, y = c(2.5, 0.75), label = c("w/o unsuccessful pairs", "w/ unsuccessful pairs")))+
   geom_text(aes(x = 1.4, y = c(2.3, 1.5,0.75), label = c("1","2","3")))+
-  geom_text(aes(x = 1.45, y = c(8,7,6), label = c("Adj.~R^2~1==0.00459", "Adj.~R^2~2==0.084","Adj.~R^2~3==0.00715")), hjust = "inward", parse = T)+
+  geom_text(aes(x = 1.45, y = c(7.5,6.5,5.5), label = c("{Omega[0]}^2~1==0.661", "{Omega[0]}^2~2==0.563","{Omega[0]}^2~3==0.786")), hjust = "inward", parse = T)+
   labs(list(x = "Predation index", y = "Family size", title = "d"))+
   theme_bw()+a
 ```

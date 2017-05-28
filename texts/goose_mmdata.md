@@ -1,22 +1,16 @@
 ---
-title: 'Methods: Data'
 bibliography: geese_citations.bib
 cls: oikos.csl
-fontsize: 12pt
-toc: true
-header-includes:
-  - \setmainfont{ETBembo}
-  - \usepackage{longtable,booktabs}
-
 ---
-
 # Study species
 
 Greater White-fronted geese (*Anser albifrons*), or whitefronts, are grey geese similar in size but somewhat smaller than the Greylag goose (*A. anser*). They are named for the distinctive patch of white feathers at the base of the bill and beginning of the forehead. Adults are also identified by the black tiger-stripe markings on the chest. First winter birds lack the white front, the black chest stripes, and the neck grooves common the to adults of many *Anser* species.
 
 @madsen1999goose have compiled some of the most comprehensive information on the ecology of this species in their book on *Goose Populations of the Western Palearctic*. Whitefronts have a circumpolar distribution, and breed in the tundra between the 10°C and 4°C July isotherns. The Palearctic populations winter across Europe and Asia, with one of the largest combined ranges among the geese. The Eurasian breeding range is now exclusively within Russia [@alpheraky1904geese], and stretches from the Kanin Peninsula (45°E) to the Kolyma river (155°E) in the Russian far-east. The Western Palearctic population which winters in Europe breeds between the Kanin Peninsula the Khatanga river (104°E). This population is further divided into five main wintering groups based on the flyways they use [@philippona1972blessgans]. Geese reaching western Europe and Britain from Russia take the Baltic - North Sea flyway. @mooij1996panmixia summarises some decades of leg-ring and neckband recoveries, and while the species shows high site fidelity during winter [@wilson1991winter], but populations from the different flyways have been found to mix. Overall, the western European wintering population has increased dramatically since the 1970s, while there have been corresponding decreases in populations wintering in Croatia (Pannonic) and Turkey (Pontic) [@mooij1996panmixia].
 
-Adults form life-long pair bonds, and migrate, feed and roost together. Family bonds between parents and juveniles, and between siblings, are strong and long-lasting. Families regroup successfully after capture and subsequent individual release in both wintering [@10.2307/4511184] and breeding areas [*pers.obs*] Juveniles follow parents on their first autumn migration, and are almost always seen with them or with siblings during their first winter. In a study of the Greenland subspecies (*A. albifrons flavirostris*), it was found that around 40% of juveniles are still with their parents in the second winter, 30% in the third, and 20% in the fourth [@10.2307/4088245]. Alloparental care, or nest attendance and anti-predator defence on the breeding grounds is a likely benefit and has been sporadically reported in the Greenland [@stroud1982observations] and Pacific subspecies [@ely1979breeding], while being better studied and confirmed in the Canadian Arctic breeding population [@IBI:IBI151]. In a number of species of geese - Snow geese (*A. caerulescens*), Dark-bellied Brent geese (*Branta b. bernicla*), and Barnacle geese (*B. leucopsis*) - larger families are also more dominant in contests with con- and heterospecifics within wintering flocks than smaller ones or pairs [@jonsson2008lesser, @Poisbleau20061351, @Black1989199, @JANE:JANE325]. This may be assumed to hold for whitefronts as well, promoting the maintenance of family bonds. Additionally, when in dispersed family groups, families may accrue the benefits of flocking while sharing the costs only with related individuals [@10.2307/4088245].
+Adults form life-long pair bonds, and migrate, feed and roost together. Family bonds between parents and juveniles, and between siblings, are strong and long-lasting. Families regroup successfully after capture and subsequent individual release in both wintering [@10.2307/4511184] and breeding areas (*pers.obs*) Juveniles follow parents on their first autumn migration, and are almost always seen with them or with siblings during their first winter. In a study of the Greenland subspecies (*A. albifrons flavirostris*), it was found that around 40% of juveniles are still with their parents in the second winter, 30% in the third, and 20% in the fourth [@10.2307/4088245]. Alloparental care, or nest attendance and anti-predator defence on the breeding grounds is a likely benefit and has been sporadically reported in the Greenland [@stroud1982observations] and Pacific subspecies [@ely1979breeding], while being better studied and confirmed in the Canadian Arctic breeding population [@IBI:IBI151]. In a number of species of geese - Snow geese (*A. caerulescens*), Dark-bellied Brent geese (*Branta b. bernicla*), and Barnacle geese (*B. leucopsis*) - larger families are also more dominant in contests with con- and heterospecifics within wintering flocks than smaller ones or pairs [@jonsson2008lesser, @Poisbleau20061351, @Black1989199, @JANE:JANE325]. This may be assumed to hold for whitefronts as well, promoting the maintenance of family bonds. Additionally, when in dispersed family groups, families may accrue the benefits of flocking while sharing the costs only with related individuals [@10.2307/4088245].
+
+---
 
 # Study site
 
@@ -30,10 +24,13 @@ The population of whitefronts has stabilised at around 1.4 million from historic
 
 # Goose observations
 
-## Observations of marked geese
+![Three datasets used in the study are represented on a map of the main wintering grounds of the North Sea population of Whitefronts. Lines represent coasts (light) and major rivers (dark). Crosses mark sites (*n* = 64) where family frequencies within flocks ($n_{flocks}$ = 1,884, $n_{families}$ = 50,941) were recorded between autumn 2000 and spring 2017.
+Triangles mark positions (*n* = 19) from 13 GPS tracked families of geese (3 in 2013, 4 in 2014, 6 in 2016) where individuals left the family (see details in text). Sites where geese with numbered neckbands were observed, and their family sizes counted, between 2000 and 2017, are bounded by a kernel shaded grey ($n_{obs}$ = 10,635, $n_{sites}$ = 8,416).](datamap.pdf){width=100%}
+
+## Sightings of marked geese
 Geese have long been observed on their wintering grounds within the study area, and these observations have focused on different levels of goose organisation. At the level of the individual, this takes the form of records of individually marked geese. [@kruckenberg2008white] provide references to a number of studies and expeditions in which whitefronts have been fitted with coloured plastic neckbands bearing alphanumeric codes. This has largely taken place in Russia at various summer moulting/breeding sites. This mark-resight method has been used in other species of geese as well, for example, to estimate populations of Svalbard breeding Pink-footed geese [@ganter2001examination], and the technique is well developed.
 
-The neckbands provide a point of focus for birdwatchers observing goose flocks, and are easily reported and displayed on the purpose-built website `geese.org`. Observers report the neckband code of the bird, the number of associated first-winter juveniles if any, the identity of the partner if present, the nearest settlement, habitat type, and the numbers of individuals of each anserine species in the flock. The geographic coordinates of the observation are geocoded and displayed on a map from the name of the reported nearest settlement, and prior to final entry, they can be changed via a drag-and-drop map marker if found to be incorrectly located. Observers are volunteers, and most observations are made *ad hoc*. Geese in their wintering grounds appear to be accustomed to human presence, and regularly allow observers to approach within a hundred metres, a marked difference from their breeding grounds [*pers. obs.*]. Geese with numbered neckbands have been observed since the first records in 1998, with greater numbers of neckbands being deployed since 2000.
+The neckbands provide a point of focus for birdwatchers observing goose flocks, and are easily reported and displayed on the purpose-built website `geese.org`. Observers report the neckband code of the bird, the number of associated first-winter juveniles if any, the identity of the partner if present, the nearest settlement, habitat type, and the numbers of individuals of each anserine species in the flock. The geographic coordinates of the observation are geocoded and displayed on a map from the name of the reported nearest settlement, and prior to final entry, they can be changed via a drag-and-drop map marker if found to be incorrectly located. Observers are volunteers, and most observations are made *ad hoc*. Geese in their wintering grounds appear to be accustomed to human presence, and regularly allow observers to approach within a hundred metres, a marked difference from their breeding grounds (*pers. obs.*). Geese with numbered neckbands have been observed since the first records in 1998, with greater numbers of neckbands being deployed since 2000.
 
 ## Flock counts
 Counts of goose flocks in order to monitor populations have taken place regularly in the countries and sub-national administrative regions of the study area since the 1960s [@Koffijberg2017], but the effort has been consistent only since the 2000s. Observers count goose flocks at a number of sites, which may be either fixed census sites used as part of the annual waterbird census, or *ad hoc* sites where geese are observed. When flocks are too large to be counted completely in the field, observers are encouraged to divide the flock into simple fractions and to sample one or more of these subsets of the flock. Care is taken to sample the flock representatively. In the case of elliptical flocks, this involves sampling a 'slice' of the flock, which should ideally include the various regions (edge, periphery, centre), which are expected to have different compositions of age and dominance groups [@black1992foraging]. Flock size and age-ratio are then extrapolated from the number of geese sampled.
@@ -49,8 +46,6 @@ The only families for which trends in size and position could be studied with ce
 ---
 
 # Data filtering
-
-Table 1 provides an overview of the data and their spatial extent.
 
 ## Observations of marked geese
 We obtained the data described above from the volunteers involved (*n* = 75) across western and central Europe (*n* = 8764). From the observations of marked geese, we removed the following types of records: those in which a goose was seen with neither juveniles nor a social partner, one of the two records in which two birds of a pair had been reported separately when seen together, and those in which the bird was less than two years old at the time of observation, since whitefronts are not expected to breed before their second winter. We also excluded records which lay outside the spatial extent of the study area. We chose to match the temporal extents of the data we acquired so as to make comparisons possible, and filtered these data to exclude records made before 2000. 10,635 records remained, reported from 8,416 unique coordinate pairs.
@@ -72,12 +67,14 @@ The adult in each family with the greater number of logged positions was set to 
 |Data type|Records|Unique sites|Spatial extent|Temporal extent|
 |---|---|---|---|---|
 |Flock count|7,149|123|4.1 - 8.9, 51.2 - 53.4|2000 - 2016|
-|Family frequency|1,884|65|4.8 - 7.3, 51.2 - 53.4|"|
-|Family size|51,037|65|4.8 - 7.3, 51.2 - 53.4|"|
+|Family frequency|1,884|64|4.8 - 7.3, 51.2 - 53.4|"|
+|Family size|51,037|64|4.8 - 7.3, 51.2 - 53.4|"|
 |GPS telemetry|1013/13|1013|3.9 - 7.4, 51.3 - 53.2|2013, 2014, 2016|
 |Flight activity|6,266|118|3.4 - 7.2, 50.8 - 53.5|2000 - 2016|
 
-Table: Datasets of goose observations in winter.
+Table: Overview of filtered goose observation data.
+
+---
 
 # Summer predation
 
@@ -89,5 +86,3 @@ Within this context, we sought to calculate an index for the summer predation pr
 We could not asses rodent abundance for this area from the literature, which focuses largely on lemming abundance from the Taimyr Peninsula (98°E) [@kokorev2002population, used in @blomqvist2002indirect, and in @nolet2013faltering]. While it is suggested that lemming cycles in some regions of Scandinavia [@angerbjorn2001geographical], and in the high Arctic of Svalbard [@hansen2013climate] may be synchronised, we did not expect lemming cycles in the Nenets and Yamal regions to be synchronised with those of Taimyr. Further, @kruckenberg2008white report that while most breeding whitefronts remain on Kolguyev, birds seen on Taimyr are mostly failed breeders that arrive there from the Nenets area. We decided not not use lemming data from Taimyr to calculate the predation index.
 
 ---
-
-# References

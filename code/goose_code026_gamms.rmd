@@ -43,6 +43,8 @@ geeseorg$breedyr = as.factor(geeseorg$breedyr)
 ```{r}
 #'how many families from the Rhinelands?
 plyr::count(fams.expand, "zone")
+
+fams.expand = fams.expand %>% filter(complete.cases(lon, flocksize, t_since_in, p.index, Breeding_year, Observer, Food_type))
 #'as many as from the other zones combined, almost
 
 #'subsample to have only half as many. first remove rhinelands data from the frame
@@ -67,7 +69,7 @@ Data used: Family size data (51,000 families, 45,000 complete cases).
 
 # Which time proxy?
 
-```{r}
+```{r, eval=FALSE}
 mtime = glmer(famsize ~ t_to_out + t_since_in+ (1|Breeding_year) + (1|Observer) + (1|Food_type), data = fams.expand.sub[runif(10000, 1, dim(fams.expand.sub)[1]),], family = "poisson", na.action = na.omit)
 
 mtime2 = update(mtime, .~. -t_since_in)
@@ -85,10 +87,10 @@ Remove time to departure.
 ```{r m03}
 #'remove NAs
 
-fams.expand.sub = fams.expand.sub %>% filter(complete.cases(lon, flocksize, t_since_in, p.index, Breeding_year, Observer, Food_type))
+#fams.expand.sub = fams.expand.sub %>% filter(complete.cases(lon, flocksize, t_since_in, p.index, Breeding_year, Observer, Food_type))
 
 #'remove t_to_out
-mod03 = bam(famsize ~ lon + flocksize + t_since_in + p.index + s(Breeding_year, bs = "re") + s(Observer, bs = "re") + s(Food_type, bs = "re"), data = fams.expand.sub, family = "poisson", na.action = na.omit)
+mod03 = glmer(famsize ~ lon + flocksize + t_since_in + p.index + (1|Breeding_year) + (1|Observer) + (1|Food_type), data = fams.expand.sub, family = "poisson")
 ```
 
 
@@ -96,7 +98,7 @@ mod03 = bam(famsize ~ lon + flocksize + t_since_in + p.index + s(Breeding_year, 
 Run model three on geese.org data. Random effects now include "id", and do not include observer and habitat type. Fixed effects do not include flock size.
 
 ```{r gorg.m03}
-mod03.gorg = bam(famsize ~ lon + t_since_in + p.index + s(neckring, bs = "re") + s(breedyr, bs = "re"), data = geeseorg, family = poisson)
+mod03.gorg = glmer(famsize ~ lon + t_since_in + p.index + (1|neckring) + + (1|breedyr/neckring), data = geeseorg, family = poisson)
 ```
 
 ```{r}
@@ -107,7 +109,7 @@ o2.mixed.mods(mod03.gorg)
 # geese.org successful fams
 
 ```{r gorg.success}
-mod03.gorg.s = bam(famsize ~ lon + t_since_in + p.index + s(neckring, bs = "re") + s(breedyr, bs = "re"), data = geeseorg %>% filter(famsize > 0), family = poisson)
+mod03.gorg.s = glmer(famsize ~ lon + t_since_in + p.index + (1|neckring) + + (1|breedyr/neckring), data = geeseorg %>% filter(famsize > 0), family = poisson)
 ```
 
 ```{r}

@@ -24,4 +24,6 @@ Especially for ```bibtex``` files.
 
 **To use special characters and Tufte classes**
 
-/usr/lib/rstudio/bin/pandoc/pandoc +RTS -K512m -RTS goose_mmdata.utf8.md --to latex --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash --output goose_mmdata.pdf --template /home/pratik/R/x86_64-pc-linux-gnu-library/3.4/tufte/rmarkdown/templates/tufte_handout/resources/tufte-handout.tex --highlight-style pygments --latex-engine xelatex --variable 'documentclass:tufte-handout' --bibliography geese_citations.bib --filter /usr/lib/rstudio/bin/pandoc/pandoc-citeproc
+# For centred images that occupy space
+
+/usr/lib/rstudio/bin/pandoc/pandoc +RTS -K512m -RTS *.md goose_report.yaml --output goose_report.pdf --filter pandoc-citeproc --latex-engine pdflatex

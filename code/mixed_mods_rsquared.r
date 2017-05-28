@@ -6,7 +6,7 @@ r2.mixed.mods <- function(m) {
 #'suggested from http://glmm.wikidot.com/faq
 
 o2.mixed.mods = function(m){
-  abs(1-var(residuals(m))/(var(model.response(model.frame(m)))))
+  1-(var(residuals(m))/(var(model.response(model.frame(m)))))
 }
 
 #'suggested from http://glmm.wikidot.com/faq, 

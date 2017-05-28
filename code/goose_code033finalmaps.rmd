@@ -103,7 +103,7 @@ kdegeese2 = gIntersection(kdegeese, land, byid = TRUE, drop_lower_td = TRUE)
 # Basic datamap
 
 ```{r map_sovon}
-postscript(file = "datamap.eps", horizontal = FALSE, onefile = FALSE)
+pdf(file = "~/git/thesis/texts/datamap.pdf")
 #'map locations
 tm_shape(land, bbox = e - c(0,0,-0.2,0))+
   tm_polygons(col = "white", border.col = "grey70", alpha = 0.7)+
@@ -119,7 +119,7 @@ tm_shape(fams.spatial)+
   tm_dots(col = "black", shape = 4, size = 0.3)+
   
 tm_shape(splits2[splits2$event == "Split",])+
-  tm_symbols(shape = "event", col = "indianred1", shapes = c(25, 4), size = 0.2, border.col = "grey10", showNA = F, shapeNA = NA, legend.shape.show = F)+
+  tm_symbols(shape = "event", col = "indianred1", shapes = c(25, 4), size = 1, border.col = "grey10", showNA = F, shapeNA = NA, legend.shape.show = F)+
 
 tm_format_NLD()+
 tm_scale_bar(position = c("left","bottom"), breaks=c(0,25,50), size = 1)+

@@ -1,0 +1,13 @@
+---
+title: 'Spatial ecology of wintering Greater White-fronted geese (*Anser albifrons*)'
+margin-bottom: 2cm
+margin-top: 2cm
+fontsize: 12pt
+linestretch: 1.2
+toc: true
+header-includes:
+  - \usepackage{longtable,booktabs}
+  - \usepackage{graphicx}
+  - \usepackage[font=small,labelfont=bf]{caption}
+  - \setmainfont{ETBembo}
+---
