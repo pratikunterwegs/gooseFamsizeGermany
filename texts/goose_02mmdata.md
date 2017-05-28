@@ -2,6 +2,9 @@
 bibliography: geese_citations.bib
 cls: oikos.csl
 ---
+
+---
+
 # Study species
 
 Greater White-fronted geese (*Anser albifrons*), or whitefronts, are grey geese similar in size but somewhat smaller than the Greylag goose (*A. anser*). They are named for the distinctive patch of white feathers at the base of the bill and beginning of the forehead. Adults are also identified by the black tiger-stripe markings on the chest. First winter birds lack the white front, the black chest stripes, and the neck grooves common the to adults of many *Anser* species.
@@ -24,11 +27,26 @@ The population of whitefronts has stabilised at around 1.4 million from historic
 
 # Goose observations
 
-![Three datasets used in the study are represented on a map of the main wintering grounds of the North Sea population of Whitefronts. Lines represent coasts (light) and major rivers (dark). Crosses mark sites (*n* = 64) where family frequencies within flocks ($n_{flocks}$ = 1,884, $n_{families}$ = 50,941) were recorded between autumn 2000 and spring 2017.
-Triangles mark positions (*n* = 19) from 13 GPS tracked families of geese (3 in 2013, 4 in 2014, 6 in 2016) where individuals left the family (see details in text). Sites where geese with numbered neckbands were observed, and their family sizes counted, between 2000 and 2017, are bounded by a kernel shaded grey ($n_{obs}$ = 10,635, $n_{sites}$ = 8,416).](datamap.pdf){width=100%}
+\begin{figure}
+\begin{center}
+\includegraphics{datamap.pdf}
+\caption[Map: Data collection sites]{Three datasets used in the study are represented on a map of the main
+wintering grounds of the North Sea population of Whitefronts. Lines
+represent coasts (light) and major rivers (dark). Crosses mark sites
+(\emph{n} = 64) where family frequencies within flocks (\(n_{flocks}\) =
+1,884, \(n_{families}\) = 50,941) were recorded between autumn 2000 and
+spring 2017. Triangles mark positions (\emph{n} = 19) from 13 GPS
+tracked families of geese (3 in 2013, 4 in 2014, 6 in 2016) where
+individuals left the family (see details in text). Sites where geese
+with numbered neckbands were observed, and their family sizes counted,
+between 2000 and 2017, are bounded by a kernel shaded grey (\(n_{obs}\)
+= 10,635, \(n_{sites}\) = 8,416).}
+
+\end{center}
+\end{figure}
 
 ## Sightings of marked geese
-Geese have long been observed on their wintering grounds within the study area, and these observations have focused on different levels of goose organisation. At the level of the individual, this takes the form of records of individually marked geese. [@kruckenberg2008white] provide references to a number of studies and expeditions in which whitefronts have been fitted with coloured plastic neckbands bearing alphanumeric codes. This has largely taken place in Russia at various summer moulting/breeding sites. This mark-resight method has been used in other species of geese as well, for example, to estimate populations of Svalbard breeding Pink-footed geese [@ganter2001examination], and the technique is well developed.
+Geese have long been observed on their wintering grounds within the study area, and these observations have focused on different levels of goose organisation. At the level of the individual, this takes the form of records of individually marked geese. [@kruckenberg2008white] provide references to a number of studies and expeditions in which whitefronts were fitted with coloured plastic neckbands bearing alphanumeric codes. This has largely taken place in Russia at various summer moulting/breeding sites. This mark-resight method has been used in other species of geese as well, for example, to estimate populations of Svalbard breeding Pink-footed geese [@ganter2001examination], and the technique is well developed.
 
 The neckbands provide a point of focus for birdwatchers observing goose flocks, and are easily reported and displayed on the purpose-built website `geese.org`. Observers report the neckband code of the bird, the number of associated first-winter juveniles if any, the identity of the partner if present, the nearest settlement, habitat type, and the numbers of individuals of each anserine species in the flock. The geographic coordinates of the observation are geocoded and displayed on a map from the name of the reported nearest settlement, and prior to final entry, they can be changed via a drag-and-drop map marker if found to be incorrectly located. Observers are volunteers, and most observations are made *ad hoc*. Geese in their wintering grounds appear to be accustomed to human presence, and regularly allow observers to approach within a hundred metres, a marked difference from their breeding grounds (*pers. obs.*). Geese with numbered neckbands have been observed since the first records in 1998, with greater numbers of neckbands being deployed since 2000.
 

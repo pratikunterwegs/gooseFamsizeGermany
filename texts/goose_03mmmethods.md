@@ -36,12 +36,13 @@ We included each of the main predictors in both models, except flock size when i
 
 We also modelled the sum of successful families in flocks using a GAM, with longitude, summer predation and time in winter as parametric fixed effects, and flock size as a smoothed term. Breeding year, habitat type, and observer identity were included as random effects using a "re" smoothing basis. We only used records in which the full flock had been sampled to build this model.
 
-|Response|Data source|Fixed effects|Random effects|
-|---|---|---|---|
-|Family size|Family counts|1, 2, 3, 4|5, 6, 7|
-|Family size|Individual observations|1, 3, 4|5, 8|
-|Flock size|Flock counts|1, 3, 4|5, 6, 7|
-|Juvenile proportion|Flock counts|1, 2, 3, 4|5, 6, 7|
+|Response|Data source|Fixed effects|Random effects|Model|
+|---|---|---|---|---|
+|Family size|Family counts|1, 2, 3, 4|5, 6, 7|GLMM
+|Family size|Individual observations|1, 3, 4|5, 8|GLMM
+|Number of families|Family counts|1, 2, 3, 4|5, 6, 7|GAM
+|Flock size|Flock counts|1, 3, 4|5, 6, 7|GLMM
+|Juvenile proportion|Flock counts|1, 2, 3, 4|5, 6, 7|GAM
 
 Table: Model structures; effect codes: *1* Longitude, *2* Flock size, *3* Days since arrivals, *4* Summer predation index, *5* Breeding year, *6* Habitat type, *7* Observer identity, *8* Goose identity.
 

@@ -44,7 +44,7 @@ summary(famsmod)
 
 ```{r}
 #'run bam
-modjuvs = bam(propjuv ~ lon + flocksize + (p.index) + s(t_since_in, k = 3) + s(Breeding_year, bs = "re") + s(Observer, bs = "re") + s(Food_type, bs = "re"), data = geese, family = binomial)
+modjuvs = bam(propjuv ~ lon + flocksize + (p.index) + s(t_since_in) + s(Breeding_year, bs = "re") + s(Observer, bs = "re") + s(Food_type, bs = "re"), data = geese, family = binomial)
 
 ```
 
