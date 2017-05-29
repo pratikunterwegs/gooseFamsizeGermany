@@ -22,8 +22,6 @@ Especially for ```bibtex``` files.
 
 ```pandoc geese001.md -t latex --filter pandoc-citeproc  -o geese001.pdf -S```
 
-**To use special characters and Tufte classes**
+# For thesis documents
 
-# For centred images that occupy space
-
-/usr/lib/rstudio/bin/pandoc/pandoc +RTS -K512m -RTS *.md goose_report.yaml --output goose_report.pdf --filter pandoc-citeproc --latex-engine pdflatex
+pandoc *.md goose_report.yaml --output goose_report.pdf --filter pandoc-citeproc --latex-engine xelatex

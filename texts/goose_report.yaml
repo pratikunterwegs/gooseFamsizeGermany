@@ -1,11 +1,13 @@
 ---
 title: 'Spatial ecology of wintering Greater White-fronted geese (*Anser albifrons*)'
-margin-bottom: 5cm
+margin-bottom: 3cm
 margin-top: 2cm
 fontsize: 12pt
 linestretch: 1.2
 documentclass: scrartcl
-sansfont: Linux Biolinum O
+sansfont: ETBembo
+bibliography: geese_citations.bibliography
+csl: science.csl
 toc: true
 lof: true
 header-includes:
