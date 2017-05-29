@@ -1,0 +1,25 @@
+---
+title: Pandoc codes
+---
+
+# Markdown to PDF
+
+pandoc file.rmd -o file.pdf
+
+# RMarkdown to PDF  or Greek letters included
+
+pandoc file.rmd -o file.pdf --latex-engine=xelatex
+
+# Markdown to PDF with TOC
+
+pandoc file.md -o hedeby.tex --latex-engine=xelatex --toc
+
+# To recode files to UTF-8, esp. BiBTeX
+
+recode -f utf-8 <filename.extention>
+
+pandoc geese001.md -t latex --filter pandoc-citeproc  -o geese001.pdf -S
+
+# For thesis documents
+
+pandoc *.md goose_report.yaml --output goose_report.pdf --filter pandoc-citeproc --latex-engine xelatex
