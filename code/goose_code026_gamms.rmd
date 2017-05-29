@@ -28,7 +28,7 @@ fams.expand = fams.expand %>% filter(flocksize > 0)
 fams.expand$pred = as.factor(fams.expand$pred)
 
 #'should only complete cases be considered? yes, for the predictors.
-fams.expand = fams.expand[complete.cases(fams.expand[,c("lon","lat","flocksize","famsize","Breeding_year","p.index","days","t_to_out","t_since_in")]),]
+#fams.expand = fams.expand[complete.cases(fams.expand[,c("lon","lat","flocksize","famsize","Breeding_year","p.index","days","t_to_out","t_since_in")]),]
 ```
 
 ```{r bryear_to_factor}
@@ -44,7 +44,7 @@ geeseorg$breedyr = as.factor(geeseorg$breedyr)
 #'how many families from the Rhinelands?
 plyr::count(fams.expand, "zone")
 
-fams.expand = fams.expand %>% filter(complete.cases(lon, flocksize, t_since_in, p.index, Breeding_year, Observer, Food_type))
+#fams.expand = fams.expand %>% filter(complete.cases(lon, flocksize, t_since_in, p.index, Breeding_year, Observer, Food_type))
 #'as many as from the other zones combined, almost
 
 #'subsample to have only half as many. first remove rhinelands data from the frame

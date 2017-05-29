@@ -1,0 +1,31 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+
+\title{goose tables}
+\author{}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\begin{abstract}
+\end{abstract}
+
+\section{data table}
+
+\begin{table*}
+  \caption{}
+  \label{tab:}
+
+  \begin{center}
+    \begin{tabular}{cc}
+       & \\
+       & \\
+    \end{tabular}
+  \end{center}
+\end{table*}
+
+\end{document}

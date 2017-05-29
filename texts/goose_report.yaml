@@ -4,9 +4,9 @@ margin-bottom: 3cm
 margin-top: 2cm
 fontsize: 12pt
 linestretch: 1.2
-documentclass: scrartcl
+documentclass: article
 sansfont: ETBembo
-bibliography: geese_citations.bibliography
+bibliography: geese_citations.bib
 csl: science.csl
 toc: true
 lof: true
@@ -16,4 +16,5 @@ header-includes:
   - \usepackage[font=small,labelfont=bf]{caption}
   - \setmainfont{ETBembo}
   - \usepackage{float}
+  - \usepackage{multicol}
 ---
