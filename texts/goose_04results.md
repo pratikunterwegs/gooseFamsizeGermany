@@ -12,4 +12,17 @@ Further, the proportion of first winter juveniles in flocks was not affected sig
 
 The effects of summer predation were not consistent across the levels of the population. The size of successful families in flocks increased, though not significantly, with the level of summer predation (*p* = 0.377), while the number of juveniles seen with marked geese was significantly decreased with high summer predation (*p* = 6.45x$10^{-6}$). The apparent difference in trends might be explained by the fact that only successful families were counted in flocks. The effect of summer predation on family size could be masked by such a sampling method, especially if higher levels of predation caused goose pairs to fail to fledge any young at all. On testing this idea by excluding observations of unsuccessful pairs from our analysis, we found a similar trend as that of the family data from flocks, though it was still not a significant one (*p* = 0.896). At a higher level, the number of successful families in flocks showed a marked decrease with the level of summer predation (*p* = 7.13x$10^{-16}$). This did not translate into a lower juvenile proportion (_p_ = 0.931), or decreased flock sizes(*p* = 0.308).
 
+The goodness of fit of mixed models has not been easy to score. We examined a number of methods of calculating a traditional $R^2$, and settled on the $\Omega^{2}_0$ metric, which compares the residual variance of the full model against the residual variance of a (fixed) intercept-only null model [@SIM:SIM1572]. GAMs as implemented in `R` return an $R^2$ value. These are reported below.
+
+Response  |Model   |$\Omega^{2}_0$ or $R^2$   |
+--|---|---|
+Family size, flocks  |GLMM   |0.563   |
+Family size, marked geese  |GLMM   |0.786   |
+Family size, successful marked geese  |GLMM   |0.661   |
+_n_ families, flocks  |GAM   |0.99   |
+Juv. proportion, flocks  |GAM   |0.104   |
+Flock size |GLMM|0.99
+
+Table: Goodness of fit scores.
+
 ---

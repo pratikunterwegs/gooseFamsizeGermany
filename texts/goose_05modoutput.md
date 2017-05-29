@@ -7,7 +7,7 @@ cls: oikos.csl
 ## Trends in family size
 \begin{figure}[H]
 \begin{center}
-\includegraphics[width = 0.8\linewidth]{fsize_trends.pdf}
+\includegraphics[width = 1\linewidth]{fsize_trends.pdf}
 \caption[Trends in family size]{Top row: Model fit and data with longitudinal position, days since first
 autumn arrivals, predation index, and flock size as fixed effects.
 Habitat type, observer, and breeding year are \emph{iid.} random
@@ -34,7 +34,7 @@ GPS tracked families. Family initials included.}
 
 \begin{figure}[H]
 \begin{center}
-\includegraphics[width = 0.8\linewidth]{flock_trends.pdf}
+\includegraphics[width = 1\linewidth]{flock_trends.pdf}
 \caption[Flocks: trends in size and composition]{Top row: Model fit and data for flock size with longitudinal position,\
 days since first autumn arrivals, and summer predation as fixed effects. Data used were complete cases of flock counts (\emph{n} = 5,700). Lines show partial fits for \textbf{(a)} longitude, and \textbf{(b)} for days since goose arrivals in autumn . Model \(\Omega^{2}_0\) = 0.99. Bottom row: Model fit line and data for (c) number of families in flocks, with summer predation and longitude as fixed parametric effects and flock size as a smooth term, and breeding year, observer and habitat type as random effects. Data used were family frequency data from flock counts (\emph{n} = 837). Model \(\Omega^{2}_0\) = 0.99. Model fit and data for \textbf{(d)} family size with longitude, flock size, days since first autumn
 arrivals, and summer predation as fixed effects. Data were family sizes from flock counts (\emph{n} = 34,174). Line shows partial fit for flock size. Model \(\Omega^{2}_0\) = 0.562. Habitat type, observer, and breeding year are \emph{iid.} random effects in both cases. 95\% confidence intervals are shaded grey.}
@@ -46,7 +46,7 @@ arrivals, and summer predation as fixed effects. Data were family sizes from flo
 
 \begin{figure}[H]
 \begin{center}
-\includegraphics[width = 0.8\linewidth]{juv_trends.pdf}
+\includegraphics[width = 1\linewidth]{juv_trends.pdf}
 \caption[Trends in juvenile proportion]{Model fit and data for juvenile proportion with longitudinal position
 and summer predation as fixed effects, and days since first autumn
 arrivals as a smooth term. Data used were complete cases of flock age
@@ -61,7 +61,7 @@ confidence intervals are shaded grey.}
 
 \begin{figure}[H]
 \begin{center}
-\includegraphics[width = 0.8\linewidth]{pred_trends.pdf}
+\includegraphics[width = 1\linewidth]{pred_trends.pdf}
 \caption[Trends due to summer predation]{Model fits and data for \textbf{(a)} flock size with longitude, days
 since first autumn arrivals, and summer predation as fixed effects. Data
 used were complete cases of flock counts (\emph{n} = 5,700). Model
