@@ -1,7 +1,4 @@
----
-bibliography: geese_citations.bib
-cls: oikos.csl
----
+
 # Hypotheses and predictor variables
 
 ## Hypotheses
@@ -12,7 +9,7 @@ We chose main predictors to match our hypotheses. The longitudinal position of e
 
 We then chose between time since arrival, and time to departure to represent the time in winter as experienced by geese. To do so, we specified two generalised linear mixed models (GLMMs) from the `lme4` package [@lme4], with one model using the number of days since the first goose arrivals on the autumn migration, and the other using the number of days to the end of goose departures on the spring migration as predictors of family size. We ran these models on the family level data, and included breeding year, observer identity, and habitat type as *iid.* random effects. We ranked the two models by their AICc scores (here equivalent to AIC) using the `MuMIn` package [@mumin], and days since arrival ($AICc$ = 25,396) was selected over days to departure ($AICc$ = 25,729.7) as a proxy for the time in winter.
 
-To quantify summer predation, we first obtained rodent (lemming) abundance indices for the breeding grounds from the website *Arctic Birds* (`www.arcticbirds.net`), an initiative of the International Breeding Conditions Survey on Arctic Birds. This approach has been previously used to fill in gaps in trapping datasets [@nolet2013faltering]. Sites on *Arctic Birds* are marked on a map and binned into four classes: "Unclear", "Low or absent", "Average", and "High". The same sites are not present in each year. We graded these sites on a 0 - 3 scale, with 0 for "Unclear, and 3 for "High". The distinction between sites graded 0 and 1 was itself unclear. Both 0 and 1 were used in different years to mark the island of Kolguyev, which is well known to have no lemming cycle. We took 0 to indicate a near or full absence of lemmings rather than an unsurveyed site, and also included an entry of 0 for Kolguyev in each year. Breeding birds form the major prey base for the island's predators, the majority of geese on the island are breeders [@kondratyev2008greater, @kruckenberg2008white], lending inclusion of the index for Kolguyev quite some value. We averaged the lemming index across the sites in each year, and then for each year *t*, we calculated a predation index (*P_t*).
+To quantify summer predation, we first obtained rodent (lemming) abundance indices for the breeding grounds from the website *Arctic Birds* (`www.arcticbirds.net`), an initiative of the International Breeding Conditions Survey on Arctic Birds. This approach has been previously used to fill in gaps in trapping datasets [@nolet2013faltering]. Sites on *Arctic Birds* are marked on a map and binned into four classes: "Unclear", "Low or absent", "Average", and "High". The same sites are not present in each year. We graded these sites on a 0 - 3 scale, with 0 for "Unclear, and 3 for "High". The distinction between sites graded 0 and 1 was itself unclear. Both 0 and 1 were used in different years to mark the island of Kolguyev, which is well known to have no lemming cycle. We took 0 to indicate a near or full absence of lemmings rather than an unsurveyed site, and also included an entry of 0 for Kolguyev in each year. Breeding birds form the major prey base for the island's predators and the majority of geese on the island are breeders [@kondratyev2008greater, @kruckenberg2008white], lending inclusion of the index for Kolguyev quite some value. We averaged the lemming index across the sites in each year, and then for each year *t*, we calculated a predation index (*P_t*).
 
  \begin{equation} P_t = \frac{L_{t-1} - L_t + 3}{2} \end{equation}
 
@@ -35,15 +32,5 @@ We used the flock count data to model flock sizes and juvenile proportions. For 
 We included each of the main predictors in both models, except flock size when it was the response. When modelling juvenile proportions, we made two changes to the model structure. First, we used a binomial error distribution as is appropriate for proportion data. Second, we specified the number of days since goose arrivals as a smoothed term using a thin plate spline penalty basis [@wood2003tps], while treating the remaining predictor as parametric fixed effects. We specified a maximum of three knots for the thin plate spline, allowing the GAM to choose up to that number using generalised cross validation [@wood2004gcv].
 
 We also modelled the sum of successful families in flocks using a GAM, with longitude, summer predation and time in winter as parametric fixed effects, and flock size as a smoothed term. Breeding year, habitat type, and observer identity were included as random effects using a "re" smoothing basis. We only used records in which the full flock had been sampled to build this model.
-
-|Response|Data source|Fixed effects|Random effects|Model|
-|---|---|---|---|---|
-|Family size|Family counts|1, 2, 3, 4|5, 6, 7|GLMM
-|Family size|Individual observations|1, 3, 4|5, 8|GLMM
-|Number of families|Family counts|1, 2, 3, 4|5, 6, 7|GAM
-|Flock size|Flock counts|1, 3, 4|5, 6, 7|GLMM
-|Juvenile proportion|Flock counts|1, 2, 3, 4|5, 6, 7|GAM
-
-Table: Model structures; effect codes: *1* Longitude, *2* Flock size, *3* Days since arrivals, *4* Summer predation index, *5* Breeding year, *6* Habitat type, *7* Observer identity, *8* Goose identity.
 
 ---

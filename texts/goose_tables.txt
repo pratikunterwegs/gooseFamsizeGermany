@@ -9,3 +9,24 @@
 |Flight activity|6,266|118|3.4 - 7.2, 50.8 - 53.5|2000 - 2016|
 
 Table: Overview of filtered goose observation data.
+
+|Response|Data source|Fixed effects|Random effects|Model|
+|---|---|---|---|---|
+|Family size|Family counts|1, 2, 3, 4|5, 6, 7|GLMM
+|Family size|Individual observations|1, 3, 4|5, 8|GLMM
+|Number of families|Family counts|1, 2, 3, 4|5, 6, 7|GAM
+|Flock size|Flock counts|1, 3, 4|5, 6, 7|GLMM
+|Juvenile proportion|Flock counts|1, 2, 3, 4|5, 6, 7|GAM
+
+Table: Model structures; effect codes: *1* Longitude, *2* Flock size, *3* Days since arrivals, *4* Summer predation index, *5* Breeding year, *6* Habitat type, *7* Observer identity, *8* Goose identity.
+
+Response  |Model   |$\Omega^{2}_0$ or $R^2$   |
+--|---|---|
+Family size, flocks  |GLMM   |0.563   |
+Family size, marked geese  |GLMM   |0.786   |
+Family size, successful marked geese  |GLMM   |0.661   |
+_n_ families, flocks  |GAM   |0.99   |
+Juv. proportion, flocks  |GAM   |0.104   |
+Flock size |GLMM|0.99
+
+Table: Model goodness of fits.

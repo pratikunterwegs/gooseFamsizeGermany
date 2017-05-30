@@ -1,19 +1,12 @@
-
----
-
 # Study species
 
 Whitefronts (*Anser albifrons*) are Arctic breeding grey geese with a circmpolar summer distribution, with the western continental Europe wintering nominate subspecies breeding between the 10°C and 4°C isotherms in the Russian Nenets and Yamal regions, from the Kanin Peninsula (45°E) to the River Yenisei (85°E) [@madsen1999goose]. These birds use the Baltic-North Sea flyway [@philippona1972blessgans] and are presently concentrated in the Lower Rhine Dutch-German border region during winter, a change from their historical wintering grounds between East Frisia and the Elbe [@mooij1991numbers]. Whitefronts show hight site fidelity during winter [@wilson1991winter], but the flyway populations do mix, and western European wintering geese have increased markedly since the 1960s [@Fox2017a], possibly at the cost of more south-easterly ones [@mooij1996panmixia]. The species is variable in its foraging habits, with Eurasian birds found largely on natural or cultivated grass fields [@10.2307/4088245].
 Adults form life-long pair bonds, and family bonds are long-lasting. Families regroup successfully after individual release in both wintering [@10.2307/4511184] and breeding areas (*pers.obs*) Juveniles frequently accompany parents on more than one migration [@10.2307/4088245]. The fitness benefits of large families in dominance contests in winter [@Poisbleau20061351][@Black1989199], and in anti-predator defence through nest-attendance [@stroud1982observations] [@ely1979breeding][@IBI:IBI151] in the breeding season might promote their extended maintenance.
 
----
-
 # Study site
 
 We used a combination of historical and contemporary winter distribution, and the locations of observations of whitefronts reported from north-western continental Europe, to define a spatial extent for our study area. This is bounded by the 0°E and 10°E longitudes and the 50°N and 54°N latitudes. The climate is continental, and snow is common away from the coasts during winter. The topography is largely flat and part of the North European Plain. The major rivers are the Rhine, Meuse, IJssel, Ems and Elbe [@poulsen_east_2017]. The landscape is human dominated, with urban centres surrounded by agricultural land. Freshly planted winter crops and harvest remains serve as dense, high energy food sources for up to 2.5 million individuals of five main species of migratory geese [@Koffijberg2017][@Fox2017b]. Geese have become habituated to wind turbines which might once have made parts of the landscape unavailable [@madsen2008animal].
-Whitefronts have stabilised at around 1.4 million individuals from historic lows in the 1960s, following several years of conservation-enabled and crop-feeding boosted exponential growth [@fox2010current][@Fox2017a]. They are the most abundant species of migratory geese, and make up a larger proportion in mixed flocks than before [@fox2010current][@mooij1982niederrhein][@Ballasus2008].
-
----
+Whitefronts have stabilised at around 1.4 million individuals from historic lows in the 1960s, following several years of conservation-enabled and crop-feeding boosted exponential growth [@fox2010current][@Fox2017a]. They are the most abundant species of migratory geese in western Europe, and make up a larger proportion in mixed flocks than before [@fox2010current][@mooij1982niederrhein][@Ballasus2008].
 
 # Goose observations
 
@@ -45,8 +38,6 @@ The timing of goose arrival in autumn, and of departure in spring is representat
 
 Thirteen families were fitted with GPS position logger/transmitters during the winters of 2013 (*n* = 3), 2014 (*n* = 4), and 2016 (*n* = 6). Position loggers in 2013 and 2014 were backpacks (e-obs GmbH., Grünwald, Germany), and in 2016 were numbered neckband loggers (Theo Gerrits, madebytheo, The Netherlands). Loggers were set to record with a baseline sampling interval of 30 minutes, but the actual fix frequency depended on the mode in which the device were operating. Data from these loggers were uploaded remotely to the animal tracking database Movebank, and were retrieved using either the functions in the _move_ package in _R_ [@move] or manually.
 
----
-
 # Data filtering
 
 From the observations of marked geese, we removed the following types of records: those in which a goose was seen with neither juveniles nor a social partner, one of the two records in which two birds of a pair had been reported separately when seen together, and those in which the bird was less than two years old at the time of observation, since whitefronts are not expected to breed before their second winter. We also excluded records which lay outside the spatial extent of the study area. We chose to match the temporal extents of the data we acquired so as to make comparisons possible, and filtered these data to exclude records made before 2000. 10,635 records remained, reported from 8,416 unique coordinate pairs.
@@ -60,16 +51,6 @@ We took these dates to represent the beginning of goose arrival from the autumn 
 
 Logger data were filtered to remove: fixes outside the spatio-temporal extents of the study area, fixes with a sampling interval under 10 minutes,  and fixes where the logger position error was estimated to be above the 90th percentile. To better account for irregularities, the remaining data were averaged over every half hour.
 Using the adult in each family with the greater number of logged positions as a 'reference', we matched the records of the other birds to the reference by the timestamp. Reference - individual distance was calculated using the Vincenty ellipsoid method for geographic coordinates [@vincenty1975direct] implemented by the `geosphere` package [@geosphere]. To account for logger error, the family size per day was obtained as the maximum number of members within 250m over all subsequent days. We did not differentiate cases in which the adult pair of the family split from other types of family size decrease.
-
-|Data type|Records|Unique sites|Spatial extent|Temporal extent|
-|---|---|---|---|---|
-|Flock count|7,149|123|4.1 - 8.9, 51.2 - 53.4|2000 - 2016|
-|Family frequency|1,884|64|4.8 - 7.3, 51.2 - 53.4|"|
-|Family size|51,037|64|4.8 - 7.3, 51.2 - 53.4|"|
-|GPS telemetry|1013/13|1013|3.9 - 7.4, 51.3 - 53.2|2013, 2014, 2016|
-|Flight activity|6,266|118|3.4 - 7.2, 50.8 - 53.5|2000 - 2016|
-
-Table: Overview of filtered goose observation data.
 
 ---
 

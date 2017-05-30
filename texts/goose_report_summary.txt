@@ -1,56 +1,36 @@
 ---
-title: Section summary
-geometry: margin=3cm
+title: Paper summary
+geometry: margin=2cm
+classoption: twocolumn
+fontfamily: lmodern
+header-includes:
+  - \usepackage{inputenc}
 ---
 
-# Study species
+**Introduction**
 
-About the study species: identification, diet, distribution, family bonds
+1. Families are important components of animal groups (families form groups, families are dominant).
+2. Wintering goose populations have been studied in relation to summer predation and Arctic predators are hypothesised to reduce the breeding success of birds in lemming poor years (alternate prey hypothesis).
+3. The effect of summer predation at the level of the family is not known, and the pattern of family bonds is not well known over space and time (problem statement).
+4. Whitefronted geese in Europe have been under long term observation and trends in family and flock sizes have been hypothesised (introduce whitefronts, benefits of whitefronts as a study system, list hypotheses).
+5. We investigate how family size interacts with group size, space, time, and summer predation in the most important migratory waterfowl in western Europe (what we do).
 
-# Study site
+**Methods**
 
-Where geese winter, geographic overview, goose population size in the area, map included
+1. We collected observations of flocks, family frequencies within flocks, individually marked geese and goose flight activity from the main geese wintering grounds (spatial extent here), and deployed (n) loggers on 13 families.
+2. We excluded data that may have biased the results (single marked geese, roost - field flights) and data outside the spatio-temporal extent, and calculated the number of days between each observation and the start and end of the goose winter (defined by start and end of autumn and spring migration).
+3. We estimated a pooled mean summer predation index from lemming surveys in the breeding grounds for each year.
+4. We tested the effect of predictors on family size, number of families, flock size and juvenile proportion (models used and $\Omega^{2}_0$ metric one line explanation), and  calculated the daily family size of tracked families.
 
-# Goose observations
+**Results**
 
-## Sightings of marked geese
+1. Families get smaller over winter, longitude and flock size have no significant effect (model output and $\chi^2$ in all cases).
+2. Flocks are smaller in the west and larger in late winter, and larger flocks have more, but not significantly smaller families.
+3. The proportion of juveniles in flocks increases through the winter and decreases with flock size.
+4. Predation reduces the number of successful families in flocks and the size of broods, but does not affect flock size or juvenile proportion.
 
-Description of _geese.org_ data collection: who, where, how long, what data
+**Discussion**
 
-## Flock counts
-
-Description of Kees' data, as above, + differences from above
-
-## Flight activity
-
-Description of _Trektellen_ data
-
-## Satellite telemetry
-
-Description of logger data
-
-# Data filtering
-
-Which data were removed and why, how many records remain in each dataset after filtering
-
-# Summer predation
-
-Why include summer predation, the alternate prey hypothesis (AHP), why we did not use lemming index from the literature
-
-# Hypotheses and predictors
-
-## Hypotheses
-
-The five main hypotheses
-
-## Predictors
-
-Which variables as predictor, choosing days since arrival _vs._ days to departure as time in winter, how the predation index was calculated
-
-# Hypothesis testing
-
-Which models were used and why, how random effects were specified
-
-# Results
-
-Results, _p_ values, goodness of fit table, model output plots
+1. Counting unsuccessful pairs is important to determine spatial and flock size trends in family size.
+2. Summer predation pooled over large spatial extents may not be a good predictor of breeding success.
+3. Family bonds may differ between subspecies of whitefront.
