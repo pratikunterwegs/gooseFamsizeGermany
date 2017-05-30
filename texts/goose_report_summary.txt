@@ -3,8 +3,6 @@ title: Paper summary
 geometry: margin=2cm
 classoption: twocolumn
 fontfamily: lmodern
-header-includes:
-  - \usepackage{inputenc}
 ---
 
 **Introduction**
