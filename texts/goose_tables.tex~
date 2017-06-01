@@ -3,7 +3,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{lmodern}
 
-\title{goose tables}
+\title{}
 \author{}
 
 \begin{document}
@@ -14,7 +14,7 @@
 \begin{abstract}
 \end{abstract}
 
-\section{data table}
+\section{}
 
 \begin{table*}
   \caption{}

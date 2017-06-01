@@ -1,7 +1,5 @@
 
 \newpage
-# Model outputs
-## Trends in family size
 \begin{figure*}
 \begin{center}
 \includegraphics[width = 1\linewidth]{fsize_trends.pdf}
@@ -27,7 +25,6 @@ GPS tracked families. Family initials included.}
 \end{figure*}
 
 \newpage
-## Trends in flocks
 
 \begin{figure*}
 \begin{center}
@@ -39,7 +36,6 @@ arrivals, and summer predation as fixed effects. Data were family sizes from flo
 \end{figure*}
 
 \newpage
-## Trends in juvenile proportion
 
 \begin{figure*}
 \begin{center}
@@ -54,8 +50,6 @@ confidence intervals are shaded grey.}
 \end{figure*}
 
 \newpage
-## Trends due to summer predation
-
 \begin{figure*}
 \begin{center}
 \includegraphics[width = 1\linewidth]{pred_trends.pdf}

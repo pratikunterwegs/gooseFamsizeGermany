@@ -13,10 +13,11 @@ opts_knit$set(root.dir = "~/git/thesis/")
 
 ```{r load_data}
 #'read in the file
-lindex = read_ods("~/git/thesis/arcticbirds_lemming_abundance.ods", sheet = 1, col_names = T)
+lindex = read_ods("~/git/thesis/arcticbirds_lemming_abundance.ods", sheet = 1)
 
-#'set NA to 0
-lindex$index[is.na(lindex$index)] = 0
+#'set NA to 0 
+# DO NOT SET NA TO 0. NA MEANS NA.
+# lindex$index[is.na(lindex$index)] = 0
 
 #'read in Nolet's lemming and predation index
 nolet.pi = read_excel("~/git/thesis/Brent_pop_model_data_predation_index.xlsx", sheet = 4)
@@ -26,10 +27,16 @@ The predation index is $p = 0.5*(A_{t-1}– A_t + 3)$.
 
 ```{r get_index}
 #'get lemming values by year
-lemming.w = lindex %>% group_by(year = as.numeric(year)) %>% summarise(l.index = mean(index))
+lemming.w = lindex %>% group_by(year = as.numeric(year)) %>% summarise(l.index = mean(index, na.rm = T))
 
 #'get the predation index
-lemming.w$p.index = c(NA, (diff(lemming.w$l.index)+3)/2)
+
+lemming.w$p.index = NA
+
+for(i in 1:dim(lemming.w)[1]){
+  lemming.w[i,"p.index"] = ifelse(i ==1, NA, (lemming.w[i-1,"l.index"] - lemming.w[i,"l.index"] +3)/2)
+}
+
 #assign identifier
 lemming.w$zone = "Kanin:Yenisey"
 
@@ -50,5 +57,6 @@ lemmings = melt(as.data.frame(lemmings), id.vars = c("zone", "year"))
 #lemming.w = lemming.w %>% group_by(year) %>% mutate(pred = cut(p.index, c(0:3), c(1:3)))
 
 write.csv(lemming.w, "lemmings.csv")
+write.csv(lemming.e, "lemming_nolet.csv")
 ```
 
