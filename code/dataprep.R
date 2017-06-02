@@ -83,11 +83,11 @@ pya = c(86, 74)
 library(geosphere)
 
 geese$distkol = distVincentyEllipsoid(p1 = geese[,c("lon","lat")], p2 = kol)/1000
-geese$distpya = distVincentyEllipsoid(p1 = geese[,c("lon","lat")], p2 = pya)/1000
 
 geese$Breeding_year = as.factor(geese$Breeding_year)
 fams$Breeding_year = as.factor(fams$Breeding_year)
 
-fams.expand$distkol = distVincentyEllipsoid(p1 = fams.expand[,c("lon","lat")], p2 = pya)/1000
+fams.expand$distkol = distVincentyEllipsoid(p1 = fams.expand[,c("lon","lat")], p2 = kol)/1000
+fams$distkol = distVincentyEllipsoid(p1 = fams[,c("lon","lat")], p2 = kol)/1000
 
-geeseorg$distkol = distVincentyEllipsoid(p1 = geeseorg[,c("lon","lat")], p2 = pya)/1000
+geeseorg$distkol = distVincentyEllipsoid(p1 = geeseorg[,c("lon","lat")], p2 = kol)/1000

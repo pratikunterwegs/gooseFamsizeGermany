@@ -24,11 +24,6 @@ source("dataprep.R")
 #'remove any flocksizes mistakenly assigned 0
 fams.expand = fams.expand %>% filter(flocksize > 0)
 
-#'make level of predation a factor. currently being modelled as the numeric value p.index
-fams.expand$pred = as.factor(fams.expand$pred)
-
-#'should only complete cases be considered? yes, for the predictors.
-#fams.expand = fams.expand[complete.cases(fams.expand[,c("lon","lat","flocksize","famsize","Breeding_year","p.index","days","t_to_out","t_since_in")]),]
 ```
 
 # Reduce the Rhinelands data
@@ -85,14 +80,24 @@ mod03 = glmer(famsize ~ flocksize + t_since_in + p.index + (1|Breeding_year) + (
 # Distance from breeding grounds ~ family size
 
 ```{r}
-distmod = gamm4(distkol ~ s(famsize) + (t_since_in), random = ~ (1|Breeding_year) + (1|Food_type) + (1|Observer), data = fams.expand.sub, family = "gaussian")
 
-distmod2 = glmer(distkol ~ (famsize) + (t_since_in) + (1|breedyr) + (1|neckring), data = geeseorg, family = "gaussian")
+fams.expand.sub$distkol = round(fams.expand.sub$distkol)
+
+geeseorg$distkol = round(geeseorg$distkol)
+
+distmod = glmer((distkol) ~ (famsize) + t_since_in + (1|Breeding_year) + (1|Food_type) + (1|Observer), data = fams.expand.sub %>% filter(t_since_in < 60), family = "poisson")
+
+distmod_late = glmer((distkol) ~ (famsize) + t_since_in + (1|Breeding_year) + (1|Food_type) + (1|Observer), data = fams.expand.sub %>% filter(t_since_in > 60), family = "poisson")
+
+distmod2 = glmer(distkol ~ (famsize) + t_since_in + (1|breedyr) + (1|neckring), data = geeseorg %>% filter(t_since_in < 60), family = "gaussian")
+
+distmod2_late = glmer(distkol ~ (famsize) + t_since_in + (1|breedyr) + (1|neckring), data = geeseorg %>% filter(t_since_in > 60), family = "gaussian")
 ```
 
 ```{r}
-summary(distmod)
-summary(distmod2)
+
+
+save(distmod, distmod_late, distmod2, distmod2_late, file = "distmods.Rdata")
 ```
 
 
@@ -101,7 +106,7 @@ summary(distmod2)
 Run model three on geese.org data. Random effects now include "id", and do not include observer and habitat type. Fixed effects do not include flock size.
 
 ```{r gorg.m03}
-mod03.gorg = glmer(famsize ~ distkol + t_since_in + p.index + (1|neckring) + + (1|breedyr/neckring), data = geeseorg, family = poisson)
+mod03.gorg = glmer(famsize ~ t_since_in + p.index + (1|neckring) + + (1|breedyr/neckring), data = geeseorg, family = poisson)
 ```
 
 ```{r}
@@ -112,7 +117,7 @@ o2.mixed.mods(mod03.gorg)
 # geese.org successful fams
 
 ```{r gorg.success}
-mod03.gorg.s = glmer(famsize ~ lon + t_since_in + p.index + (1|neckring) + + (1|breedyr/neckring), data = geeseorg %>% filter(famsize > 0), family = poisson)
+mod03.gorg.s = glmer(famsize ~ t_since_in + p.index + (1|neckring) + + (1|breedyr/neckring), data = geeseorg %>% filter(famsize > 0), family = poisson)
 ```
 
 ```{r}
