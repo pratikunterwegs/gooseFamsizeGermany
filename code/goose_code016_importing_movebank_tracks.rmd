@@ -130,8 +130,12 @@ fams2016.4 = lapply(fams2016.3, function(x){lapply(x, function(y){y = data.frame
 #'remove lags below 600s (10mins)
 fams2016.4 = lapply(fams2016.4, function(x){lapply(x, function(y){y = y %>% filter(lag >= 600)})})
 
+flights2016 = lapply(fams2016.4, function(x){lapply(x, function(y){y = y %>% filter(lag <= 20)})})
+
 #'save as rdata
 save(fams2016.4, file = "fams2016.nobursts.rdata")
+
+save(flights2016, file = "bursts16.rdata")
 ```
 
 ---
@@ -234,10 +238,14 @@ fams2014.5 = lapply(fams2014.4, function(x){lapply(x, function(y){y = data.frame
 ```{r filter_by_lag2014}
 #'remove lags below 600 and above 3600s
 fams2014.5 = lapply(fams2014.5, function(x){lapply(x, function(y){y = y %>% filter(lag >= 600)})})
+
+bursts2014 = lapply(fams2014.5, function(x){lapply(x, function(y){y = y %>% filter(lag <= 20)})})
 ```
 
 ```{r exportfams2014}
 save(fams2014.5, file = "oldfams.nobursts.rdata")
+
+save(bursts2014, file = "burstsold.rdata")
 ```
 
 ```{r separate_2015}
@@ -246,9 +254,14 @@ fams2015 = fams2014.5[c("Ha", "He", "Jo", "Na")]
 #'remove from fams2014
 fams2014 = fams2014.5[c("An","Ma","Ro")]
 
+flights2015 = bursts2014[c("Ha", "He", "Jo", "Na")]
+flights2014 = bursts2014[c("An","Ma","Ro")]
 ```
 
 ```{r export}
 save(fams2015, file = "fams2015.rdata")
 save(fams2014, file = "fams2014.rdata")
+
+save(flights2014, file = "bursts14.rdata")
+save(flights2015, file = "bursts15.rdata")
 ```

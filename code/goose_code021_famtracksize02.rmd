@@ -4,7 +4,7 @@ title: "Processing family tracks 01"
   
 ```{r load_env, message=FALSE, warning=FALSE}
 source("knitr_options.r")
-library(zoo);library(plyr);library(dplyr);library(purrr)
+library(zoo);library(plyr);library(dplyr);library(purrr);library(purrrlyr)
 #'suppress all code output but run code
 opts_chunk$set(eval = FALSE)
 opts_knit$set(root.dir = "~/git/thesis/code")
@@ -12,7 +12,7 @@ opts_knit$set(root.dir = "~/git/thesis/code")
 
 ```{r load_famtracks}
 load("fams2016.nobursts.rdata")
-load("~/git/thesis/code/fams2014.rdata")
+load("fams2014.rdata")
 load("fams2015.rdata")
 ```
 
@@ -48,9 +48,9 @@ fams2016.4[["Wo"]] = fams2016.4[["Wo"]][c(4,3,1,2,5)]
 
 ```{r}
 #'remove dates outside the single year
-fams2014 = lapply(fams2014, function(x){lapply(x, function(y){y %>% filter(t < "2014-04-01")})})
+fams2014 = lapply(fams2014, function(x){lapply(x, function(y){y %>% filter(t < "2014-05-01")})})
 
-fams2015 = lapply(fams2015, function(x){lapply(x, function(y){y %>% filter(t < "2015-04-01")})})
+fams2015 = lapply(fams2015, function(x){lapply(x, function(y){y %>% filter(t < "2015-05-01")})})
 ```
 
 
@@ -61,19 +61,17 @@ f1 = append(fams2014, c(fams2015, fams2016.4))
 
 ```{r round_time}
 f1 = lapply(f1, function(x){lapply(x, function(y){y %>% mutate(t = round_date(t, "30 minute"))})})
-#'round time to the nearest minute
-f1 = lapply(f1, function(x){lapply(x, function(y){y %>% mutate(t = round_date(t, "30 minute"))})})
 
 
 #'remove v, fam, and lag
 f1 = lapply(f1, function(x){lapply(x, function(y){y %>% select(t, lon, lat)})})
-
+library(data.table)
 #'round position to the half hour
 f1 = lapply(f1, function(x){lapply(x, function(y){y %>% slice_rows("t") %>% dmap(function(x) mean(x, na.rm = T))})})
 ```
 
 ```{r distances}
-library(purrr)
+#library(purrr)
 #'a left join here
 f2 = lapply(f1, function(x){reduce(x, left_join, by = "t")})
 ```
@@ -113,6 +111,8 @@ names(fdistm) = names(f2)
 
 ```{r}
 save(fdistm, f2, file = "famdists02.rdata")
+
+load("famdists02.rdata")
 ```
 
 # Dead or alive?
@@ -145,27 +145,29 @@ for(i in 1:length(f2)){
 library(lubridate)
 
 #'round time to the day
-fsize = lapply(fdistm3, function(x){x = x %>% plyr::summarise(time = round_date(time, "day"), fsize)})
+#fsize = lapply(fdistm3, function(x){x = x %>% plyr::summarise(time = round_date(time, "day"), fsize)})
 ```
 
 ```{r get_maxsize}
 library(purrr);library(zoo)
 #'get max family size per day
-fsize2 = lapply(fsize, function(x){x = x %>% slice_rows("time") %>% dmap(max)})
+#fsize2 = lapply(fsize, function(x){x = x %>% slice_rows("time") %>% dmap(max)})
 
-#'set famsize to the max famsize in the next n days
-fsize2 = lapply(fsize2, function(x){x = x %>% mutate(fsize = rollapply(fsize, seq(dim(x)[1],1), max, align = "left"))})
+#'set famsize to the max famsize in the next n fixes
+fsize2 = lapply(fdistm3, function(x){x = x %>% mutate(fsize = rollapply(fsize, seq(dim(x)[1],1), max, align = "left"))})
 ```
 
 ```{r}
 save(fsize2, file = "fsize.rdata")
+
+load("fsize.rdata")
 ```
 
 # Attach coordinates
 
 ```{r get_coords}
 #'get coords
-daycoords = lapply(f2, function(x){x %>% select(t, lon.x, lat.x) %>% plyr::summarise(time = round_date(t, "day"), lon = lon.x, lat = lat.x) %>% slice_rows("time") %>% dmap(mean)})
+daycoords = lapply(f2, function(x){x %>% select(t, lon.x, lat.x) %>% plyr::summarise(time = round_date(t, "30 minute"), lon = lon.x, lat = lat.x) %>% slice_rows("time") %>% dmap(mean)})
 
 #'merge coords with fsize2 and assign families
 for(i in 1:length(daycoords)){
@@ -173,37 +175,21 @@ for(i in 1:length(daycoords)){
   daycoords[[i]]$fam = names(fsize2)[i]
 }
 
+#'keep rel cols
+famcoords = lapply(daycoords, function(x){x %>% select(time, lon, lat, fam)})
 #'rbind the list
-daycoords = bind_rows(daycoords)
+famcoords = bind_rows(famcoords)
 
 save(daycoords, file = "fsize_coords.rdata")
-write.csv(daycoords, file = "trackedfamilysizes.csv")
-```
 
-# Plot
-
-```{r}
-library(ggplot2)
-#load
-
-daycoords.spat = daycoords
-
-coordinates(daycoords.spat) =  ~lon+lat
-
-#pdf(file = "trackedfamilysizes.pdf", height = 10, width = 12)
-daycoords %>% #filter(fam %in% c("Ev","Ha","Ti","Wo", "Na", "Ro")) %>%
-ggplot()+
-  geom_path(aes(x=time, y=fsize, col = lon), size = 4)+
-  scale_color_gradientn(colours = rev(brewer.pal(6, "RdBu")))+
-  facet_wrap(~fam, scales = "free")+
-  labs(list(x = "Time",y = "Family size (incl. ads.)"))+
-  theme_minimal()
-#dev.off()
 ```
 
 # Get split attributes
 
 ```{r}
+#'select rel cols
+daycoords = lapply(daycoords, function(x){x %>% select(time, lon, lat, fam, fsize)})
+daycoords = bind_rows(daycoords)
 #'split by family
 splits = split(daycoords, f = daycoords$fam)
 
@@ -228,22 +214,55 @@ splits2 = bind_rows(splits)
 coordinates(splits2) = ~lon+lat
 
 #'convert to spatial lines for tmap
-famlines = split(splits[,c("lon","lat")], f = splits$fam)
+#famlines = split(splits[,c("lon","lat")], f = splits$fam)
 
-famlines = spLines(lapply(famlines, function(x){as.matrix(x)}))
+#famlines = spLines(lapply(famlines, function(x){as.matrix(x)}))
 ```
 
-```{r plot_splits}
-library(ggspatial)
-#'plot split positions
-splits2 %>%
-ggplot()+
-  geom_point(aes(x=lon, y = lat, shape = event), size = 3, fill = 2)+
-  scale_shape_manual(values = c(NA, 25, 20))+
-  geom_spatial(famlines, lty = 3)
+```{r split_for_move}
+#'remove duplicates
+famcoords = famcoords[!duplicated(famcoords[,c("fam","time")]),]
+#'lead goose tracks
+fam.move = move(famcoords$lon, famcoords$lat, time = famcoords$time,
+               animal = famcoords$fam, proj = CRS("+proj=longlat +ellps=WGS84"))
+
+#'now split again
+fam.move = split(fam.move)
+#'split the coordinates again too
+famcoords = split(famcoords, f = famcoords$fam)
+
+#'get speed, dist, lag, angle.
+fam.move2 = lapply(fam.move, function(x){x = data.frame(speed = c(NA, speed(x)), dist = c(NA, distance(x)), angle = c(NA, angle(x)), lag = c(NA, timeLag(x)), lon = coordinates(x)[,1], lat = coordinates(x)[,2], time = timestamps(x))})
+
+for(i in 1:13){
+  fam.move2[[i]]$fam = names(fam.move2)[i]
+}
+
+#'now rbind
+fam.move2 = bind_rows(fam.move2)
+
+#'add splits
+fam.move2 = merge(fam.move2,splits %>% select(time,fsize, fam, event), by = c("time", "fam"), all.x = T)
+
+fam.move2 =  fam.move2 %>% arrange(fam, time)
+
+fam.move2$event = ifelse(is.na(fam.move2$event), "other", fam.move2$event)
+
+fam.move2$event = as.factor(fam.move2$event)
 ```
 
 ```{r}
-save(daycoords, famlines, splits, splits2, file = "fsize_coords.rdata")
+anova1 = aov(speed ~ event, data = fam.move2)
+
+summary(anova1)
+
+tukey1 = TukeyHSD(anova1)
+
+plot(tukey1)
+
+tukey1
 ```
 
+```{r}
+save(daycoords, splits, splits2, famcoords, fam.move, fam.move2, fam.v, fam.lag, fam.angle, fam.dist, file = "fsize_coords.rdata")
+```
