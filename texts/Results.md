@@ -1,6 +1,8 @@
 
 # Results
 
+After filtering the data, we obtained 7,149 flock counts from 75 observers at . Of these, 1,884 flocks yielded 51,037 families
+
 The size of successful families recorded in flocks was found to be unexpectedly insensitive to most predictors. The number of juveniles accompanying pairs increased slightly with longitudinal position, ie, from west to east, but not significantly ($p = 0.874$, $\chi^2 = 0.025$), but did, however, decrease significantly as expected through the winter ($p < 2 \times 10^{-16}$, $\chi^2 = 87.2641$). Individual observations showed a different trend; while not significant, there was a slight decrease in size from west to east ($p = 0.244$, $\chi^2 = 1.36$), and the number of juveniles seen with individuals also decreased over the winter ($p = 1.17  \times 10^{-5}$, $\chi^2 = 19.21$).
 
 As hypothesised, flocks were smaller in the west, and also tended to be larger the more days since the first autumn arrivals had passed ($p < 2 \times 10^{-16}$, $\chi^2 = 10340$). Consistent with the earliest ideas on how geese form flocks [@elder1949role], the number of families in flocks increased very rapidly with their size ($p < 2 \times 10^{-16}$, $\chi^2 = 8196$), but the size of successful families in flocks decreased slightly as flocks grew ($p = 0.257$, $\chi^2 = 1.28$).

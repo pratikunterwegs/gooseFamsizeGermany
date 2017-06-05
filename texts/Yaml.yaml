@@ -1,9 +1,9 @@
 ---
 title: 'Family size dynamics in wintering geese'
 geometry: margin=2cm
-fontsize: 12pt
+fontsize: 10pt
 linestretch: 1
-fontfamily: libertine
+fontfamily: tgschola
 classoption: twocolumn
 bibliography: geese_citations.bib
 csl: oikos.csl

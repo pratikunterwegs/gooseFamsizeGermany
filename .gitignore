@@ -4,7 +4,7 @@
 *.rdata
 *.Rdata
 .Ruserdata
-
+*.gif
 *.xlsx
 *.xls
 *.csv
