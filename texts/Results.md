@@ -1,17 +1,24 @@
 
 # Results
 
-After filtering the data (mapped in figure 1), we obtained 7,149 flock counts from 75 observers at 123 geocoded sites. Of these, 1,884 flocks counted by 17 observers at 64 sites yielded 51,037 successful families. A further 10,635 marked geese were observed at 8,416 sites. Positions from 64 individual geese (13 adult pairs, 38 juveniles) in 13 families were recorded in the winters of 2013 (n = 3), 2014 (n = 4), and 2016 (n = 6). A mean of 6,628 positions per individual were recorded over 138 days on average, during which 19 fission events occurred, which were not restricted to juveniles.
+After filtering the data (mapped in figure 1), we obtained 7,149 flock counts from 75 observers at 123 geocoded sites. Of these, 1,884 flocks counted by 17 observers at 64 sites yielded 51,037 successful families. A further 10,635 marked geese were observed at 8,416 sites. We could not obtain data on the habitat type, flock size, and observer identity for these records. Positions from 64 individual geese (13 adult pairs, 38 juveniles) in 13 families were recorded in the winters of 2013 (*n* = 3), 2014 (*n* = 4), and 2016 (*n* = 6). A mean of 6,628 positions per individual were recorded over 138 days on average, during which 19 fission events occurred, which were not restricted to juveniles.
+
 Goose flight activity records from 84 spring and 180 autumn sites (overlap = 72) yielded 6,266 days of data. Geese began to arrive between September 26 and October 30, and the last geese left between March 03 and April 01, resulting in a mean goose winter of 165 days.
 Lemming abundance from the breeding grounds transformed into a predation index ranged between 1.17 and 1.9, with very low variance ($\sigma^2$ = 0.048).
 
-We found no influence of family size on how far away from the breeding grounds a family wintered during the first sixty days after arrival (datasets *B* and *C*, model *A*, $\chi^2_B = 1.135$, $p_B = 0.286$, $\chi^2_C = 2.179$, $p_C = 0.139$). Over the remainder, larger families from dataset *B* wintered farther west ($\chi^2 = 4.1936$, $p = 0.041$), while dataset *C* did not reveal any influence of family size on wintering site ($\chi^2 = 0.023$, $p = 0.879$).
+We found no influence of family size on how far from the breeding grounds a family wintered during the first sixty days after arrival (datasets *B* and *C*, model *A*, $\chi^2_B$ = 1.135, $p_B$ = 0.286, $\chi^2_C$ = 2.179, $p_C$ = 0.139). Over the remainder, larger families from dataset *B* wintered farther west ($\chi^2$ = 4.194, $p$ = 0.041), while dataset *C* did not reveal any influence of family size on wintering site ($\chi^2$ = 0.023, $p$ = 0.879).
 
-**Add hyp 2 - 5 here.**
+Family size (dataset *B*, model *B.1*) was insensitive to flock size ($\chi^2$ = 0.270, $p$ = 0.6033) and summer predation ($\chi^2$ = 0.379, $p$ = 0.538), but decreased through the winter ($\chi^2$ = 74.166, $p <$ 2 $\times$ 10^-16^). Family sizes of marked geese (dataset *C*) decreased over time ($\chi^2$ = 19.936, $p$ = 8.01 $\times$ 10^-6^.), and also showed a decrease with the level of summer predation ($\chi^2$ = 12.935, $p$ = 3.2 $\times$ 10^-4^).
+The effect of summer predation on family size could be masked by a sampling method which counted only successful families, as in dataset *B*, for instance if higher levels of predation caused goose pairs to fail to fledge any young at all. We confirmed this bias in sampling method by failing to find any effect of summer predation after excluding unsuccessful pairs from data *C* ($\chi^2$ = 0.1321, $p$ = 0.716).
+
+Flocks were significantly smaller farther from the breeding grounds ($\chi^2$ = 66599, $p <$ 2 $\times$ 10^-16^), and grew slightly over the winter ($\chi^2$ = 4975, $p <$ 2 $\times$ 10^-16^). Larger flocks also had more families ($\chi^2$ = 7777, $p <$ 2 $\times$ 10^-16^). Within flocks, juvenile proportions increased through the winter ($\chi^2$ = 19.152, $p$ = 0.001), but did not show any effect of summer predation ($\chi^2$ = 0.004, $p$ = 0.948). We tested whether this unexpected result was due to the use of unverified lemming abundance data by substituting the predation index calculated by @nolet2013faltering from published [@kokorev2002population] and novel trapping data, but these data also did not exlain observed variation ($\chi^2$ = 1.765, $p$ = 0.184).
+
+
+
 
 \begin{table*}
 \centering
-\begin{tabular}{*5l}\toprule 
+\begin{tabular}{*5l}\toprule
 Response & Data source & Fixed effects & Random effects & Model\tabularnewline \midrule
 Family size & Family counts & 1, 2, 3, 4 & 5, 6, 7 & GLMM\tabularnewline
 

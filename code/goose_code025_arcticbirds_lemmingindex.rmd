@@ -34,7 +34,7 @@ lemming.w = lindex %>% group_by(year = as.numeric(year)) %>% summarise(l.index =
 lemming.w$p.index = NA
 
 for(i in 1:dim(lemming.w)[1]){
-  lemming.w[i,"p.index"] = ifelse(i ==1, NA, (lemming.w[i-1,"l.index"] - lemming.w[i,"l.index"] +3)/2)
+  lemming.w[i,"p.index"] = ifelse(i ==1, NA, (lemming.w[i-1,"l.index"] - lemming.w[i,"l.index"] + 2)/2)
 }
 
 #assign identifier
@@ -59,4 +59,6 @@ lemmings = melt(as.data.frame(lemmings), id.vars = c("zone", "year"))
 write.csv(lemming.w, "lemmings.csv")
 write.csv(lemming.e, "lemming_nolet.csv")
 ```
+
+## Lemming index, 1999 and before
 

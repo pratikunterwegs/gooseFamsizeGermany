@@ -42,7 +42,7 @@ lemming$year = as.numeric(lemming$year)
 
 #### lemming nolet ####
 lnolet = read.csv("lemming_nolet.csv", row.names = 1)
-
+lnolet = plyr::rename(lnolet, replace = c("p.index" = "pinnolet"))
 ####Load migration data####
 migration = read.csv("migration_data.csv", row.names = 1)
 migration$Date = as.Date(migration$Date)
@@ -52,7 +52,7 @@ mig.red = migration[,c("Date","Count_effort.min.","NumberperHour","t_since_in","
 
 ####Prepare geese####
 geese = merge(geese, lemming[,-4], by.x = "Breeding_year", by.y = "year")
-#geese = merge(geese, lnolet, by.x = "Breeding_year", by.y = "year", all.x = T)
+geese = merge(geese, lnolet[,c("year","pinnolet")], by.x = "Breeding_year", by.y = "year", all.x = T)
 
 geese = merge(geese, mig.red, by.x = "time", by.y = "Date", all.x = T)
 

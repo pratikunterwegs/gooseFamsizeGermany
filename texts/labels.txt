@@ -1,7 +1,7 @@
 # Datamap
 
-Three datasets used in the study are represented on a map of the main wintering grounds of the North Sea population of Whitefronts. Lines represent coasts (light) and major rivers (dark). Crosses mark sites (*n* = 64) where family frequencies within flocks ($n_{flocks}$ = 1,884, $n_{families}$ = 50,941) were recorded between autumn 2000 and spring 2017.
-Triangles mark positions (*n* = 19) from 13 GPS tracked families of geese (3 in 2013, 4 in 2014, 6 in 2016) where individuals left the family (see details in text). Sites where geese with numbered neckbands were observed, and their family sizes counted, between 2000 and 2017, are bounded by a kernel shaded grey ($n_{obs}$ = 10,635, $n_{sites}$ = 8,416).
+Map of the main wintering grounds of greater white-fronted geese *Anser a. albifrons* showing rivers & lakes (blue), with sites (crosses, n = 64) where families (n = 51,037) within flocks (n = 1,884) were recorded.
+Triangles mark positions (n = 19) from 13 GPS tracked families of geese (3 in 2013, 4 in 2014, 6 in 2016) where families fissioned. Sites (n = 8,416) of marked goose observations (n = 10,635) are bounded by a kernel shaded grey. Observation data was collected from 2000 - 2017.
 
 # Trends in family size
 

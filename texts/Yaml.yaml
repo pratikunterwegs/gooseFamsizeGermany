@@ -3,7 +3,7 @@ title: 'Family size dynamics in wintering geese'
 geometry: margin=2cm
 fontsize: 10pt
 linestretch: 1
-fontfamily: tgschola
+mathfont: TeX Gyre Schola Math
 classoption: twocolumn
 bibliography: geese_citations.bib
 csl: oikos.csl
@@ -14,4 +14,5 @@ header-includes:
   - \usepackage{multicol}
   - \usepackage{supertabular}
   - \usepackage{booktabs}
+  - \setmainfont{TeX Gyre Schola}
 ---

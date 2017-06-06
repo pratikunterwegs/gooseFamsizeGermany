@@ -32,7 +32,7 @@ summary(flockmod_fam)
 ```{r gam_fams}
 fams2 = fams %>% filter(flocksize>0, flocksize == N_sampled) %>% plyr::mutate(propjuv = propjuv/100)
 
-famsmod = bam(fams ~ s(flocksize) + distkol + p.index + lon + s(Breeding_year, bs = "re") + s(Observer, bs = "re") + s(Food_type, bs = "re"), data = fams2, family = poisson)
+famsmod = gamm4(fams ~ s(flocksize) + distkol + p.index, random = ~ (p.index|Breeding_year) + (1|Observer) + (1|Food_type), data = fams2, family = poisson)
 ```
 
 ```{r}
@@ -51,19 +51,40 @@ geese = merge(geese, cbind(w[,"prevwinter"],y), by.x = "Breeding_year", by.y = "
 
 # Juveniles in flocks
 
-```{r}
+```{r arctic_oscillation}
+#a = data.frame(a = letters[1:16], b = as.factor(2001:2016))
+#fams$propjuv = fams$propjuv/100
 
-modjuvs = bam(propjuv ~ distkol + flocksize + s(t_since_in, k = 4) + (p.index) + s(Breeding_year, bs = "re") + s(Observer, bs = "re") + s(Food_type, bs = "re"), family = binomial, data = geese)
+#'get arctic oscillation data
+source("arctic_oscillation.r")
 
+#'merge data
+
+geese = merge(geese, ao_summer, by.x = "Breeding_year", by.y = "year")
+```
+
+```{r run_modjuvs}
+#'using arctic birds index
+modjuvs = gam(propjuv ~ p.index + s(t_since_in) + s(Breeding_year, bs = "re") + s(Observer, bs = "re") + s(Food_type, bs = "re"), family = binomial, data = geese)
+
+#'using nolet data
+modjuvs2 = gam(propjuv ~ pinnolet + s(Breeding_year, bs = "re") + s(t_since_in) + s(Observer, bs = "re") + s(Food_type, bs = "re"), family = binomial, data = geese)
+
+#'using aos
+modjuvs3 = gam(propjuv ~ aos + s(Breeding_year, bs = "re") + s(t_since_in) + s(Observer, bs = "re") + s(Food_type, bs = "re"), family = binomial, data = geese)
+
+#'using gamm
+
+modjuvs0 = gamm(propjuv ~ pinnolet + s(t_since_in), random = list(Breeding_year = ~1, Food_type = ~1, Observer = ~1), family = binomial, data = geese)
 ```
 
 ```{r}
-summary(modjuvs)
+summary(modjuvs0$gam)
 ```
 
 
 # Export models
 
 ```{r}
-save(modjuvs, flockmod, famsmod, mod03, mod03.gorg, mod03.gorg.s, fams.expand.sub, fams.expand, file = "goosemods_pres.RData")
+save(modjuvs, modjuvs2, flockmod, famsmod, mod03, mod03.gorg, mod03.gorg.s, fams.expand.sub, fams.expand, file = "goosemods_pres.RData")
 ```
