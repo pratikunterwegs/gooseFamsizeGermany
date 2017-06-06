@@ -73,7 +73,6 @@ timesel = model.sel(mtime2, mtime3)
 
 #fams.expand.sub = fams.expand.sub %>% filter(complete.cases(lon, flocksize, t_since_in, p.index, Breeding_year, Observer, Food_type))
 
-#'remove t_to_out
 mod03 = glmer(famsize ~ flocksize + t_since_in + p.index + (1|Breeding_year) + (1|Observer) + (1|Food_type), data = fams.expand.sub, family = "poisson")
 ```
 
@@ -95,8 +94,6 @@ distmod2_late = glmer(distkol ~ (famsize) + t_since_in + (1|breedyr) + (1|neckri
 ```
 
 ```{r}
-
-
 save(distmod, distmod_late, distmod2, distmod2_late, file = "distmods.Rdata")
 ```
 
@@ -106,18 +103,13 @@ save(distmod, distmod_late, distmod2, distmod2_late, file = "distmods.Rdata")
 Run model three on geese.org data. Random effects now include "id", and do not include observer and habitat type. Fixed effects do not include flock size.
 
 ```{r gorg.m03}
-mod03.gorg = glmer(famsize ~ t_since_in + p.index + (1|neckring) + + (1|breedyr/neckring), data = geeseorg, family = poisson)
-```
-
-```{r}
-summary(mod03.gorg)
-o2.mixed.mods(mod03.gorg)
+mod03.gorg = glmer(famsize ~ t_since_in + p.index + (1|neckring) + (1|breedyr/neckring), data = geeseorg, family = poisson)
 ```
 
 # geese.org successful fams
 
 ```{r gorg.success}
-mod03.gorg.s = glmer(famsize ~ t_since_in + p.index + (1|neckring) + + (1|breedyr/neckring), data = geeseorg %>% filter(famsize > 0), family = poisson)
+mod03.gorg.s = glmer(famsize ~ t_since_in + p.index + (1|neckring) + (1|breedyr/neckring), data = geeseorg %>% filter(famsize > 0), family = poisson)
 ```
 
 ```{r}

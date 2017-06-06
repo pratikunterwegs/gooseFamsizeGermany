@@ -65,10 +65,10 @@ geese = merge(geese, ao_summer, by.x = "Breeding_year", by.y = "year")
 
 ```{r run_modjuvs}
 #'using arctic birds index
-modjuvs = gam(propjuv ~ p.index + s(t_since_in) + s(Breeding_year, bs = "re") + s(Observer, bs = "re") + s(Food_type, bs = "re"), family = binomial, data = geese)
+modjuvs = gam(propjuv ~ distkol + flocksize + p.index + s(t_since_in) + s(Breeding_year, bs = "re") + s(Observer, bs = "re") + s(Food_type, bs = "re"), family = binomial, data = geese)
 
 #'using nolet data
-modjuvs2 = gam(propjuv ~ pinnolet + s(Breeding_year, bs = "re") + s(t_since_in) + s(Observer, bs = "re") + s(Food_type, bs = "re"), family = binomial, data = geese)
+modjuvs2 = gam(propjuv ~ distkol + flocksize + pinnolet + s(Breeding_year, bs = "re") + s(t_since_in) + s(Observer, bs = "re") + s(Food_type, bs = "re"), family = binomial, data = geese)
 
 #'using aos
 modjuvs3 = gam(propjuv ~ aos + s(Breeding_year, bs = "re") + s(t_since_in) + s(Observer, bs = "re") + s(Food_type, bs = "re"), family = binomial, data = geese)
