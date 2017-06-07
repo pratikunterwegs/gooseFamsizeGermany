@@ -1,4 +1,15 @@
 
+\begin{figure}
+\begin{center}
+\includegraphics[width = 1\linewidth]{datamap.pdf}
+\caption{Wintering grounds of greater white-fronted geese \emph{Anser a.
+albifrons} in the Netherlands and north-west Germany with sites
+(dots, \emph{n} = 64) where successful families (\emph{n} = 51,037)
+within flocks (\emph{n} = 1,884) were recorded. Diamonds mark fission
+(\emph{n} = 19) in GPS tracked families (\emph{n} = 13). Shaded area bounds observations (\emph{n} = 10,635) of marked geese. 
+Inset shows breeding grounds (ellipse) and wintering grounds (rectangle).Data were
+collected from 2000 - 2016.}
+
 \begin{figure*}
 \begin{center}
 \includegraphics[width = 0.6\linewidth]{dist_fsize.pdf}
