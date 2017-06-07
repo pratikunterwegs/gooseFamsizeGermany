@@ -88,9 +88,9 @@ distmod = glmer((distkol) ~ (famsize) + t_since_in + (1|Breeding_year) + (1|Food
 
 distmod_late = glmer((distkol) ~ (famsize) + t_since_in + (1|Breeding_year) + (1|Food_type) + (1|Observer), data = fams.expand.sub %>% filter(t_since_in > 60), family = "poisson")
 
-distmod2 = glmer(distkol ~ (famsize) + t_since_in + (1|breedyr) + (1|neckring), data = geeseorg %>% filter(t_since_in < 60), family = "gaussian")
+distmod2 = glmer(distkol ~ (famsize) + t_since_in + (1|breedyr/neckring) + (1|neckring), data = geeseorg %>% filter(t_since_in < 60), family = "gaussian")
 
-distmod2_late = glmer(distkol ~ (famsize) + t_since_in + (1|breedyr) + (1|neckring), data = geeseorg %>% filter(t_since_in > 60), family = "gaussian")
+distmod2_late = glmer(distkol ~ (famsize) + t_since_in + (1|breedyr/neckring) + (1|neckring), data = geeseorg %>% filter(t_since_in > 60), family = "gaussian")
 ```
 
 ```{r}

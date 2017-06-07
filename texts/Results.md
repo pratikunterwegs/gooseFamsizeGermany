@@ -6,57 +6,9 @@ After filtering the data (mapped in figure 1), we obtained 7,149 flock counts fr
 Goose flight activity records from 84 spring and 180 autumn sites (overlap = 72) yielded 6,266 days of data. Geese began to arrive between September 26 and October 30, and the last geese left between March 03 and April 01, resulting in a mean goose winter of 165 days.
 Lemming abundance from the breeding grounds transformed into a predation index ranged between 1.17 and 1.9, with very low variance ($\sigma^2$ = 0.048).
 
-We found no influence of family size on how far from the breeding grounds a family wintered during the first sixty days after arrival (datasets *B* and *C*, model *A*, $\chi^2_B$ = 1.135, $p_B$ = 0.286, $\chi^2_C$ = 2.179, $p_C$ = 0.139). Over the remainder, larger families from dataset *B* wintered farther west ($\chi^2$ = 4.194, $p$ = 0.041), while dataset *C* did not reveal any influence of family size on wintering site ($\chi^2$ = 0.023, $p$ = 0.879).
+We found no influence of family size on how far from the breeding grounds a family wintered during the first sixty days after arrival (datasets *B* and *C*, model *A*, $\chi^2_B$ = 1.135, $p_B$ = 0.286, $\chi^2_C$ = 2.007, $p_C$ = 0.157). Later in the winter, larger families from dataset *B* wintered farther west ($\chi^2$ = 4.194, $p$ = 0.041), while dataset *C* did not reveal any influence of family size on wintering site ($\chi^2$ = 0.27, $p$ = 0.6033). In all cases, geese were found farther west later in the winter ($\chi^2$ = 116.5641, $p <$ 2 $\times$ 10^-16^).
 
 Family size (dataset *B*, model *B.1*) was insensitive to flock size ($\chi^2$ = 0.270, $p$ = 0.6033) and summer predation ($\chi^2$ = 0.337, $p$ = 0.562), but decreased through the winter ($\chi^2$ = 74.166, $p <$ 2 $\times$ 10^-16^). Family sizes of marked geese (dataset *C*) decreased over time ($\chi^2$ = 19.936, $p$ = 8.01 $\times$ 10^-6^.), but showed an increase with the level of summer predation ($\chi^2$ = 12.935, $p$ = 3.2 $\times$ 10^-4^).
 The effect of summer predation on family size could be masked by a sampling method which counted only successful families, as in dataset *B*, for instance if higher levels of predation caused some goose pairs to fail to fledge any young at all. We confirmed this bias in sampling method by failing to find any effect of summer predation after excluding unsuccessful pairs from data *C* ($\chi^2$ = 0.1321, $p$ = 0.716).
 
-Flocks were significantly smaller farther from the breeding grounds ($\chi^2$ = 66599, $p <$ 2 $\times$ 10^-16^), and grew slightly over the winter ($\chi^2$ = 4975, $p <$ 2 $\times$ 10^-16^). Larger flocks also had more families ($\chi^2$ = 7777, $p <$ 2 $\times$ 10^-16^). Within flocks, juvenile proportions increased through the winter ($\chi^2$ = 19.43, $p$ = 0.001), and decreased with increasing flock size ($\chi^2$ = 5.921, $p$ = 0.015), but did not show any effect of summer predation ($\chi^2$ = 0.021, $p$ = 0.883). We tested whether this unexpected result was due to the use of unverified lemming abundance data by substituting the predation index calculated by @nolet2013faltering from published [@kokorev2002population] and novel trapping data, but these data also did not exlain observed variation ($\chi^2$ = 1.835, $p$ = 0.175).
-
-
-
-
-\begin{table*}
-\centering
-\begin{tabular}{*5l}\toprule
-Response & Data source & Fixed effects & Random effects & Model\tabularnewline \midrule
-Family size & Family counts & 1, 2, 3, 4 & 5, 6, 7 & GLMM\tabularnewline
-
-Family size & Individual observations & 1, 3, 4 & 5, 8 & GLMM\tabularnewline
-
-\emph{n} families & Family counts & 1, 2, 3, 4 & 5, 6, 7 & GAM\tabularnewline
-
-Flock size & Flock counts & 1, 3, 4 & 5, 6, 7 & GLMM\tabularnewline
-
-Juvenile prop. & Flock counts & 1, 2, 3, 4 & 5, 6, 7 & GAM\tabularnewline \bottomrule
-
-\end{tabular}
-
-\caption{Model structures; effect codes: \emph{1} Longitude, \emph{2} Flock size, \emph{3} Days since arrivals, \emph{4} Summer predation index, \emph{5} Breeding year, \emph{6} Habitat type, \emph{7} Observer identity, \emph{8} Goose identity.}
-
-\end{table*}
-
-\begin{table*}
-\centering
-\begin{tabular}{*5l}\toprule 
-
-Reponse & \multicolumn{4}{c}{Predictor}\tabularnewline
- & Longitude & Flock size & Days since arrival & Summer predation\tabularnewline \midrule
- 
-Family size, flocks & 0.0249 & 1.2836 & 87.2641{*} & 0.7805\tabularnewline
- 
-Family size, successful pairs & 0.0127 & - & 5.4859{*} & 0.0162\tabularnewline
-
-Family size, all pairs & 1.3561 & - & 19.2147{*} & 20.3484{*}\tabularnewline
- 
-\emph{n} families & 0.416 & 8196{*} & - & 65.098{*}\tabularnewline
-
-Flock size & 10340{*} & - & 4476{*} & 1.039\tabularnewline
-
-Juvenile proportion & 1.029 & 5.888{*} & 9.816{*} & 0.058\tabularnewline \bottomrule
-
-\end{tabular}
-
-\caption{Model output and predictor $\chi{2}$ values. Asteriks indicate significant effects.}
-
-\end{table*}
+Flocks were significantly smaller farther from the breeding grounds ($\chi^2$ = 66599, $p <$ 2 $\times$ 10^-16^), and grew slightly over the winter ($\chi^2$ = 4975, $p <$ 2 $\times$ 10^-16^). Larger flocks also had more families ($\chi^2$ = 7777, $p <$ 2 $\times$ 10^-16^). Within flocks, juvenile proportions increased through the winter ($\chi^2$ = 19.43, $p$ = 0.001), and decreased with increasing flock size ($\chi^2$ = 5.921, $p$ = 0.015), but did not show any effect of distance from the breeding grounds ($\chi^2$ = 1.015, $p$ = 0.314), or of summer predation ($\chi^2$ = 0.021, $p$ = 0.883). We tested whether this result was due to the use of unverified lemming abundance data by substituting the predation index calculated by @nolet2013faltering from published [@kokorev2002population] and novel trapping data, but again found no effect ($\chi^2$ = 1.835, $p$ = 0.175).

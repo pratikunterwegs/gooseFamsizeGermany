@@ -103,31 +103,31 @@ kdegeese2 = gIntersection(kdegeese, land, byid = TRUE, drop_lower_td = TRUE)
 # Basic datamap
 
 ```{r map_sovon}
-pdf(file = "~/git/thesis/texts/datamap_green.pdf")
+pdf(file = "~/git/thesis/texts/datamap.pdf")
 #'map locations
 tm_shape(land, bbox = e - c(0,0,-0.2,0))+
-  tm_polygons(col = "darkseagreen1", border.col = "grey10", alpha = 1)+
+  tm_polygons(col = "grey100", border.col = "grey50", alpha = 1)+
 
 tm_shape(kdegeese2)+
-  tm_fill(col = "grey20", alpha = 0.3)+
+  tm_fill(col = "darkslategrey", alpha = 0.4)+
   
 tm_shape(lakes)+
-  tm_polygons(alpha = 1, col = "skyblue", border.col = "grey40")+
+  tm_polygons(alpha = 1, col = "lightcyan1", border.col = "grey50")+
   
 tm_shape(rivers)+
   tm_lines(col = "royalblue")+
 
 tm_shape(fams.spatial)+
-  tm_dots(col = "black", shape = 21, size = 0.2)+
+  tm_symbols(col = "grey20", border.col = "grey95", shape = 21, size = 0.2)+
   
 tm_shape(splits2[splits2$event == "Split",])+
-  tm_symbols(shape = "event", col = "indianred1", shapes = c(25, 4), size = 0.5, border.col = "violetred4", showNA = F, shapeNA = NA, legend.shape.show = F)+
+  tm_symbols(shape = "event", col = "indianred1", shapes = c(24, 4), size = 0.5, border.col = "grey30", showNA = F, shapeNA = NA, legend.shape.show = F)+
 
 tm_format_NLD()+
 tm_scale_bar(position = c("left","bottom"), breaks=c(0,25,50), size = 1)+
-  tm_compass(type = "8star", position = c("LEFT","TOP"), size = 4)+
+tm_compass(type = "8star", position = c("LEFT","TOP"), size = 4)+
 
-tm_layout(frame = TRUE, bg.color = "steelblue3")
+tm_layout(frame = TRUE, bg.color = "#c5ebfa")
 dev.off()
 ```
 

@@ -1,0 +1,40 @@
+
+\begin{figure*}
+\begin{center}
+\includegraphics[width = 0.6\linewidth]{dist_fsize.pdf}
+\caption{Predicted distance of wintering site from breeding grounds on Kolguyev
+for \emph{(a,b)} successful families in flocks, and \emph{(c,d)} marked
+geese, within \emph{(a,c)} the first 60 days, and \emph{(b,d)} the
+remainder of winter. Winter days were calculated from flight activity
+data (see \emph{Methods}).}
+
+\end{center}
+\end{figure*}
+
+\begin{figure*}
+\begin{center}
+\includegraphics[width = 0.6\linewidth]{fam_trends.pdf}
+\caption{Predicted size of \emph{(a)} successful families in flocks and
+\emph{(b)} families of marked geese after arrival on the wintering
+grounds. Predicted size of (\emph{c}) successful families in flocks over
+flock size, and of \emph{(d)} \emph{1} successful families in flocks,
+\emph{2} successful families of marked geese, and \emph{3} all marked
+geese over summer predation levels. Arrival dates were calculated from
+flight activity data, and predation index from Arctic rodent abundance
+(see \emph{Methods}).}
+
+\end{center}
+\end{figure*}
+
+\begin{figure*}
+\begin{center}
+\includegraphics[width = 0.6\linewidth]{flock_trends.pdf}
+\caption{Predicted \emph{(a)} flock size at distances from breeding grounds on
+Kolguyev. Predicted proportion of first winter juveniles in relation to
+\emph{(b)} flock size, \emph{(c)} days after arrival, and \emph{(d)}
+summer predation index. Arrival dates were calculated from flight
+activity data, and predation index from Arctic rodent abundance (see
+\emph{Methods}).}
+
+\end{center}
+\end{figure*}

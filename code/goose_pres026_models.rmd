@@ -44,12 +44,12 @@ out.distmod1 = vis.distmod1$fit
 p1 = ggplot()+
   geom_ribbon(data = out.distmod1, aes(x = famsize, ymin = visregLwr, ymax = visregUpr), fill = "grey90", alpha = 0.9)+
   geom_line(data = out.distmod1, aes(x = famsize, y = visregFit), col = 2)+
-  labs(list(x = NULL, y = "Dist. (km) breeding grounds", title = "a < 60 days post arrival"))+
+  labs(list(x = NULL, y = "Dist. Kolguyev (km)", title = "a"))+
   geom_jitter(data = fams.expand.sub %>% filter(t_since_in < 60), aes(x = famsize, y = distkol), size = 0.1, pch = 1)+
 
 #  geom_segment(data = splits %>% filter(event %in% c("Split")), aes(x = lon, y = fsize+1, xend = lon, yend = 0), lty = 1, lwd = 0.2, col = "grey30")+
  # geom_text(data = splits %>% filter(fam %in% c("Ev","Wo","Ha","Na","Ti","Ma","Ro","An","Jo"), event == "Split"), aes(x=lon, y = fsize+1, label = substr(fam,1,1), angle = 0), hjust = 1, vjust = 0, size = 3, angle = -30)+
- geom_text(aes(x =8, y = 3e3, label = "{chi}^2==1.135"), parse = T, hjust = "inwards")+
+ geom_text(aes(x =8, y = 3e3, label = "{chi}^2==1.135"), parse = T, hjust = "inwards")+xlim(0,10)+
   theme_bw()+a
 #dev.off()
 ```
@@ -68,10 +68,10 @@ out.distmod1l = vis.distmod1l$fit
 p2 = ggplot()+
   geom_ribbon(data = out.distmod1l, aes(x = famsize, ymin = visregLwr, ymax = visregUpr), fill = "grey90", alpha = 0.9)+
   geom_line(data = out.distmod1l, aes(x = famsize, y = visregFit), col = 2)+
-  labs(list(x = NULL, y = NULL, title = "b > 60 days post arrival"))+
+  labs(list(x = NULL, y = NULL, title = "b"))+
   geom_jitter(data = fams.expand.sub %>% filter(t_since_in > 60), aes(x = famsize, y = distkol), size = 0.1)+
 
- geom_text(aes(x =8, y = 3e3, label = "{chi}^2==4.194"), parse = T, hjust = "inwards")+
+ geom_text(aes(x =8, y = 3e3, label = "{chi}^2==4.194"), parse = T, hjust = "inwards")+xlim(0,10)+
   theme_bw()+b
 #dev.off()
 ```
@@ -90,10 +90,10 @@ out.distmod2 = vis.distmod2$fit
 p3 = ggplot()+
   geom_ribbon(data = out.distmod2, aes(x = famsize, ymin = visregLwr, ymax = visregUpr), fill = "grey90", alpha = 0.9)+
   geom_line(data = out.distmod2, aes(x = famsize, y = visregFit), col = 2)+
-  labs(list(x = "Family size", y = "Dist. to breeding grounds (km)", title = "c"))+
+  labs(list(x = "Family size", y = "Dist. Kolguyev (km)", title = "c"))+
   geom_jitter(data = geeseorg %>% filter(t_since_in < 60), aes(x = famsize, y = distkol), size = 0.1)+
 
- geom_text(aes(x =8, y = 3.1e3, label = "{chi}^2==2.179"), parse = T, hjust = "inwards")+
+ geom_text(aes(x =8, y = 3.1e3, label = "{chi}^2==2.007"), parse = T, hjust = "inwards")+xlim(0,10)+
   theme_bw()+a
 #dev.off()
 ```
@@ -115,7 +115,7 @@ p4 = ggplot()+
   labs(list(x = "Family size", y = NULL, title = "d"))+
   geom_jitter(data = geeseorg %>% filter(t_since_in > 60), aes(x = famsize, y = distkol), size = 0.1)+
 
- geom_text(aes(x =8, y = 3.1e3, label = "{chi}^2==0.023"), parse = T, hjust = "inwards")+ xlim(0,10)+
+ geom_text(aes(x =8, y = 3.1e3, label = "{chi}^2==0.27"), parse = T, hjust = "inwards")+ xlim(0,10)+
   theme_bw()+b
 #dev.off()
 ```
@@ -230,7 +230,7 @@ p8 = ggplot()+
   geom_line(data = vis.famsize.gorg.s.pred.data, aes(x = p.index, y = visregFit), lty = 3, col = 2)+
   ylim(0,10)+
   #geom_text(aes(x = 1.25, y = c(2.5, 0.75), label = c("w/o unsuccessful pairs", "w/ unsuccessful pairs")))+
-  geom_text(aes(x = 1.8, y = c(2.3, 1.5,0.75), label = c("1","2","3")))+
+  geom_text(aes(x = 1.8, y = c(2.3, 1.3,0.75), label = c("1","2","3")))+
   geom_text(aes(x = 1.8, y = c(9.5,8.5,7.5), label = c("{chi[1]}^2==0.337", "{chi[2]}^2==0.1321","{chi[3]}^2==12.935")), hjust = "inward", parse = T)+
   labs(list(x = "Predation index", y = NULL, title = "d"))+
   theme_bw()+b
@@ -254,7 +254,7 @@ p9 = ggplot()+
   geom_ribbon(data = vis.flockmod.data, aes(x = distkol, ymin = visregLwr+10, ymax = visregUpr+10), fill = "grey90", alpha = 0.9)+
   geom_line(data = vis.flockmod.data, aes(x = distkol, y = visregFit), size = 1, col = 2)+
   ylim(0,5000)+
-  labs(list(x = "Dist. to breeding grounds (km)", y = "Flock size", title = "a"))+
+  labs(list(x = "Dist. to Kolguyev (km)", y = "Flock size", title = "a"))+
   geom_text(aes(x =3100, y = 4500, label = "{chi}^2==66599"), hjust = "inward", parse = T)+
   theme_bw()+a
 
@@ -323,7 +323,7 @@ p12 = ggplot()+
   geom_ribbon(data = vis.juvprop.pred.data, aes(x = p.index, ymin = visregLwr, ymax = visregUpr), fill= "grey90", alpha = 0.9)+
   geom_line(data = vis.juvprop.pred.data, aes(x = p.index, y = visregFit), size = 1, col=2)+
   labs(list(x = "Predation index", y = "Juvenile proportion", title = "d"))+
-  geom_text(aes(x = 1.8, y = 0.8, label = "{chi}^2==0.021"), hjust = "inward", parse = T)+ylim(0,0.8)+
+  geom_text(aes(x = 1.9, y = 0.7, label = "{chi}^2==0.021"), hjust = "inward", parse = T)+ylim(0,0.8)+
   theme_bw()+a
 
 #dev.off()

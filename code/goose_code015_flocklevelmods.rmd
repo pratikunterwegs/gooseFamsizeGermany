@@ -82,7 +82,6 @@ modjuvs0 = gamm(propjuv ~ pinnolet + s(t_since_in), random = list(Breeding_year 
 summary(modjuvs0$gam)
 ```
 
-
 # Export models
 
 ```{r}
