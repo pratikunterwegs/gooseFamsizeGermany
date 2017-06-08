@@ -1,0 +1,18 @@
+---
+title: 'Family size dynamics in wintering geese'
+geometry: margin=2cm
+fontsize: 10pt
+linestretch: 1
+mathfont: TeX Gyre Schola Math
+mainfont: TeX Gyre Schola
+classoption: twocolumn
+bibliography: geese_citations.bib
+csl: oikos.csl
+header-includes:
+  - \usepackage{graphicx}
+  - \usepackage[font=small,labelfont=bf]{caption}
+  - \usepackage{float}
+  - \usepackage{multicol}
+  - \usepackage{supertabular}
+  - \usepackage{booktabs}
+---

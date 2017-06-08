@@ -43,6 +43,8 @@ data.raw.goose = read_excel("~/git/thesis/Age-ratiodata-GWfG-toPratik.xlsx",
 goose.clean = data.raw.goose #%>% filter(Country %in% c("NL","NRW"))
 
 goose.clean = goose.clean %>% filter(Breeding_year >= 2000)
+
+goose.old = goose.clean %>% filter(Breeding_year < 2000)
 ```
 
 # Get time as a new column, define explicit temporal extents
