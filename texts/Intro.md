@@ -1,3 +1,12 @@
+
+\renewcommand\dblfloatpagefraction{.95} % for two column documents
+\renewcommand\dbltopfraction{.95} % for two column documents
+\renewcommand\bottomfraction{.9}
+\renewcommand\textfraction{.1}
+\setcounter{totalnumber}{50}
+\setcounter{topnumber}{50}
+\setcounter{bottomnumber}{50}
+
 # Introduction
 
 Families are important components of animal groups. In the most extreme case, eusocial insect colonies are composed entirely of related individuals [@crozier1996evolution]. Preference for kin holds in more complex vertebrates as well. For example, African savannah elephants *Loxodonta africana* living in unstable matriarchal fission-fusion societies prefer to remain part of a smaller 'core' group of their direct female relatives when larger groups split [@Archie513]. Inclusive fitness through kin selection is posited as the basis for cooperation within groups [@HAMILTON19641]. However, spotted hyaena *Crocuta crocuta* clans which cooperate in risky behaviours such as hunting and conflict may also contain matrilines with low inter-relatedness [@MEC:MEC2071].
@@ -10,6 +19,18 @@ When maintained, extended family bonds increase the fitness of both parents and 
 Studies of family size at winter sites must take into account that waterfowl, like many birds, are often differentially migratory, with population classes selecting different wintering sites [@cristol1999differential]. Segregation on the basis of sex along latitude is well studied  in ducks [@leopold1919differential, @nichols1980sex, @carbone1995differential]. Among the geese, Pacific black brent geese *Branta bernicla nigricans* with a greater likelihood of breeding success were found wintering closer to their summer grounds [@schamber2001cross]. Further, more juveniles of the species winter closer to the breeding grounds [@JOFO:JOFO087], as do more dominant social units [@vangilder1985differential]. Brent geese migrate in families, and the presence of juveniles is expected to affect the flight of adults [@JAV:JAV310213]. Within this context, it is not clear how the number of juveniles accompanying a pair on autumn migration influences where they will winter.
 
 Any explanation of variation in goose family size in winter must include the effect of the summer abundance of rodents, primarily lemmings _Lemmus spp._ and _Dicrostonyx spp._, on the breeding success of Arctic birds [@angelstam1984role]. Geese are predicted to be least successful in years when lemming density is low and that of predators is high [@dhondt1987cycles]. This lowering effect of summer predation on the proportion of first winter juveniles has been described in both waders _Charadrii_ and dark-bellied brent geese _Branta bernicla bernicla_ wintering in Scandinavia [@summers1987factors, @blomqvist2002indirect] and the Netherlands [@nolet2013faltering]. However, the mechanism by which predation pressure at the family level translates into population level effects is not well understood.
+
+\begin{figure*}
+\begin{center}
+\includegraphics[width = 0.8\linewidth]{datamap.pdf}
+\caption{Wintering grounds of greater white-fronted geese \emph{Anser a.
+albifrons} in the Netherlands and north-west Germany with sites
+(dots, \emph{n} = 64) where successful families (\emph{n} = 51,037)
+within flocks (\emph{n} = 1,884) were recorded. Diamonds mark fission
+(\emph{n} = 19) in GPS tracked families (\emph{n} = 13). Shaded area bounds observations (\emph{n} = 10,635) of marked geese. Inset shows breeding grounds (ellipse) and wintering grounds (rectangle). Data were collected from 2000 - 2016.}
+
+\end{center}
+\end{figure*}
 
 Greater white-fronted geese _Anser albifrons albifrons_, hereafter whitefronts, are the most populous true geese wintering in continental western Europe [@Fox2017a], and offer an interesting opportunity to investigate the dynamics of Arctic goose families over space and time. Accounts from the wintering grounds suggest that in the Baltic-North Sea flyway population of **whitefronts** [@philippona1972blessgans], successful families winter farther west than smaller ones. Further, these families are observed in smaller flocks, but flocks are also reportedly smaller to the west. Family bonds reportedly weaken over a single winter, in contrast to the multi-year bonds of the Greenland subspecies _flavirostris_ [@10.2307/4088245]. Further, the population is also suspected to be differentially migratory in autumn with respect to breeding success, and in spring with respect to age, with breeding birds arriving later, and adults intending to breed leaving earlier [@jongejans2015naar].
 
