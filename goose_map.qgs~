@@ -35,10 +35,10 @@
   <mapcanvas>
     <units>meters</units>
     <extent>
-      <xmin>-677150.58836215920746326</xmin>
-      <ymin>2326969.10055197263136506</ymin>
-      <xmax>3129708.41163784079253674</xmax>
-      <ymax>5700241.10055197030305862</ymax>
+      <xmin>-794822.86743192654103041</xmin>
+      <ymin>1830130.58892406546510756</ymin>
+      <xmax>3012036.13256807345896959</xmax>
+      <ymax>5203402.58892406336963177</ymax>
     </extent>
     <rotation>0</rotation>
     <projections>1</projections>
@@ -2385,7 +2385,7 @@ def my_form_open(dialog, layer, feature):
       </customproperties>
     </Composition>
   </Composer>
-  <Composer title="Composer 2" visible="0">
+  <Composer title="Composer 2" visible="1">
     <Composition resizeToContentsMarginLeft="0" snapping="0" showPages="1" guidesVisible="1" resizeToContentsMarginTop="0" alignmentSnap="1" printResolution="150" paperWidth="297" gridVisible="1" snapGridOffsetX="0" smartGuides="1" snapGridOffsetY="0" resizeToContentsMarginRight="0" snapTolerancePixels="5" printAsRaster="0" generateWorldFile="0" paperHeight="210" numPages="1" snapGridResolution="10" resizeToContentsMarginBottom="0">
       <symbol alpha="1" clip_to_extent="1" type="fill" name="">
         <layer pass="0" class="SimpleFill" locked="0">
@@ -2418,16 +2418,16 @@ def my_form_open(dialog, layer, feature):
             <prop k="style" v="solid"/>
           </layer>
         </symbol>
-        <ComposerItem pagey="39.7366" page="1" id="breeding area" lastValidViewScaleFactor="-1" positionMode="0" positionLock="false" x="286.828" y="39.7366" visibility="0" zValue="7" background="true" transparency="0" frameJoinStyle="miter" blendMode="0" width="87.123" outlineWidth="0.3" excludeFromExports="0" uuid="{c87d0275-d33d-4832-8e29-5a5ebc5528e7}" height="47.8047" itemRotation="145" frame="false" pagex="286.828">
+        <ComposerItem pagey="31.5837" page="1" id="breeding area" lastValidViewScaleFactor="-1" positionMode="0" positionLock="false" x="287.338" y="31.5837" visibility="1" zValue="6" background="true" transparency="47" frameJoinStyle="miter" blendMode="0" width="87.123" outlineWidth="0.3" excludeFromExports="0" uuid="{c87d0275-d33d-4832-8e29-5a5ebc5528e7}" height="47.8047" itemRotation="145" frame="false" pagex="287.338">
           <FrameColor alpha="255" red="0" blue="0" green="0"/>
           <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
           <customproperties/>
         </ComposerItem>
       </ComposerShape>
       <ComposerLabel valign="32" marginX="1" marginY="1" labelText="*" htmlState="0" halign="1">
-        <LabelFont description="Courier,22,-1,5,75,0,0,0,0,0" style="Bold"/>
+        <LabelFont description="Courier,22,-1,5,75,0,0,0,0,0" style=""/>
         <FontColor red="208" blue="0" green="0"/>
-        <ComposerItem pagey="51.8596" page="1" id="" lastValidViewScaleFactor="-1" positionMode="0" positionLock="false" x="203.197" y="51.8596" visibility="1" zValue="6" background="false" transparency="0" frameJoinStyle="miter" blendMode="0" width="10.6543" outlineWidth="0.3" excludeFromExports="0" uuid="{cc081ba5-2c47-4e3f-b07a-10fb2bd7001d}" height="12.044" itemRotation="0" frame="false" pagex="203.197">
+        <ComposerItem pagey="51.8596" page="1" id="" lastValidViewScaleFactor="-1" positionMode="0" positionLock="false" x="203.197" y="51.8596" visibility="1" zValue="5" background="false" transparency="0" frameJoinStyle="miter" blendMode="0" width="10.6543" outlineWidth="0.3" excludeFromExports="0" uuid="{cc081ba5-2c47-4e3f-b07a-10fb2bd7001d}" height="12.044" itemRotation="0" frame="false" pagex="203.197">
           <FrameColor alpha="255" red="0" blue="0" green="0"/>
           <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
           <customproperties/>
@@ -2449,26 +2449,26 @@ def my_form_open(dialog, layer, feature):
             <prop k="style" v="solid"/>
           </layer>
         </symbol>
-        <ComposerItem pagey="126.958" page="1" id="winter area" lastValidViewScaleFactor="-1" positionMode="0" positionLock="false" x="56.3503" y="126.958" visibility="0" zValue="4" background="true" transparency="0" frameJoinStyle="miter" blendMode="8" width="47.4672" outlineWidth="0.3" excludeFromExports="0" uuid="{82639869-2eaf-4816-b5d1-29de54e05d47}" height="26.0329" itemRotation="0" frame="false" pagex="56.3503">
+        <ComposerItem pagey="115.238" page="1" id="winter area" lastValidViewScaleFactor="-1" positionMode="0" positionLock="false" x="56.3505" y="115.238" visibility="1" zValue="4" background="true" transparency="30" frameJoinStyle="miter" blendMode="0" width="47.4672" outlineWidth="0.3" excludeFromExports="0" uuid="{82639869-2eaf-4816-b5d1-29de54e05d47}" height="21.4469" itemRotation="0" frame="false" pagex="56.3505">
           <FrameColor alpha="255" red="0" blue="0" green="0"/>
           <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
           <customproperties/>
         </ComposerItem>
       </ComposerShape>
-      <ComposerScaleBar lineCapStyle="square" style="Single Box" numMapUnitsPerScaleBarUnit="1000" segmentSizeMode="0" alignment="0" numSegments="3" segmentMillimeters="25.0589" lineJoinStyle="miter" minBarWidth="50" numUnitsPerSegment="500000" units="1" labelBarSpace="3" outlineWidth="0.3" numSegmentsLeft="0" maxBarWidth="150" height="3" boxContentSpace="1" mapId="0" unitLabel="km">
+      <ComposerScaleBar lineCapStyle="square" style="Single Box" numMapUnitsPerScaleBarUnit="1000" segmentSizeMode="0" alignment="0" numSegments="3" segmentMillimeters="25.2009" lineJoinStyle="miter" minBarWidth="50" numUnitsPerSegment="500000" units="1" labelBarSpace="3" outlineWidth="0.3" numSegmentsLeft="0" maxBarWidth="150" height="3" boxContentSpace="1" mapId="0" unitLabel="km">
         <scaleBarFont description="Cantarell,12,-1,5,50,0,0,0,0,0" style=""/>
         <fillColor alpha="255" red="0" blue="0" green="0"/>
         <fillColor2 alpha="255" red="255" blue="255" green="255"/>
         <strokeColor alpha="255" red="0" blue="0" green="0"/>
         <textColor alpha="255" red="0" blue="0" green="0"/>
-        <ComposerItem pagey="189.85" page="1" id="" lastValidViewScaleFactor="-1" positionMode="0" positionLock="false" x="206.358" y="189.85" visibility="1" zValue="3" background="true" transparency="0" frameJoinStyle="miter" blendMode="0" width="90.4923" outlineWidth="0.3" excludeFromExports="0" uuid="{94e81d9d-5df0-41d8-ae7f-730184096b3b}" height="20" itemRotation="0" frame="true" pagex="206.358">
+        <ComposerItem pagey="189.85" page="1" id="" lastValidViewScaleFactor="-1" positionMode="0" positionLock="false" x="206.358" y="189.85" visibility="1" zValue="3" background="true" transparency="0" frameJoinStyle="miter" blendMode="0" width="90.9183" outlineWidth="0.3" excludeFromExports="0" uuid="{94e81d9d-5df0-41d8-ae7f-730184096b3b}" height="20" itemRotation="0" frame="true" pagex="206.358">
           <FrameColor alpha="255" red="0" blue="0" green="0"/>
           <BackgroundColor alpha="150" red="255" blue="255" green="255"/>
           <customproperties/>
         </ComposerItem>
       </ComposerScaleBar>
-      <ComposerPicture resizeMode="0" svgBorderWidth="0.2" pictureRotation="0" pictureWidth="112.241" svgFillColor="255,255,255,255" svgBorderColor="0,0,0,255" northMode="0" file="../pratikr16.github.io/n02.jpg" northOffset="0" pictureHeight="62.2916" mapId="-1" anchorPoint="0">
-        <ComposerItem pagey="0.25692" page="1" id="" lastValidViewScaleFactor="-1" positionMode="0" positionLock="false" x="0" y="0.25692" visibility="1" zValue="2" background="false" transparency="0" frameJoinStyle="miter" blendMode="0" width="112.241" outlineWidth="0.3" excludeFromExports="0" uuid="{774250e6-97ad-462e-a206-0a3035b3a3a1}" height="63.9036" itemRotation="0" frame="false" pagex="0">
+      <ComposerPicture resizeMode="0" svgBorderWidth="0.2" pictureRotation="0" pictureWidth="112.241" svgFillColor="255,255,255,255" svgBorderColor="0,0,0,255" northMode="0" file="./code/n02.png" northOffset="0" pictureHeight="62.2918" mapId="-1" anchorPoint="0">
+        <ComposerItem pagey="0.25692" page="1" id="photo" lastValidViewScaleFactor="-1" positionMode="0" positionLock="false" x="0" y="0.25692" visibility="1" zValue="2" background="false" transparency="0" frameJoinStyle="miter" blendMode="0" width="112.241" outlineWidth="0.3" excludeFromExports="0" uuid="{774250e6-97ad-462e-a206-0a3035b3a3a1}" height="63.9036" itemRotation="0" frame="false" pagex="0">
           <FrameColor alpha="255" red="0" blue="0" green="0"/>
           <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
           <dataDefinedSource expr="" field="" active="false" useExpr="true"/>
@@ -2476,7 +2476,7 @@ def my_form_open(dialog, layer, feature):
         </ComposerItem>
       </ComposerPicture>
       <ComposerMap mapRotation="16" keepLayerSet="false" id="0" previewMode="Cache" drawCanvasItems="true">
-        <Extent ymin="1385446.31166088115423918" xmin="-2309188.51290166145190597" ymax="5603225.96869634930044413" xmax="3655957.00204850034788251"/>
+        <Extent ymin="1161999.01871589757502079" xmin="-2234469.39551180368289351" ymax="5379778.67575136665254831" xmax="3730676.11943835811689496"/>
         <LayerSet/>
         <Grid/>
         <ComposerMapGrid rightAnnotationDirection="0" gridFramePenColor="0,0,0,255" show="1" bottomAnnotationPosition="0" annotationPrecision="0" showAnnotation="1" topFrameDivisions="0" uuid="{964546c0-52d5-48a6-b8e6-f8bc4a21e7c0}" leftAnnotationDirection="0" topAnnotationPosition="1" rightAnnotationDisplay="1" offsetX="0" offsetY="0" rightFrameDivisions="0" gridStyle="0" annotationFontColor="241,244,199,255" intervalX="10" gridFrameSideFlags="15" intervalY="16.5" bottomAnnotationDirection="0" leftAnnotationDisplay="3" leftFrameDivisions="0" frameFillColor1="255,255,255,255" annotationExpression="" frameFillColor2="0,0,0,255" crossLength="3" gridFramePenThickness="0.29999999999999999" bottomAnnotationDisplay="2" unit="0" topAnnotationDisplay="3" leftAnnotationPosition="1" blendMode="0" gridFrameStyle="0" rightAnnotationPosition="0" gridFrameWidth="2" name="Grid 1" annotationFormat="3" bottomFrameDivisions="0" topAnnotationDirection="0" frameAnnotationDistance="1">
@@ -2537,13 +2537,19 @@ def my_form_open(dialog, layer, feature):
           <annotationFontProperties description="Cantarell,11,-1,5,50,0,0,0,0,0" style=""/>
         </ComposerMapGrid>
         <AtlasMap scalingMode="2" atlasDriven="0" margin="0.10000000000000001"/>
-        <ComposerItem pagey="0" page="1" id="" lastValidViewScaleFactor="2.15875" positionMode="0" positionLock="false" x="0" y="0" visibility="1" zValue="1" background="true" transparency="0" frameJoinStyle="miter" blendMode="0" width="297" outlineWidth="0.3" excludeFromExports="0" uuid="{10c89a11-cc3f-47f0-93be-0e2f6a2f6034}" height="210" itemRotation="0" frame="true" pagex="0">
+        <ComposerItem pagey="0" page="1" id="" lastValidViewScaleFactor="1.9625" positionMode="0" positionLock="false" x="0" y="0" visibility="1" zValue="1" background="true" transparency="0" frameJoinStyle="miter" blendMode="0" width="297" outlineWidth="0.3" excludeFromExports="0" uuid="{10c89a11-cc3f-47f0-93be-0e2f6a2f6034}" height="210" itemRotation="0" frame="true" pagex="0">
           <FrameColor alpha="255" red="0" blue="0" green="0"/>
           <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
           <customproperties/>
         </ComposerItem>
       </ComposerMap>
-      <customproperties/>
+      <customproperties>
+        <property key="imageCropMarginBottom" value="0"/>
+        <property key="imageCropMarginLeft" value="0"/>
+        <property key="imageCropMarginRight" value="0"/>
+        <property key="imageCropMarginTop" value="0"/>
+        <property key="imageCropToContents" value="false"/>
+      </customproperties>
     </Composition>
   </Composer>
   <projectlayers>
@@ -2782,17 +2788,18 @@ def my_form_open(dialog, layer, feature):
       <SingleCategoryDiagramRenderer diagramType="Pie">
         <DiagramCategory penColor="#000000" labelPlacementMethod="XHeight" penWidth="0" diagramOrientation="Up" minimumSize="0" barWidth="5" penAlpha="255" maxScaleDenominator="1e+08" backgroundColor="#ffffff" transparency="0" width="15" scaleDependency="Area" backgroundAlpha="255" angleOffset="1440" scaleBasedVisibility="0" enabled="0" height="15" sizeType="MM" minScaleDenominator="-4.65661e-10">
           <fontProperties description="Cantarell,11,-1,5,50,0,0,0,0,0" style=""/>
+          <attribute field="" color="#000000" label=""/>
         </DiagramCategory>
       </SingleCategoryDiagramRenderer>
       <DiagramLayerSettings yPosColumn="-1" linePlacementFlags="10" placement="2" dist="0" xPosColumn="-1" priority="0" obstacle="0" zIndex="0" showAll="1"/>
-      <annotationform></annotationform>
+      <annotationform>.</annotationform>
       <excludeAttributesWMS/>
       <excludeAttributesWFS/>
       <attributeactions/>
-      <editform></editform>
+      <editform>.</editform>
       <editforminit/>
       <editforminitcodesource>0</editforminitcodesource>
-      <editforminitfilepath></editforminitfilepath>
+      <editforminitfilepath>.</editforminitfilepath>
       <editforminitcode><![CDATA[# -*- coding: utf-8 -*-
 """
 QGIS forms can have a Python function that is called when the form is
@@ -3086,7 +3093,7 @@ def my_form_open(dialog, layer, feature):
         <fieldstyles/>
       </conditionalstyles>
     </maplayer>
-    <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
+    <maplayer minimumScale="-4.65661e-10" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
       <extent>
         <xmin>-14501793.99533890001475811</xmin>
         <ymin>-7117632.15526197105646133</ymin>
@@ -3122,7 +3129,7 @@ def my_form_open(dialog, layer, feature):
         <map-layer-style name=""/>
       </map-layer-style-manager>
       <pipe>
-        <rasterrenderer opacity="1" alphaBand="-1" classificationMax="239.866" classificationMinMaxOrigin="CumulativeCutFullExtentEstimated" band="1" classificationMin="89.3571" type="singlebandpseudocolor">
+        <rasterrenderer opacity="1" alphaBand="0" classificationMax="239.866" classificationMinMaxOrigin="CumulativeCutFullExtentEstimated" band="1" classificationMin="89.3571" type="singlebandpseudocolor">
           <rasterTransparency/>
           <rastershader>
             <colorrampshader colorRampType="INTERPOLATED" clip="0">
@@ -5053,8 +5060,8 @@ def my_form_open(dialog, layer, feature):
       <DegreeFormat type="QString">MU</DegreeFormat>
     </PositionPrecision>
     <WCSUrl type="QString"></WCSUrl>
-    <WMSServiceCapabilities type="bool">false</WMSServiceCapabilities>
     <WMSContactPhone type="QString"></WMSContactPhone>
+    <WMSServiceCapabilities type="bool">false</WMSServiceCapabilities>
     <WMSServiceAbstract type="QString"></WMSServiceAbstract>
     <WMSContactPosition type="QString"></WMSContactPosition>
     <WMSAddWktGeometry type="bool">false</WMSAddWktGeometry>

@@ -2385,7 +2385,7 @@ def my_form_open(dialog, layer, feature):
       </customproperties>
     </Composition>
   </Composer>
-  <Composer title="Composer 2" visible="1">
+  <Composer title="Composer 2" visible="0">
     <Composition resizeToContentsMarginLeft="0" snapping="0" showPages="1" guidesVisible="1" resizeToContentsMarginTop="0" alignmentSnap="1" printResolution="150" paperWidth="297" gridVisible="1" snapGridOffsetX="0" smartGuides="1" snapGridOffsetY="0" resizeToContentsMarginRight="0" snapTolerancePixels="5" printAsRaster="0" generateWorldFile="0" paperHeight="210" numPages="1" snapGridResolution="10" resizeToContentsMarginBottom="0">
       <symbol alpha="1" clip_to_extent="1" type="fill" name="">
         <layer pass="0" class="SimpleFill" locked="0">
@@ -2467,7 +2467,7 @@ def my_form_open(dialog, layer, feature):
           <customproperties/>
         </ComposerItem>
       </ComposerScaleBar>
-      <ComposerPicture resizeMode="0" svgBorderWidth="0.2" pictureRotation="0" pictureWidth="112.241" svgFillColor="255,255,255,255" svgBorderColor="0,0,0,255" northMode="0" file="./code/n02.png" northOffset="0" pictureHeight="62.2918" mapId="-1" anchorPoint="0">
+      <ComposerPicture resizeMode="0" svgBorderWidth="0.2" pictureRotation="0" pictureWidth="112.241" svgFillColor="255,255,255,255" svgBorderColor="0,0,0,255" northMode="0" file="./code/n02 (copy).jpg" northOffset="0" pictureHeight="62.2918" mapId="-1" anchorPoint="0">
         <ComposerItem pagey="0.25692" page="1" id="photo" lastValidViewScaleFactor="-1" positionMode="0" positionLock="false" x="0" y="0.25692" visibility="1" zValue="2" background="false" transparency="0" frameJoinStyle="miter" blendMode="0" width="112.241" outlineWidth="0.3" excludeFromExports="0" uuid="{774250e6-97ad-462e-a206-0a3035b3a3a1}" height="63.9036" itemRotation="0" frame="false" pagex="0">
           <FrameColor alpha="255" red="0" blue="0" green="0"/>
           <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
