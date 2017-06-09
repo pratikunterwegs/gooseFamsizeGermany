@@ -52,7 +52,7 @@ mig.red = migration[,c("Date","Count_effort.min.","NumberperHour","t_since_in","
 
 ####Prepare geese####
 geese = merge(geese, lemming[,-4], by.x = "Breeding_year", by.y = "year")
-geese = merge(geese, lnolet[,c("year","pinnolet")], by.x = "Breeding_year", by.y = "year", all.x = T)
+#geese = merge(geese, lnolet[,c("year","pinnolet")], by.x = "Breeding_year", by.y = "year", all.x = T)
 
 geese = merge(geese, mig.red, by.x = "time", by.y = "Date", all.x = T)
 

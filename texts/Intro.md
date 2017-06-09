@@ -22,7 +22,7 @@ Any explanation of variation in goose family size in winter must include the eff
 
 \begin{figure*}
 \begin{center}
-\includegraphics[width = 0.8\linewidth]{datamap.pdf}
+\includegraphics[width = 0.6\linewidth]{datamap.pdf}
 \caption{Wintering grounds of greater white-fronted geese \emph{Anser a.
 albifrons} in the Netherlands and north-west Germany with sites
 (dots, \emph{n} = 64) where successful families (\emph{n} = 51,037)

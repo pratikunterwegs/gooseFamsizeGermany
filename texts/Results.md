@@ -1,6 +1,8 @@
 
 # Results
 
+We gathered data on flock sizes, sizes of families in flocks, observations of marked geese, the positions of GPS tracked families of geese, and supplementary information on the flight activity of geese in the wintering areas, and on the abundance of Arctic rodents on their breeding grounds.
+
 After filtering the data (mapped in figure 1), we obtained 7,149 flock counts from 75 observers at 123 geocoded sites. Of these, 1,884 flocks counted by 17 observers at 64 sites yielded 51,037 successful families. A further 10,635 marked geese were observed at 8,416 sites. We could not obtain data on the habitat type, flock size, and observer identity for these records. Positions from 64 individual geese (13 adult pairs, 38 juveniles) in 13 families were recorded in the winters of 2013 (*n* = 3), 2014 (*n* = 4), and 2016 (*n* = 6). A mean of 6,628 positions per individual were recorded over 138 days on average, during which 19 fission events occurred, which were not restricted to juveniles.
 
 Goose flight activity records from 84 spring and 180 autumn sites (overlap = 72) yielded 6,266 days of data. Geese began to arrive between September 26 and October 30, and the last geese left between March 03 and April 01, resulting in a mean goose winter of 165 days.
@@ -8,36 +10,7 @@ Lemming abundance from the breeding grounds transformed into a predation index r
 
 We found no influence of family size on how far from the breeding grounds a family wintered during the first sixty days after arrival (datasets *B* and *C*, model *A*, $\chi^2_B$ = 1.135, $p_B$ = 0.286, $\chi^2_C$ = 2.007, $p_C$ = 0.157). Later in the winter, larger families from dataset *B* wintered farther west ($\chi^2$ = 4.194, $p$ = 0.041), while dataset *C* did not reveal any influence of family size on wintering site ($\chi^2$ = 0.27, $p$ = 0.6033). In all cases, geese were found farther west later in the winter ($\chi^2$ = 116.5641, $p <$ 2 $\times$ 10^-16^).
 
-\begin{figure}
-\centering
-\includegraphics[width = 0.8\linewidth]{dist_fam.pdf}
-\caption{GLMM predicted (lines) and mean (symbols) distances (in km)of wintering site from Kolguyev by family size. First 60 days after arrival indicated in red, the remainder in blue. Triangles \& dotted lines represent data from marked geese, circles and solid lines family counts. See \emph{Methods} for details.}
-
-\end{figure}
-
-
-\begin{figure*}
-\centering
-\includegraphics[width = 0.8\linewidth]{fam_trends.pdf}
-\caption{\emph{(a)} GAMM Predicted size of successful families in flocks (solid line) and families of marked geese (dotted line) after arrival on the wintering grounds. \emph{(b)} Predicted (lines) and mean (symbols) sizes of \emph{(1, empty triangles)} successful families of marked geese, \emph{(2, dots)} successful families in flocks, and \emph{(3, filled triangles)} all marked geese over summer predation levels. Arrival dates were calculated from flight activity data, and predation index from Arctic rodent abundance (see \emph{Methods}).}
-
-\end{figure*}
-
-\begin{figure}
-\centering
-\includegraphics[width = 0.8\linewidth]{flock_dist.pdf}
-\caption{GLMM predicted (line) and mean (circles) flock size at distances (in km) from the breeding grounds on Kolguyev.}
-
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics[width = 1\linewidth]{juv_trends.pdf}
-\caption{GAMM predicted juvenile proportion (contours) with summer predation (X-axis) and days since arrival (Y-axis).}
-
-\end{figure}
-
 Family size (dataset *B*, model *B.1*) was insensitive to flock size ($\chi^2$ = 0.270, $p$ = 0.6033) and summer predation ($\chi^2$ = 0.337, $p$ = 0.562), but decreased through the winter ($\chi^2$ = 74.166, $p <$ 2 $\times$ 10^-16^). Family sizes of marked geese (dataset *C*) decreased over time ($\chi^2$ = 19.936, $p$ = 8.01 $\times$ 10^-6^.), but showed an increase with the level of summer predation ($\chi^2$ = 12.935, $p$ = 3.2 $\times$ 10^-4^).
-The effect of summer predation on family size could be masked by a sampling method which counted only successful families, as in dataset *B*, for instance if higher levels of predation caused some goose pairs to fail to fledge any young at all. We confirmed this bias in sampling method by failing to find any effect of summer predation after excluding unsuccessful pairs from data *C* ($\chi^2$ = 0.1321, $p$ = 0.716).
+We tested whether the exclusion of unsuccessful pairs from family counts in flocks biased the data by similarly excluding such records from observations of marked geese. We confirmed this bias in sampling method by failing to find any effect of summer predation after excluding unsuccessful pairs from data *C* ($\chi^2$ = 0.1321, $p$ = 0.716).
 
 Flocks were significantly smaller farther from the breeding grounds ($\chi^2$ = 66599, $p <$ 2 $\times$ 10^-16^), and grew slightly over the winter ($\chi^2$ = 4975, $p <$ 2 $\times$ 10^-16^). Larger flocks also had more families ($\chi^2$ = 7777, $p <$ 2 $\times$ 10^-16^). Within flocks, juvenile proportions increased through the winter ($\chi^2$ = 19.43, $p$ = 0.001), and decreased with increasing flock size ($\chi^2$ = 5.921, $p$ = 0.015), but did not show any effect of distance from the breeding grounds ($\chi^2$ = 1.015, $p$ = 0.314), or of summer predation ($\chi^2$ = 0.021, $p$ = 0.883). We tested whether this result was due to the use of unverified lemming abundance data by substituting the predation index calculated by @nolet2013faltering from published [@kokorev2002population] and novel trapping data, but again found no effect ($\chi^2$ = 1.835, $p$ = 0.175).
