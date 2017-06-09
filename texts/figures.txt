@@ -14,18 +14,18 @@ within flocks (\emph{n} = 1,884) were recorded. Diamonds mark fission
 
 \begin{figure}
 \centering
-\includegraphics[width = 1\linewidth]{dist_fam.pdf}
+\includegraphics[width = 1.5\linewidth]{dist_fam.pdf}
 \caption{GLMM predicted (lines) and mean (symbols) distances (in km) of wintering site from Kolguyev by family size. First 60 days after arrival indicated in red, the remainder in blue. Triangles \& dotted lines represent data from marked geese, circles and solid lines family counts. See \emph{Methods} for details.}
 
 \end{figure}
 
 
-\begin{figure}
+\begin{figure*}
 \centering
 \includegraphics[width = 1\linewidth]{fam_trends.pdf}
 \caption{\emph{(a)} GAMM Predicted size of successful families in flocks (solid line) and families of marked geese (dotted line) after arrival on the wintering grounds. Arrows show development of family size of GPS tracked geese. \emph{(b)} Predicted (lines) and mean (symbols) sizes of \emph{(1, empty triangles)} successful families of marked geese, \emph{(2, dots)} successful families in flocks, and \emph{(3, filled triangles)} all marked geese over summer predation levels. Arrival dates were calculated from flight activity data, and predation index from Arctic rodent abundance (see \emph{Methods}).}
 
-\end{figure}
+\end{figure*}
 
 \begin{figure}
 \centering
