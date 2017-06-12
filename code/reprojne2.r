@@ -9,7 +9,6 @@ ne1.albers = reproject(ne1, CRS("+proj=aea +lat_1=43 +lat_2=62 +lat_0=30 +lon_0=
 
 writeRaster(ne1.albers, filename = "~/Documents/Codes/ne1.albers.tif")
 
-
 ####kolguyev migration tracks####
 
 kolguyev2016 = kolguyev2016[grep("KOL", kolguyev2016@trackId),]

@@ -1,13 +1,16 @@
-#finding flight ends
-#'load files
+#### data for split prediction model ####
+
 setwd("~/git/thesis/code/")
 
 library(plyr);library(dplyr)
 library(lubridate)
 library(zoo)
 library(purrr); library(purrrlyr)
-load("bursts16.rdata")
+library(recurse)
 
+#### getting bursts ####
+
+load("bursts16.rdata")
 #'unlist and keep only the reference birds
 #'
 #'
@@ -57,13 +60,33 @@ fams.splits = split(famcoords, f = famcoords$fam)
 #'
 fams.splits = fams.splits[c("Ad","Ch", "Ev", "Ja","Ti","Wo")]
 
-#'time since last flight
+#'time since most recent flight. if a flight occured just after the 
+#'half hour, it is considered the nost recent flight, due to the way in
+#'which the time difference (calcd as the minimum absolute diff) is
+#'found
 #'
+#'
+#'reorder flightends!
+#'
+flightends = flightends[c(1,5,3,6,2,4)]
+
 for(i in 1:6){
- fams.splits[[i]]$t.to.fly = apply(fams.splits[[i]], 1, function(x){
-    min(abs(as.numeric(difftime(x["time"], flightends[[i]]$t))))
-  })
+  for(j in 1:dim(fams.splits[[i]])[1]){
+    z = as.numeric(difftime(fams.splits[[i]]$time[j],
+                            flightends[[i]]$t, units = "mins"))
+    z = z[z>0]
+    fams.splits[[i]]$t.to.fly[j] = min((z))
+  }
 }
+
+#'assign family sizes again, as max between each record and the last
+#
+
+fams.splits = lapply(fams.splits, function(x)
+  {x = x %>% mutate(fsize = rollapply(fsize, seq(dim(x)[1],1), 
+                function(x){max(x, na.rm = T)}, align = "left"))})
+
+
 
 #'add NA to each element of fam.dist
 #'
@@ -73,7 +96,7 @@ fam.dist = lapply(fam.dist, function(x){c(NA, x)})
 
 fam.dist = fam.dist[c("Ad","Ch","Ev","Ja","Ti","Wo")]
 
-#'add dists to fams.splits
+#'add distances between half hourly positions
 #'
 for(i in 1:6){
   fams.splits[[i]]$dist = fam.dist[[i]]
@@ -82,3 +105,7 @@ for(i in 1:6){
 #'save object, return later
 #'
 save(fams.splits, file = "famssplitMCMCmodel.rdata")
+
+
+#### mean flights per day ####
+mean(unlist(lapply(flightsperday, function(x){mean(x$n)})))

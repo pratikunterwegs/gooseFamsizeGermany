@@ -1,0 +1,76 @@
+---
+title: Predicting family splits
+---
+
+This is an MCMCglmm model to test the hypothesis that family splits are forced, rather than voluntary circumstances. We expect that splits will be associated with a low time to flight, and with a high inter position distance, in keeping with the hypothesis that families split when members lose contact during uncoordinated flights.
+
+Run family visits R script for revisit stats.
+
+```{r load_data}
+load("famssplitMCMCmodel.rdata")
+```
+
+```{r bind_rows}
+splitsmoddata = bind_rows(fams.splits)
+
+#'remove Inf values in times, no idea where they're from
+splitsmoddata = splitsmoddata %>% filter(is.finite(t.to.fly),
+                                         !is.na(t.to.fly))
+
+#'get time since entry in days, entry calculated from kolguyev birds
+splitsmoddata$tdiff = as.numeric(splitsmoddata$time - entry)
+
+#'assign binary response variable
+splitsmoddata$split = ifelse(splitsmoddata$event == "Split", 1, 0)
+
+#'assign zeros to NAs
+splitsmoddata$split[is.na(splitsmoddata$split)] = 0
+
+splitsmoddata$fam = as.factor(splitsmoddata$fam)
+
+#'get hour of day
+splitsmoddata$hour = hour(splitsmoddata$time)
+```
+
+
+```{r max_size}
+max = data.frame(fam = names(fams.splits), max = c(5,4,6,5,4,5))
+
+splitsmoddata = merge(splitsmoddata, max, by = "fam", all.x = T)
+
+splitsmoddata$prop = splitsmoddata$fsize/splitsmoddata$max
+```
+
+
+We now run a logistic regression, with
+1. time to flight
+2. time since entry (proxy for winter days)
+3. distance in prev segment
+4. hour of day
+as fixed predictors, and the family as a mixed effect.
+
+Should max family size be an effect as well? Maybe. Let's see.
+
+
+```{r run_model}
+#'run glmer
+library(lme4)
+
+splitsmod = glmer(split ~ tdiff + t.to.fly + dist + (1|fam), data = splitsmoddata, family = binomial)
+```
+
+```{r summary_mod}
+summary(splitsmod)
+
+library(car)
+Anova(splitsmod)
+```
+
+
+```{r model_vis}
+library(visreg)
+
+visreg(splitsmod, "t.to.fly", scale = "response")
+
+```
+
