@@ -161,7 +161,7 @@
             <prop k="style" v="solid"/>
           </layer>
         </symbol>
-        <ComposerItem pagey="13.1177" page="1" id="" lastValidViewScaleFactor="-1" positionMode="0" positionLock="false" x="68.8809" y="13.1177" visibility="1" zValue="11" background="true" transparency="0" frameJoinStyle="miter" blendMode="0" width="1.26381" outlineWidth="0.3" excludeFromExports="0" uuid="{4121bfe2-5ec6-47b9-8326-a64914b0fc2b}" height="1.40228" itemRotation="0" frame="false" pagex="68.8809">
+        <ComposerItem pagey="12.56" page="1" id="" lastValidViewScaleFactor="-1" positionMode="0" positionLock="false" x="66.9764" y="12.56" visibility="1" zValue="11" background="true" transparency="0" frameJoinStyle="miter" blendMode="0" width="1.26381" outlineWidth="0.3" excludeFromExports="0" uuid="{4121bfe2-5ec6-47b9-8326-a64914b0fc2b}" height="1.40228" itemRotation="0" frame="false" pagex="66.9764">
           <FrameColor alpha="255" red="0" blue="0" green="0"/>
           <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
           <customproperties/>
@@ -216,9 +216,9 @@
             </layer>
           </symbol>
         </lineStyle>
-        <StartPoint x="66.6083" y="18.2296"/>
+        <StartPoint x="65.2628" y="17.0201"/>
         <StopPoint x="34.2841" y="23.7771"/>
-        <ComposerItem pagey="17.2296" page="1" id="" lastValidViewScaleFactor="-1" positionMode="0" positionLock="true" x="33.2841" y="17.2296" visibility="1" zValue="7" background="false" transparency="0" frameJoinStyle="miter" blendMode="0" width="34.3242" outlineWidth="0.3" excludeFromExports="0" uuid="{0ba7880a-eaea-43cf-8984-4159d49c3246}" height="7.5475" itemRotation="0" frame="false" pagex="33.2841">
+        <ComposerItem pagey="16.0201" page="1" id="" lastValidViewScaleFactor="-1" positionMode="0" positionLock="false" x="33.2841" y="16.0201" visibility="1" zValue="7" background="false" transparency="0" frameJoinStyle="miter" blendMode="0" width="32.9787" outlineWidth="0.3" excludeFromExports="0" uuid="{0ba7880a-eaea-43cf-8984-4159d49c3246}" height="8.75701" itemRotation="0" frame="false" pagex="33.2841">
           <FrameColor alpha="255" red="0" blue="0" green="0"/>
           <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
           <customproperties/>
@@ -252,7 +252,7 @@
             <prop k="style" v="solid"/>
           </layer>
         </symbol>
-        <ComposerItem pagey="7.65556" page="1" id="" lastValidViewScaleFactor="-1" positionMode="0" positionLock="false" x="64.3812" y="7.65556" visibility="1" zValue="5" background="true" transparency="0" frameJoinStyle="miter" blendMode="0" width="19.6265" outlineWidth="0.3" excludeFromExports="0" uuid="{2602e2e0-50e0-47e6-bf8a-e5ecc539646c}" height="12.3266" itemRotation="0" frame="false" pagex="64.3812">
+        <ComposerItem pagey="14.3537" page="1" id="" lastValidViewScaleFactor="-1" positionMode="0" positionLock="false" x="85.3604" y="14.3537" visibility="1" zValue="5" background="true" transparency="0" frameJoinStyle="miter" blendMode="0" width="19.6265" outlineWidth="0.3" excludeFromExports="0" uuid="{2602e2e0-50e0-47e6-bf8a-e5ecc539646c}" height="10.3974" itemRotation="160" frame="false" pagex="85.3604">
           <FrameColor alpha="255" red="0" blue="0" green="0"/>
           <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
           <customproperties/>
@@ -281,7 +281,7 @@
         </ComposerItem>
       </ComposerShape>
       <ComposerMap mapRotation="37" keepLayerSet="true" id="1" previewMode="Cache" drawCanvasItems="true">
-        <Extent ymin="1670584.80734759662300348" xmin="2053037.85822364501655102" ymax="5526409.86364261712878942" xmax="7979583.77808450907468796"/>
+        <Extent ymin="1670584.80734759662300348" xmin="2053037.85822364501655102" ymax="5526409.86364261619746685" xmax="7979583.77808450907468796"/>
         <LayerSet>
           <Layer>ne_10m_land20170607212732249</Layer>
         </LayerSet>
@@ -585,7 +585,7 @@ def my_form_open(dialog, layer, feature):
           <annotationFontProperties description="Cantarell,11,-1,5,50,0,0,0,0,0" style=""/>
         </ComposerMapGrid>
         <AtlasMap scalingMode="2" atlasDriven="0" margin="0.10000000000000001"/>
-        <ComposerItem pagey="1.61208" page="1" id="Russia" lastValidViewScaleFactor="2.8525" positionMode="0" positionLock="false" x="1.1327" y="1.61208" visibility="1" zValue="3" background="true" transparency="0" frameJoinStyle="miter" blendMode="0" width="83" outlineWidth="0.05" excludeFromExports="0" uuid="{bde9d5b6-e5f4-4a72-baf3-109eddc1a23a}" height="54" itemRotation="0" frame="true" pagex="1.1327">
+        <ComposerItem pagey="1.61208" page="1" id="Russia" lastValidViewScaleFactor="6.44064" positionMode="0" positionLock="false" x="1.1327" y="1.61208" visibility="1" zValue="3" background="true" transparency="0" frameJoinStyle="miter" blendMode="0" width="83" outlineWidth="0.05" excludeFromExports="0" uuid="{bde9d5b6-e5f4-4a72-baf3-109eddc1a23a}" height="54" itemRotation="0" frame="true" pagex="1.1327">
           <FrameColor alpha="255" red="0" blue="0" green="0"/>
           <BackgroundColor alpha="255" red="196" blue="252" green="232"/>
           <customproperties/>
