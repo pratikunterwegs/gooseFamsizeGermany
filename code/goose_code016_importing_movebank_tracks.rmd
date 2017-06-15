@@ -122,7 +122,7 @@ fams2016.3 = lapply(fams2016.3, function(x) x = unlist(x))
 
 ```{r make_list_dfs}
 #'make this a list of dataframes, keeping only useful fields. set the first lag to 1800s.
-fams2016.4 = lapply(fams2016.3, function(x){lapply(x, function(y){y = data.frame(lon = y$location_long, lat = y$location_lat, v = y$ground_speed, t = y$timestamp, fam = y$fam, lag = c(1800,timeLag(y)))})})
+fams2016.4 = lapply(fams2016.3, function(x){lapply(x, function(y){y = data.frame(lon = y$location_long, lat = y$location_lat, v = y$ground_speed, t = y$timestamp, fam = y$fam, az = c(NA,angle(y)), lag = c(1800,timeLag(y)))})})
 
 ```
 
@@ -130,7 +130,7 @@ fams2016.4 = lapply(fams2016.3, function(x){lapply(x, function(y){y = data.frame
 #'remove lags below 600s (10mins)
 fams2016.4 = lapply(fams2016.4, function(x){lapply(x, function(y){y = y %>% filter(lag >= 600)})})
 
-flights2016 = lapply(fams2016.4, function(x){lapply(x, function(y){y = y %>% filter(lag <= 20)})})
+flights2016 = lapply(fams2016.4, function(x){lapply(x, function(y){y = y %>% filter(lag <= 600)})})
 
 #'save as rdata
 save(fams2016.4, file = "fams2016.nobursts.rdata")

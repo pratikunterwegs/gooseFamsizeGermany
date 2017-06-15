@@ -158,10 +158,8 @@ ggplot()+
 ```
 
 ```{r}
-library(ggplot2);library(plot3D)
-ggplot(data = a,
-       aes(x=as.factor(Year), y= as.factor(Month), fill = activity))+
-  scale_fill_manual(values = heat.colors(5))+
-  geom_tile()+ theme_minimal()
+migration.sites[duplicated(migration.sites[,c("Lon","Lat")]),]$season = "both"
+migration.sites = migration.sites %>% arrange(season)
+migration.sites = migration.sites[!duplicated(migration.sites[,c("Lon","Lat")]),]
 ```
 

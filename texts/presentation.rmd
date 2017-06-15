@@ -1,0 +1,82 @@
+---
+title: "Family size dynamics in wintering geese"
+author: "Pratik Gupte"
+date: "June 20, 2017"
+output:
+  beamer_presentation: 
+    colortheme: seahorse
+    theme: AnnArbor
+fontfamily: FiraSans
+csl: chicago-note-bibliography.csl
+bibliography: geese_citations.bib
+header-includes:
+- \definecolor{backdrop}{HTML}{F8F6F1}
+- \setbeamercolor{normal text}{bg=backdrop}
+- \usepackage{caption}
+- \captionsetup[figure]{labelformat=empty}
+- \setbeamerfont{footnote}{size=\tiny}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Living in families is a good idea
+
+- All the benefits of grouping ^[@krause2002living]^
+
+- Costs shared with relatives ^[@HAMILTON19641]^
+
+- Higher rank in groups ^[@Poisbleau20061351; @scheiber2013social]^
+
+## Goose families are variable
+
+- Multi-year bonds ^[@10.2307/4088245]^
+
+- Larger *spp.* stay together longer ^[@johnson1988weak]^
+
+- Populations may segregate in winter ^[@vangilder1985differential]^
+
+## We want to know
+
+- Wintering site ~ family size
+
+- Family size ~ time, flock size ↓
+
+- Flock size ~ distance to breeding grounds ↓
+
+- $p(split)$ ~ flight activity ↑
+
+## 
+
+![Eurasian whitefronts](migrationmap.png)
+
+## 
+
+![Death by data](full_datamap2.png)
+
+## 
+
+![Flock counts](flocks_data1.png)
+
+## 
+
+![Family counts](flocks_data2.png)
+
+##
+
+![Observations of marked geese](marked_geese.png)
+
+##
+
+![Flight activity monitoring](trektellen_map.png)
+
+##
+
+![Tracked geese](tracks.png)
+
+## 
+
+
+
+## Refs

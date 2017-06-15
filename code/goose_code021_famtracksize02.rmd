@@ -67,7 +67,7 @@ f1 = lapply(f1, function(x){lapply(x, function(y){y %>% mutate(t = round_date(t,
 f1 = lapply(f1, function(x){lapply(x, function(y){y %>% select(t, lon, lat)})})
 library(data.table)
 #'round position to the half hour
-f1 = lapply(f1, function(x){lapply(x, function(y){y %>% slice_rows("t") %>% dmap(function(x) mean(x, na.rm = T))})})
+#f1 = lapply(f1, function(x){lapply(x, function(y){y %>% slice_rows("t") %>% dmap(function(x) mean(x, na.rm = T))})})
 ```
 
 ```{r distances}

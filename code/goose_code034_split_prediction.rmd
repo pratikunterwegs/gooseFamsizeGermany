@@ -47,6 +47,7 @@ We now run a logistic regression, with
 2. time since entry (proxy for winter days)
 3. distance in prev segment
 4. hour of day
+5. fsize
 as fixed predictors, and the family as a mixed effect.
 
 Should max family size be an effect as well? Maybe. Let's see.
@@ -56,7 +57,7 @@ Should max family size be an effect as well? Maybe. Let's see.
 #'run glmer
 library(lme4)
 
-splitsmod = glmer(split ~ tdiff + t.to.fly + dist + (1|fam), data = splitsmoddata, family = binomial)
+splitsmod = glmer(split ~ t.to.fly + dist + (1|fam), data = splitsmoddata, family = binomial(link = logit))
 ```
 
 ```{r summary_mod}
@@ -72,5 +73,84 @@ library(visreg)
 
 visreg(splitsmod, "t.to.fly", scale = "response")
 
+```
+
+
+# Predicting splits at the day level
+
+event (split 1, other 0) ~ time in winter + flights (dist over 2km) per day + distance per day + total distance + family size
+
+```{r load_daycoords}
+load("fsize_coords.rdata")
+
+#'from fam.move2, get dists, timestamps, etc
+
+#fam.move = fam.move[fam.move$y < 54,]
+fam.move2 = split(fam.move)
+
+famcoords$fsize = NULL
+
+#'get famsizes into event data
+famcoords = merge(famcoords, daycoords[,c("fam","time","fsize")], by = c("fam","time"))
+
+fam.dist = lapply(fam.move2, function(x){
+  dist = c(NA, distance(x))
+})
+
+#'add distances
+famcoords$dist = unlist(fam.dist)
+
+library(lubridate)
+#'get time in winter
+source("days_since.r")
+famcoords$days = days_since(famcoords$time)
+```
+
+```{r prep_data}
+#'remove outlier
+famcoords = famcoords %>% filter(lat <54)
+
+#'get, per day, the mean and cumulative distances, the number of dists above 2km, mean time since winter, family size
+
+#'distance over 1000m? split or not?
+famcoords$flight = famcoords$dist > 1000
+famcoords$split = ifelse(!is.na(famcoords$event), famcoords$event == "Split", FALSE)
+
+#'count flights
+famstats =  data.frame(famcoords %>% group_by(fam, date = round_date(time, "day")) %>% summarise(mdist = mean(dist, na.rm = T), ddist = sum(na.omit(dist)), days = mean(days, na.rm = T), fsize = min(fsize), flights = sum(flight), split = sum(split)))
+
+
+#'assign NA flight numbers to 0
+famstats$flights[is.na(famstats$flights)] = 0
+
+famstats = data.frame(famstats %>% group_by(fam) %>% mutate(tflights = c(cumsum((flights))), tdist = cumsum(ddist)))
+
+#'make fam factor
+famstats$fam = as.factor(famstats$fam)
+
+#'set famstats splits value to 0 or 1. family An lost both juvs on one day. count all splits in the fam.
+famstats = famstats %>% group_by(fam) %>% mutate(sumsplit = c(cumsum(split))) 
+famstats$split[famstats$split>0] = 1
+
+#famstats = famstats %>% filter(fam %in% c("An","Ev","Ha","Jo","Ma","Na","Ro","Ti","Wo"))
+```
+
+```{r run_day_split_mod}
+#'day split mod
+library(mgcv)
+library(lme4)
+library(MCMCglmm)
+library(gamm4)
+famstats = famstats[complete.cases(famstats),]
+
+mod.day.split = 
+  glmer(split ~ days + flights + tflights + tdist + ddist + fsize + (1|fam), data = famstats, family = binomial(link = logit))
+
+```
+
+```{r summary_split_mod}
+summary(mod.day.split)
+
+save(mod.day.split, entry, file = "split.mod.rdata")
 ```
 

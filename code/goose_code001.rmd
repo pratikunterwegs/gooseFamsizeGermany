@@ -1,5 +1,6 @@
 ---
-title: Goose Flock Data Description
+title: "Goose Flock Data Description"
+output: pdf_document
 ---
 
 ```{r, include=FALSE}
