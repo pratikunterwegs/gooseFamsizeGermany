@@ -8,6 +8,7 @@ Run family visits R script for revisit stats.
 
 ```{r load_data}
 load("famssplitMCMCmodel.rdata")
+load("split.mod.rdata")
 ```
 
 ```{r bind_rows}
@@ -152,5 +153,84 @@ mod.day.split =
 summary(mod.day.split)
 
 save(mod.day.split, entry, file = "split.mod.rdata")
+
+m = predict(mod.day.split, newdata = famstats, type = "response")
 ```
+
+
+```{r merge_splitsmod_predicts}
+splitsmoddata$p = m
+
+daycoords2 = daycoords %>% filter(lat < 54) %>% group_by(fam, time = round_date(time, "day")) %>% dmap(mean)
+
+famstats = merge(famstats, daycoords2, by.x = c("fam","date"), by.y = c("fam","time"))
+
+famstats$p = m
+
+library(ggplot2)
+
+ggplot()+
+  geom_path(data = famstats, aes(x = lon, y = lat, group = fam),
+            col = ifelse(famstats$p >0.01, 2, 1))+
+  facet_wrap(~fam, scales = "free")
+
+```
+
+```{r}
+visdaysplit = visreg(mod.day.split, "days", scale = "response")
+visflightssplit = visreg(mod.day.split, "tflights", scale = "response")
+vissizesplit = visreg(mod.day.split, "fsize", scale = "response")
+visflysplit = visreg(mod.day.split, "flights", scale = "response")
+
+visdaysplitdata = visdaysplit$fit
+visflightssplitdata = visflightssplit$fit
+vissizesplitdata = vissizesplit$fit
+visflysplitdata = visflysplit$fit
+visdistsplit = visreg(mod.day.split, "tdist", scale = "response")
+visdistsplitdata = visdistsplit$fit
+```
+
+```{r plot_day_split_probs}
+
+png(file = "~/git/thesis/texts/split_time.png", height = 800, width = 800, res = 300, title = "split_time")
+ggplot()+
+  geom_line(data = visdaysplitdata, aes(x = days, y = visregFit), col = "indianred1")+
+  ylim(0,1)+
+  labs(list(x = "Days since arrival", y= "p(split)"))+
+  theme_bw()+a
+
+dev.off()
+```
+
+```{r plot_flights_split}
+png(file = "~/git/thesis/texts/split_tflights.png", height = 800, width = 800, res = 300, title = "split_totalflights")
+ggplot()+
+  geom_line(data = visflightssplitdata, aes(x = tflights, y = visregFit), col = "royalblue")+
+  ylim(0,1)+
+  labs(list(x = "Total flights", y= "p(split)"))+
+  theme_bw()+a
+dev.off()
+```
+
+```{r plot_size_split}
+png(file = "~/git/thesis/texts/split_size.png", height = 800, width = 800, res = 300, title = "split_size")
+ggplot()+
+  geom_line(data = vissizesplitdata, aes(x = fsize, y = visregFit), col = "indianred1")+
+  ylim(0,1)+
+  labs(list(x = "N juveniles", y= "p(split)"))+
+  theme_bw()+a
+dev.off()
+```
+
+```{r plot_flights_split}
+png(file = "~/git/thesis/texts/split_dist.png", height = 800, width = 800, res = 300, title = "split_tdist")
+ggplot()+
+  geom_line(data = visdistsplitdata, aes(x = tdist, y = visregFit), col = "indianred1")+
+  ylim(0,1)+
+  labs(list(x = "Total distance", y= "p(split)"))+
+  theme_bw()+a
+dev.off()
+```
+
+
 

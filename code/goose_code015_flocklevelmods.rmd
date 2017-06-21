@@ -19,8 +19,6 @@ Model with flocksize as response, lon-lat, days, p.index, as predictors, others 
 
 flockmod = glmer(flocksize ~ distkol + t_since_in + p.index + (1|Breeding_year) + (1|Observer) + (1|Food_type), data = geese, family = poisson)
 
-flockmod_fam = bam(flocksize ~ ti(meanfam) + distkol + t_since_in + p.index + ti(fams) + ti(meanfam, fams) + s(Breeding_year, bs = "re") + s(Observer, bs = "re") + s(Food_type, bs = "re"), family = "poisson", data = fams)
-
 ```
 
 ```{r summary}
@@ -32,7 +30,7 @@ summary(flockmod_fam)
 ```{r gam_fams}
 fams2 = fams %>% filter(flocksize>0, flocksize == N_sampled) %>% plyr::mutate(propjuv = propjuv/100)
 
-famsmod = gam(fams ~ s(flocksize) + distkol + p.index+ s(Breeding_year, bs = "re") + s(Observer, bs = "re") + s(Food_type, bs = "re"), data = fams2, family = poisson)
+famsmod = gam(fams ~ s(flocksize) + distkol + p.index+ s(Breeding_year, bs = "re") + s(t_since_in, k = 4) +s(Observer, bs = "re") + s(Food_type, bs = "re"), data = fams2, family = poisson)
 ```
 
 ```{r}
@@ -79,7 +77,7 @@ modjuvs0 = gamm(propjuv ~ pinnolet + s(t_since_in), random = list(Breeding_year 
 ```
 
 ```{r}
-summary(modjuvs0$gam)
+summary(modjuvs)
 ```
 
 # Export models

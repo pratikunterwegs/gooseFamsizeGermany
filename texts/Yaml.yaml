@@ -3,8 +3,7 @@ title: 'Family size dynamics in wintering geese'
 geometry: margin=2cm
 fontsize: 10pt
 linestretch: 1
-sansfont: libertine
-documentclass: paper
+mainfont: Noto Sans
 classoption: twocolumn
 bibliography: geese_citations.bib
 csl: oikos.csl
@@ -15,5 +14,5 @@ header-includes:
   - \usepackage{multicol}
   - \usepackage{supertabular}
   - \usepackage{booktabs}
-  - \usepackage{libertine}
+  - \usepackage[utf8]{inputenc}
 ---

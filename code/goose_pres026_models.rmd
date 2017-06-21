@@ -61,7 +61,7 @@ out.distmod2l = vis.distmod2l$fit
 ## Plot
 
 ```{r export_distkol_fams1, eval = FALSE}
-pdf(file = "~/git/thesis/texts/dist_fam.pdf", height = 4, width = 4, title = "distance_famsize")
+png(file = "~/git/thesis/texts/dist_fam.png", height = 800, width = 800, res = 300, title = "distance_famsize")
 
 #'red:early, triangle:geese.org, dotted:geese.org
 
@@ -79,16 +79,14 @@ geom_line(data = out.distmod2l, aes(x = famsize, y = visregFit), col = "royalblu
 geom_point(data = fams.expand.sub %>% filter(t_since_in < 60) %>% 
                 slice_rows("famsize") %>% dmap(mean), aes(x = famsize, y = distkol), col = "indianred1", size = 3, pch = 16)+
 
-geom_point(data = fams.expand.sub %>% filter(t_since_in > 60) %>% 
-                slice_rows("famsize") %>% dmap(mean), aes(x = famsize, y = distkol), col = "royalblue", size = 3, pch = 16)+
+geom_point(data = fams.expand.sub %>% filter(t_since_in > 60) %>% slice_rows("famsize") %>% dmap(mean), aes(x = famsize, y = distkol), col = "royalblue", size = 3, pch = 16)+
 
 geom_point(data = geeseorg %>% filter(t_since_in < 60, famsize <=10) %>% 
                 slice_rows("famsize") %>% dmap(mean), aes(x = famsize, y = distkol), col = "indianred1", size = 3, pch = 17)+
 
-geom_point(data = geeseorg %>% filter(t_since_in > 60) %>% 
-                slice_rows("famsize") %>% dmap(mean), aes(x = famsize, y = distkol), col = "royalblue", size = 3, pch = 17)+
+geom_point(data = geeseorg %>% filter(t_since_in > 60) %>% slice_rows("famsize") %>% dmap(mean), aes(x = famsize, y = distkol), col = "royalblue", size = 3, pch = 17)+
 
-labs(list(x = NULL, y = "Km. from Kolguyev"))+
+labs(list(x = "N juveniles", y = "Km. from Kolguyev Island"))+
   xlim(0,10)+ scale_x_continuous(breaks = 0:10)+
   theme_bw()+a
 dev.off()
@@ -119,22 +117,26 @@ vis.famsize.time.gorg.data = vis.famsize.time.gorg$fit
 ## plot
 
 ```{r export_fam_time, warning=FALSE, message=FALSE}
-#postscript(file = "plot02sovonfamtime.eps", colormodel = "grey", horizontal = FALSE, onefile = FALSE, height = 4, width = 5)
+png(file = "~/git/thesis/texts/fam_time.png", height = 800, width = 800, res = 300, title = "famsize_time")
 
-p2 = ggplot()+
+ggplot()+
 
-  geom_line(data = vis.mod03.time.data, aes(x = t_since_in, y = visregFit), size = 0.8, col = "grey10")+
-  geom_line(data = vis.famsize.time.gorg.data, aes(x = t_since_in, y = visregFit), size = 0.8, lty = 2, col = "grey10")+
+  geom_point(data = fams.expand.sub %>% group_by(round(t_since_in)) %>% dmap(mean), aes(x = t_since_in, y = famsize), col = "indianred1", size =0.5)+
+  
+  geom_point(data = geeseorg %>% group_by(round(t_since_in)) %>% dmap(mean), aes(x = t_since_in, y = famsize), col = "royalblue", size =0.5)+
+  
+  geom_line(data = vis.mod03.time.data, aes(x = t_since_in, y = visregFit), size = 0.8, col = "indianred1")+
+  geom_line(data = vis.famsize.time.gorg.data, aes(x = t_since_in, y = visregFit), size = 0.8, col = "royalblue")+
   
   geom_path(data = splits %>% filter(event %in% c("Start", "Split")), aes(x = t_since_in, y = fsize, group = fam), arrow = arrow(length = unit(0.02, "npc"), type = "closed"), lty = 1, lwd = 0.2, col = "grey30")+
   
-  geom_text(data = splits %>% filter(fam %in% c("Ev","Wo","Ha","Na","Ti","Ma","Ro","An","Jo"), event == "Start"), aes(x=t_since_in, y = fsize, label = substr(fam,1,1), angle = 0), hjust = 1, vjust = 0, size = 3)+
+ geom_text(data = splits %>% filter(fam %in% c("Ev","Wo","Ha","Na","Ti","Ma","Ro","An","Jo"), event == "Start"), aes(x=t_since_in, y = fsize, label = substr(fam,1,1), angle = 0), hjust = 1, vjust = 0, size = 3)+
   
-  labs(list(x = "Days since arrival", y = "Family size", title = "a"))+ 
+  labs(list(x = "Days since arrival", y = "N juveniles"))+ 
   ylim(0,8)+ #xlim(0,200)+
   theme_bw()+a
 
-#dev.off()
+dev.off()
 ```
 
 # Family size ~ p.index
@@ -154,24 +156,28 @@ vis.famsize.gorg.s.pred.data = vis.famsize.gorg.s.pred$fit
 ```
 
 ```{r plot_famsize_pred}
-p3 = ggplot()+
-  geom_point(data = geeseorg %>% slice_rows("p.index") %>% dmap(mean), aes(x = p.index, y = famsize), size = 3, pch = 17)+
+png(file = "~/git/thesis/texts/fam_predation.png", height = 800, width = 800, res = 300, title = "distance_famsize")
+
+ggplot()+
+  geom_point(data = geeseorg %>% slice_rows("p.index") %>% dmap(mean), aes(x = p.index, y = famsize), size = 3, pch = 17, col = "royalblue")+
  
-  geom_point(data = geeseorg %>% filter(famsize > 0) %>% slice_rows("p.index") %>% dmap(mean), aes(x = p.index, y = famsize), size = 3, pch = 2)+
+  geom_point(data = geeseorg %>% filter(famsize > 0) %>% slice_rows("p.index") %>% dmap(mean), aes(x = p.index, y = famsize), size = 3, pch = 17, col = "grey10")+
    
-  geom_point(data = fams.expand.sub %>% slice_rows("p.index") %>% dmap(mean), aes(x = p.index, y = famsize), size = 3)+
+  geom_point(data = fams.expand.sub %>% slice_rows("p.index") %>% dmap(mean), aes(x = p.index, y = famsize), size = 3,col="indianred1")+
   
   #'dashed line, families in flocks
-geom_line(data = vis.famsize.pred.data, aes(x = p.index, y = visregFit), lty = 1, col = "grey10")+
+geom_line(data = vis.famsize.pred.data, aes(x = p.index, y = visregFit), lty = 1, col = "indianred1")+
   
-  geom_line(data = vis.famsize.gorg.pred.data, aes(x = p.index, y = visregFit), lty = 2, col = "grey10")+
+  geom_line(data = vis.famsize.gorg.pred.data, aes(x = p.index, y = visregFit), col = "royalblue")+
   
-geom_line(data = vis.famsize.gorg.s.pred.data, aes(x = p.index, y = visregFit), lty = 3, col = "grey10")+
+geom_line(data = vis.famsize.gorg.s.pred.data, aes(x = p.index, y = visregFit), col = "grey10")+
 
-  geom_text(aes(x = 1.8, y = c(2, 1.5, 0.5), label = c("1","2","3")))+
+  #geom_text(aes(x = 1.8, y = c(2, 1.5, 0.5), label = c("1","2","3")))+
   
-labs(list(x = "Predation index", y = NULL, title = "b"))+
+labs(list(x = "Predation index", y = "Mean n juveniles"))+
   theme_bw()+a
+
+dev.off()
 ```
 
 ## Grid plot
@@ -193,7 +199,7 @@ vis.flockmod.data = vis.flockmod$fit
 ```
 
 ```{r export_flock_lon_plot}
-pdf(file = "~/git/thesis/texts/flock_dist.pdf", width = 4, height = 4, title = "flock_dist")
+png(file = "~/git/thesis/texts/flock_dist.png", width = 800, height = 800, res = 300, title = "flock_dist")
 ggplot()+
   geom_point(data = geese %>% slice_rows("distkol") %>% dmap(mean), aes(x = distkol, y = flocksize), size = 3, pch = 1)+
   
@@ -214,18 +220,18 @@ vis.juvs.time.data = vis.juvs.time$fit
 ```
 
 ```{r}
-#postscript(file = "plot09juvprop_time.eps", colormodel = "grey", horizontal = FALSE, onefile = FALSE, height = 4, width = 5)
+png(file = "~/git/thesis/texts/juvprop_time.png", width = 800, height =800, res = 300)
 
-p11 = ggplot()+
-  geom_point(data = geese, aes(x = t_since_in, y = propjuv), size = 0.1)+
+ggplot()+
   geom_ribbon(data = vis.juvs.time.data, aes(x = t_since_in, ymin = visregLwr, ymax = visregUpr), fill = "grey90", alpha = 0.9)+
-  geom_line(data = vis.juvs.time.data, aes(x = t_since_in, y = visregFit), size = 1, col = 2)+
-  labs(list(x = "Days since arrival", y = "Juvenile proportion", title = "c"))+
+  geom_point(data = geese %>% group_by(t_since_in) %>% dmap(mean), aes(x = t_since_in, y = propjuv), size = 1, shape = 1)+
+  
+  geom_line(data = vis.juvs.time.data, aes(x = t_since_in, y = visregFit), size = 1, col = 1)+
+  labs(list(x = "Days since arrival", y = "Juvenile proportion"))+
   ylim(0.05, 0.8)+
-  geom_text(aes(x = 200, y = 0.7, label = "{chi}^2==19.43"), hjust = "inward", parse = T)+
   theme_bw()+a
 
-#dev.off()
+dev.off()
 ```
 
 # Juvenile % ~ p.index
@@ -237,7 +243,7 @@ vis.juvprop.pred.data = vis.juvprop.pred$fit
 ```
 
 ```{r}
-pdf(file = "~/git/thesis/texts/juv_trends.pdf", width = 4, height = 4, title = "juv_trends")
+png(file = "~/git/thesis/texts/juv_trends.png", width = 800, height = 800, title = "juv_trends")
 vis.gam(modjuvs, view = c("p.index","t_since_in"), type = "response", plot.type = "contour", main = NULL, xlab = "Predation index", ylab = "Days since arrival", color = "gray", contour.col = c("grey10","grey90","grey90","grey90","grey90","grey10"))
 dev.off()
 ```
@@ -282,23 +288,25 @@ p11 = ggplot()+
 #dev.off()
 ```
 
-# Plot 13: Number of families ~ p.index: SOVON data
+Number of families ~ time
 
 ```{r}
-vis.nfams.pred = visreg(famsmod, "p.index", scale = "response", plot = F)
+vis.nfams.time = visreg(famsmod, "t_since_in", scale = "response", plot = F)
 
-vis.nfams.pred.data = vis.nfams.pred$fit
+vis.nfams.time.data = vis.nfams.time$fit
 ```
 
 ```{r}
-p13 = ggplot()+
-  geom_point(data = geese, aes(x = p.index, y = fams), size = 0.1)+
-  geom_ribbon(data = vis.nfams.pred.data, aes(x = p.index, ymin = visregLwr, ymax = visregUpr), fill= "grey90", alpha = 0.9)+
-  geom_line(data = vis.nfams.pred.data, aes(x = p.index, y = visregFit), size = 1, col = 2)+
-  labs(list(x = "Predation index", y = "Successful families in flock", title = "c"))+
-  ylim(0,190)+
-  geom_text(aes(x = 1.5, y = 185, label = "{Omega[0]}^2==0.99"), hjust = "inward", parse = T)+
+png(file = "~/git/thesis/texts/nfams_time.png", width = 800, height = 800, res = 300, title = "nfams_time")
+
+ggplot()+
+  geom_ribbon(data = vis.nfams.time.data, aes(x = t_since_in, ymin = visregLwr, ymax = visregUpr), fill= "grey90")+
+  geom_point(data = fams %>% group_by(t_since_in) %>% dmap(mean), aes(x = t_since_in, y = fams), size = 1, shape = 1)+
+  geom_line(data = vis.nfams.time.data, aes(x = t_since_in, y = visregFit), size = 1)+
+  labs(list(x = "Days since arrival", y = "Successful families in flock"))+
   theme_bw()+a
+
+dev.off()
 ```
 
 # Export plots
@@ -359,23 +367,22 @@ p6.res = vis.flockmod.days$res
 # Number of families ~ flock size
 
 ```{r pred_famsmod}
-visfamsmod = visreg(famsmod, "flocksize", plot = F, scale = "response")
+visfamsmod = visreg(famsmod, "distkol", plot = T, scale = "response")
 
 visfamsmod.data = visfamsmod$fit
 ```
 
 ```{r plot_pred_famsmod}
-#postscript(file = "plot07fams_in_flocks.eps", colormodel = "grey", horizontal = FALSE, onefile = FALSE, height = 4, width = 5)
+png(file = "~/git/thesis/texts/nfams_dist.png", width = 800, height = 800, res = 300, title = "nfams_dist")
 
-#p9= ggplot()+
-  geom_point(data = fams, aes(x = log(flocksize), y = fams), size = 0.1)+
-  geom_ribbon(data = visfamsmod.data, aes(x = log(flocksize), ymin = visregLwr, ymax = visregUpr), fill = "grey90", alpha = 0.9)+
-  geom_line(data = visfamsmod.data, aes(x = log(flocksize), y = visregFit), size = 1, col = 2)+ ylim(0,2e2)+
-  labs(list(x = "Flock size", y = "Number of families", title = "c"))+
-  geom_text(aes(x =1.5, y = 190, label = "{chi}^2==7769"), hjust = "inward", parse = T)+
+ggplot()+
+ geom_ribbon(data = visfamsmod.data, aes(x = distkol, ymin = visregLwr, ymax = visregUpr), fill = "grey90")+
+  geom_point(data = fams2 %>% group_by(distkol) %>% dmap(mean), aes(x = distkol, y = fams), shape = 1, size = 3)+
+  geom_line(data = visfamsmod.data, aes(x = distkol, y = visregFit), size = 1, col = 1)+
+  labs(list(x = "Km. from Kolguyev Island", y = "Number of families"))+
   theme_bw()+a
 
-#dev.off()
+dev.off()
 ```
 
 # Family size ~ flock size

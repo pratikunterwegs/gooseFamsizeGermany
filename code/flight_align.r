@@ -57,10 +57,10 @@ load("fsize_coords.rdata")
 #' 
 flightvars = bind_rows(flightvars)
 
-#for(i in names(flights2016)){
+for(i in names(flights2016)){
   apply(splits %>% filter(fam == i) %>% select(time), 1,
-      #  function(x){
+        function(x){
          z = difftime(fams.splits[[i]]$time[j],
                    flightends[[i]]$t, units = "mins")
-       # })
+        })
 }

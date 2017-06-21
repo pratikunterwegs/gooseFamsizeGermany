@@ -1,6 +1,6 @@
 # Datamap
 
-Wintering grounds of greater white-fronted geese *Anser a. albifrons* in the Netherlands and north-west Germany with sites (circles, *n* = 64) where successful families (*n* = 51,037) within flocks (*n* = 1,884) were recorded. Triangles mark fission (*n* = 19) in GPS tracked families (*n* = 13). Area shaded grey bounds observations (*n* = 10,635) of marked geese. Data were collected from 2000 - 2016.
+*b* Wintering grounds of greater white-fronted geese *Anser a. albifrons* in the Netherlands and north-west Germany with sites (circles, *n* = 64) where 51,037 successful families within 1,884 flocks were recorded. Triangles mark 21 splits seen in 13 GPS tracked families. Area shaded grey bounds 10,635 observations of marked geese. Data were collected from 2000 - 2016. *a* Breeding grounds (ellipse) with Kolguyev Island (dot) and wintering area (rectangle).
 
 # Distance ~ family size
 
@@ -14,6 +14,3 @@ Predicted size of *(a)* successful families in flocks and *(b)* families of mark
 # Flock trends
 
 Predicted *(a)* flock size at distances from breeding grounds on Kolguyev. Predicted proportion of first winter juveniles in relation to *(b)* flock size, *(c)* days after arrival, and *(d)* summer predation index. Arrival dates were calculated from flight activity data, and predation index from Arctic rodent abundance (see *Methods*).
-
-
-
