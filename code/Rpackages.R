@@ -3,7 +3,7 @@
 ####Colours and plotting####
 library(RColorBrewer)
 library(ggplot2)
-library(GGally)
+#library(GGally)
 library(car)
 library(lattice)
 
@@ -22,6 +22,8 @@ library(broom)
 library(lubridate)
 library(plyr)
 library(dplyr)
+library(purrr)
+library(purrrlyr)
 library(data.table)
 
 library(fields)
@@ -41,8 +43,7 @@ require(raster)
 library(rasterVis)
 #basic spatial
 library(proj4)
-library(rgdal) #'sudo apt-get install libgdal-dev libproj-dev
-#'tcl-devel
+library(rgdal) #'sudo apt-get install libgdal-dev libproj-dev tcl-devel
 library(sp)
 library(maptools)
 
@@ -58,6 +59,7 @@ library(ade4)
 library(OpenStreetMap)
 library(maps)
 library(tmap); library(tmaptools) #sudo apt-get install libv8-3.14-dev
+#'sudo apt-get install libudunits2-*
 library(mapdata)
 library(rworldmap)
  #apt-get install r-cran-rjava
@@ -110,8 +112,8 @@ require(tlocoh)
 ####Other packages####
 library(devtools)
 library(corrgram)
-library(gplots)
-library(timevis)
+#library(gplots)
+#library(timevis)
 library(plotly)
 library(htmlwidgets)
 library(ggfortify)
