@@ -139,7 +139,7 @@ fams = goose.clean[goose.clean$fams > 0,]
 geocode.sites = read.csv("geocode.sites.csv", row.names = 1)
 
 #'merge the same for families, creating a new object called fams.coords
-fams.coords = merge(fams, geocode.sites[,c("Site_name","lon","lat")], by = "Site_name")
+fams.coords = merge(fams, geocode.sites[,c("lookup","Site_name","lon","lat")], by = "Site_name")
 
 #'remove sites where no coordinates were found
 fams.coords = fams.coords[complete.cases(fams.coords[,c("lon","lat")]),]
@@ -160,7 +160,7 @@ zones = zones %>% filter(regions %in% c("Leer","Friesland","Duisburg","Rotterdam
 zones$zone = c("Rhinelands","IJsselmeer","East Frisia","Southwest")
 
 #'merge with site names, and if lon-lat is NA, then with zone coords
-goose.clean = merge(goose.clean, geocode.sites[,c("Site_name","lon","lat")], by = "Site_name")
+goose.clean = merge(goose.clean, geocode.sites[,c("lookup", "Site_name","lon","lat")], by = "Site_name")
 
 #'where do NAs remain, and how many?
 dim(goose.clean[complete.cases(goose.clean[,c("lon","lat")]),])

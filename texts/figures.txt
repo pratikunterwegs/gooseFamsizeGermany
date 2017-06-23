@@ -5,7 +5,7 @@
 \includegraphics[width = 1\linewidth]{datamap.pdf}
 \caption{Wintering grounds of greater white-fronted geese \emph{Anser a. albifrons} with sites
 (dots, \emph{n} = 64) where successful families (\emph{n} = 51,037)
-within flocks (\emph{n} = 1,884) were recorded. Diamonds mark fission
+within flocks (n = 1,884) were recorded. Diamonds mark fission
 (\emph{n} = 21) in GPS tracked families (\emph{n} = 13). Shaded area bounds observations (\emph{n} = 10,635) of marked geese. Inset shows breeding grounds (ellipse) with Kolguyev (dot), and wintering grounds (rectangle). Data were collected from 2000 - 2016.}
 
 \end{center}
@@ -14,7 +14,7 @@ within flocks (\emph{n} = 1,884) were recorded. Diamonds mark fission
 \begin{figure}
 \centering
 \includegraphics[width = 1.5\linewidth]{dist_fam.pdf}
-\caption{GLMM predicted (lines) and mean (symbols) distances (in km) of wintering site from Kolguyev by family size. First 60 days after arrival indicated in red, the remainder in blue. Triangles \& dotted lines represent data from marked geese, circles and solid lines family counts. See \emph{Methods} for details.}
+\caption{GLMM fit (lines) and mean (symbols) distances (in km) of wintering site from Kolguyev by family size. }
 
 \end{figure}
 

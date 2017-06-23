@@ -1,15 +1,16 @@
 # Datamap
 
-*b* Wintering grounds of greater white-fronted geese *Anser a. albifrons* in the Netherlands and north-west Germany with sites (circles, *n* = 64) where 51,037 successful families within 1,884 flocks were recorded. Triangles mark 21 splits seen in 13 GPS tracked families. Area shaded grey bounds 10,635 observations of marked geese. Data were collected from 2000 - 2016. *a* Breeding grounds (ellipse) with Kolguyev Island (dot) and wintering area (rectangle).
+*a* Breeding grounds (ellipse) with Kolguyev Island (dot) and rough migration route (arrow) to wintering area (rectangle).
+*b* Wintering grounds of greater white-fronted geese *Anser a. albifrons* in the with sites (circles, *n* = 64) where 51,037 successful families within 1,884 flocks were recorded. Triangles mark 21 splits seen in 13 GPS tracked families. Area shaded grey bounds 10,635 observations of marked geese. Data were collected from 2000 - 2016.
 
 # Distance ~ family size
 
-Predicted distance of wintering site from breeding grounds on Kolguyev for *(a,b)* successful families in flocks, and *(c,d)* marked geese, within *(a,c)* the first 60 days, and *(b,d)* the remainder of winter. Winter days were calculated from flight activity data (see *Methods*).
+GLMM fit (lines) and mean distance of wintering site from Kolguyev Island (symbols) per number of family juveniles. First 60 days after arrival indicated in red, the remainder in blue. Triangles & dotted lines represent data from marked geese (dataset *C*), circles and solid lines family counts (dataset *B*).
 
 
-# Family trends
+# Family ~ time
 
-Predicted size of *(a)* successful families in flocks and *(b)* families of marked geese after arrival on the wintering grounds. Predicted size of (*c*) successful families in flocks over flock size, and of *(d)* *1* successful families in flocks, *2* successful families of marked geese, and *3* all marked geese over summer predation levels. Arrival dates were calculated from flight activity data, and predation index from Arctic rodent abundance (see *Methods*).
+GLMM fit (lines) and median number of juveniles in families on each day since goose autumn arrival (dots), for successful families in flocks (dataset *B*, red), and families of marked geese (dataset *C*, blue). Arrows show development of size of GPS tracked families.
 
 # Flock trends
 

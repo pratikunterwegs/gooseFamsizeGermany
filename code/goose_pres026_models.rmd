@@ -76,15 +76,15 @@ geom_line(data = out.distmod2 %>% filter(famsize <=10), aes(x = famsize, y = vis
 
 geom_line(data = out.distmod2l, aes(x = famsize, y = visregFit), col = "royalblue", lty = 2)+
   
-geom_point(data = fams.expand.sub %>% filter(t_since_in < 60) %>% 
-                slice_rows("famsize") %>% dmap(mean), aes(x = famsize, y = distkol), col = "indianred1", size = 3, pch = 16)+
+geom_point(data = fams.expand.sub %>% filter(t_since_in < 60) %>% dplyr::select(famsize, distkol) %>% 
+                slice_rows("famsize") %>% dmap(median), aes(x = famsize, y = distkol), col = "indianred1", size = 3, pch = 16)+
 
-geom_point(data = fams.expand.sub %>% filter(t_since_in > 60) %>% slice_rows("famsize") %>% dmap(mean), aes(x = famsize, y = distkol), col = "royalblue", size = 3, pch = 16)+
+geom_point(data = fams.expand.sub %>% filter(t_since_in > 60) %>% dplyr::select(famsize, distkol) %>% slice_rows("famsize") %>% dmap(mean), aes(x = famsize, y = distkol), col = "royalblue", size = 3, pch = 16)+
 
-geom_point(data = geeseorg %>% filter(t_since_in < 60, famsize <=10) %>% 
+geom_point(data = geeseorg %>% filter(t_since_in < 60, famsize <=10) %>% dplyr::select(famsize, distkol) %>%
                 slice_rows("famsize") %>% dmap(mean), aes(x = famsize, y = distkol), col = "indianred1", size = 3, pch = 17)+
 
-geom_point(data = geeseorg %>% filter(t_since_in > 60) %>% slice_rows("famsize") %>% dmap(mean), aes(x = famsize, y = distkol), col = "royalblue", size = 3, pch = 17)+
+geom_point(data = geeseorg %>% filter(t_since_in > 60) %>% dplyr::select(famsize, distkol) %>% slice_rows("famsize") %>% dmap(mean), aes(x = famsize, y = distkol), col = "royalblue", size = 3, pch = 17)+
 
 labs(list(x = "N juveniles", y = "Km. from Kolguyev Island"))+
   xlim(0,10)+ scale_x_continuous(breaks = 0:10)+

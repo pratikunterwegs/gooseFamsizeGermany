@@ -8,8 +8,7 @@ title: bams for Hypothesis 1 - 3, SOVON data
 #'load knitr
 library(knitr);library(plyr);library(dplyr);library(data.table);library(purrr);library(ggplot2)
 
-#'load model libs
-library(gam);library(mgcv);library(gamm4);library(visreg)
+library(mgcv);library(gamm4);library(visreg)
 
 #'suppress all code output but run code
 opts_chunk$set(eval = FALSE)
@@ -46,15 +45,6 @@ fams.rhine = fams.rhine[runif(n.rhine/2, 1, n.rhine),]
 fams.expand.sub = rbind(fams.expand.sub, fams.rhine)
 ```
 
-
-# List hypotheses 01, 02 and 03
-
-1. Families with more juveniles are found in the west, and, 
-2. Families with more juveniles are found in smaller flocks, and,
-3. Family size decreases over the winter.
-
-Data used: Family size data (51,000 families, 45,000 complete cases).
-
 # Which time proxy?
 
 ```{r, eval=FALSE}
@@ -68,6 +58,7 @@ timesel = model.sel(mtime2, mtime3)
 ```
 
 # Family size
+
 ```{r m03}
 #'remove NAs
 
@@ -84,15 +75,11 @@ fams.expand.sub$distkol = round(fams.expand.sub$distkol)
 
 geeseorg$distkol = round(geeseorg$distkol)
 
-distmod = glmer((distkol) ~ (famsize) + t_since_in + (1|Breeding_year) + (1|Food_type) + (1|Observer), data = fams.expand.sub %>% filter(t_since_in < 60), family = "poisson")
+distmod = gam(sqrt(distkol) ~ s(famsize) + t_since_in + s(Breeding_year, bs = "re") + s(Food_type, bs = "re") + s(Observer, bs = "re"), data = fams.expand.sub %>% filter(t_since_in < 60), family = "poisson")
 
 distmod_late = glmer((distkol) ~ (famsize) + t_since_in + (1|Breeding_year) + (1|Food_type) + (1|Observer), data = fams.expand.sub %>% filter(t_since_in > 60), family = "poisson")
 
-distmod2 = glmer(distkol ~ (famsize) + t_since_in + (1|breedyr) + (1|neckring), data = geeseorg %>% filter(t_since_in < 60), family = "gaussian")
-
-distmod3 = glmer(distkol ~ (famsize) + t_since_in + (1|breedyr) + (1|neckring), data = geeseorg %>% filter(t_since_in < 60, famsize > 0), family = "gaussian")
-
-distmod3_late = glmer(distkol ~ (famsize) + t_since_in + (1|breedyr) + (1|neckring), data = geeseorg %>% filter(t_since_in > 60, famsize > 0), family = "gaussian")
+distmod2 = glmer(distkol ~ (famsize) + t_since_in + (1|breedyr) + (1|neckring), data = geeseorg %>% filter(t_since_in < 60), family = "poisson")
 
 distmod2_late = glmer(distkol ~ (famsize) + t_since_in + (1|breedyr) + (1|neckring), data = geeseorg %>% filter(t_since_in > 60), family = "gaussian")
 ```
@@ -100,8 +87,6 @@ distmod2_late = glmer(distkol ~ (famsize) + t_since_in + (1|breedyr) + (1|neckri
 ```{r}
 save(distmod, distmod_late, distmod2, distmod2_late, file = "distmods.Rdata")
 ```
-
-
 
 # geese.org data
 Run model three on geese.org data. Random effects now include "id", and do not include observer and habitat type. Fixed effects do not include flock size.
@@ -120,5 +105,18 @@ mod03.gorg.s = glmer(famsize ~ t_since_in + p.index + (1|neckring) + (1|breedyr/
 summary(mod03.gorg.s)
 ```
 
----
+# Family size cold models
+
+```{r cold_mods}
+library(mgcv)
+
+coldmod1 = bam(famsize ~ distkol + s(mintemp) + s(windspeed) + s(ppt) + ti(mintemp,windspeed), data = fams.expand.sub, family = "poisson")
+```
+
+```{r}
+summary(coldmod1)
+library(visreg)
+
+visreg(coldmod1, "mintemp", scale = "response")
+```
 

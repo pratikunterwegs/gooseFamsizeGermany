@@ -1,0 +1,75 @@
+---
+title: Weather data
+---
+
+# Get NL weather data
+
+```{r load_libs}
+library(readr); library(plyr); library(dplyr); library(purrr);library(purrrlyr);library(data.table);library(lubridate)
+```
+
+```{r load_sites}
+knmi_sites = read_delim("~/git/thesis/code/knmi_sites.txt", 
+     " ", escape_double = FALSE, col_types = cols(lon = col_number()), 
+     trim_ws = TRUE)
+```
+
+
+```{r load_data}
+nlweather = read_csv("~/git/thesis/code/holland_weather.txt", 
+     col_types = cols(date = col_date(format = "%Y%m%d"), 
+         mintemp = col_number(), ppt = col_number(), 
+        windspeed = col_number()))
+
+#'div temp and windspeed by 10
+nlweather$mintemp = nlweather$mintemp/10
+nlweather$windspeed = nlweather$windspeed/10
+
+#'filter out station 209 and 215, have few records, 209 is missing entirely
+
+nlweather = nlweather %>% filter(station != 209, station != 215)
+#'set ppt of -1 to 0.01
+nlweather$ppt = ifelse(nlweather$ppt < 0, 0.01, nlweather$ppt)
+```
+
+# Load data
+
+```{r load_data}
+source("dataprep.R")
+```
+
+```{r nearest_stn}
+#'get unique family sites
+famsites = fams.expand %>% group_by(lookup) %>% summarise(first(lon), first(lat))
+
+#'get unique flock sites
+flocksites = geese %>% group_by(lookup) %>% summarise(lon = first(lon), lat = first(lat))
+```
+
+```{r fam_temp_dists}
+library(geosphere)
+
+#'matrix of distances
+flock_stns = apply(flocksites[,c("lon","lat")], 1, function(x){distVincentyEllipsoid(p1 = x, p2 = knmi_sites[,c("lon","lat")])})/1000
+
+#'which station is nearest?
+stn.near = data.frame(lookup = flocksites[,c("lookup")], 
+               station = knmi_sites[apply(flock_stns, 2, which.min),"station"])
+```
+
+```{r merge_data}
+#'fams data
+fams.expand = merge(fams.expand, stn.near, by = "lookup", all.x = T)
+fams.expand = merge(fams.expand, nlweather, by.x = c("station","time"), by.y = c("station","date"), all.x = T)
+
+#'fams in flocks
+fams = merge(fams, stn.near, by = "lookup", all.x = T)
+fams = merge(fams, nlweather, by.x = c("station","time"), by.y = c("station","date"), all.x = T)
+
+
+#'flock data
+geese = merge(geese, stn.near, by = "lookup", all.x = T)
+geese = merge(geese, nlweather, by.x = c("station","time"), by.y = c("station","date"), all.x = T)
+
+```
+

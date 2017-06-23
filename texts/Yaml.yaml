@@ -3,7 +3,7 @@ title: 'Family size dynamics in wintering geese'
 geometry: margin=2cm
 fontsize: 10pt
 linestretch: 1
-mainfont: Noto Sans
+mainfont: Linux Libertine O
 classoption: twocolumn
 bibliography: geese_citations.bib
 csl: oikos.csl
