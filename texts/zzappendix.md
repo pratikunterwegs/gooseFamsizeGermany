@@ -1,5 +1,7 @@
 
 \newpage
+\setcounter{table}{0}
+\renewcommand{\thetable}{A\arabic{table}}
 
 # Appendix 1
 

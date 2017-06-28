@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015/Debian) (preloaded format=xelatex 2017.6.21)  28 JUN 2017 09:20
+This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015/Debian) (preloaded format=xelatex 2017.6.21)  28 JUN 2017 09:52
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -150,38 +150,38 @@ Package xcolor Info: Model `wave' substituted by `hsb' on input line 1360.
 (/usr/share/texlive/texmf-dist/tex/generic/babel/babel.sty
 Package: babel 2016/02/24 3.9q The Babel package
 
-(/usr/share/texlive/texmf-dist/tex/generic/babel-english/english.ldf
-Language: english 2012/08/20 v3.3p English support from the babel system
 
-(/usr/share/texlive/texmf-dist/tex/generic/babel/babel.def
-File: babel.def 2016/02/24 3.9q Babel common definitions
-\babel@savecnt=\count88
-\U@D=\dimen105
+! Package babel Error: You haven't specified a language option.
 
-(/usr/share/texlive/texmf-dist/tex/generic/babel/xebabel.def))
-\l@canadian = a dialect from \language\l@american 
-\l@australian = a dialect from \language\l@british 
-\l@newzealand = a dialect from \language\l@british 
-))
-(/usr/share/texlive/texmf-dist/tex/latex/booktabs/booktabs.sty
+See the babel package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.343 ...ry to proceed from here, type x to quit.}
+                                                  
+You need to specify a language, either as a global option
+or as an optional argument to the \usepackage command;
+You shouldn't try to proceed from here, type x to quit.
+
+) (/usr/share/texlive/texmf-dist/tex/latex/booktabs/booktabs.sty
 Package: booktabs 2005/04/14 v1.61803 publication quality tables
-\heavyrulewidth=\dimen106
-\lightrulewidth=\dimen107
-\cmidrulewidth=\dimen108
-\belowrulesep=\dimen109
-\belowbottomsep=\dimen110
-\aboverulesep=\dimen111
-\abovetopsep=\dimen112
-\cmidrulesep=\dimen113
-\cmidrulekern=\dimen114
-\defaultaddspace=\dimen115
-\@cmidla=\count89
-\@cmidlb=\count90
-\@aboverulesep=\dimen116
-\@belowrulesep=\dimen117
-\@thisruleclass=\count91
-\@lastruleclass=\count92
-\@thisrulewidth=\dimen118
+\heavyrulewidth=\dimen105
+\lightrulewidth=\dimen106
+\cmidrulewidth=\dimen107
+\belowrulesep=\dimen108
+\belowbottomsep=\dimen109
+\aboverulesep=\dimen110
+\abovetopsep=\dimen111
+\cmidrulesep=\dimen112
+\cmidrulekern=\dimen113
+\defaultaddspace=\dimen114
+\@cmidla=\count88
+\@cmidlb=\count89
+\@aboverulesep=\dimen115
+\@belowrulesep=\dimen116
+\@thisruleclass=\count90
+\@lastruleclass=\count91
+\@thisrulewidth=\dimen117
 )
 (/usr/share/texlive/texmf-dist/tex/latex/caption/caption.sty
 Package: caption 2016/02/21 v3.3-144 Customizing captions (AR)
@@ -194,15 +194,15 @@ Package caption3 Info: TeX engine: e-TeX on input line 67.
 Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
 \KV@toks@=\toks16
 )
-\captionmargin=\dimen119
-\captionmargin@=\dimen120
-\captionwidth=\dimen121
-\caption@tempdima=\dimen122
-\caption@indent=\dimen123
-\caption@parindent=\dimen124
-\caption@hangindent=\dimen125
+\captionmargin=\dimen118
+\captionmargin@=\dimen119
+\captionwidth=\dimen120
+\caption@tempdima=\dimen121
+\caption@indent=\dimen122
+\caption@parindent=\dimen123
+\caption@hangindent=\dimen124
 )
-\c@ContinuedFloat=\count93
+\c@ContinuedFloat=\count92
 ) (./tables.aux)
 \openout1 = `tables.aux'.
 
@@ -232,28 +232,18 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <5> on input line 21.
 
-Overfull \hbox (118.2509pt too wide) in paragraph at lines 21--34
- [][] 
- []
-
-
-Overfull \hbox (130.43138pt too wide) in paragraph at lines 38--64
- [][] 
- []
-
-
-Overfull \hbox (68.73663pt too wide) in paragraph at lines 68--84
+Overfull \hbox (6.43138pt too wide) in paragraph at lines 38--64
  [][] 
  []
 
 [1] (./tables.aux) ) 
 Here is how much of TeX's memory you used:
- 3127 strings out of 493638
- 46169 string characters out of 6146796
- 122136 words of memory out of 5000000
- 6548 multiletter control sequences out of 15000+600000
+ 2799 strings out of 493638
+ 41917 string characters out of 6146796
+ 111046 words of memory out of 5000000
+ 6228 multiletter control sequences out of 15000+600000
  5337 words of font info for 19 fonts, out of 8000000 for 9000
  1328 hyphenation exceptions out of 8191
- 41i,13n,38p,224b,287s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 41i,13n,38p,224b,271s stack positions out of 5000i,500n,10000p,200000b,80000s
 
 Output written on tables.pdf (1 page).
