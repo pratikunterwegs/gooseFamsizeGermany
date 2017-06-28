@@ -1,0 +1,14 @@
+# Tables
+
+## Datasets
+
+|Dataset|Type|n records|n sites|Spatial extent (°)|Temporal extent|
+|---|---|---|---|---|---|
+|A|Flock census|7,149|123|4.0 - 8.8E, 51.1 - 53.4N|2000 - 2017|
+|B|Family counts|51,037|65|4.8 - 7.3E, 51.1 - 53.4N|2000 - 2017|
+|C|Marked geese|10,635|8,416|2.7 - 9.7E, 50.9 - 53.9N|2000 - 2017|
+|D|Family GPS tracks|64; 32,630|32,630|3.9 - 7.9E, 51.3 - 54.3|2013, 2014, 2016|
+
+## Models
+
+|Model|Type|Dataset|Fixed effects|

@@ -1,4 +1,4 @@
-library(lubridate)
+library(lubridate);library(plyr);library(dplyr)
 ####Load goose flock data####
 geese = read.csv("data.goose.clean.csv",row.names = 1)
 geese$time = as.Date(geese$time)
@@ -91,3 +91,16 @@ fams.expand$distkol = distVincentyEllipsoid(p1 = fams.expand[,c("lon","lat")], p
 fams$distkol = distVincentyEllipsoid(p1 = fams[,c("lon","lat")], p2 = kol)/1000
 
 geeseorg$distkol = distVincentyEllipsoid(p1 = geeseorg[,c("lon","lat")], p2 = kol)/1000
+
+
+#### fams expand sub ####
+
+fams.expand = fams.expand %>% filter(flocksize > 0)
+fams.expand.sub = fams.expand %>% filter(zone !=  "Rhinelands")
+#'now subsample
+fams.rhine = fams.expand %>% filter(zone == "Rhinelands")
+n.rhine = dim(fams.rhine)[1]
+fams.rhine = fams.rhine[runif(n.rhine/2, 1, n.rhine),]
+
+#'reattach to the main data
+fams.expand.sub = rbind(fams.expand.sub, fams.rhine)

@@ -6,7 +6,7 @@ title: bams for Hypothesis 1 - 3, SOVON data
 
 ```{r set_env, message=FALSE}
 #'load knitr
-library(knitr);library(plyr);library(dplyr);library(data.table);library(purrr);library(ggplot2)
+library(knitr);library(plyr);library(dplyr);library(data.table);library(purrr);library(ggplot2);library(purrrlyr)
 
 library(mgcv);library(gamm4);library(visreg)
 
@@ -75,13 +75,13 @@ fams.expand.sub$distkol = round(fams.expand.sub$distkol)
 
 geeseorg$distkol = round(geeseorg$distkol)
 
-distmod = gam(sqrt(distkol) ~ s(famsize) + t_since_in + s(Breeding_year, bs = "re") + s(Food_type, bs = "re") + s(Observer, bs = "re"), data = fams.expand.sub %>% filter(t_since_in < 60), family = "poisson")
+distmod = glmer(distkol ~ (famsize) + t_since_in + (1|Breeding_year) + (1|Food_type) + (1|Observer), data = fams.expand.sub %>% filter(t_since_in < 60), family = "poisson")
 
-distmod_late = glmer((distkol) ~ (famsize) + t_since_in + (1|Breeding_year) + (1|Food_type) + (1|Observer), data = fams.expand.sub %>% filter(t_since_in > 60), family = "poisson")
+distmod_late = glmer(distkol ~ (famsize) + t_since_in + (1|Breeding_year) + (1|Food_type) + (1|Observer), data = fams.expand.sub %>% filter(t_since_in > 60), family = "poisson")
 
 distmod2 = glmer(distkol ~ (famsize) + t_since_in + (1|breedyr) + (1|neckring), data = geeseorg %>% filter(t_since_in < 60), family = "poisson")
 
-distmod2_late = glmer(distkol ~ (famsize) + t_since_in + (1|breedyr) + (1|neckring), data = geeseorg %>% filter(t_since_in > 60), family = "gaussian")
+distmod2_late = glmer(distkol ~ (famsize) + t_since_in + (1|breedyr) + (1|neckring), data = geeseorg %>% filter(t_since_in > 60), family = "poisson")
 ```
 
 ```{r}

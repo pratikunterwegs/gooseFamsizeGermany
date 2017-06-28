@@ -2,17 +2,20 @@
 title: 'Family size dynamics in wintering geese'
 geometry: margin=2cm
 fontsize: 10pt
-linestretch: 1
-mainfont: Linux Libertine O
+documentclass: paper
 classoption: twocolumn
 bibliography: geese_citations.bib
 csl: oikos.csl
+indent: true
+abstract:
 header-includes:
-  - \usepackage{graphicx}
-  - \usepackage[font=small,labelfont=bf]{caption}
-  - \usepackage{float}
-  - \usepackage{multicol}
+  - \usepackage{libertine}
+  - \usepackage{authblk}
+  - \author[1]{Pratik R Gupte}
+  - \affil[1]{Christian-Albrechts-Universität zu Kiel}
+  - \usepackage{textcomp}
+  - \providecommand{\tabularnewline}{\\}
   - \usepackage{supertabular}
+  - \usepackage{caption}
   - \usepackage{booktabs}
-  - \usepackage[utf8]{inputenc}
 ---
