@@ -1,6 +1,8 @@
 ---
 title: "Spatial ecology and movements of wintering White-fronted geese (*Anser albifrons*)"
 subtitle: 'Family size dynamics in wintering geese'
+author: Pratik R Gupte
+institute: CAU Kiel
 geometry: margin=2cm
 fontsize: 10pt
 documentclass: paper
@@ -8,12 +10,9 @@ classoption: twocolumn
 bibliography: geese_citations.bib
 csl: oikos.csl
 indent: true
-abstract:
+abstract: The ecology of migratory Arctic-breeding birds on their wintering grounds is affected both by intrinsic and external factors. Hypotheses of the interaction between family size, flock size, foraging site, and age-ratio over the course of winter have emerged from field observations of geese in western Europe, but have not been fully tested. We collected long-term observation data for flocks of wintering greater white-fronted geese *Anser albifrons albifrons* from the Netherlands and northern Germany, and tracked a total of 13 whole families containing 64 individuals overall of the species over three winters using GPS transmitters. Taking into account effects carried over from the summer, we explored how distance of the wintering site from breeding grounds on Kolguyev Island (69°N, 49°E), number of juveniles in a family, number of individuals in a flock, age-ratio of flocks, and time spent by geese on the wintering grounds are related. We related the probability of a family splitting to the number of times, and the distance that it flew. Families with more juveniles winter farther west after the first 60 days following autumn arrival, where flocks are smaller. The number of juveniles in a family, flock size, age-ratio and the number of families were well correlated with the number of days since arrival. Family sizes were larger before autumn migration in 2016. Families that undertook more flights in winter were more likely to split. Our data suggest that juvenile white-fronted geese separate from their parents during the winter, and that this species is differentially migratory by age and social class in both autumn and spring.
 header-includes:
   - \usepackage{libertine}
-  - \usepackage{authblk}
-  - \author[1]{Pratik R Gupte}
-  - \affil[1]{Christian-Albrechts-Universität zu Kiel}
   - \usepackage{textcomp}
   - \providecommand{\tabularnewline}{\\}
   - \usepackage{supertabular}

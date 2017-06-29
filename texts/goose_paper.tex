@@ -1,8 +1,5 @@
 \documentclass[10pt,twocolumn]{paper}
 \usepackage{lmodern}
-\usepackage{setspace}
-\usepackage{authblk}
-\setstretch{1}
 \usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
 \usepackage{fixltx2e} % provides \textsubscript
@@ -27,8 +24,8 @@
 \usepackage[margin=2cm]{geometry}
 \usepackage{hyperref}
 \hypersetup{unicode=true,
-            pdftitle={Family size dynamics in wintering geese},
-            pdfauthor={Pratik Gupte},
+            pdftitle={Spatial ecology and movements of wintering White-fronted geese (Anser albifrons)},
+            pdfauthor={Pratik R Gupte\textsuperscript{1}},
             pdfborder={0 0 0},
             breaklinks=true}
 \urlstyle{same}  % don't use monospace font for urls
@@ -46,13 +43,52 @@
 \renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
 \fi
 \usepackage{libertine}
+\usepackage{textcomp}
+\providecommand{\tabularnewline}{\\}
+\usepackage{supertabular}
+\usepackage{caption}
+\usepackage{booktabs}
 
-\title{Family size dynamics in wintering geese}
-\author{Pratik Gupte}
+    \makeatletter
+    \let\@fnsymbol\@arabic
+    \makeatother
+
+\title{Spatial ecology and movements of wintering White-fronted geese
+(\emph{Anser albifrons})}
+\providecommand{\subtitle}[1]{}
+\subtitle{Family size dynamics in wintering geese}
+\author{Pratik R Gupte\thanks{International Master in Applied Ecology: Christian-Albrechts-Universit\"{a}t zu Kiel, Universidade de Coimbra, Universit\'{e} de Poitiers.}}
 \date{}
 
 \begin{document}
 \maketitle
+\begin{abstract}
+The ecology of migratory Arctic-breeding birds on their wintering
+grounds is affected both by intrinsic and external factors. Hypotheses
+of the interaction between family size, flock size, foraging site, and
+age-ratio over the course of winter have emerged from field observations
+of geese in western Europe, but have not been fully tested. We collected
+long-term observation data for flocks of wintering greater white-fronted
+geese \emph{Anser albifrons albifrons} from the Netherlands and northern
+Germany, and tracked a total of 13 whole families containing 64
+individuals overall of the species over three winters using GPS
+transmitters. Taking into account effects carried over from the summer,
+we explored how distance of the wintering site from breeding grounds on
+Kolguyev Island (69°N, 49°E), number of juveniles in a family, number of
+individuals in a flock, age-ratio of flocks, and time spent by geese on
+the wintering grounds are related. We related the probability of a
+family splitting to the number of times, and the distance that it flew.
+Families with more juveniles winter farther west after the first 60 days
+following autumn arrival, where flocks are smaller. The number of
+juveniles in a family, flock size, age-ratio and the number of families
+were well correlated with the number of days since arrival. Family sizes
+were larger before autumn migration in 2016. Families that undertook
+more flights in winter were more likely to split. Our data suggest that
+juvenile white-fronted geese separate from their parents during the
+winter, and that this species is differentially migratory by age and
+social class in both autumn and spring.
+
+\end{abstract}
 
 \section{Introduction}\label{introduction}
 
@@ -138,8 +174,6 @@ accurate, fine-scale knowledge of individual positions, and obtaining
 such data for whole families of highly mobile species has historically
 presented challenges.
 
-\begin{center}\rule{0.5\linewidth}{\linethickness}\end{center}
-
 Observational studies of goose family sizes must account for summer
 conditions on the breeding grounds. Rodent abundance cycles - primarily
 of lemmings \emph{Lemmus spp.} and \emph{Dicrostonyx spp.} - have
@@ -156,8 +190,6 @@ decreases in the proportion of first winter juveniles in both waders
 \emph{Charadrii} and geese wintering in Europe (Summers and Underhill
 1987). However, the mechanism by which predation pressure at the family
 level translates into population level effects is not well understood.
-
-\begin{center}\rule{0.5\linewidth}{\linethickness}\end{center}
 
 Greater white-fronted geese \emph{Anser albifrons albifrons}, hereafter
 white-fronted geese, are among the most abundant geese wintering in
@@ -216,6 +248,23 @@ identified the half-hour when they split, and used the available
 take-off data to find the time since the last take-off at each
 half-hour.
 
+\begin{table*} \centering
+\begin{tabular}{c*5l}
+\toprule
+Dataset & Type & Records & Sites & Spatial extent (\textdegree ) & Temporal extent \\
+\midrule
+A & Flock counts & 7,149 & 123 & 4.0 - 8.8 E, 51.1 - 53.4 N & 2000 - 2017 \\
+B & Family counts & 51,037 & 65 & 4.8 - 7.3 E, 51.1 - 53.4 N & 2000 - 2017 \\
+
+C & Marked geese & 10,635 & 8,416 & 2.7 - 9.7 E, 50.9 - 53.9 N & 2000 - 2017 \\
+D & Family GPS tracks & 13\textsuperscript{a}; 32,630\textsuperscript{b} & 32,630 & 3.9 - 7.9 E, 51.3 - 54.3 N & 2013\textsuperscript{c}, 2014\textsuperscript{d}, 2016\textsuperscript{e} \\\midrule
+
+\multicolumn{6}{l}{\emph{a: Number of families, b: Number of half hourly positions, c: 3 families, d: 4 families, e: 5 families}}\\
+\bottomrule
+\end{tabular}
+\caption{Spatial and temporal range of datasets used.}
+\end{table*}
+
 \subsection{Supplementary data}\label{supplementary-data}
 
 To relate observation data to migration timing, we collected daily
@@ -229,17 +278,16 @@ study period. We took the goose winter to begin with the first mass
 arrival of geese in autumn, and to end with the last mass departure in
 spring.
 
-Following previous studies (Blomqvist et al. 2002, Nolet et al. 2013,
-Jongejans et al. 2015) we estimated an index of summer predation for the
-breeding grounds of this population from rodent abundance data
-(\emph{arcticbirds.net}). We calculated a pooled mean of 0 - 2 (low -
-high) lemming indices from sites in the region, taking care to include a
-value of 0 in each year to reflect absence of a lemming cycle in the
-core breeding area on Kolguyev Island. The index takes into account the
-change in lemming abundance, with higher values when lemming abundance
-had decreased from the previous year reflecting the increased predation
-pressure on Arctic birds from abundant predators switching to
-alternative prey.
+Following previous studies (Jongejans et al. 2015) we estimated an index
+of summer predation for the breeding grounds of this population from
+rodent abundance data (\emph{arcticbirds.net}). We calculated a pooled
+mean of 0 - 2 (low - high) lemming indices from sites in the region,
+taking care to include a value of 0 in each year to reflect absence of a
+lemming cycle in the core breeding area on Kolguyev Island. The index
+takes into account the change in lemming abundance, with higher values
+when lemming abundance had decreased from the previous year reflecting
+the increased predation pressure on Arctic birds from abundant predators
+switching to alternative prey.
 
 \subsection{Analyses}\label{analyses}
 
@@ -258,8 +306,8 @@ explained by the flock size, distance from the breeding grounds, number
 of days since arrival, and summer predation.
 
 Further, we examined whether (\emph{5.a.}) the split probability
-(sno-split or split, binomial distribution) each day was predicted by
-the days since arrival, the number of flights that day, the cumulative
+(no-split or split, binomial distribution) each day was predicted by the
+days since arrival, the number of flights that day, the cumulative
 number of flights until that day, the distance travelled that day, the
 cumulative distance travelled until that day, and the family size on
 that day. For the 2016 families we identified take-offs as 0.5 Hz
@@ -277,7 +325,7 @@ days since winter (\emph{4, 5.b}) as predictors. We included some
 covariates as random effects, and models were dependent on the datasets
 used for the effects tested in each (see Table 1). We assessed the
 importance of each predictor using Type II Wald χ\textsuperscript{2}
-tests, and effect sizes using Cohen's \emph{d}.
+tests, and effect sizes using Cohen's \emph{f\^{}2} (see Appendix 1).
 
 \section{Results}\label{results}
 
@@ -308,8 +356,8 @@ Lemming abundance from the breeding grounds transformed into a predation
 index ranged between 1.17 and 1.9, with very low variance between years
 (σ\textsuperscript{2} = 0.048).
 
-\subsection{The effect of juveniles on family wintering site
-choice}\label{the-effect-of-juveniles-on-family-wintering-site-choice}
+\subsection{Juveniles and wintering site
+choice}\label{juveniles-and-wintering-site-choice}
 
 We found no influence of the number of juveniles in a family on how far
 from the breeding grounds a family wintered in the first sixty days
@@ -544,7 +592,7 @@ take-off is best ascribed to a very low sample size of 6 families in
 which only 8 splits were recorded.
 
 The results we obtained add significantly to our knowledge of greater
-white-fronted geese. white-fronted goose families likely leverage their
+white-fronted geese. White-fronted goose families likely leverage their
 dominance to occupy optimal sites as winter progresses. Simultaneously,
 they undergo a steady reduction in the number of associated juveniles.
 Our findings show that young split off from families earlier than
@@ -571,8 +619,7 @@ PRG was financially supported by the European Commission through the
 program Erasmus Mundus Master Course - International Master in Applied
 Ecology (EMMC-IMAE) (FPA 532524-1-FR-2012-ERA MUNDUS-EMMC).
 
-\section*{References}\label{references}
-\addcontentsline{toc}{section}{References}
+\section{References}\label{references}
 
 \hypertarget{refs}{}
 \hypertarget{ref-angelstam1984role}{}
@@ -834,5 +881,81 @@ The Auk 110: 145--148.
 \hypertarget{ref-wood2013gam}{}
 Wood, S. N. 2013. Generalized additive models: An introduction with R. -
 Chapman; Hall/CRC.
+
+\newpage
+
+\setcounter{table}{0} \renewcommand{\thetable}{A\arabic{table}}
+
+\section{Appendix 1}\label{appendix-1}
+
+\subsection{Model summaries}\label{model-summaries}
+
+We provide a table summarising structures of models used in the
+analysis. This table includes Cohen's \emph{f\textsuperscript{2}} effect
+sizes that are based on the variance explained. Cohen's
+\emph{f\textsuperscript{2}} was calculated for each model thus:
+
+\begin{equation} f^2 =  \frac{R^2}{1 - R^2} \end{equation}
+
+where \(R^2\) is the coefficient of determination. We calculated
+pseudo-\(R^2\) for our models as the \(R^2\) of a linear model taking
+the model response of a null generalised mixed model as the response,
+and the generalised mixed model fit as the predictor. These values
+corresponded closely with pseudo-\(R^2\) provided by the \emph{mgcv}
+package for generalised additive models and were considered reliable.
+Cohen's \emph{f\textsuperscript{2}} values of 0.02, 0.15, and 0.35 are
+respectively considered small, medium, and large.
+
+\begin{table*} \centering
+\begin{tabular}{l*7l}
+\toprule
+Model & Type & Dataset & Response & Fixed effects & Random effects & Records used & Cohen's \emph{f\textsuperscript{2}}\\
+\midrule
+1 & GLMM & B & 5 & 1, 5 & 8, 9, 10 & 20,160\textsuperscript{a}; 14,018\textsuperscript{b} & 3.22\textsuperscript{a}; 4.74\textsuperscript{b}\\
+
+1 & GLMM & C & 5 & 1, 5 & 8, 11 & 3,289\textsuperscript{a}; 7,320\textsuperscript{b} & 4.87\textsuperscript{a}; 4.43\textsuperscript{b}\\
+
+2.a & GLMM & B & 1 & 3, 5, 7 & 8, 9, 10 & 34,179 & 0.09\\
+
+2.a & GLMM & C & 1 & 5, 7 & 8, 11 & 10,426 & 7.72\textsuperscript{c}; 0.62\textsuperscript{d} \\
+
+2.b & GAMM & A & 2 & 3, 5, 7 & 8, 9, 10 & 837 & 9.36\\
+
+3 & GLMM & A & 3 & 5, 6, 7 & 8, 9, 10 & 5,700 & 0.199\\
+
+4 & GAMM & A & 4 & 5, 6, 7 & 8, 9, 10 & 5,659 & 0.52\\\midrule
+
+\multicolumn{8}{l}{\textbf{\emph{Effects}}: \emph{1: Number of juveniles per family, 2: Number of families, 3: Flock size,}} \\
+\multicolumn{8}{l}{\emph{4: Proportion of juveniles, 5: Days since autumn arrival,}} \\
+\multicolumn{8}{l}{\emph{6: Distance to breeding grounds, 7: Predation index, 8: Breeding year,}} \\
+\multicolumn{8}{l}{\emph{9 Observer, 10: Habitat type, 11: Goose identity}} \\
+\midrule
+\multicolumn{8}{l}{\emph{a: \ensuremath{\le} 60 days after arrival, b: \ensuremath{\ge} 60 days after arrival, c: All families, d: Only successful families}} \\
+\bottomrule
+\end{tabular}
+\caption{Models and inputs based on observation data.}
+\end{table*}
+
+\begin{table*} \centering
+\begin{tabular}{l*6l}
+\toprule
+Model & Type & Response & Fixed effects & Random effects & Records used & Effect size\\
+\midrule
+5.a & GLMM & 1 & 2, 3, 4, 5, 6, 7 & 9 & 1,009\textsuperscript{a} & 0.08 \\
+
+5.b & GLMM & 1 & 3, 8 & 9 & 21,271\textsuperscript{b} & 0.0004\\
+\midrule
+\multicolumn{6}{l}{\textbf{\emph{Effects}}: \emph{1: Split occurrence , 2: Family size, 3: Days since autumn arrival,}}\\
+\multicolumn{6}{l}{\emph{4: Daily number of flights, 5: Cumulative number of previous flights,}}\\
+\multicolumn{6}{l}{\emph{6: Daily distance travelled, 7: Cumulative distance previously travelled,}}\\
+\multicolumn{6}{l}{\emph{8: Time since last take-off, 9: Family identity}}\\
+\midrule
+\multicolumn{6}{l}{\emph{a: Daily positions, b: Half-hourly positions}}\\
+\bottomrule
+\end{tabular}
+
+\caption{Models and inputs based on GPS tracking data.}
+
+\end{table*}
 
 \end{document}
