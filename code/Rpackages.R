@@ -43,7 +43,7 @@ require(raster)
 library(rasterVis)
 #basic spatial
 library(proj4)
-library(rgdal) #'sudo apt-get install libgdal-dev libproj-dev tcl-devel
+library(rgdal) #'sudo apt-get install libgdal-dev libproj-dev tcl-dev
 library(sp)
 library(maptools)
 
