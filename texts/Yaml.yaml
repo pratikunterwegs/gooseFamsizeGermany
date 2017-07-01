@@ -2,7 +2,6 @@
 title: "Spatial ecology and movements of wintering White-fronted geese (*Anser albifrons*)"
 subtitle: 'Family size dynamics in wintering geese'
 author: Pratik R Gupte
-institute: CAU Kiel
 geometry: margin=2cm
 fontsize: 10pt
 documentclass: paper
@@ -18,4 +17,6 @@ header-includes:
   - \usepackage{supertabular}
   - \usepackage{caption}
   - \usepackage{booktabs}
+  - \usepackage{graphicx}
+  - \usepackage{float}
 ---

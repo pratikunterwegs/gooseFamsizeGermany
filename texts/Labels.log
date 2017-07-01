@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Debian) (preloaded format=pdflatex 2017.5.15)  15 JUN 2017 15:12
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Debian) (preloaded format=pdflatex 2017.6.29)  30 JUN 2017 14:26
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -843,33 +843,34 @@ LaTeX Info: Redefining \nameref on input line 51.
 \@outlinefile=\write3
 \openout3 = `Labels.out'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 92.
  [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 92.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 128.
+ [2]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 128.
  (./Labels.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 92.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 92.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 128.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 128.
 Package rerunfilecheck Info: File `Labels.out' has not changed.
-(rerunfilecheck)             Checksum: 66BB33A3E1761378F691F3585AB220A9;464.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 92.
+(rerunfilecheck)             Checksum: 8892C957C6D55BB0FA386CEBC0F8E58D;1779.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 128.
  ) 
 Here is how much of TeX's memory you used:
- 10728 strings out of 493013
- 153413 string characters out of 6135682
- 248582 words of memory out of 5000000
- 14177 multiletter control sequences out of 15000+600000
- 19144 words of font info for 33 fonts, out of 8000000 for 9000
+ 10746 strings out of 493013
+ 153719 string characters out of 6135682
+ 249905 words of memory out of 5000000
+ 14187 multiletter control sequences out of 15000+600000
+ 19086 words of font info for 34 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 32i,4n,38p,231b,337s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 32i,4n,38p,452b,338s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf/fonts/enc/dvips/lm/lm-ec.enc}</usr/share/texmf/fonts/type1/
 public/lm/lmbx12.pfb></usr/share/texmf/fonts/type1/public/lm/lmr10.pfb></usr/sh
 are/texmf/fonts/type1/public/lm/lmri10.pfb>
-Output written on Labels.pdf (1 page, 74124 bytes).
+Output written on Labels.pdf (2 pages, 79645 bytes).
 PDF statistics:
- 43 PDF objects out of 1000 (max. 8388607)
- 36 compressed objects within 1 object stream
- 6 named destinations out of 1000 (max. 500000)
- 4129 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 69 PDF objects out of 1000 (max. 8388607)
+ 61 compressed objects within 1 object stream
+ 12 named destinations out of 1000 (max. 500000)
+ 4169 words of extra memory for PDF output out of 10000 (max. 10000000)
 

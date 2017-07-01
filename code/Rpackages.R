@@ -155,7 +155,6 @@ library(MCMCglmm)
 ####Spatial autocorrelation####
 library(ncf)
 library(spdep)
-library(pgirmess)
 
 ####Visualisation####
 library(sjPlot)

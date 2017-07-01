@@ -22,10 +22,10 @@
 \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
 }{}
 \usepackage[margin=2cm]{geometry}
-\usepackage[unicode=true]{hyperref}
-\hypersetup{
+\usepackage{hyperref}
+\hypersetup{unicode=true,
             pdftitle={Spatial ecology and movements of wintering White-fronted geese (Anser albifrons)},
-            pdfauthor={Pratik R Gupte},
+            pdfauthor={Pratik R Gupte\textsuperscript{1}},
             pdfborder={0 0 0},
             breaklinks=true}
 \urlstyle{same}  % don't use monospace font for urls
@@ -49,11 +49,15 @@
 \usepackage{caption}
 \usepackage{booktabs}
 
+    \makeatletter
+    \let\@fnsymbol\@arabic
+    \makeatother
+
 \title{Spatial ecology and movements of wintering White-fronted geese
 (\emph{Anser albifrons})}
 \providecommand{\subtitle}[1]{}
 \subtitle{Family size dynamics in wintering geese}
-\author{Pratik R Gupte}
+\author{Pratik R Gupte\thanks{International Master in Applied Ecology: Christian-Albrechts-Universit\"{a}t zu Kiel, Universidade de Coimbra, Universit\'{e} de Poitiers.}}
 \date{}
 
 \begin{document}
@@ -62,26 +66,28 @@
 The ecology of migratory Arctic-breeding birds on their wintering
 grounds is affected both by intrinsic and external factors. Hypotheses
 of the interaction between family size, flock size, foraging site, and
-age-ratio of geese over the course of winter have emerged from field
-observations in western Europe, but are not well tested. We collected
+age-ratio over the course of winter have emerged from field observations
+of geese in western Europe, but have not been fully tested. We collected
 long-term observation data for flocks of wintering greater white-fronted
 geese \emph{Anser albifrons albifrons} from the Netherlands and northern
-Germany, and tracked a total of 13 whole families of the species over
-three winters (2013, 2014, 2016) using GPS transmitters. Taking into
-account effects carried over from the summer, we explored how distance
-of the wintering site from breeding grounds on Kolguyev Island (69°N,
-49°E), number of juveniles in a family, number of individuals in a
-flock, age-ratio of flocks, and time spent by geese on the wintering
-grounds are related. We related the probability of a family splitting to
-the number of times, and the distance that it flew. Families with more
-juveniles winter farther west after the first 60 days following autumn
-arrival, where flocks are smaller. The number of juveniles in a family,
-flock size, age-ratio and the number of families were well correlated
-with the number of days since arrival. Families that undertook more
-flights in winter were more likely to split. Our data suggest that
+Germany, and tracked a total of 13 whole families containing 64
+individuals overall of the species over three winters using GPS
+transmitters. Taking into account effects carried over from the summer,
+we explored how distance of the wintering site from breeding grounds on
+Kolguyev Island (69°N, 49°E), number of juveniles in a family, number of
+individuals in a flock, age-ratio of flocks, and time spent by geese on
+the wintering grounds are related. We related the probability of a
+family splitting to the number of times, and the distance that it flew.
+Families with more juveniles winter farther west after the first 60 days
+following autumn arrival, where flocks are smaller. The number of
+juveniles in a family, flock size, age-ratio and the number of families
+were well correlated with the number of days since arrival. Family sizes
+were larger before autumn migration in 2016. Families that undertook
+more flights in winter were more likely to split. Our data suggest that
 juvenile white-fronted geese separate from their parents during the
 winter, and that this species is differentially migratory by age and
 social class in both autumn and spring.
+
 \end{abstract}
 
 \section{Introduction}\label{introduction}
@@ -101,21 +107,21 @@ one or more families are common across taxa, from eusocial insects
 (Crozier and Pamilo 1996) to large herbivores (Archie et al. 2006) and
 cooperative carnivores (Van Horn et al. 2004).
 
-Many waterbirds, such as geese \emph{Anserini}, live in groups composed
-of families. This is most apparent in winter, when families gather to
-form flocks (Elder and Elder 1949). Maintaining family bonds within
-flocks confers benefits since families are dominant over pairs and
-individuals, and family dominance rank increases with the number of
-members, for example in Canada geese \emph{Branta canadensis} (Hanson
-1953), snow geese \emph{Anser caerulscens} (Gregoire and Ankney 1990),
-and barnacle geese \emph{B. leucopsis} (Loonen et al. 1999). This allows
-larger families to occupy optimal foraging positions in flocks at lesser
-cost, and win access to better resources (Black et al. 1992). Both
-parents and offspring benefit from family bonds maintained across
-seasons, as juveniles gain access to more uninterrupted feeding in
-winter, and parents gain dominance rank (Black and Owen 1989). Parents
-of some species benefit in summer from the presence of nest-attending
-sub-adults (Fox and Stroud 1988); barnacle geese that are associated
+Waterbirds such as geese \emph{Anserini} live in groups composed of
+families. This is most apparent in winter, when families gather to form
+flocks (Elder and Elder 1949). Maintaining family bonds within flocks
+confers benefits since families are dominant over pairs and individuals,
+and family dominance rank increases with the number of members, for
+example in Canada geese \emph{Branta canadensis} (Hanson 1953), snow
+geese \emph{Anser caerulscens} (Gregoire and Ankney 1990), and barnacle
+geese \emph{B. leucopsis} (Loonen et al. 1999). This allows larger
+families to occupy optimal foraging positions in flocks at lesser cost,
+and win access to better resources (Black et al. 1992). Both parents and
+offspring benefit from family bonds maintained across seasons, as
+juveniles gain access to more uninterrupted feeding in winter, and
+parents gain dominance rank (Black and Owen 1989). Parents of some
+species benefit in summer from the presence of nest-attending sub-adults
+(Fox and Stroud 1988), for example, barnacle geese that are associated
 with their young through a winter, for example, are more likely to
 return with a brood the next year (Black and Owen 1989).
 
@@ -134,8 +140,7 @@ geese \emph{A. albifrons flavirostris} show strong, extended family
 bonds (Warren et al. 1993). In general, small, grazing species tend to
 dissolve families in winter (Johnson and Raveling 1988), while large
 species that need to teach juveniles to locate and handle high quality
-foods tend to maintain them longer (Warren et al. 1993, Kruckenberg
-2005).
+foods tend to maintain them (Warren et al. 1993, Kruckenberg 2005).
 
 The question of what space-use and movement decisions families make on
 the wintering grounds has not been well explored, especially in the

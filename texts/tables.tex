@@ -17,24 +17,21 @@
 
 \begin{document}
 
-\begin{table*} \centering
 \begin{tabular}{c*5l}
 \toprule 
-Dataset & Type & Records & Sites & Spatial extent (\textdegree ) & Temporal extent \\
+Dataset & Type & Records & Sites & Spatial extent (\textdegree ) & Temporal extent (yr)\\
 \midrule
 A & Flock counts & 7,149 & 123 & 4.0 - 8.8 E, 51.1 - 53.4 N & 2000 - 2017 \\
 B & Family counts & 51,037 & 65 & 4.8 - 7.3 E, 51.1 - 53.4 N & 2000 - 2017 \\
 
 C & Marked geese & 10,635 & 8,416 & 2.7 - 9.7 E, 50.9 - 53.9 N & 2000 - 2017 \\
-D & Family GPS tracks & 13\textsuperscript{a}; 32,630\textsuperscript{b} & 32,630 & 3.9 - 7.9 E, 51.3 - 54.3 N & 2013\textsuperscript{c}, 2014\textsuperscript{d}, 2016\textsuperscript{e} \\\midrule
+D & Family counts & 116 & 26 & 49 E, 69 N & 2016 \\
+E & Family GPS tracks & 13\textsuperscript{a}; 32,630\textsuperscript{b} & 32,630 & 3.9 - 7.9 E, 51.3 - 54.3 N & 2013\textsuperscript{c}, 2014\textsuperscript{d}, 2016\textsuperscript{e} \\\midrule
  
 \multicolumn{6}{l}{\emph{a: Number of families, b: Number of half hourly positions, c: 3 families, d: 4 families, e: 5 families}}\\
 \bottomrule
 \end{tabular}
-\caption{Spatial and temporal range of datasets used.}
-\end{table*}
 
-\begin{table*} \centering
 \begin{tabular}{l*7l}
 \toprule
 Model & Type & Dataset & Response & Fixed effects & Random effects & Records used & Cohen's \emph{f\textsuperscript{2}}\\
@@ -61,10 +58,10 @@ Model & Type & Dataset & Response & Fixed effects & Random effects & Records use
 \multicolumn{8}{l}{\emph{a: \ensuremath{\le} 60 days after arrival, b: \ensuremath{\ge} 60 days after arrival, c: All families, d: Only successful families}} \\
 \bottomrule
 \end{tabular}
-\caption{Models and inputs based on observation data.}
-\end{table*}
 
-\begin{table*} \centering
+\medskip
+
+\captionof{table}{some caption}
 \begin{tabular}{l*6l}
 \toprule 
 Model & Type & Response & Fixed effects & Random effects & Records used & Effect size\\
@@ -82,9 +79,6 @@ Model & Type & Response & Fixed effects & Random effects & Records used & Effect
 \bottomrule 
 \end{tabular}
 
-\caption{Models and inputs based on GPS tracking data.}
-
-\end{table*}
 
 
 \end{document}

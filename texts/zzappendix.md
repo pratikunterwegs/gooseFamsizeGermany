@@ -1,20 +1,23 @@
 
 \newpage
+
 \setcounter{table}{0}
 \renewcommand{\thetable}{A\arabic{table}}
 
 # Appendix 1
 
-## Model summaries
+### Model summaries
 
-We provide a table summarising structures of models used in the analysis. This table includes Cohen's *f^2^* effect sizes that are based on the variance explained. Cohen's *f^2^* was calculated for each model thus:
+We provide tables (Tabs. A1, A2) summarising model structures used in the analysis. This table includes Cohen's *f^2^* effect sizes that are based on the variance explained. Cohen's *f^2^* was calculated for each model thus:
 
 \begin{equation} f^2 =  \frac{R^2}{1 - R^2} \end{equation}
 
 where $R^2$ is the coefficient of determination. We calculated pseudo-$R^2$ for our models as the $R^2$ of a linear model taking the model response of a null generalised mixed model as the response, and the generalised mixed model fit as the predictor. These values corresponded closely with pseudo-$R^2$ provided by the *mgcv* package for generalised additive models and were considered reliable.
 Cohen's *f^2^* values of 0.02, 0.15, and 0.35 are respectively considered small, medium, and large.
 
-\begin{table*} \centering
+### Additional figures
+
+\begin{table}[H]
 \begin{tabular}{l*7l}
 \toprule
 Model & Type & Dataset & Response & Fixed effects & Random effects & Records used & Cohen's \emph{f\textsuperscript{2}}\\
@@ -42,9 +45,9 @@ Model & Type & Dataset & Response & Fixed effects & Random effects & Records use
 \bottomrule
 \end{tabular}
 \caption{Models and inputs based on observation data.}
-\end{table*}
+\end{table}
 
-\begin{table*} \centering
+\begin{table}[H]
 \begin{tabular}{l*6l}
 \toprule
 Model & Type & Response & Fixed effects & Random effects & Records used & Effect size\\
@@ -64,4 +67,4 @@ Model & Type & Response & Fixed effects & Random effects & Records used & Effect
 
 \caption{Models and inputs based on GPS tracking data.}
 
-\end{table*}
+\end{table}
