@@ -51,18 +51,12 @@ geese = merge(geese, cbind(w[,"prevwinter"],y), by.x = "Breeding_year", by.y = "
 
 
 ```{r run_modjuvs}
+geese = geese %>% filter(complete.cases(Breeding_year, Observer, Food_type, distkol, t_since_in, flocksize, p.index))
+
 #'using arctic birds index
-modjuvs = gam(propjuv ~ distkol + flocksize + p.index + s(t_since_in) + s(Breeding_year, bs = "re") + s(Observer, bs = "re") + s(Food_type, bs = "re"), family = binomial, data = geese)
+modjuvs = gam(propjuv ~ distkol + flocksize + p.index + s(t_since_in, bs = "cr", pc = 0) + s(Breeding_year, bs = "re") + s(Observer, bs = "re") + s(Food_type, bs = "re"), family = binomial, data = geese)
 
-#'using nolet data
-#modjuvs2 = gam(propjuv ~ distkol + flocksize + pinnolet + s(Breeding_year, bs = "re") + s(t_since_in) + s(Observer, bs = "re") + s(Food_type, bs = "re"), family = binomial, data = geese)
-
-#'using aos
-#modjuvs3 = gam(propjuv ~ aos + s(Breeding_year, bs = "re") + s(t_since_in) + s(Observer, bs = "re") + s(Food_type, bs = "re"), family = binomial, data = geese)
-
-#'using gamm
-
-#modjuvs0 = gamm(propjuv ~ pinnolet + s(t_since_in), random = list(Breeding_year = ~1, Food_type = ~1, Observer = ~1), family = binomial, data = geese)
+x = predict(modjuvs, type = "terms", terms = "s(t_since_in)", newdata = geese, se.fit = T)
 ```
 
 ```{r}

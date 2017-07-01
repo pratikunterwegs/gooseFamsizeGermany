@@ -213,7 +213,7 @@ dev.off()
 # Juvenile % ~ winter
 
 ```{r pred_gamjuvs_time}
-vis.juvs.time = visreg(modjuvs, "t_since_in",plot = F)
+vis.juvs.time = visreg(modjuvs, "t_since_in", plot = T, scale = "response")
 
 vis.juvs.time.data = vis.juvs.time$fit
 ```
@@ -222,12 +222,17 @@ vis.juvs.time.data = vis.juvs.time$fit
 png(file = "~/git/thesis/texts/juvprop_time.png", width = 800, height =800, res = 300)
 
 ggplot()+
-  geom_ribbon(data = vis.juvs.time.data, aes(x = t_since_in, ymin = visregLwr, ymax = visregUpr), fill = "grey90", alpha = 0.9)+
-  geom_point(data = geese %>% dplyr::select(month, t_since_in, propjuv) %>% group_by(t_since_in) %>% dmap(mean), aes(x = t_since_in, y = propjuv), size = 1, shape = 1)+
+  geom_point(data = geese %>% dplyr::select(month, t_since_in, propjuv) %>% group_by(t_since_in) %>% dmap(mean), aes(x = t_since_in, y = propjuv), size = 2, shape = 1)+
+  geom_ribbon(aes(x = geese$t_since_in, ymin = x$fit-1.96*x$se.fit, ymax = x$fit+1.96*x$se.fit), fill = "grey90", alpha = 0.5)+
   
-  geom_line(data = vis.juvs.time.data, aes(x = t_since_in, y = visregFit), size = 1, col = 1)+
+  #geom_hex(data = geese, aes(x = t_since_in, y = propjuv))+
+  #scale_fill_gradientn(colours=jet.col(20))+
+  
+  geom_line(aes(x = geese$t_since_in, y = x$fit))+
+  
+  #geom_line(data = vis.juvs.time.data, aes(x = t_since_in, y = visregFit), size = 1, col = 1)+
   labs(list(x = "Days since arrival", y = "Juvenile proportion"))+
-  ylim(0.05, 0.8)+
+  ylim(-0.1,1)+
   theme_bw()+a
 
 dev.off()
