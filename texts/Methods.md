@@ -15,6 +15,19 @@ We obtained 7,149 flock counts from 75 observers at 123 geocoded sites [implemen
 We also collected positions of a total of 13 goose families (13 adult pairs, 38 juveniles) fitted with GPS transmitters (2013, n = 3, 2014, n = 4: e-obs GmBH, & 2016, n = 6: madebytheo) (dataset *E*). In addition, 2016 transmitters collected short 0.5 Hz bursts of position data from take-off events. Families fitted with GPS transmitters were tracked within the study site (2 - 10°E, 50 - 54°N) in winter (pre-April 01) for 78 days on average (range: 34 - 135).
 For all families, we identified the day and position where splits were first detected as a decrease in the number of birds within a 250m radius of a designated reference bird (see Fig.1). Before analysing the daily probability of splitting, we defined 'flights' as displacement events over 1km every day, and counted their number and daily frequency. For 2016 families, we identified the half-hour when they split, and identified take-offs as 0.5 Hz records with a ground speed above 2 m/s. We then calculated the time since the last take-off at each half-hour.
 
+\begin{figure*}
+\centering
+\includegraphics[width = 0.8\linewidth]{datamap.pdf}
+\caption{\emph{a.} Wintering grounds of greater white-fronted geese \emph{Anser a. albifrons} in the Netherlands and northern Germany, with 65 sites
+(dots) where 51,037 successful families in 1,884 flocks were recorded.
+21 splits (diamonds) were observed in 13 GPS tracked families. Shaded
+area bounds 10,635 observations of marked geese. Data were collected
+from 2000 - 2017. \emph{b.} Breeding grounds (ellipse) with Kolguyev
+Island (dot) and general direction of migration (arrow) to wintering area
+(rectangle).}
+
+\end{figure*}
+
 \begin{table*} \centering
 \begin{tabular}{c*5l}
 \toprule
@@ -32,19 +45,6 @@ E & Family GPS tracks & 13\textsuperscript{a}; 32,630\textsuperscript{b} & 32,63
 \end{tabular}
 \caption{Summary of filtered datasets.}
 \end{table*}
-
-\begin{figure*}
-\centering
-\includegraphics[width = 0.8\linewidth]{datamap.pdf}
-\caption{\emph{a.} Wintering grounds of greater white-fronted geese \emph{Anser a. albifrons} in the Netherlands and northern Germany, with 65 sites
-(dots) where 51,037 successful families in 1,884 flocks were recorded.
-21 splits (diamonds) were observed in 13 GPS tracked families. Shaded
-area bounds 10,635 observations of marked geese. Data were collected
-from 2000 - 2017. \emph{b.} Breeding grounds (ellipse) with Kolguyev
-Island (dot) and rough migration route (arrow) to wintering area
-(rectangle).}
-
-\end{figure*}
 
 ### Supplementary data
 
