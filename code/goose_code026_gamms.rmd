@@ -102,7 +102,7 @@ mod03.gorg.s = glmer(famsize ~ t_since_in + p.index + (1|neckring) + (1|breedyr/
 ```
 
 ```{r}
-summary(mod03.gorg.s)
+save(mod03, mod03.gorg, mod03.gorg.s, file = "familysize_models.rdata")
 ```
 
 # Family size cold models

@@ -3,12 +3,12 @@
 
 # Fig.2 Distance ~ family size
 
-GLMM partial fit (lines) and mean distance of wintering site from Kolguyev Island (symbols) per number of family juveniles. First 60 days after arrival indicated in red, the remainder in blue. Triangles & dotted lines represent data from marked geese (dataset *C*), circles and solid lines family counts (dataset *B*).
+GLMM fits (lines), and mean distance of wintering sites from Kolguyev Island (symbols) per number of juveniles in a family. Data and fit for data collected < 60 days after arrival are shown in red; data and fit for records > 60 days after arrival are in blue. Triangles & dotted lines represent data from marked geese (dataset *C*), circles and solid lines family counts (dataset *B*).
 
 
 # Fig.3 Family ~ time
 
-GLMM partial fit (lines) and mean number of juveniles in families on each day since goose autumn arrival (dots), for successful families in flocks (dataset *B*, red), and families of marked geese (dataset *C*, blue). Arrows show development of size of GPS tracked families.
+GLMM fits (lines) and mean number of juveniles per family on each day since goose autumn arrival pooled across years (dots). Successful families in flocks (dataset *B*) are shown in red, and families of marked geese (dataset *C*) are shown in blue. Arrows show development of size of 9 GPS tracked families that underwent splits.
 
 # Fig.4 Family size ~ predation
 
@@ -32,7 +32,7 @@ GLMM partial fit (line) and mean size of flocks at each site (circles, n = 111) 
 
 # Fig.9 J% ~ time
 
-GAMM partial fit (line) and mean proportion of first-winter juveniles in white-fronted goose flocks on each winter day, pooled across all years (circles). Note that days since arrival was modelled as a smoothed covariate using thin plate splines.
+GAMM partial fit (line) and mean proportion of first-winter juveniles in white-fronted goose flocks on each winter day, pooled across all years (circles). Note that days since arrival was modelled as a smoothed covariate using thin plate splines, and 4 knots, with the smooth forced through 0. Dashed lines bound the 95% confidence interval.
 
 # Fig.10 p(split) ~ days, total flights, total distance, family size
 

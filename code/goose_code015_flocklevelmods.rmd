@@ -30,7 +30,7 @@ summary(flockmod)
 ```{r gam_fams}
 fams2 = fams %>% filter(flocksize>0, flocksize == N_sampled) %>% plyr::mutate(propjuv = propjuv/100)
 
-famsmod = gam(fams ~ s(flocksize) + distkol + p.index+ s(Breeding_year, bs = "re") + s(t_since_in, k = 4) +s(Observer, bs = "re") + s(Food_type, bs = "re"), data = fams2, family = poisson)
+famsmod = gam(fams ~ s(flocksize, k = 2) + distkol + p.index+ s(Breeding_year, bs = "re") + s(t_since_in, k = 4) +s(Observer, bs = "re") + s(Food_type, bs = "re"), data = fams2, family = poisson)
 ```
 
 ```{r}
@@ -54,7 +54,7 @@ geese = merge(geese, cbind(w[,"prevwinter"],y), by.x = "Breeding_year", by.y = "
 geese = geese %>% filter(complete.cases(Breeding_year, Observer, Food_type, distkol, t_since_in, flocksize, p.index))
 
 #'using arctic birds index
-modjuvs = gam(propjuv ~ distkol + flocksize + p.index + s(t_since_in, bs = "cr", pc = 0) + s(Breeding_year, bs = "re") + s(Observer, bs = "re") + s(Food_type, bs = "re"), family = binomial, data = geese)
+modjuvs = bam(propjuv ~ distkol + flocksize + p.index + s(t_since_in, pc = 0) + s(Breeding_year, bs = "re") + s(Observer, bs = "re") + s(Food_type, bs = "re"), family = binomial(link = logit), data = geese)
 
 x = predict(modjuvs, type = "terms", terms = "s(t_since_in)", newdata = geese, se.fit = T)
 ```
