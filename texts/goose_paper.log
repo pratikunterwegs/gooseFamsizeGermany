@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99996 (TeX Live 2016/Debian) (preloaded format=xelatex 2017.6.29)  2 JUL 2017 17:06
+This is XeTeX, Version 3.14159265-2.6-0.99996 (TeX Live 2016/Debian) (preloaded format=xelatex 2017.6.29)  2 JUL 2017 18:45
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1801,16 +1801,25 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 Underfull \vbox (badness 5133) has occurred while \output is active []
 
  [7]
+Requested font "[LinLibertine_RB.otf]/OT:script=latn;language=DFLT;+tnum;+lnum;
+mapping=tex-text;" at 9.0pt
+ -> /usr/share/texlive/texmf-dist/fonts/opentype/public/libertine/LinLibertine_
+RB.otf
+Requested font "[LinLibertine_RBI.otf]/OT:script=latn;language=DFLT;+tnum;+lnum
+;mapping=tex-text;" at 9.0pt
+ -> /usr/share/texlive/texmf-dist/fonts/opentype/public/libertine/LinLibertine_
+RBI.otf
+
 Underfull \vbox (badness 5133) has occurred while \output is active []
 
  [8]
 [9]
-
-Package hyperref Warning: Difference (2) between bookmark levels is greater 
-(hyperref)                than one, level fixed on input line 1011.
-
+Requested font "[LinLibertine_RB.otf]/OT:script=latn;language=DFLT;+tnum;+lnum;
+mapping=tex-text;" at 10.0pt
+ -> /usr/share/texlive/texmf-dist/fonts/opentype/public/libertine/LinLibertine_
+RB.otf
 File: data_density.pdf Graphic file (type QTm)
-<use  "data_density.pdf" >
+ <use  "data_density.pdf" >
 Overfull \hbox (122.62099pt too wide) in paragraph at lines 1014--1015
 [][] 
  []
@@ -1825,14 +1834,6 @@ Overfull \hbox (122.62099pt too wide) in paragraph at lines 1020--1021
 
 
 ]
-
-Package hyperref Warning: Difference (2) between bookmark levels is greater 
-(hyperref)                than one, level fixed on input line 1029.
-
-Requested font "[LinLibertine_RB.otf]/OT:script=latn;language=DFLT;+tnum;+lnum;
-mapping=tex-text;" at 10.0pt
- -> /usr/share/texlive/texmf-dist/fonts/opentype/public/libertine/LinLibertine_
-RB.otf
 Requested font "[LinLibertine_RBI.otf]/OT:script=latn;language=DFLT;+tnum;+lnum
 ;mapping=tex-text;" at 10.0pt
  -> /usr/share/texlive/texmf-dist/fonts/opentype/public/libertine/LinLibertine_
@@ -1851,12 +1852,8 @@ Overfull \hbox (141.83615pt too wide) in paragraph at lines 1084--1100
 
 
 ]
-
-Package hyperref Warning: Difference (2) between bookmark levels is greater 
-(hyperref)                than one, level fixed on input line 1109.
-
 File: fam_predation.pdf Graphic file (type QTm)
-<use  "fam_predation.pdf" >
+ <use  "fam_predation.pdf" >
 File: juvprop_time.pdf Graphic file (type QTm)
  <use  "juvprop_time.pdf" >
 File: flock_dist.pdf Graphic file (type QTm)
@@ -1867,21 +1864,21 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 File: jprop_flock.pdf Graphic file (type QTm)
 
 <use  "jprop_flock.pdf" >
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1140.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1142.
  [12
 
 ]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1140.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1142.
  (./goose_paper.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 1140.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 1140.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 1142.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 1142.
  ) 
 Here is how much of TeX's memory you used:
- 32267 strings out of 493068
- 653412 string characters out of 6137720
- 622746 words of memory out of 5000000
+ 32269 strings out of 493068
+ 653632 string characters out of 6137720
+ 621346 words of memory out of 5000000
  35890 multiletter control sequences out of 15000+600000
- 29091 words of font info for 89 fonts, out of 8000000 for 9000
+ 29107 words of font info for 91 fonts, out of 8000000 for 9000
  1347 hyphenation exceptions out of 8191
  53i,11n,92p,10409b,409s stack positions out of 5000i,500n,10000p,200000b,80000s
 
