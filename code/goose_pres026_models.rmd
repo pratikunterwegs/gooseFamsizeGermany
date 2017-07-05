@@ -223,14 +223,15 @@ pdf(file = "~/git/thesis/texts/juvprop_time.pdf", width = 4, height =3)
 
 ggplot()+
   geom_point(data = geese %>% dplyr::select(month, t_since_in, propjuv) %>%  group_by(t_since_in) %>% dmap(mean), aes(x = t_since_in, y = propjuv), size = 1, shape = 1, col = "grey50")+
+  #geom_smooth(data = geese %>% dplyr::select(month, t_since_in, propjuv) %>%  group_by(t_since_in) %>% dmap(mean), aes(x = t_since_in, y = propjuv))+
 
   geom_ribbon(aes(x = geese$t_since_in, ymin = x$fit-1.96*x$se.fit, ymax = x$fit+1.96*x$se.fit), fill = "grey90", alpha = 0.4)+
   
-  geom_line(aes(x = geese$t_since_in, y = x$fit), lwd = 1)+
+  geom_smooth(aes(x = geese$t_since_in, y = x$fit), lwd = 1, col = 1)+
   
   #geom_line(data = vis.juvs.time.data, aes(x = t_since_in, y = visregFit), size = 1, col = 1)+
   labs(list(x = "Days since arrival", y = "Juvenile proportion"))+
-  ylim(-0.1,0.8)+
+  ylim(0,0.6)+
   theme_bw()+a
 
 dev.off()
@@ -415,12 +416,19 @@ vis.juvs.flock.data = vis.juvs.flock$fit
 ```
 
 ```{r}
+mround <- function(x, base) {round(x/base)*base}
+```
+
+
+```{r}
 pdf(file = "~/git/thesis/texts/jprop_flock.pdf", width = 4, height = 3, title = "juvprop_flocksize")
 
 ggplot()+
   geom_point(data=geese %>% mutate(roundflock = mround(flocksize, 25)) %>% slice_rows("roundflock") %>% dmap(mean), aes(x = flocksize, y = propjuv), size = 2, col = "grey50", shape = 1)+
- geom_ribbon(data = vis.juvs.flock.data, aes(x = flocksize, ymin = visregLwr, ymax = visregUpr), fill = "grey90", alpha = 0.5)+
-  geom_line(data = vis.juvs.flock.data, aes(x = flocksize, y = visregFit), size = 1, col = 1)+
+  
+ geom_ribbon(aes(x = geese$flocksize, ymin = y$fit-1.96*x$se.fit, ymax = y$fit+1.96*x$se.fit), fill = "grey90", alpha = 0.4)+
+  
+  geom_smooth(aes(x = geese$flocksize, y = x$fit), size = 1, col = 1, se = F)+
   labs(list(x = "Flock size", y = "Juvenile proportion"))+
   theme_bw()+a
 

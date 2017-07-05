@@ -1,0 +1,97 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[unicode=true]{hyperref}
+\hypersetup{
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+\date{}
+
+\begin{document}
+
+Master's Thesis
+
+Applied Ecology
+
+Spatial ecology and movements of
+
+wintering White-fronted geese
+
+(\emph{Anser albifrons})
+
+Family size dynamics in wintering geese
+
+by
+
+Pratik Rajan Gupte
+
+First Reviewer: Prof. Dr. Stefan Garthe
+
+Second Reviewer: Dr. Andrea Kölzsch
+
+Research and Technology Centre, West Coast (FTZ)
+
+Max Planck Institute for Ornithology, Radolfzell
+
+Faculty of Agricultural and Nutritional Sciences
+
+Faculty of Mathematics and Natural Sciences
+
+of Kiel University
+
+Declaration
+
+Herewith, I declare that this thesis has been completed independently
+and unaided and that no other sources than the ones given here have been
+used.
+
+The submitted written version of this work is the same as the one
+electronically saved and submitted on CD.
+
+Furthermore, I declare that this work has never been submitted at any
+other time and anywhere else as a final thesis.
+
+Date, Signature
+
+\end{document}

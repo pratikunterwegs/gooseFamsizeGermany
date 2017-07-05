@@ -12,7 +12,9 @@
 
 \setcounter{figure}{0}
 
-### Data description
+\textbf{Data description}
+
+Here we provide representations of the distribution of filtered observation data over yearly and monthly scales. Arctic geese are expected to begin arriving at the eastern end of the study site by late September, and are present on Dutch and northern German sites by early - mid October. The heatmaps shown reflect this pattern.
 
 \begin{figure}[H]
 \includegraphics[width = 1.5\linewidth]{data_density.pdf}
@@ -26,20 +28,21 @@
 
 \end{figure}
 
+
 \clearpage
 
 # Appendix 2
 
-### Model summaries
+\textbf{Model summaries}
 
 We provide tables (Tabs. A1, A2) summarising model structures used in the analysis. This table includes Cohen's *f^2^* effect sizes that are based on the variance explained. Cohen's *f^2^* was calculated for each model thus:
 
 \begin{equation} f^2 =  \frac{R^2}{1 - R^2} \end{equation}
 
-where $R^2$ is the coefficient of determination [@cohen1988statistical]. We calculated pseudo-$R^2$ for our models as the $R^2$ of a linear model taking the model response of a null generalised mixed model as the response, and the generalised mixed model fit as the predictor. These values corresponded closely with pseudo-$R^2$ provided by the *mgcv* package for generalised additive models and were considered reliable.
-Cohen's *f^2^* values of 0.02, 0.15, and 0.35 are respectively considered small, medium, and large.
+where $R^2$ is the coefficient of determination [@cohen1988statistical]. We calculated pseudo-$R^2$ for our models as the $R^2$ of a linear model taking the model response of a null generalised mixed model as the response, and the generalised mixed model fit as the predictor. These values corresponded closely with pseudo-$R^2$ provided by the *mgcv* package for generalised additive models and were considered reliable as indicators of the variance explained by the model.
+Cohen's *f^2^* values of 0.02, 0.15, and 0.35 are respectively considered small, medium, and large. Models with a Cohen's *f^2^* greater than 1 have an $R^2$ greater than 0.5.
 
-All models assumed idependent and identically distributed normal (*iid*) random effects. GLMMs implemented these through their inbuilt function. GAMMs (models *2.b* and *4*) implemented random effects as parametric terms penalized by a ridge penalty [see @wood2008fast; @wood2013gam].
+All models assumed idependent and identically distributed normal (*iid*) random effects. GLMMs implemented these through their inbuilt function. GAMMs (models *2.b* and *4*) implemented random effects as parametric categorical terms penalized by a ridge penalty [see @wood2008fast; @wood2013gam].
 
 \begin{table}[H]
 \begin{tabular}{l*7l}
@@ -97,7 +100,9 @@ Model & Type & Response & Fixed effects & Random effects & Records used & Cohen'
 
 # Appendix 3
 
-### Additional figures
+\textbf{Additional figures}
+
+Here we provide figures referred to in the text.
 
 \begin{figure}[H]
 \includegraphics[width = 1\linewidth]{fam_predation.pdf}

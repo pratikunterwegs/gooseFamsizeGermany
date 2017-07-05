@@ -47,7 +47,7 @@ geese = merge(geese, cbind(w[,"prevwinter"],y), by.x = "Breeding_year", by.y = "
 ```
 
 
-# Juveniles in flocks
+# Juvenile proportion
 
 
 ```{r run_modjuvs}
@@ -56,7 +56,10 @@ geese = geese %>% filter(complete.cases(Breeding_year, Observer, Food_type, dist
 #'using arctic birds index
 modjuvs = bam(propjuv ~ distkol + flocksize + p.index + s(t_since_in, pc = 0) + s(Breeding_year, bs = "re") + s(Observer, bs = "re") + s(Food_type, bs = "re"), family = binomial(link = logit), data = geese)
 
-x = predict(modjuvs, type = "terms", terms = "s(t_since_in)", newdata = geese, se.fit = T)
+x = predict(modjuvs, type = "response", terms = "s(t_since_in)", newdata = geese, se.fit = T)
+
+y = predict(modjuvs, type = "response", terms = "flocksize", newdata = geese, se.fit = T)
+
 ```
 
 ```{r}

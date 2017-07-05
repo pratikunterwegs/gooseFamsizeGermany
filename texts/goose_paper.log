@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99996 (TeX Live 2016/Debian) (preloaded format=xelatex 2017.6.29)  2 JUL 2017 18:45
+This is XeTeX, Version 3.14159265-2.6-0.99996 (TeX Live 2016/Debian) (preloaded format=xelatex 2017.6.29)  5 JUL 2017 11:44
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1428,31 +1428,31 @@ Package: wrapfig 2003/01/31  v 3.6
 (./goose_paper.aux)
 \openout1 = `goose_paper.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 66.
-LaTeX Font Info:    ... okay on input line 66.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 66.
-LaTeX Font Info:    ... okay on input line 66.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 66.
-LaTeX Font Info:    ... okay on input line 66.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 66.
-LaTeX Font Info:    ... okay on input line 66.
-LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 66.
-LaTeX Font Info:    ... okay on input line 66.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 66.
-LaTeX Font Info:    ... okay on input line 66.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 66.
-LaTeX Font Info:    ... okay on input line 66.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 66.
-LaTeX Font Info:    Try loading font information for TS1+cmr on input line 66.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 67.
+LaTeX Font Info:    ... okay on input line 67.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 67.
+LaTeX Font Info:    ... okay on input line 67.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 67.
+LaTeX Font Info:    ... okay on input line 67.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 67.
+LaTeX Font Info:    ... okay on input line 67.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 67.
+LaTeX Font Info:    ... okay on input line 67.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 67.
+LaTeX Font Info:    ... okay on input line 67.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 67.
+LaTeX Font Info:    ... okay on input line 67.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 67.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 67.
  (/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 66.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 66.
-LaTeX Font Info:    ... okay on input line 66.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 66.
-LaTeX Font Info:    ... okay on input line 66.
-LaTeX Info: Redefining \microtypecontext on input line 66.
+LaTeX Font Info:    ... okay on input line 67.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 67.
+LaTeX Font Info:    ... okay on input line 67.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 67.
+LaTeX Font Info:    ... okay on input line 67.
+LaTeX Info: Redefining \microtypecontext on input line 67.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using protrusion set `basicmath'.
 Package microtype Info: No adjustment of tracking.
@@ -1498,7 +1498,7 @@ Package microtype Info: Loading generic settings for font family
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 \AtBeginShipoutBox=\box49
-Package hyperref Info: Link coloring OFF on input line 66.
+Package hyperref Info: Link coloring OFF on input line 67.
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
 
@@ -1507,9 +1507,9 @@ Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
 \c@section@level=\count169
 )
-LaTeX Info: Redefining \ref on input line 66.
-LaTeX Info: Redefining \pageref on input line 66.
-LaTeX Info: Redefining \nameref on input line 66.
+LaTeX Info: Redefining \ref on input line 67.
+LaTeX Info: Redefining \pageref on input line 67.
+LaTeX Info: Redefining \nameref on input line 67.
 
 (./goose_paper.out) (./goose_paper.out)
 \@outlinefile=\write3
@@ -1524,19 +1524,19 @@ apping=tex-text;" at 17.28pt
  -> /usr/share/texlive/texmf-dist/fonts/opentype/public/libertine/LinLibertine_
 R.otf
 LaTeX Font Info:    Font shape `TU/LinBiolinum(0)/m/n' will be
-(Font)              scaled to size 17.28pt on input line 68.
+(Font)              scaled to size 17.28pt on input line 69.
 Requested font "[LinBiolinum_R.otf]/OT:script=latn;language=DFLT;+tnum;mapping=
 tex-text;" at 17.28pt
  -> /usr/share/texlive/texmf-dist/fonts/opentype/public/libertine/LinBiolinum_R
 .otf
 LaTeX Font Info:    Font shape `TU/LinBiolinum(0)/bx/n' will be
-(Font)              scaled to size 17.28pt on input line 68.
+(Font)              scaled to size 17.28pt on input line 69.
 Requested font "[LinBiolinum_RB.otf]/OT:script=latn;language=DFLT;+tnum;mapping
 =tex-text;" at 17.28pt
  -> /usr/share/texlive/texmf-dist/fonts/opentype/public/libertine/LinBiolinum_R
 B.otf
 LaTeX Font Info:    Font shape `TU/LinBiolinum(0)/bx/it' will be
-(Font)              scaled to size 17.28pt on input line 68.
+(Font)              scaled to size 17.28pt on input line 69.
 Requested font "[LinBiolinum_RBO.otf]/OT:script=latn;language=DFLT;+tnum;mappin
 g=tex-text;" at 17.28pt
  -> /usr/share/texlive/texmf-dist/fonts/opentype/public/libertine/LinBiolinum_R
@@ -1546,7 +1546,7 @@ apping=tex-text;" at 12.0pt
  -> /usr/share/texlive/texmf-dist/fonts/opentype/public/libertine/LinLibertine_
 R.otf
 LaTeX Font Info:    Font shape `TU/LinBiolinum(0)/m/n' will be
-(Font)              scaled to size 12.0pt on input line 68.
+(Font)              scaled to size 12.0pt on input line 69.
 Requested font "[LinBiolinum_R.otf]/OT:script=latn;language=DFLT;+tnum;mapping=
 tex-text;" at 12.0pt
  -> /usr/share/texlive/texmf-dist/fonts/opentype/public/libertine/LinBiolinum_R
@@ -1560,7 +1560,7 @@ apping=tex-text;" at 14.4pt
  -> /usr/share/texlive/texmf-dist/fonts/opentype/public/libertine/LinLibertine_
 R.otf
 LaTeX Font Info:    Font shape `TU/LinBiolinum(0)/m/n' will be
-(Font)              scaled to size 14.4pt on input line 68.
+(Font)              scaled to size 14.4pt on input line 69.
 Requested font "[LinBiolinum_R.otf]/OT:script=latn;language=DFLT;+tnum;mapping=
 tex-text;" at 14.4pt
  -> /usr/share/texlive/texmf-dist/fonts/opentype/public/libertine/LinBiolinum_R
@@ -1568,14 +1568,14 @@ tex-text;" at 14.4pt
 LaTeX Font Info:    Font shape `TU/LinBiolinum(0)/m/sl' in size <14.4> not avai
 lable
 (Font)              Font shape `TU/LinBiolinum(0)/m/it' tried instead on input 
-line 68.
+line 69.
 LaTeX Font Info:    Font shape `TU/LinBiolinum(0)/m/it' will be
-(Font)              scaled to size 14.4pt on input line 68.
+(Font)              scaled to size 14.4pt on input line 69.
 Requested font "[LinBiolinum_RI.otf]/OT:script=latn;language=DFLT;+tnum;mapping
 =tex-text;" at 14.4pt
  -> /usr/share/texlive/texmf-dist/fonts/opentype/public/libertine/LinBiolinum_R
 I.otf
-LaTeX Font Info:    Try loading font information for OT1+lmr on input line 68.
+LaTeX Font Info:    Try loading font information for OT1+lmr on input line 69.
 
 (/usr/share/texmf/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
@@ -1591,7 +1591,7 @@ Requested font "rm-lmr10" at 10.0pt
  -> /usr/share/texmf/fonts/tfm/public/lm/rm-lmr10.tfm
 Requested font "rm-lmr7" at 7.0pt
  -> /usr/share/texmf/fonts/tfm/public/lm/rm-lmr7.tfm
-LaTeX Font Info:    Try loading font information for OML+lmm on input line 68.
+LaTeX Font Info:    Try loading font information for OML+lmm on input line 69.
 
 (/usr/share/texmf/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
@@ -1602,7 +1602,7 @@ Requested font "lmmi10" at 10.0pt
  -> /usr/share/texmf/fonts/tfm/public/lm/lmmi10.tfm
 Requested font "lmmi7" at 7.0pt
  -> /usr/share/texmf/fonts/tfm/public/lm/lmmi7.tfm
-LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 68.
+LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 69.
 
 
 (/usr/share/texmf/tex/latex/lm/omslmsy.fd
@@ -1614,21 +1614,21 @@ Requested font "lmsy10" at 10.0pt
  -> /usr/share/texmf/fonts/tfm/public/lm/lmsy10.tfm
 Requested font "lmsy7" at 7.0pt
  -> /usr/share/texmf/fonts/tfm/public/lm/lmsy7.tfm
-LaTeX Font Info:    Try loading font information for OMX+lmex on input line 68.
+LaTeX Font Info:    Try loading font information for OMX+lmex on input line 69.
 
 
 (/usr/share/texmf/tex/latex/lm/omxlmex.fd
 File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <14.4> on input line 68.
+(Font)              <14.4> on input line 69.
 Requested font "lmex10" scaled 1000
  -> /usr/share/texmf/fonts/tfm/public/lm/lmex10.tfm
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 68.
+(Font)              <10> on input line 69.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 68.
-LaTeX Font Info:    Try loading font information for U+msa on input line 68.
+(Font)              <7> on input line 69.
+LaTeX Font Info:    Try loading font information for U+msa on input line 69.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
@@ -1643,7 +1643,7 @@ Requested font "msam10" at 10.0pt
  -> /usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam10.tfm
 Requested font "msam7" at 7.0pt
  -> /usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam7.tfm
-LaTeX Font Info:    Try loading font information for U+msb on input line 68.
+LaTeX Font Info:    Try loading font information for U+msb on input line 69.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -1681,11 +1681,11 @@ Requested font "lmsy6" at 6.0pt
 Requested font "lmsy5" at 5.0pt
  -> /usr/share/texmf/fonts/tfm/public/lm/lmsy5.tfm
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 68.
+(Font)              <8> on input line 69.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 68.
+(Font)              <6> on input line 69.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 68.
+(Font)              <5> on input line 69.
 Requested font "msam10" at 8.0pt
  -> /usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam10.tfm
 Requested font "msam7" at 6.0pt
@@ -1699,15 +1699,9 @@ Requested font "msbm7" at 6.0pt
 Requested font "msbm5" at 5.0pt
  -> /usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm5.tfm
 
-Underfull \hbox (badness 10000) in paragraph at lines 68--68
+Underfull \hbox (badness 10000) in paragraph at lines 69--69
 [][]\TU/LinLibertine(0)/m/n/8 International Master in Applied Ecology: Christia
 n-Albrechts-
- []
-
-
-Underfull \hbox (badness 1881) in paragraph at lines 68--68
-\TU/LinLibertine(0)/m/n/8 Universität zu Kiel, Universidade de Coimbra, Univers
-ité de Poitiers;
  []
 
 Requested font "[LinLibertine_R.otf]/OT:script=latn;language=DFLT;+tnum;+lnum;m
@@ -1715,13 +1709,13 @@ apping=tex-text;" at 9.0pt
  -> /usr/share/texlive/texmf-dist/fonts/opentype/public/libertine/LinLibertine_
 R.otf
 LaTeX Font Info:    Font shape `TU/LinBiolinum(0)/m/n' will be
-(Font)              scaled to size 9.0pt on input line 68.
+(Font)              scaled to size 9.0pt on input line 69.
 Requested font "[LinBiolinum_R.otf]/OT:script=latn;language=DFLT;+tnum;mapping=
 tex-text;" at 9.0pt
  -> /usr/share/texlive/texmf-dist/fonts/opentype/public/libertine/LinBiolinum_R
 .otf
 LaTeX Font Info:    Font shape `TU/LinBiolinum(0)/bx/n' will be
-(Font)              scaled to size 9.0pt on input line 68.
+(Font)              scaled to size 9.0pt on input line 69.
 Requested font "[LinBiolinum_RB.otf]/OT:script=latn;language=DFLT;+tnum;mapping
 =tex-text;" at 9.0pt
  -> /usr/share/texlive/texmf-dist/fonts/opentype/public/libertine/LinBiolinum_R
@@ -1731,7 +1725,7 @@ mapping=tex-text;" at 9.0pt
  -> /usr/share/texlive/texmf-dist/fonts/opentype/public/libertine/LinLibertine_
 RI.otf
 LaTeX Font Info:    Font shape `TU/LinBiolinum(0)/bx/n' will be
-(Font)              scaled to size 12.0pt on input line 102.
+(Font)              scaled to size 12.0pt on input line 103.
 Requested font "[LinBiolinum_RB.otf]/OT:script=latn;language=DFLT;+tnum;mapping
 =tex-text;" at 12.0pt
  -> /usr/share/texlive/texmf-dist/fonts/opentype/public/libertine/LinBiolinum_R
@@ -1751,13 +1745,13 @@ Underfull \vbox (badness 3849) has occurred while \output is active []
 Underfull \vbox (badness 5133) has occurred while \output is active []
 
 LaTeX Font Info:    Font shape `TU/LinBiolinum(0)/m/n' will be
-(Font)              scaled to size 10.0pt on input line 222.
+(Font)              scaled to size 10.0pt on input line 223.
 Requested font "[LinBiolinum_R.otf]/OT:script=latn;language=DFLT;+tnum;mapping=
 tex-text;" at 10.0pt
  -> /usr/share/texlive/texmf-dist/fonts/opentype/public/libertine/LinBiolinum_R
 .otf
 LaTeX Font Info:    Font shape `TU/LinBiolinum(0)/bx/n' will be
-(Font)              scaled to size 10.0pt on input line 222.
+(Font)              scaled to size 10.0pt on input line 223.
 Requested font "[LinBiolinum_RB.otf]/OT:script=latn;language=DFLT;+tnum;mapping
 =tex-text;" at 10.0pt
  -> /usr/share/texlive/texmf-dist/fonts/opentype/public/libertine/LinBiolinum_R
@@ -1765,7 +1759,7 @@ B.otf
 
 
 Package hyperref Warning: Difference (2) between bookmark levels is greater 
-(hyperref)                than one, level fixed on input line 222.
+(hyperref)                than one, level fixed on input line 223.
 
 [2]
 File: datamap.pdf Graphic file (type QTm)
@@ -1798,15 +1792,17 @@ File: split_dayprob.pdf Graphic file (type QTm)
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
+Underfull \hbox (badness 2237) in paragraph at lines 619--634
+[]\TU/LinLibertine(0)/m/n/10 Migration related juvenile mortality has earlier b
+een
+ []
+
+
 Underfull \vbox (badness 5133) has occurred while \output is active []
 
  [7]
-Requested font "[LinLibertine_RB.otf]/OT:script=latn;language=DFLT;+tnum;+lnum;
-mapping=tex-text;" at 9.0pt
- -> /usr/share/texlive/texmf-dist/fonts/opentype/public/libertine/LinLibertine_
-RB.otf
 Requested font "[LinLibertine_RBI.otf]/OT:script=latn;language=DFLT;+tnum;+lnum
-;mapping=tex-text;" at 9.0pt
+;mapping=tex-text;" at 10.0pt
  -> /usr/share/texlive/texmf-dist/fonts/opentype/public/libertine/LinLibertine_
 RBI.otf
 
@@ -1820,13 +1816,13 @@ mapping=tex-text;" at 10.0pt
 RB.otf
 File: data_density.pdf Graphic file (type QTm)
  <use  "data_density.pdf" >
-Overfull \hbox (122.62099pt too wide) in paragraph at lines 1014--1015
+Overfull \hbox (122.62099pt too wide) in paragraph at lines 1025--1026
 [][] 
  []
 
 File: data_density_gorg.pdf Graphic file (type QTm)
 <use  "data_density_gorg.pdf" >
-Overfull \hbox (122.62099pt too wide) in paragraph at lines 1020--1021
+Overfull \hbox (122.62099pt too wide) in paragraph at lines 1031--1032
 [][] 
  []
 
@@ -1834,17 +1830,12 @@ Overfull \hbox (122.62099pt too wide) in paragraph at lines 1020--1021
 
 
 ]
-Requested font "[LinLibertine_RBI.otf]/OT:script=latn;language=DFLT;+tnum;+lnum
-;mapping=tex-text;" at 10.0pt
- -> /usr/share/texlive/texmf-dist/fonts/opentype/public/libertine/LinLibertine_
-RBI.otf
-
-Overfull \hbox (197.65813pt too wide) in paragraph at lines 1054--1080
+Overfull \hbox (197.65813pt too wide) in paragraph at lines 1068--1094
 [][] 
  []
 
 
-Overfull \hbox (141.83615pt too wide) in paragraph at lines 1084--1100
+Overfull \hbox (141.83615pt too wide) in paragraph at lines 1098--1114
 [][] 
  []
 
@@ -1864,21 +1855,21 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 File: jprop_flock.pdf Graphic file (type QTm)
 
 <use  "jprop_flock.pdf" >
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1142.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1155.
  [12
 
 ]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1142.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1155.
  (./goose_paper.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 1142.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 1142.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 1155.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 1155.
  ) 
 Here is how much of TeX's memory you used:
- 32269 strings out of 493068
- 653632 string characters out of 6137720
- 621346 words of memory out of 5000000
- 35890 multiletter control sequences out of 15000+600000
- 29107 words of font info for 91 fonts, out of 8000000 for 9000
+ 32261 strings out of 493068
+ 653318 string characters out of 6137720
+ 622045 words of memory out of 5000000
+ 35884 multiletter control sequences out of 15000+600000
+ 29091 words of font info for 89 fonts, out of 8000000 for 9000
  1347 hyphenation exceptions out of 8191
  53i,11n,92p,10409b,409s stack positions out of 5000i,500n,10000p,200000b,80000s
 

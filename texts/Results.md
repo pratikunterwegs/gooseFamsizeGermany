@@ -3,12 +3,12 @@
 
 ### Data filtering
 
-Flock count data from 16 breeding years and subsequent winters yielded a mean 420 flock counts per year (range: 67 (2001) - 672 (2005)). Except one record in August 2016, spring (Aprils, n = 24) and early autumn (Septembers, n = 76) had the fewest records, with most observations from winter (October - January, 81%, n = 5,785). Observations declined over February (11%) and March (6.8%). The mean flock size was 712 (range: 2 - 20,000), with a mean proportion of first-winter birds of 0.18 (range: 0 - 0.87). Flocks in which families were counted held on average 540 birds (range: 3 - 11,000), with an average of 27 families (range: 1 - 333) accompanied by a mean of 1.78 juveniles (range: 1 - 10). On average, 626 marked geese (range: 62 - 1143) were observed each year, accompanied by 0.59 juveniles (range: 0 - 11) (see Appendix 1).
+Flock count data from 16 breeding years and subsequent winters yielded a mean 420 flock counts per year (range: 67 (2001) - 672 (2005)). Except one record in August 2016, spring (Aprils, n = 24) and early autumn (Septembers, n = 76) had the fewest records, with most observations from winter (October - January, 81%, n = 5,785). Observations declined over February (11%) and March (6.8%). The mean flock size was 712 (range: 2 - 20,000), with a mean proportion of first-winter birds of 0.18 (range: 0 - 0.87). Flocks in which families were counted held on average 540 birds (range: 3 - 11,000), with an average of 27 families (range: 1 - 333) accompanied by a mean of 1.78 juveniles (range: 1 - 10). On average, marked geese were observed 626 times overall (range: 62 - 1143) were observed each year, accompanied by 0.59 juveniles (range: 0 - 11) (see Appendix 1, Figs. A1, A2).
 Families on Kolguyev Island in 2016 had a mean of 2.26 juveniles (range: 0 - 6).
 
 Families fitted with GPS transmitters travelled on average 11 km each day (range: 0 - 306). At the daily scale, families travelled a distance > 1km a mean of twice per day (range: 0 - 10), and on average 98 times (range: 63 - 367) over the tracking period.
 In 2016 families, take-offs occurred on average 5 times (range: 1 - 15) a day, and 470 times (range: 328 - 659) over the tracking period. 21 family splits occurred in the 13 families tracked and were not restricted to juveniles.
-Geese began to arrive between September 26 and October 30, and the last geese left between March 03 and April 01, resulting in a mean goose winter of 165 days.
+Flock flight intensity reached the 90th percentile for autumns between September 26 and October 30, and  was at the 90th percentile for the last time between March 03 and April 01. Representing the arrival and departure of geese, respectively, this resulted in a mean goose winter of 165 days.
 Lemming abundance from the breeding grounds transformed into a predation index ranged between 1.17 and 1.9, with very low variance between years (σ^2^ = 0.048).
 
 ### Juveniles and wintering site choice
@@ -18,7 +18,7 @@ We found no influence of the number of juveniles in a family on how far from the
 \begin{figure}
 \includegraphics[width = 1\linewidth]{dist_fam.pdf}
 \caption{{\small GLMM fits (lines), and mean distance of wintering sites from Kolguyev Island (symbols) per number of juveniles in a family. Data and fit for
-data collected \textless{} 60 days after arrival are shown in red; data and fit for records \textgreater{} 60 days after arrival are in blue.
+records from \textless{} 60 days after arrival are shown in red; data and fit for records \textgreater{} 60 days after arrival are in blue.
 Triangles \& dotted lines represent data from marked geese (dataset \emph{C}), circles and solid lines family counts (dataset \emph{B}.}}
 \end{figure}
 

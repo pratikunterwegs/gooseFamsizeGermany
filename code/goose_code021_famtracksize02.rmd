@@ -53,9 +53,22 @@ fams2014 = lapply(fams2014, function(x){lapply(x, function(y){y %>% filter(t < "
 fams2015 = lapply(fams2015, function(x){lapply(x, function(y){y %>% filter(t < "2015-05-01")})})
 ```
 
+```{r}
+#add bird names to tracks
+for(i in 1:13){
+    for(j in 1:length(f1[[i]])){
+        f1[[i]][[j]]$id = names(f1[[i]])[j]
+    }
+}
+```
+
 
 ```{r append_lists}
 f1 = append(fams2014, c(fams2015, fams2016.4))
+```
+
+```{r}
+family_tracks$age = ifelse(family_tracks$id %in% c("X43_AdrieII_M","X44_Adriana_F","Anna","Anton","X71_Jan_M","X70_Janika_F", "X52_EvertII_M","X53_Eva_F", "Hannah","HArkady","HeBerend","Hennie","X82_Chris_M", "X81_Christa_F", "Jouri","Jolanda","Mari","Maria","Nanneke","Napoleon","Rolf","Ronja","X48_Tineke_F","X49_Timo_M", "X58_WouterII_M", "X59_Wolka_F"), "ad", "juv")
 ```
 
 
