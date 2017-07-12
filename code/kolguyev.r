@@ -81,18 +81,20 @@ b1 = b$fit
 #'plot
 #'
 #'
-pdf(file = "~/git/thesis/texts/kolguyev.pdf", width = 8, height = 6)
+png(file = "~/git/thesis/texts/kolguyev.png", width = 800, height = 800,
+    res = 300)
 ggplot()+
   geom_errorbar(data = b1, aes(x = site,  ymin = visregLwr,
                                ymax = visregUpr), width = 0.1)+
   geom_point(data = b1, aes(x = site, y = visregFit))+
-  labs(list(x = "Condition", y = "Family size"))+
+  labs(list(x = NULL, y = "Family size"))+
   scale_x_discrete(labels=c("Pre-migration", "Post-migration A", 
                             "Post-migration B"))+
-  geom_text(aes(x = c(1.1,2.1,3.1), y = b1$visregFit), 
+  geom_text(aes(x = c(1.1,2.1,2.9), y = b1$visregFit), 
             label = c("Kolguyev","In flocks","Marked birds"),
-            hjust = "left")+
-  theme_bw()
+            hjust = c("inward", "left", "inward"), size = 3)+
+  theme_bw()+
+  theme(axis.text.x = element_blank())
 dev.off()
 
 #### Are fam sizes in years when p.index is higher than median as

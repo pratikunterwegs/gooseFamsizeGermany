@@ -3,6 +3,9 @@
   <title></title>
   <layer-tree-group expanded="1" checked="Qt::PartiallyChecked" name="">
     <customproperties/>
+    <layer-tree-layer expanded="1" checked="Qt::Checked" id="knmi_sites20170707095227245" name="knmi_sites">
+      <customproperties/>
+    </layer-tree-layer>
     <layer-tree-layer expanded="1" checked="Qt::Unchecked" id="splits20170607212850439" name="splits">
       <customproperties/>
     </layer-tree-layer>
@@ -59,10 +62,10 @@
   <mapcanvas>
     <units>meters</units>
     <extent>
-      <xmin>5759836.50573872495442629</xmin>
-      <ymin>5468218.28655402362346649</ymin>
-      <xmax>5925483.68226249981671572</xmax>
-      <ymax>5611255.27522890269756317</ymax>
+      <xmin>3839268.15573704242706299</xmin>
+      <ymin>3084341.25776239531114697</ymin>
+      <xmax>4139389.28006647620350122</xmax>
+      <ymax>3413964.44860330363735557</ymax>
     </extent>
     <rotation>0</rotation>
     <projections>1</projections>
@@ -80,23 +83,24 @@
     </destinationsrs>
     <rendermaptile>0</rendermaptile>
     <layer_coordinate_transform_info>
-      <layer_coordinate_transform destAuthId="EPSG:5638" srcAuthId="EPSG:4326" srcDatumTransform="-1" destDatumTransform="-1" layerid="splits20170607212850439"/>
-      <layer_coordinate_transform destAuthId="EPSG:5638" srcAuthId="EPSG:4326" srcDatumTransform="-1" destDatumTransform="-1" layerid="ne_10m_lakes20170607212820359"/>
-      <layer_coordinate_transform destAuthId="EPSG:5638" srcAuthId="EPSG:4326" srcDatumTransform="-1" destDatumTransform="-1" layerid="fam_lines20170614150123519"/>
-      <layer_coordinate_transform destAuthId="EPSG:5638" srcAuthId="EPSG:4326" srcDatumTransform="-1" destDatumTransform="-1" layerid="flocks20170613154038624"/>
-      <layer_coordinate_transform destAuthId="EPSG:5638" srcAuthId="EPSG:4326" srcDatumTransform="-1" destDatumTransform="-1" layerid="mig_poly20170613160329714"/>
-      <layer_coordinate_transform destAuthId="EPSG:5638" srcAuthId="EPSG:4326" srcDatumTransform="-1" destDatumTransform="-1" layerid="autumn_migration20170608120913883"/>
-      <layer_coordinate_transform destAuthId="EPSG:5638" srcAuthId="EPSG:4326" srcDatumTransform="-1" destDatumTransform="-1" layerid="sites20170607212840499"/>
-      <layer_coordinate_transform destAuthId="EPSG:5638" srcAuthId="EPSG:4326" srcDatumTransform="-1" destDatumTransform="-1" layerid="geeseorg_grid20170613161326983"/>
       <layer_coordinate_transform destAuthId="EPSG:5638" srcAuthId="EPSG:4326" srcDatumTransform="-1" destDatumTransform="-1" layerid="trektellen_poly20170613160129374"/>
-      <layer_coordinate_transform destAuthId="EPSG:5638" srcAuthId="EPSG:4326" srcDatumTransform="-1" destDatumTransform="-1" layerid="kdegeese20170607212859393"/>
-      <layer_coordinate_transform destAuthId="EPSG:5638" srcAuthId="EPSG:4326" srcDatumTransform="-1" destDatumTransform="-1" layerid="ne_10m_admin_0_boundary_lines_land20170608084419261"/>
+      <layer_coordinate_transform destAuthId="EPSG:5638" srcAuthId="EPSG:4326" srcDatumTransform="-1" destDatumTransform="-1" layerid="autumn_migration20170608120913883"/>
       <layer_coordinate_transform destAuthId="EPSG:5638" srcAuthId="EPSG:4326" srcDatumTransform="-1" destDatumTransform="-1" layerid="data_kolguyev20170707081547235"/>
+      <layer_coordinate_transform destAuthId="EPSG:5638" srcAuthId="EPSG:4326" srcDatumTransform="-1" destDatumTransform="-1" layerid="mig_poly20170613160329714"/>
+      <layer_coordinate_transform destAuthId="EPSG:5638" srcAuthId="EPSG:4326" srcDatumTransform="-1" destDatumTransform="-1" layerid="splits20170607212850439"/>
+      <layer_coordinate_transform destAuthId="EPSG:5638" srcAuthId="EPSG:4326" srcDatumTransform="-1" destDatumTransform="-1" layerid="flocks20170613154038624"/>
+      <layer_coordinate_transform destAuthId="EPSG:5638" srcAuthId="EPSG:4326" srcDatumTransform="-1" destDatumTransform="-1" layerid="geeseorg_grid20170613161326983"/>
+      <layer_coordinate_transform destAuthId="EPSG:5638" srcAuthId="EPSG:4326" srcDatumTransform="-1" destDatumTransform="-1" layerid="sites20170607212840499"/>
       <layer_coordinate_transform destAuthId="EPSG:5638" srcAuthId="EPSG:4326" srcDatumTransform="-1" destDatumTransform="-1" layerid="ne_10m_rivers_lake_centerlines20170607212829308"/>
       <layer_coordinate_transform destAuthId="EPSG:5638" srcAuthId="EPSG:4326" srcDatumTransform="-1" destDatumTransform="-1" layerid="NE2_HR_LC_SR_W_DR20170612101154394"/>
-      <layer_coordinate_transform destAuthId="EPSG:5638" srcAuthId="EPSG:4326" srcDatumTransform="-1" destDatumTransform="-1" layerid="ne_10m_land20170607212732249"/>
-      <layer_coordinate_transform destAuthId="EPSG:5638" srcAuthId="EPSG:4326" srcDatumTransform="-1" destDatumTransform="-1" layerid="trektellen20170613153445557"/>
+      <layer_coordinate_transform destAuthId="EPSG:5638" srcAuthId="EPSG:4326" srcDatumTransform="-1" destDatumTransform="-1" layerid="fam_lines20170614150123519"/>
+      <layer_coordinate_transform destAuthId="EPSG:5638" srcAuthId="EPSG:4326" srcDatumTransform="-1" destDatumTransform="-1" layerid="knmi_sites20170707095227245"/>
+      <layer_coordinate_transform destAuthId="EPSG:5638" srcAuthId="EPSG:4326" srcDatumTransform="-1" destDatumTransform="-1" layerid="ne_10m_admin_0_boundary_lines_land20170608084419261"/>
+      <layer_coordinate_transform destAuthId="EPSG:5638" srcAuthId="EPSG:4326" srcDatumTransform="-1" destDatumTransform="-1" layerid="kdegeese20170607212859393"/>
       <layer_coordinate_transform destAuthId="EPSG:5638" srcAuthId="EPSG:4326" srcDatumTransform="-1" destDatumTransform="-1" layerid="NE2_HR_LC_SR_W_DR20170707080613764"/>
+      <layer_coordinate_transform destAuthId="EPSG:5638" srcAuthId="EPSG:4326" srcDatumTransform="-1" destDatumTransform="-1" layerid="ne_10m_lakes20170607212820359"/>
+      <layer_coordinate_transform destAuthId="EPSG:5638" srcAuthId="EPSG:4326" srcDatumTransform="-1" destDatumTransform="-1" layerid="trektellen20170613153445557"/>
+      <layer_coordinate_transform destAuthId="EPSG:5638" srcAuthId="EPSG:4326" srcDatumTransform="-1" destDatumTransform="-1" layerid="ne_10m_land20170607212732249"/>
     </layer_coordinate_transform_info>
   </mapcanvas>
   <layer-tree-canvas>
@@ -115,9 +119,15 @@
       <item>fam_lines20170614150123519</item>
       <item>NE2_HR_LC_SR_W_DR20170707080613764</item>
       <item>data_kolguyev20170707081547235</item>
+      <item>knmi_sites20170707095227245</item>
     </custom-order>
   </layer-tree-canvas>
   <legend updateDrawingOrder="true">
+    <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="knmi_sites" showFeatureCount="0">
+      <filegroup open="true" hidden="false">
+        <legendlayerfile isInOverview="0" layerid="knmi_sites20170707095227245" visible="1"/>
+      </filegroup>
+    </legendlayer>
     <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="splits" showFeatureCount="0">
       <filegroup open="true" hidden="false">
         <legendlayerfile isInOverview="0" layerid="splits20170607212850439" visible="0"/>
@@ -1037,7 +1047,7 @@ def my_form_open(dialog, layer, feature):
       <customproperties/>
     </Composition>
   </Composer>
-  <Composer title="datamap" visible="1">
+  <Composer title="datamap" visible="0">
     <Composition resizeToContentsMarginLeft="0" snapping="0" showPages="1" guidesVisible="1" resizeToContentsMarginTop="0" alignmentSnap="1" printResolution="300" paperWidth="297" gridVisible="0" snapGridOffsetX="0" smartGuides="1" snapGridOffsetY="0" resizeToContentsMarginRight="0" snapTolerancePixels="5" printAsRaster="0" generateWorldFile="0" paperHeight="210" numPages="1" snapGridResolution="10" resizeToContentsMarginBottom="0">
       <symbol alpha="1" clip_to_extent="1" type="fill" name="">
         <layer pass="0" class="SimpleFill" locked="0">
@@ -1054,10 +1064,11 @@ def my_form_open(dialog, layer, feature):
           <prop k="style" v="solid"/>
         </layer>
       </symbol>
+      <SnapLine y1="14.7556" x1="0" y2="14.7556" x2="297"/>
       <ComposerLabel valign="32" marginX="1" marginY="1" labelText="Kolguyev (69°N 49°E)" htmlState="0" halign="1">
-        <LabelFont description="Heuristica,12,-1,5,75,1,0,0,0,0" style="Bold Italic"/>
+        <LabelFont description="Heuristica,12,-1,5,75,1,0,0,0,0" style=""/>
         <FontColor red="0" blue="0" green="0"/>
-        <ComposerItem pagey="6.94383" page="1" id="" lastValidViewScaleFactor="-1" positionMode="0" positionLock="false" x="17.3925" y="6.94383" visibility="1" zValue="7" background="false" transparency="0" frameJoinStyle="miter" blendMode="0" width="43.215" outlineWidth="0.3" excludeFromExports="0" uuid="{92b5b9b6-6ac1-4b1f-aa56-4fde85c91ace}" height="6.7" itemRotation="0" frame="false" pagex="17.3925">
+        <ComposerItem pagey="3.47191" page="1" id="" lastValidViewScaleFactor="-1" positionMode="0" positionLock="false" x="34.2992" y="3.47191" visibility="1" zValue="7" background="false" transparency="0" frameJoinStyle="miter" blendMode="0" width="43.215" outlineWidth="0.3" excludeFromExports="0" uuid="{92b5b9b6-6ac1-4b1f-aa56-4fde85c91ace}" height="6.7" itemRotation="0" frame="false" pagex="34.2992">
           <FrameColor alpha="255" red="0" blue="0" green="0"/>
           <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
           <customproperties/>
@@ -1079,7 +1090,7 @@ def my_form_open(dialog, layer, feature):
             <prop k="style" v="solid"/>
           </layer>
         </symbol>
-        <ComposerItem pagey="19.5295" page="1" id="" lastValidViewScaleFactor="-1" positionMode="0" positionLock="false" x="31.7093" y="19.5295" visibility="1" zValue="6" background="true" transparency="0" frameJoinStyle="miter" blendMode="0" width="5.17984" outlineWidth="0.3" excludeFromExports="0" uuid="{337d792d-842d-48d4-b3f4-d2e701f089ef}" height="4.97738" itemRotation="0" frame="false" pagex="31.7093">
+        <ComposerItem pagey="12.267" page="1" id="" lastValidViewScaleFactor="-1" positionMode="0" positionLock="false" x="50.4769" y="12.267" visibility="1" zValue="6" background="true" transparency="0" frameJoinStyle="miter" blendMode="0" width="5.17984" outlineWidth="0.3" excludeFromExports="0" uuid="{337d792d-842d-48d4-b3f4-d2e701f089ef}" height="4.97738" itemRotation="0" frame="false" pagex="50.4769">
           <FrameColor alpha="255" red="0" blue="0" green="0"/>
           <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
           <customproperties/>
@@ -1414,8 +1425,8 @@ def my_form_open(dialog, layer, feature):
           <customproperties/>
         </ComposerItem>
       </ComposerMap>
-      <ComposerMap mapRotation="0" keepLayerSet="true" id="1" previewMode="Cache" drawCanvasItems="true">
-        <Extent ymin="5270483.15029946435242891" xmin="5562937.52948649041354656" ymax="5682833.56360314507037401" xmax="6166943.76869188062846661"/>
+      <ComposerMap mapRotation="50" keepLayerSet="true" id="1" previewMode="Cache" drawCanvasItems="true">
+        <Extent ymin="5226756.13682426605373621" xmin="5532022.80549054499715567" ymax="5681372.4674915736541152" xmax="6197939.68421448674052954"/>
         <LayerSet>
           <Layer>fam_lines20170614150123519</Layer>
           <Layer>data_kolguyev20170707081547235</Layer>
@@ -1431,6 +1442,53 @@ def my_form_open(dialog, layer, feature):
           <Layer>NE2_HR_LC_SR_W_DR20170707080613764</Layer>
         </LayerSet>
         <Grid/>
+        <ComposerMapGrid rightAnnotationDirection="0" gridFramePenColor="0,0,0,255" show="0" bottomAnnotationPosition="1" annotationPrecision="3" showAnnotation="0" topFrameDivisions="0" uuid="{c191b3d0-74f5-4a1c-bd39-1569cf43d5ff}" leftAnnotationDirection="0" topAnnotationPosition="1" rightAnnotationDisplay="0" offsetX="0" offsetY="0" rightFrameDivisions="0" gridStyle="0" annotationFontColor="0,0,0,255" intervalX="0" gridFrameSideFlags="15" intervalY="0" bottomAnnotationDirection="0" leftAnnotationDisplay="0" leftFrameDivisions="0" frameFillColor1="255,255,255,255" annotationExpression="" frameFillColor2="0,0,0,255" crossLength="3" gridFramePenThickness="0.5" bottomAnnotationDisplay="0" unit="0" topAnnotationDisplay="0" leftAnnotationPosition="1" blendMode="0" gridFrameStyle="0" rightAnnotationPosition="1" gridFrameWidth="2" name="Grid 1" annotationFormat="0" bottomFrameDivisions="0" topAnnotationDirection="0" frameAnnotationDistance="1">
+          <lineStyle>
+            <symbol alpha="1" clip_to_extent="1" type="line" name="">
+              <layer pass="0" class="SimpleLine" locked="0">
+                <prop k="capstyle" v="square"/>
+                <prop k="customdash" v="5;2"/>
+                <prop k="customdash_map_unit_scale" v="0,0,0,0,0,0"/>
+                <prop k="customdash_unit" v="MM"/>
+                <prop k="draw_inside_polygon" v="0"/>
+                <prop k="joinstyle" v="bevel"/>
+                <prop k="line_color" v="0,0,0,255"/>
+                <prop k="line_style" v="solid"/>
+                <prop k="line_width" v="0"/>
+                <prop k="line_width_unit" v="MM"/>
+                <prop k="offset" v="0"/>
+                <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+                <prop k="offset_unit" v="MM"/>
+                <prop k="use_custom_dash" v="0"/>
+                <prop k="width_map_unit_scale" v="0,0,0,0,0,0"/>
+              </layer>
+            </symbol>
+          </lineStyle>
+          <markerStyle>
+            <symbol alpha="1" clip_to_extent="1" type="marker" name="">
+              <layer pass="0" class="SimpleMarker" locked="0">
+                <prop k="angle" v="0"/>
+                <prop k="color" v="0,0,0,255"/>
+                <prop k="horizontal_anchor_point" v="1"/>
+                <prop k="name" v="circle"/>
+                <prop k="offset" v="0,0"/>
+                <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+                <prop k="offset_unit" v="MM"/>
+                <prop k="outline_color" v="0,0,0,255"/>
+                <prop k="outline_style" v="solid"/>
+                <prop k="outline_width" v="0"/>
+                <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+                <prop k="outline_width_unit" v="MM"/>
+                <prop k="scale_method" v="diameter"/>
+                <prop k="size" v="2"/>
+                <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+                <prop k="size_unit" v="MM"/>
+                <prop k="vertical_anchor_point" v="1"/>
+              </layer>
+            </symbol>
+          </markerStyle>
+          <annotationFontProperties description="Noto Sans,9,-1,5,50,0,0,0,0,0" style=""/>
+        </ComposerMapGrid>
         <AtlasMap scalingMode="2" atlasDriven="0" margin="0.10000000000000001"/>
         <ComposerItem pagey="0" page="1" id="" lastValidViewScaleFactor="2.3042" positionMode="0" positionLock="false" x="0" y="0" visibility="1" zValue="4" background="true" transparency="0" frameJoinStyle="miter" blendMode="0" width="104" outlineWidth="0.2" excludeFromExports="0" uuid="{0e4beec6-dbf5-4971-a47d-81666f579368}" height="71" itemRotation="0" frame="true" pagex="0">
           <FrameColor alpha="255" red="0" blue="0" green="0"/>
@@ -1551,7 +1609,7 @@ def my_form_open(dialog, layer, feature):
             <ellipsoidacronym>WGS84</ellipsoidacronym>
             <geographicflag>true</geographicflag>
           </spatialrefsys>
-          <annotationFontProperties description="Heuristica,11,-1,5,75,1,0,0,0,0" style="Bold Italic"/>
+          <annotationFontProperties description="Heuristica,11,-1,5,75,1,0,0,0,0" style=""/>
         </ComposerMapGrid>
         <AtlasMap scalingMode="2" atlasDriven="0" margin="0.10000000000000001"/>
         <ComposerItem pagey="0" page="1" id="" lastValidViewScaleFactor="2.3042" positionMode="0" positionLock="false" x="0" y="0" visibility="1" zValue="1" background="true" transparency="0" frameJoinStyle="miter" blendMode="0" width="297" outlineWidth="0.3" excludeFromExports="0" uuid="{94c4578f-8e4e-4b0b-8ccf-9b89bf952809}" height="210" itemRotation="0" frame="true" pagex="0">
@@ -2035,14 +2093,14 @@ def my_form_open(dialog, layer, feature):
         <multilineenabled fieldname="" on=""/>
         <selectedonly on=""/>
       </labelattributes>
-      <annotationform></annotationform>
+      <annotationform>.</annotationform>
       <excludeAttributesWMS/>
       <excludeAttributesWFS/>
       <attributeactions/>
-      <editform></editform>
+      <editform>.</editform>
       <editforminit/>
       <editforminitcodesource>0</editforminitcodesource>
-      <editforminitfilepath></editforminitfilepath>
+      <editforminitfilepath>.</editforminitfilepath>
       <editforminitcode><![CDATA[]]></editforminitcode>
       <featformsuppress>0</featformsuppress>
       <editorlayout>generatedlayout</editorlayout>
@@ -3085,7 +3143,7 @@ def my_form_open(dialog, layer, feature):
         <fieldstyles/>
       </conditionalstyles>
     </maplayer>
-    <maplayer minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Polygon" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+    <maplayer minimumScale="-4.65661e-10" maximumScale="1e+08" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Polygon" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
       <extent>
         <xmin>2.71981747000000018</xmin>
         <ymin>50.89375901999999741</ymin>
@@ -3131,53 +3189,16 @@ def my_form_open(dialog, layer, feature):
           <symbol alpha="1" clip_to_extent="1" type="fill" name="0">
             <layer pass="0" class="SimpleFill" locked="0">
               <prop k="border_width_map_unit_scale" v="0,0,0,0,0,0"/>
-              <prop k="color" v="241,244,199,255"/>
+              <prop k="color" v="44,147,80,255"/>
               <prop k="joinstyle" v="bevel"/>
               <prop k="offset" v="0,0"/>
               <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
               <prop k="offset_unit" v="MM"/>
-              <prop k="outline_color" v="175,179,138,255"/>
+              <prop k="outline_color" v="128,152,72,255"/>
               <prop k="outline_style" v="solid"/>
               <prop k="outline_width" v="0.26"/>
               <prop k="outline_width_unit" v="MM"/>
-              <prop k="style" v="solid"/>
-            </layer>
-            <layer pass="0" class="PointPatternFill" locked="0">
-              <prop k="displacement_x" v="0"/>
-              <prop k="displacement_x_map_unit_scale" v="0,0,0,0,0,0"/>
-              <prop k="displacement_x_unit" v="MM"/>
-              <prop k="displacement_y" v="1"/>
-              <prop k="displacement_y_map_unit_scale" v="0,0,0,0,0,0"/>
-              <prop k="displacement_y_unit" v="MM"/>
-              <prop k="distance_x" v="1.5"/>
-              <prop k="distance_x_map_unit_scale" v="0,0,0,0,0,0"/>
-              <prop k="distance_x_unit" v="MM"/>
-              <prop k="distance_y" v="2"/>
-              <prop k="distance_y_map_unit_scale" v="0,0,0,0,0,0"/>
-              <prop k="distance_y_unit" v="MM"/>
-              <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
-              <prop k="outline_width_unit" v="MM"/>
-              <symbol alpha="1" clip_to_extent="1" type="marker" name="@0@1">
-                <layer pass="0" class="SimpleMarker" locked="0">
-                  <prop k="angle" v="0"/>
-                  <prop k="color" v="144,112,76,255"/>
-                  <prop k="horizontal_anchor_point" v="1"/>
-                  <prop k="name" v="circle"/>
-                  <prop k="offset" v="0,0"/>
-                  <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
-                  <prop k="offset_unit" v="MM"/>
-                  <prop k="outline_color" v="0,0,0,0"/>
-                  <prop k="outline_style" v="solid"/>
-                  <prop k="outline_width" v="0"/>
-                  <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
-                  <prop k="outline_width_unit" v="MM"/>
-                  <prop k="scale_method" v="area"/>
-                  <prop k="size" v="0.6"/>
-                  <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
-                  <prop k="size_unit" v="MM"/>
-                  <prop k="vertical_anchor_point" v="1"/>
-                </layer>
-              </symbol>
+              <prop k="style" v="dense4"/>
             </layer>
           </symbol>
         </symbols>
@@ -3351,7 +3372,7 @@ def my_form_open(dialog, layer, feature):
         <selectedonly on=""/>
       </labelattributes>
       <SingleCategoryDiagramRenderer diagramType="Pie">
-        <DiagramCategory penColor="#000000" labelPlacementMethod="XHeight" penWidth="0" diagramOrientation="Up" minimumSize="0" barWidth="5" penAlpha="255" maxScaleDenominator="1e+08" backgroundColor="#ffffff" transparency="0" width="15" scaleDependency="Area" backgroundAlpha="255" angleOffset="1440" scaleBasedVisibility="0" enabled="0" height="15" sizeType="MM" minScaleDenominator="0">
+        <DiagramCategory penColor="#000000" labelPlacementMethod="XHeight" penWidth="0" diagramOrientation="Up" minimumSize="0" barWidth="5" penAlpha="255" maxScaleDenominator="1e+08" backgroundColor="#ffffff" transparency="0" width="15" scaleDependency="Area" backgroundAlpha="255" angleOffset="1440" scaleBasedVisibility="0" enabled="0" height="15" sizeType="MM" minScaleDenominator="-4.65661e-10">
           <fontProperties description="Cantarell,11,-1,5,50,0,0,0,0,0" style=""/>
           <attribute field="" color="#000000" label=""/>
         </DiagramCategory>
@@ -3365,6 +3386,303 @@ def my_form_open(dialog, layer, feature):
       <editforminit/>
       <editforminitcodesource>0</editforminitcodesource>
       <editforminitfilepath>.</editforminitfilepath>
+      <editforminitcode><![CDATA[# -*- coding: utf-8 -*-
+"""
+QGIS forms can have a Python function that is called when the form is
+opened.
+
+Use this function to add extra logic to your forms.
+
+Enter the name of the function in the "Python Init function"
+field.
+An example follows:
+"""
+from PyQt4.QtGui import QWidget
+
+def my_form_open(dialog, layer, feature):
+	geom = feature.geometry()
+	control = dialog.findChild(QWidget, "MyLineEdit")
+]]></editforminitcode>
+      <featformsuppress>0</featformsuppress>
+      <editorlayout>generatedlayout</editorlayout>
+      <widgets/>
+      <conditionalstyles>
+        <rowstyles/>
+        <fieldstyles/>
+      </conditionalstyles>
+    </maplayer>
+    <maplayer minimumScale="-4.65661e-10" maximumScale="1e+08" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Point" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+      <extent>
+        <xmin>3.24199999999999999</xmin>
+        <ymin>50.90599999999999881</ymin>
+        <xmax>7.15000000000000036</xmax>
+        <ymax>53.57500000000000284</ymax>
+      </extent>
+      <id>knmi_sites20170707095227245</id>
+      <datasource>file:./code/knmi_sites.txt?type=csv&amp;delimiter=%20%5Ct&amp;xField=lon&amp;yField=lat&amp;spatialIndex=no&amp;subsetIndex=no&amp;watchFile=no</datasource>
+      <keywordList>
+        <value></value>
+      </keywordList>
+      <layername>knmi_sites</layername>
+      <srs>
+        <spatialrefsys>
+          <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
+          <srsid>3452</srsid>
+          <srid>4326</srid>
+          <authid>EPSG:4326</authid>
+          <description>WGS 84</description>
+          <projectionacronym>longlat</projectionacronym>
+          <ellipsoidacronym>WGS84</ellipsoidacronym>
+          <geographicflag>true</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <provider encoding="System">delimitedtext</provider>
+      <previewExpression></previewExpression>
+      <vectorjoins/>
+      <layerDependencies/>
+      <expressionfields/>
+      <map-layer-style-manager current="">
+        <map-layer-style name=""/>
+      </map-layer-style-manager>
+      <edittypes>
+        <edittype widgetv2type="TextEdit" name="station">
+          <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="lon">
+          <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="lat">
+          <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="alt">
+          <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+        </edittype>
+      </edittypes>
+      <renderer-v2 forceraster="0" symbollevels="0" type="singleSymbol" enableorderby="0">
+        <symbols>
+          <symbol alpha="1" clip_to_extent="1" type="marker" name="0">
+            <layer pass="0" class="SimpleMarker" locked="0">
+              <prop k="angle" v="0"/>
+              <prop k="color" v="255,255,141,152"/>
+              <prop k="horizontal_anchor_point" v="1"/>
+              <prop k="name" v="circle"/>
+              <prop k="offset" v="0,0"/>
+              <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="outline_color" v="0,0,0,255"/>
+              <prop k="outline_style" v="solid"/>
+              <prop k="outline_width" v="0"/>
+              <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+              <prop k="outline_width_unit" v="MM"/>
+              <prop k="scale_method" v="diameter"/>
+              <prop k="size" v="6.5"/>
+              <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+              <prop k="size_unit" v="MM"/>
+              <prop k="vertical_anchor_point" v="1"/>
+            </layer>
+            <layer pass="0" class="SvgMarker" locked="0">
+              <prop k="angle" v="0"/>
+              <prop k="color" v="0,0,0,255"/>
+              <prop k="horizontal_anchor_point" v="1"/>
+              <prop k="name" v="symbol/poi_tower_communications.svg"/>
+              <prop k="offset" v="0,0"/>
+              <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="outline_color" v="255,255,255,255"/>
+              <prop k="outline_width" v="0"/>
+              <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+              <prop k="outline_width_unit" v="MM"/>
+              <prop k="scale_method" v="diameter"/>
+              <prop k="size" v="5"/>
+              <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+              <prop k="size_unit" v="MM"/>
+              <prop k="vertical_anchor_point" v="1"/>
+            </layer>
+          </symbol>
+        </symbols>
+        <rotation/>
+        <sizescale scalemethod="diameter"/>
+      </renderer-v2>
+      <labeling type="simple"/>
+      <customproperties>
+        <property key="labeling" value="pal"/>
+        <property key="labeling/addDirectionSymbol" value="false"/>
+        <property key="labeling/angleOffset" value="0"/>
+        <property key="labeling/blendMode" value="0"/>
+        <property key="labeling/bufferBlendMode" value="0"/>
+        <property key="labeling/bufferColorA" value="255"/>
+        <property key="labeling/bufferColorB" value="255"/>
+        <property key="labeling/bufferColorG" value="255"/>
+        <property key="labeling/bufferColorR" value="255"/>
+        <property key="labeling/bufferDraw" value="false"/>
+        <property key="labeling/bufferJoinStyle" value="64"/>
+        <property key="labeling/bufferNoFill" value="false"/>
+        <property key="labeling/bufferSize" value="1"/>
+        <property key="labeling/bufferSizeInMapUnits" value="false"/>
+        <property key="labeling/bufferSizeMapUnitScale" value="0,0,0,0,0,0"/>
+        <property key="labeling/bufferTransp" value="0"/>
+        <property key="labeling/centroidInside" value="false"/>
+        <property key="labeling/centroidWhole" value="false"/>
+        <property key="labeling/decimals" value="3"/>
+        <property key="labeling/displayAll" value="false"/>
+        <property key="labeling/dist" value="0"/>
+        <property key="labeling/distInMapUnits" value="false"/>
+        <property key="labeling/distMapUnitScale" value="0,0,0,0,0,0"/>
+        <property key="labeling/drawLabels" value="false"/>
+        <property key="labeling/enabled" value="false"/>
+        <property key="labeling/fieldName" value=""/>
+        <property key="labeling/fitInPolygonOnly" value="false"/>
+        <property key="labeling/fontCapitals" value="0"/>
+        <property key="labeling/fontFamily" value="Noto Sans"/>
+        <property key="labeling/fontItalic" value="true"/>
+        <property key="labeling/fontLetterSpacing" value="0"/>
+        <property key="labeling/fontLimitPixelSize" value="false"/>
+        <property key="labeling/fontMaxPixelSize" value="10000"/>
+        <property key="labeling/fontMinPixelSize" value="3"/>
+        <property key="labeling/fontSize" value="9"/>
+        <property key="labeling/fontSizeInMapUnits" value="false"/>
+        <property key="labeling/fontSizeMapUnitScale" value="0,0,0,0,0,0"/>
+        <property key="labeling/fontStrikeout" value="false"/>
+        <property key="labeling/fontUnderline" value="false"/>
+        <property key="labeling/fontWeight" value="75"/>
+        <property key="labeling/fontWordSpacing" value="0"/>
+        <property key="labeling/formatNumbers" value="false"/>
+        <property key="labeling/isExpression" value="true"/>
+        <property key="labeling/labelOffsetInMapUnits" value="true"/>
+        <property key="labeling/labelOffsetMapUnitScale" value="0,0,0,0,0,0"/>
+        <property key="labeling/labelPerPart" value="false"/>
+        <property key="labeling/leftDirectionSymbol" value="&lt;"/>
+        <property key="labeling/limitNumLabels" value="false"/>
+        <property key="labeling/maxCurvedCharAngleIn" value="20"/>
+        <property key="labeling/maxCurvedCharAngleOut" value="-20"/>
+        <property key="labeling/maxNumLabels" value="2000"/>
+        <property key="labeling/mergeLines" value="false"/>
+        <property key="labeling/minFeatureSize" value="0"/>
+        <property key="labeling/multilineAlign" value="0"/>
+        <property key="labeling/multilineHeight" value="1"/>
+        <property key="labeling/namedStyle" value="Bold Italic"/>
+        <property key="labeling/obstacle" value="true"/>
+        <property key="labeling/obstacleFactor" value="1"/>
+        <property key="labeling/obstacleType" value="0"/>
+        <property key="labeling/offsetType" value="0"/>
+        <property key="labeling/placeDirectionSymbol" value="0"/>
+        <property key="labeling/placement" value="0"/>
+        <property key="labeling/placementFlags" value="10"/>
+        <property key="labeling/plussign" value="false"/>
+        <property key="labeling/predefinedPositionOrder" value="TR,TL,BR,BL,R,L,TSR,BSR"/>
+        <property key="labeling/preserveRotation" value="true"/>
+        <property key="labeling/previewBkgrdColor" value="#ffffff"/>
+        <property key="labeling/priority" value="5"/>
+        <property key="labeling/quadOffset" value="4"/>
+        <property key="labeling/repeatDistance" value="0"/>
+        <property key="labeling/repeatDistanceMapUnitScale" value="0,0,0,0,0,0"/>
+        <property key="labeling/repeatDistanceUnit" value="1"/>
+        <property key="labeling/reverseDirectionSymbol" value="false"/>
+        <property key="labeling/rightDirectionSymbol" value=">"/>
+        <property key="labeling/scaleMax" value="10000000"/>
+        <property key="labeling/scaleMin" value="1"/>
+        <property key="labeling/scaleVisibility" value="false"/>
+        <property key="labeling/shadowBlendMode" value="6"/>
+        <property key="labeling/shadowColorB" value="0"/>
+        <property key="labeling/shadowColorG" value="0"/>
+        <property key="labeling/shadowColorR" value="0"/>
+        <property key="labeling/shadowDraw" value="false"/>
+        <property key="labeling/shadowOffsetAngle" value="135"/>
+        <property key="labeling/shadowOffsetDist" value="1"/>
+        <property key="labeling/shadowOffsetGlobal" value="true"/>
+        <property key="labeling/shadowOffsetMapUnitScale" value="0,0,0,0,0,0"/>
+        <property key="labeling/shadowOffsetUnits" value="1"/>
+        <property key="labeling/shadowRadius" value="1.5"/>
+        <property key="labeling/shadowRadiusAlphaOnly" value="false"/>
+        <property key="labeling/shadowRadiusMapUnitScale" value="0,0,0,0,0,0"/>
+        <property key="labeling/shadowRadiusUnits" value="1"/>
+        <property key="labeling/shadowScale" value="100"/>
+        <property key="labeling/shadowTransparency" value="30"/>
+        <property key="labeling/shadowUnder" value="0"/>
+        <property key="labeling/shapeBlendMode" value="0"/>
+        <property key="labeling/shapeBorderColorA" value="255"/>
+        <property key="labeling/shapeBorderColorB" value="128"/>
+        <property key="labeling/shapeBorderColorG" value="128"/>
+        <property key="labeling/shapeBorderColorR" value="128"/>
+        <property key="labeling/shapeBorderWidth" value="0"/>
+        <property key="labeling/shapeBorderWidthMapUnitScale" value="0,0,0,0,0,0"/>
+        <property key="labeling/shapeBorderWidthUnits" value="1"/>
+        <property key="labeling/shapeDraw" value="false"/>
+        <property key="labeling/shapeFillColorA" value="255"/>
+        <property key="labeling/shapeFillColorB" value="255"/>
+        <property key="labeling/shapeFillColorG" value="255"/>
+        <property key="labeling/shapeFillColorR" value="255"/>
+        <property key="labeling/shapeJoinStyle" value="64"/>
+        <property key="labeling/shapeOffsetMapUnitScale" value="0,0,0,0,0,0"/>
+        <property key="labeling/shapeOffsetUnits" value="1"/>
+        <property key="labeling/shapeOffsetX" value="0"/>
+        <property key="labeling/shapeOffsetY" value="0"/>
+        <property key="labeling/shapeRadiiMapUnitScale" value="0,0,0,0,0,0"/>
+        <property key="labeling/shapeRadiiUnits" value="1"/>
+        <property key="labeling/shapeRadiiX" value="0"/>
+        <property key="labeling/shapeRadiiY" value="0"/>
+        <property key="labeling/shapeRotation" value="0"/>
+        <property key="labeling/shapeRotationType" value="0"/>
+        <property key="labeling/shapeSVGFile" value=""/>
+        <property key="labeling/shapeSizeMapUnitScale" value="0,0,0,0,0,0"/>
+        <property key="labeling/shapeSizeType" value="0"/>
+        <property key="labeling/shapeSizeUnits" value="1"/>
+        <property key="labeling/shapeSizeX" value="0"/>
+        <property key="labeling/shapeSizeY" value="0"/>
+        <property key="labeling/shapeTransparency" value="0"/>
+        <property key="labeling/shapeType" value="0"/>
+        <property key="labeling/textColorA" value="255"/>
+        <property key="labeling/textColorB" value="0"/>
+        <property key="labeling/textColorG" value="0"/>
+        <property key="labeling/textColorR" value="0"/>
+        <property key="labeling/textTransp" value="0"/>
+        <property key="labeling/upsidedownLabels" value="0"/>
+        <property key="labeling/wrapChar" value=""/>
+        <property key="labeling/xOffset" value="0"/>
+        <property key="labeling/yOffset" value="0"/>
+        <property key="labeling/zIndex" value="0"/>
+        <property key="variableNames"/>
+        <property key="variableValues"/>
+      </customproperties>
+      <blendMode>0</blendMode>
+      <featureBlendMode>0</featureBlendMode>
+      <layerTransparency>0</layerTransparency>
+      <displayfield>station</displayfield>
+      <label>0</label>
+      <labelattributes>
+        <label fieldname="" text="Label"/>
+        <family fieldname="" name="Noto Sans"/>
+        <size fieldname="" units="pt" value="12"/>
+        <bold fieldname="" on="0"/>
+        <italic fieldname="" on="0"/>
+        <underline fieldname="" on="0"/>
+        <strikeout fieldname="" on="0"/>
+        <color fieldname="" red="0" blue="0" green="0"/>
+        <x fieldname=""/>
+        <y fieldname=""/>
+        <offset x="0" y="0" units="pt" yfieldname="" xfieldname=""/>
+        <angle fieldname="" value="0" auto="0"/>
+        <alignment fieldname="" value="center"/>
+        <buffercolor fieldname="" red="255" blue="255" green="255"/>
+        <buffersize fieldname="" units="pt" value="1"/>
+        <bufferenabled fieldname="" on=""/>
+        <multilineenabled fieldname="" on=""/>
+        <selectedonly on=""/>
+      </labelattributes>
+      <SingleCategoryDiagramRenderer diagramType="Pie">
+        <DiagramCategory penColor="#000000" labelPlacementMethod="XHeight" penWidth="0" diagramOrientation="Up" minimumSize="0" barWidth="5" penAlpha="255" maxScaleDenominator="1e+08" backgroundColor="#ffffff" transparency="0" width="15" scaleDependency="Area" backgroundAlpha="255" angleOffset="1440" scaleBasedVisibility="0" enabled="0" height="15" sizeType="MM" minScaleDenominator="-4.65661e-10">
+          <fontProperties description="Noto Sans,9,-1,5,50,0,0,0,0,0" style=""/>
+        </DiagramCategory>
+      </SingleCategoryDiagramRenderer>
+      <DiagramLayerSettings yPosColumn="-1" linePlacementFlags="10" placement="0" dist="0" xPosColumn="-1" priority="0" obstacle="0" zIndex="0" showAll="1"/>
+      <annotationform></annotationform>
+      <excludeAttributesWMS/>
+      <excludeAttributesWFS/>
+      <attributeactions/>
+      <editform></editform>
+      <editforminit/>
+      <editforminitcodesource>0</editforminitcodesource>
+      <editforminitfilepath></editforminitfilepath>
       <editforminitcode><![CDATA[# -*- coding: utf-8 -*-
 """
 QGIS forms can have a Python function that is called when the form is

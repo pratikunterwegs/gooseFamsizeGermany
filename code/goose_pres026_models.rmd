@@ -24,7 +24,7 @@ load("fsize_coords.rdata")
 
 #'define ggplot axis and grid options
 a = theme(panel.grid.minor = element_blank())
-b = theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text.y = element_blank(), axis.ticks.y = element_blank())
+b1 = theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text.y = element_blank(), axis.ticks.y = element_blank())
 ```
 
 # Distance to Kolguyev ~ family size

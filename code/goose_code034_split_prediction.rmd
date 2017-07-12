@@ -1,5 +1,3 @@
-
-
 ---
 title: Predicting family splits
 ---
@@ -120,7 +118,7 @@ famcoords$flight = famcoords$dist > 1000
 famcoords$split = ifelse(!is.na(famcoords$event), famcoords$event == "Split", FALSE)
 
 #'count flights
-famstats =  data.frame(famcoords %>% group_by(fam, date = round_date(time, "day")) %>% summarise(mdist = mean(dist, na.rm = T), ddist = sum(na.omit(dist)), days = mean(days, na.rm = T), fsize = min(fsize), flights = sum(flight), split = sum(split)))
+famstats =  data.frame(famcoords %>% group_by(fam, date = round_date(time, "day")) %>% summarise(mdist = mean(dist, na.rm = T), ddist = sum(na.omit(dist)), days = mean(days, na.rm = T), fsize = min(fsize), flights = sum(flight), split = sum(split), mlon = mean(lon, na.rm = T), mlat = mean(lat, na.rm = T)))
 
 
 #'assign NA flight numbers to 0
@@ -149,6 +147,7 @@ famstats = famstats[complete.cases(famstats),]
 mod.day.split = 
   glmer(split ~ days + flights + tflights + tdist + ddist + fsize + (1|fam), data = famstats, family = binomial(link = logit))
 
+famstats$predict = predict(mod.day.split, newdata = famstats)
 ```
 
 ```{r summary_split_mod}

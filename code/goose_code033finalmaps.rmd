@@ -38,7 +38,7 @@ coordinates(geeseorg.spatial) = ~lon+lat
 load("fsize_coords.rdata")
 
 #'set extent
-e = extent(3.5,7.75,50.75,53.5)
+e = extent(3,7.75,50.75,53.5)
 ```
 
 
@@ -68,7 +68,8 @@ crs(geeseorg.spatial) = crs(land)
 
 #'read bryear off geese.org data
 geeseorg.grid$breedyr = over(geeseorg.grid, geeseorg.spatial[2], fn = max)
-
+ggplot()+
+    geom_path(data = daycoords, aes(x = lon, y = lat, group = fam,))
 #subset by NA
 geeseorg.grid = geeseorg.grid[!is.na(geeseorg.grid$breedyr),]
 ```

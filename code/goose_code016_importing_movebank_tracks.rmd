@@ -133,7 +133,7 @@ fams2016.4 = lapply(fams2016.4, function(x){lapply(x, function(y){y = y %>% filt
 flights2016 = lapply(fams2016.4, function(x){lapply(x, function(y){y = y %>% filter(lag <= 600)})})
 
 #'save as rdata
-save(fams2016.4, file = "fams2016.nobursts.rdata")
+save(fams2016.4, file = "fams2016.full.rdata")
 
 save(flights2016, file = "bursts16.rdata")
 ```
@@ -243,7 +243,7 @@ bursts2014 = lapply(fams2014.5, function(x){lapply(x, function(y){y = y %>% filt
 ```
 
 ```{r exportfams2014}
-save(fams2014.5, file = "oldfams.nobursts.rdata")
+save(fams2014.5, file = "oldfams.full.rdata")
 
 save(bursts2014, file = "burstsold.rdata")
 ```

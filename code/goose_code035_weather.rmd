@@ -73,3 +73,30 @@ geese = merge(geese, nlweather, by.x = c("station","time"), by.y = c("station","
 
 ```
 
+```{r nfams_temp}
+#'number of families in flocks 
+nfams.tempmod = bam(fams ~ flocksize + s(t_since_in, k = 4) + ti(mintemp) + ti(ppt) + ti(mintemp, t_since_in) + s(Breeding_year, bs = "re") + s(Observer, bs = "re") + s(Food_type, bs = "re"), data = fams, family = "poisson")
+
+summary(nfams.tempmod)
+
+pdf(file = "~/git/thesis/texts/nfamsclim.pdf", width = 5, height = 5, title = "nfamsclim")
+vis.gam(nfams.tempmod, view = c("mintemp", "ppt"), type = "response", theta = 30, color = "cm", zlab = "N families", xlab = "Min. temp", ylab = "Precipitation")
+dev.off()
+```
+
+```{r flocksize_temp}
+flock.tempmod = bam(flocksize ~ distkol + ti(mintemp) + ti(ppt) + ti(mintemp, t_since_in) + s(Observer, bs = "fs") + s(Food_type, bs = "fs"), data = geese, family = "poisson")
+
+summary(flock.tempmod)
+
+pdf(file = "~/git/thesis/texts/flockclim.pdf", width = 5, height = 5, title = "flockclim")
+vis.gam(flock.tempmod, view = c("mintemp", "ppt"), type = "response", theta = 45, color = "cm", zlab = "Flocksize", xlab = "Min. temp", ylab = "Precipitation")
+dev.off()
+```
+
+```{r juvsclim}
+juvs.tempmod = bam(propjuv ~ s(flocksize) + s(t_since_in, k = 4) + ti(mintemp) + ti(ppt) + s(Breeding_year, bs = "re"), data = geese, family = "binomial")
+
+summary(juvs.tempmod)
+```
+
