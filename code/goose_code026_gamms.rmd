@@ -74,14 +74,20 @@ mod03 = glmer(famsize ~ flocksize + t_since_in + p.index + (1|Breeding_year) + (
 fams.expand.sub$distkol = round(fams.expand.sub$distkol)
 
 geeseorg$distkol = round(geeseorg$distkol)
+```
 
+```{r}
 distmod = glmer(distkol ~ (famsize) + t_since_in + (1|Breeding_year) + (1|Food_type) + (1|Observer), data = fams.expand.sub %>% filter(t_since_in < 60), family = "poisson")
 
 distmod_late = glmer(distkol ~ (famsize) + t_since_in + (1|Breeding_year) + (1|Food_type) + (1|Observer), data = fams.expand.sub %>% filter(t_since_in > 60), family = "poisson")
 
 distmod2 = glmer(distkol ~ (famsize) + t_since_in + (1|breedyr) + (1|neckring), data = geeseorg %>% filter(t_since_in < 60), family = "poisson")
 
+distmod2.1 = glmer(distkol ~ (famsize) + t_since_in + (1|breedyr) + (1|neckring), data = geeseorg %>% filter(t_since_in < 60, famsize >0), family = "poisson")
+
 distmod2_late = glmer(distkol ~ (famsize) + t_since_in + (1|breedyr) + (1|neckring), data = geeseorg %>% filter(t_since_in > 60), family = "poisson")
+
+distmod2.1_late = glmer(distkol ~ (famsize) + t_since_in + (1|breedyr) + (1|neckring), data = geeseorg %>% filter(t_since_in > 60, famsize >0), family = "poisson")
 ```
 
 ```{r}
@@ -118,5 +124,19 @@ summary(coldmod1)
 library(visreg)
 
 visreg(coldmod1, "mintemp", scale = "response")
+```
+
+# Proportion of successful birds by p.index
+
+```{r}
+g1 = geeseorg %>% group_by(breedyr) %>% summarise(p.index = mean(p.index, na.rm = T), s = sum(success))
+g2 = geeseorg %>% group_by(breedyr) %>% count()
+
+g = merge(g1, g2, by = "breedyr")
+g$sprop = g$s/g$n
+
+g$breedyr = as.factor(g$breedyr)
+
+sprop_mod = glm(sprop ~ p.index + n, data = g, family = "binomial")
 ```
 

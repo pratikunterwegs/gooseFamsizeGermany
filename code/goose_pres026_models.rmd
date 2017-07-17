@@ -111,6 +111,11 @@ splits = merge(splits, mig.red, by.x = "time", by.y = "Date")
 vis.famsize.time.gorg = visreg(mod03.gorg, "t_since_in", scale = "response",plot = F)
 
 vis.famsize.time.gorg.data = vis.famsize.time.gorg$fit
+
+vis.famsize.time.gorg.s = visreg(mod03.gorg.s, "t_since_in", scale = "response", plot = F)
+
+vis.famsize.time.gorg.s.data = vis.famsize.time.gorg.s$fit
+
 ```
 
 ## plot
@@ -124,15 +129,21 @@ ggplot()+
   
   geom_point(data = geeseorg %>% group_by(round(t_since_in)) %>% dmap(mean), aes(x = t_since_in, y = famsize), col = "royalblue", size =0.5)+
   
+  geom_point(data = geeseorg %>% filter(famsize > 0) %>% group_by(round(t_since_in)) %>% dmap(mean), aes(x = t_since_in, y = famsize), col = "black", size =0.5)+
+  
+  
   geom_line(data = vis.mod03.time.data, aes(x = t_since_in, y = visregFit), size = 0.8, col = "indianred1")+
+  
   geom_line(data = vis.famsize.time.gorg.data, aes(x = t_since_in, y = visregFit), size = 0.8, col = "royalblue")+
+  
+  geom_line(data = vis.famsize.time.gorg.s.data, aes(x = t_since_in, y = visregFit), size = 0.8, col = "black")+
   
   geom_path(data = splits %>% filter(event %in% c("Start", "Split")), aes(x = t_since_in, y = fsize, group = fam), arrow = arrow(length = unit(0.02, "npc"), type = "closed"), lty = 1, lwd = 0.2, col = "grey30")+
   
  geom_text(data = splits %>% filter(fam %in% c("Ev","Wo","Ha","Na","Ti","Ma","Ro","An","Jo"), event == "Start"), aes(x=t_since_in, y = fsize, label = substr(fam,1,1), angle = 0), hjust = 1, vjust = 0, size = 3)+
   
   labs(list(x = "Days since arrival", y = "Juveniles in family"))+ 
-  ylim(0,8)+ #xlim(0,200)+
+  ylim(0,8)+ xlim(0,180)+
   theme_bw()+a
 
 dev.off()
@@ -210,7 +221,7 @@ ggplot()+
 dev.off()
 ```
 
-# Juvenile % ~ winter
+# Juvenile % ~ time
 
 ```{r pred_gamjuvs_time}
 vis.juvs.time = visreg(modjuvs, "t_since_in", plot = T, scale = "response", type = "conditional", breaks = 20)
@@ -222,10 +233,11 @@ vis.juvs.time.data = vis.juvs.time$fit
 pdf(file = "~/git/thesis/texts/juvprop_time.pdf", width = 4, height =3)
 
 ggplot()+
-  geom_point(data = geese %>% dplyr::select(month, t_since_in, propjuv) %>%  group_by(t_since_in) %>% dmap(mean), aes(x = t_since_in, y = propjuv), size = 1, shape = 1, col = "grey50")+
   #geom_smooth(data = geese %>% dplyr::select(month, t_since_in, propjuv) %>%  group_by(t_since_in) %>% dmap(mean), aes(x = t_since_in, y = propjuv))+
 
-  geom_ribbon(aes(x = geese$t_since_in, ymin = x$fit-1.96*x$se.fit, ymax = x$fit+1.96*x$se.fit), fill = "grey90", alpha = 0.4)+
+  geom_ribbon(aes(x = geese$t_since_in, ymin = x$fit-1.96*x$se.fit, ymax = x$fit+1.96*x$se.fit), fill = "grey50")+
+  
+  geom_point(data = geese %>% dplyr::select(month, t_since_in, propjuv) %>%  group_by(t_since_in) %>% dmap(mean), aes(x = t_since_in, y = propjuv), size = 1, shape = 1, col = 1)+
   
   geom_smooth(aes(x = geese$t_since_in, y = x$fit), lwd = 1, col = 1)+
   
@@ -301,8 +313,8 @@ vis.nfams.time.data = vis.nfams.time$fit
 pdf(file = "~/git/thesis/texts/nfams_time.pdf", width = 4, height = 3, title = "nfams_time")
 
 ggplot()+
-  geom_ribbon(data = vis.nfams.time.data, aes(x = t_since_in, ymin = visregLwr, ymax = visregUpr), fill= "grey90")+
-  geom_point(data = fams %>% group_by(t_since_in) %>% dmap(mean), aes(x = t_since_in, y = fams), size = 3, shape = 1, col = "grey50")+
+  geom_ribbon(data = vis.nfams.time.data, aes(x = t_since_in, ymin = visregLwr, ymax = visregUpr), fill= "grey50")+
+  geom_point(data = fams %>% group_by(t_since_in) %>% dmap(mean), aes(x = t_since_in, y = fams), size = 3, shape = 1, col = "black")+
   geom_line(data = vis.nfams.time.data, aes(x = t_since_in, y = visregFit), size = 1)+
   labs(list(x = "Days since arrival", y = "Successful families in flock"))+
   theme_bw()+a
@@ -374,10 +386,10 @@ visfamsmod.data = visfamsmod$fit
 ```
 
 ```{r plot_pred_famsmod}
-pdf(file = "~/git/thesis/texts/nfams_dist.pdf", width = 4, height = 3, title = "nfams_dist")
+pdf(file = "~/git/thesis/texts/nfams_dist.pdf", width = 5, height = 4, title = "nfams_dist")
 
 ggplot()+
- geom_ribbon(data = visfamsmod.data, aes(x = distkol, ymin = visregLwr, ymax = visregUpr), fill = "grey90")+
+ geom_ribbon(data = visfamsmod.data, aes(x = distkol, ymin = visregLwr, ymax = visregUpr), fill = "grey50")+
   geom_point(data = fams2 %>% group_by(lookup) %>% dmap(mean), aes(x = distkol, y = fams), shape = 1, size = 3)+
   geom_line(data = visfamsmod.data, aes(x = distkol, y = visregFit), size = 1, col = 1)+
   labs(list(x = "Km. from Kolguyev Island", y = "Number of families"))+
@@ -424,9 +436,10 @@ mround <- function(x, base) {round(x/base)*base}
 pdf(file = "~/git/thesis/texts/jprop_flock.pdf", width = 4, height = 3, title = "juvprop_flocksize")
 
 ggplot()+
-  geom_point(data=geese %>% mutate(roundflock = mround(flocksize, 25)) %>% slice_rows("roundflock") %>% dmap(mean), aes(x = flocksize, y = propjuv), size = 2, col = "grey50", shape = 1)+
   
- geom_ribbon(aes(x = geese$flocksize, ymin = y$fit-1.96*x$se.fit, ymax = y$fit+1.96*x$se.fit), fill = "grey90", alpha = 0.4)+
+ geom_ribbon(aes(x = geese$flocksize, ymin = y$fit-1.96*x$se.fit, ymax = y$fit+1.96*x$se.fit), fill = "grey50")+
+  
+   geom_point(data=geese %>% mutate(roundflock = mround(flocksize, 25)) %>% slice_rows("roundflock") %>% dmap(mean), aes(x = flocksize, y = propjuv), size = 2, col = 1, shape = 1)+
   
   geom_smooth(aes(x = geese$flocksize, y = x$fit), size = 1, col = 1, se = F)+
   labs(list(x = "Flock size", y = "Juvenile proportion"))+
