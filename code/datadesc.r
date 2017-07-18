@@ -26,7 +26,7 @@ ggplot(data = goose_year_month,
   scale_fill_gradient2(low = "#fc8d59", mid = "#ffffbf", 
                        high = "#1a9850",
                        midpoint = 47)+
-  labs(list(fill = "Records", y = "Month", x = "Year"))+
+  labs(list(fill = "Records", y = "Month", x = "Breeding year"))+
   theme_bw()+
   theme(axis.text.x=element_text(angle=45, hjust = 1))
 dev.off()
