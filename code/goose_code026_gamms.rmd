@@ -70,7 +70,6 @@ mod03 = glmer(famsize ~ flocksize + t_since_in + p.index + (1|Breeding_year) + (
 # Distance from breeding grounds ~ family size
 
 ```{r}
-
 fams.expand.sub$distkol = round(fams.expand.sub$distkol)
 
 geeseorg$distkol = round(geeseorg$distkol)
@@ -98,39 +97,30 @@ save(distmod, distmod_late, distmod2, distmod2_late, file = "distmods.Rdata")
 Run model three on geese.org data. Random effects now include "id", and do not include observer and habitat type. Fixed effects do not include flock size.
 
 ```{r gorg.m03}
-mod03.gorg = glmer(famsize ~ t_since_in + p.index + (1|neckring) + (1|breedyr/neckring), data = geeseorg, family = poisson)
+mod03.gorg = glmer(famsize ~ t_since_in + p.index + (1|neckring) + (1|breedyr), data = geeseorg, family = poisson)
 ```
 
 # geese.org successful fams
 
 ```{r gorg.success}
-mod03.gorg.s = glmer(famsize ~ t_since_in + p.index + (1|neckring) + (1|breedyr/neckring), data = geeseorg %>% filter(famsize > 0), family = poisson)
+mod03.gorg.s = glmer(famsize ~ t_since_in + p.index + (1|neckring) + (1|breedyr), data = geeseorg %>% filter(famsize > 0), family = poisson)
 ```
 
 ```{r}
 save(mod03, mod03.gorg, mod03.gorg.s, file = "familysize_models.rdata")
 ```
 
-# Family size cold models
-
-```{r cold_mods}
-library(mgcv)
-
-coldmod1 = bam(famsize ~ distkol + s(mintemp) + s(windspeed) + s(ppt) + ti(mintemp,windspeed), data = fams.expand.sub, family = "poisson")
-```
-
-```{r}
-summary(coldmod1)
-library(visreg)
-
-visreg(coldmod1, "mintemp", scale = "response")
-```
-
 # Proportion of successful birds by p.index
 
 ```{r}
-g1 = geeseorg %>% group_by(breedyr) %>% summarise(p.index = mean(p.index, na.rm = T), s = sum(success))
-g2 = geeseorg %>% group_by(breedyr) %>% count()
+#'remove second and more records of birds seen more than once in the same year
+g1 =  geeseorg[!duplicated(geeseorg[,c("neckring", "breedyr")]),]
+#'count geese per year
+g2 = g1 %>% group_by(breedyr) %>% count()
+#'assign success or fail status
+g1$success = g1$famsize > 0
+#'count successful birds
+g1 = g1 %>% group_by(breedyr) %>% summarise(p.index = mean(p.index, na.rm = T), s = sum(success))
 
 g = merge(g1, g2, by = "breedyr")
 g$sprop = g$s/g$n
@@ -139,4 +129,90 @@ g$breedyr = as.factor(g$breedyr)
 
 sprop_mod = glm(sprop ~ p.index + n, data = g, family = "binomial")
 ```
+
+# Stratified geese.org sampling
+
+```{r strat_sample_gorg}
+#'count records of each no. of juvs
+geeseorg %>% group_by(famsize) %>% count()
+
+gorg.excl.dupl =  geeseorg[!duplicated(geeseorg[,c("neckring", "breedyr")]),]
+#'exclude above 6 and use 30 records from each at random, all from fsize = 6
+g_strat = gorg.excl.dupl %>% filter(famsize<5) %>% group_by(famsize) %>% sample_n(size = 80)
+```
+
+```{r run_pred_model}
+mod03.gorg.strat = glmer(famsize ~ t_since_in + p.index + (1|neckring) + (1|breedyr), data = g_strat, family = poisson)
+
+summary(mod03.gorg.strat)
+```
+
+# Stratified distance models for geese.org
+
+```{r}
+distmod2.2 = glmer(distkol ~ (famsize) + t_since_in + (1|breedyr) + (1|neckring), data = g_strat %>% filter(t_since_in < 60), family = "poisson")
+
+distmod2.2_late = glmer(distkol ~ (famsize) + t_since_in + (1|breedyr) + (1|neckring), data = g_strat %>% filter(t_since_in > 60), family = "poisson")
+
+```
+
+```{r}
+summary(distmod2.2)
+```
+
+```{r}
+mround = function(x,b){round(x/b)*b}
+```
+
+# Proportion of successful geese in distance classes from Kolguyev
+
+```{r}
+gorg_dist_prop = gorg.excl.dupl
+
+gorg_dist_prop = gorg_dist_prop %>% mutate(dist_class = mround(distkol, 25))
+
+dist_class_count = gorg_dist_prop %>% group_by(dist_class, breedyr) %>% count()
+
+gorg_dist_prop = gorg_dist_prop %>% group_by(dist_class, breedyr) %>% summarise(s = sum(famsize>0))
+
+gorg_dist_prop = merge(gorg_dist_prop, dist_class_count, by = c("dist_class", "breedyr"))
+
+gorg_dist_prop = gorg_dist_prop %>% mutate(sprop = s/n)
+```
+
+```{r}
+mod_dist_sprop = glmer(sprop ~ dist_class + n + (1|breedyr), data = gorg_dist_prop, family = "binomial")
+
+summary(mod_dist_sprop)
+```
+
+# Stratified sampling by family size in flock family counts
+```{r}
+#stratified equal samples by family size
+fams.strat = fams.expand %>% filter(famsize < 7) %>% group_by(famsize) %>% sample_n(163)
+
+#'stratified equal samples by zone
+fams.zone.strat = fams.expand %>% group_by(zone) %>% sample_n(4088)
+
+#'round distkol
+fams.strat$distkol = round(fams.strat$distkol)
+fams.zone.strat$distkol = round(fams.zone.strat$distkol)
+```
+
+```{r strat_fam_dist_mods}
+distmod_strat_fam = glmer(distkol ~ (famsize) + t_since_in + (1|Breeding_year) + (1|Food_type) + (1|Observer), data = fams.strat %>% filter(t_since_in < 60), family = "poisson")
+
+distmod_strat_fam_late = glmer(distkol ~ (famsize) + t_since_in + (1|Breeding_year) + (1|Food_type) + (1|Observer), data = fams.strat %>% filter(t_since_in > 60), family = "poisson")
+
+summary(distmod_strat_fam_late)
+```
+
+```{r strat_zone_dist_mods}
+distmod_strat_zone = glmer(distkol ~ (famsize) + t_since_in + (1|Breeding_year) + (1|Food_type) + (1|Observer), data = fams.zone.strat %>% filter(t_since_in < 60), family = "poisson")
+
+distmod_strat_zone_late = glmer(distkol ~ (famsize) + t_since_in + (1|Breeding_year) + (1|Food_type) + (1|Observer), data = fams.zone.strat %>% filter(t_since_in > 60), family = "poisson")
+
+summary(distmod_strat_zone_late)
+```
+
 

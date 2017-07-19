@@ -86,6 +86,7 @@ geom_point(data = geeseorg %>% filter(t_since_in < 60, famsize <=10) %>% dplyr::
 geom_point(data = geeseorg %>% filter(t_since_in > 60) %>% dplyr::select(famsize, distkol) %>% slice_rows("famsize") %>% dmap(mean), aes(x = famsize, y = distkol), col = "royalblue", size = 3, pch = 17)+
 
 labs(list(x = "N juveniles", y = "Km. from Kolguyev Island"))+
+  ylim(2700, 3100)+
   xlim(0,10)+ scale_x_continuous(breaks = 0:10)+
   theme_bw()+a
 dev.off()

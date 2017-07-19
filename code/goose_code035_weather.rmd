@@ -9,9 +9,8 @@ library(readr); library(plyr); library(dplyr); library(purrr);library(purrrlyr);
 ```
 
 ```{r load_sites}
-knmi_sites = read_delim("~/git/thesis/code/knmi_sites.txt", 
-     " ", escape_double = FALSE, col_types = cols(lon = col_number()), 
-     trim_ws = TRUE)
+library(readr)
+knmi_sites <- read_csv("~/git/thesis/code/knmi_sites.txt")
 ```
 
 
@@ -31,6 +30,20 @@ nlweather = nlweather %>% filter(station != 209, station != 215)
 #'set ppt of -1 to 0.01
 nlweather$ppt = ifelse(nlweather$ppt < 0, 0.01, nlweather$ppt)
 ```
+
+# Germany weather
+
+```{r}
+deweather <- read_csv("~/git/thesis/code/weather_munster.csv", 
+   col_types = cols(date = col_date(format = "%Y%m%d")))
+```
+
+# Rbind weather frames
+
+```{r}
+weather = rbind(nlweather, deweather)
+```
+
 
 # Load data
 
@@ -55,6 +68,9 @@ flock_stns = apply(flocksites[,c("lon","lat")], 1, function(x){distVincentyEllip
 #'which station is nearest?
 stn.near = data.frame(lookup = flocksites[,c("lookup")], 
                station = knmi_sites[apply(flock_stns, 2, which.min),"station"])
+
+#'mean distances
+mean(apply(flock_stns, 2, min))
 ```
 
 ```{r merge_data}
@@ -75,28 +91,30 @@ geese = merge(geese, nlweather, by.x = c("station","time"), by.y = c("station","
 
 ```{r nfams_temp}
 #'number of families in flocks 
-nfams.tempmod = bam(fams ~ flocksize + s(t_since_in, k = 4) + ti(mintemp) + ti(ppt) + ti(mintemp, t_since_in) + s(Breeding_year, bs = "re") + s(Observer, bs = "re") + s(Food_type, bs = "re"), data = fams, family = "poisson")
+nfams.tempmod = bam(fams ~ flocksize + distkol + s(t_since_in, k = 4) + mintemp + ppt + windspeed + s(Breeding_year, bs = "re") + s(Observer, bs = "re") + s(Food_type, bs = "re"), data = fams, family = "poisson")
 
 summary(nfams.tempmod)
 
 pdf(file = "~/git/thesis/texts/nfamsclim.pdf", width = 5, height = 5, title = "nfamsclim")
 vis.gam(nfams.tempmod, view = c("mintemp", "ppt"), type = "response", theta = 30, color = "cm", zlab = "N families", xlab = "Min. temp", ylab = "Precipitation")
 dev.off()
+
+visreg(nfams.tempmod, "ppt", scale = "response")
 ```
 
 ```{r flocksize_temp}
-flock.tempmod = bam(flocksize ~ distkol + ti(mintemp) + ti(ppt) + ti(mintemp, t_since_in) + s(Observer, bs = "fs") + s(Food_type, bs = "fs"), data = geese, family = "poisson")
+flock.tempmod = bam(flocksize ~ distkol + mintemp + ppt + windspeed + t_since_in + s(Observer, bs = "fs") + s(Food_type, bs = "fs"), data = geese, family = "poisson")
 
 summary(flock.tempmod)
 
 pdf(file = "~/git/thesis/texts/flockclim.pdf", width = 5, height = 5, title = "flockclim")
 vis.gam(flock.tempmod, view = c("mintemp", "ppt"), type = "response", theta = 45, color = "cm", zlab = "Flocksize", xlab = "Min. temp", ylab = "Precipitation")
 dev.off()
+
+visreg(flock.tempmod, "mintemp", scale = "response")
 ```
 
 ```{r juvsclim}
-juvs.tempmod = bam(propjuv ~ s(flocksize) + s(t_since_in, k = 4) + ti(mintemp) + ti(ppt) + s(Breeding_year, bs = "re"), data = geese, family = "binomial")
-
-summary(juvs.tempmod)
+save(nfams.tempmod, flock.tempmod, file = "climmods.rdata")
 ```
 
