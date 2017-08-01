@@ -91,7 +91,9 @@ geese = merge(geese, nlweather, by.x = c("station","time"), by.y = c("station","
 
 ```{r nfams_temp}
 #'number of families in flocks 
-nfams.tempmod = bam(fams ~ flocksize + distkol + s(t_since_in, k = 4) + mintemp + ppt + windspeed + s(Breeding_year, bs = "re") + s(Observer, bs = "re") + s(Food_type, bs = "re"), data = fams, family = "poisson")
+nfams.tempmod = bam(fams ~ s(flocksize) + distkol + s(t_since_in, k = 4) + mintemp + ppt + windspeed + s(Breeding_year, bs = "re") + s(Observer, bs = "re") + s(Food_type, bs = "re"), data = fams2, family = "poisson")
+
+nfamspred = predict(nfams.tempmod, type = "response", terms = "s(flocksize)", newdata = fams2, se.fit = T)
 
 summary(nfams.tempmod)
 
