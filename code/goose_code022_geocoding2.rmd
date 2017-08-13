@@ -26,9 +26,9 @@ geocode.sites =  sites %>% filter(Country %in% c("NL","NRW")) %>% group_by(Site_
 #'geocode unique lookup names
 library(ggmap)
 #'unique lookups
-#lookups = as.character(na.omit(unique(geocode.sites$lookup)))
+lookups = as.character(na.omit(unique(geocode.sites$lookup)))
 #'get coords
-#site.coords = geocode(lookups)
+site.coords = geocode(lookups)
 ```
 
 ```{r merge_data}
@@ -38,6 +38,9 @@ site.coords.names = cbind(site.coords, lookups)
 #'merge with sites and lookup info
 geocode.sites = merge(geocode.sites, site.coords.names, by.x = "lookup",
                       by.y = "lookups", all.x = T)
+
+#'lookups sans coords? none
+apply(site.coords.names, 2, function(x){sum(is.na(x))})
 
 #' how many sites without coords?
 apply(geocode.sites, 2, function(x) sum(is.na(x)))
@@ -67,21 +70,13 @@ library(ggplot2)
 coast = readOGR("vector/ne_10m_land.shp")
 nl = readOGR("vector/ne_10m_admin_0_boundary_lines_land.shp")
 
-#'remove sites outside 0-10, 53-56
+#'remove sites outside 0-10, 50-56
 e = extent(map.sites)
 
 e[1] = 4;e[2] = 10;e[3] = 50
 
-#mmap sites
-tm_shape(nl, bbox = e+0.5)+
-  tm_lines()+
-tm_shape(coast)+
-  tm_polygons(col = "grey80",alpha = 0.1)+
-tm_shape(map.sites)+
-  tm_symbols()+
-tm_scale_bar(position = c("left","bottom"), breaks=c(0,100,200))+
-  tm_format_NLD()+
-  tm_layout(frame = T, title = "Geocoded sites")
-
+plot(map.sites)
+library(maps)
+map("world", add = T)
 ```
 

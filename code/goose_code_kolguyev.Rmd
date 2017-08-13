@@ -1,3 +1,9 @@
+
+```{r include=FALSE}
+knitr::opts_chunk$set(include = FALSE)
+```
+
+```{r prep_data}
 #'load libs
 #'
 setwd("~/git/thesis/code")
@@ -8,11 +14,9 @@ library(readxl);library(plyr);library(dplyr);library(lubridate);library(ggplot2)
 k = read_excel("~/git/thesis/kolguyev.xlsx", sheet = 1)
 
 k = k %>% filter(n.par %in% 1:2, species == "wfg")
+```
 
-
-#'read in data from geeseorg and geese
-#'
-
+```{r read_NL_data}
 ####Load migration data####
 migration = read.csv("migration_data.csv", row.names = 1)
 migration$Date = as.Date(migration$Date)
@@ -44,9 +48,9 @@ geeseorg = merge(geeseorg, lemming[,-4], by.x = "breedyr", by.y = "year", all.x 
 #'
 kwint = fams.expand %>% filter(Breeding_year == 2016, t_since_in < 60)
 kwint2 = geeseorg %>% filter(breedyr == 2016, t_since_in <60)
+```
 
-#'compare fam sizes
-#'
+```{r merge_data}
 #'merge data
 #'
 k$site = "kolguyev"
@@ -60,8 +64,10 @@ data2016 = rbind(as.data.frame(k[,c("famsize","site")]),
           as.data.frame(kwint[,c("famsize","site")]),
           as.data.frame(kwint2[,c("famsize","site")]))
 
-data2016$site = as.factor(a$site)
+data2016$site = as.factor(data2016$site)
+```
 
+```{r compare_sites_famsizes}
 #'run glm
 #'
 mod.site = glm(famsize ~ site, data = data2016, family = poisson)
@@ -77,12 +83,13 @@ library(visreg)
 vis.mod.site = visreg(mod.site, scale = "response", plot = F)
 
 vis.mod.site.fit = vis.mod.site$fit
+```
 
+```{r plot_mod.site, include=FALSE}
 #'plot
 #'
 #'
-png(file = "~/git/thesis/texts/kolguyev.png", width = 800, height = 800,
-    res = 300)
+png(file = "kolguyev.png", width = 800, height = 800, res = 300)
 ggplot()+
   geom_errorbar(data = vis.mod.site.fit, aes(x = site,  ymin = visregLwr,
                                ymax = visregUpr), width = 0.1)+
@@ -96,3 +103,5 @@ ggplot()+
   theme_bw()+
   theme(axis.text.x = element_blank())
 dev.off()
+
+```

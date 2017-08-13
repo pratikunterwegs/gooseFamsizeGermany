@@ -1,15 +1,5 @@
+####Data cleaning geese.org####
 
-```{r, include=FALSE}
-#'load knitr
-library(knitr);library(plyr);library(dplyr);library(data.table);library(purrr);library(ggplot2);library(readxl)
-
-#'suppress all code output but run code
-opts_chunk$set(include = FALSE)
-opts_knit$set(root.dir = "~/git/thesis/")
-```
-
-
-```{r load_data, warning=FALSE}
 #'read in the first sheet
 library(readxl)
 gorg <- read_excel("~/git/thesis/export-kees-andrea.xls")
@@ -20,16 +10,16 @@ summary(gorg)
 unique(gorg$THIS_EURING_CODE)
 #'rename to make things easier
 gorg = plyr::rename(gorg, replace = c("THIS_BIRD" = "id",
-                            "DATUM" = "date",
-                            "X" = "lon",
-                            "Y" = "lat",
-                            "THIS_BIRD_RING_TYPE" = "ringtype",
-                            "THIS_BIRD_NECK_RING" = "neckring",
-                            "THIS_YEAR_OF_BIRTH" = "birthyear",
-                            "THIS_AGE_AT_RINGING" = "ringing.age",
-                            "PARTNER_NECK_RING" = "partner.neckring",
-                            "NUMBER_OF_YOUNG" = "famsize",
-                            "PARTNER" = "partner.ringed.status"))
+                                      "DATUM" = "date",
+                                      "X" = "lon",
+                                      "Y" = "lat",
+                                      "THIS_BIRD_RING_TYPE" = "ringtype",
+                                      "THIS_BIRD_NECK_RING" = "neckring",
+                                      "THIS_YEAR_OF_BIRTH" = "birthyear",
+                                      "THIS_AGE_AT_RINGING" = "ringing.age",
+                                      "PARTNER_NECK_RING" = "partner.neckring",
+                                      "NUMBER_OF_YOUNG" = "famsize",
+                                      "PARTNER" = "partner.ringed.status"))
 
 useful = c("id","date","lon","lat","ringtype","neckring","birthyear",
            "ringing.age","partner.neckring","famsize","partner.ringed.status")
@@ -39,18 +29,20 @@ gorg = gorg[,useful]
 
 #'make date posixct
 gorg$date = as.POSIXct(gorg$date, format = "%d-%m-%Y")
-```
 
-```{r remove_paired_records}
+####Remove paired records####
+
+#'remove records where a pair is seen together and recorded separately beause both birds are neckbanded
+
 #'remove records where the neckring and partner.neckring are the same
 
 #'set partner neckring NAs to none
 gorg$partner.neckring[is.na(gorg$partner.neckring)] = "none"
 #'filter by partner neckring not identical to neckring
 gorg = gorg %>% filter(partner.neckring != neckring)
-```
 
-```{r remove_juvs}
+####Remove juveniles####
+
 #'remove all where ringing.age is juvenile
 #'first save all who have a birth year
 gorg.byear = gorg %>% filter(!is.na(birthyear))
@@ -62,9 +54,9 @@ gorg.byear = gorg.byear %>% filter(year(date)-birthyear >= 2)
 
 #'bind again
 gorg = rbind(gorg, gorg.byear)
-```
 
-```{r check_famsize}
+####Check family size (N juvs)####
+
 #'how many famsizes
 unique(gorg$famsize)
 
@@ -81,33 +73,8 @@ gorg = gorg %>% filter(as.numeric(substring(famsize, 1, 2)) %in% c(0:12))
 gorg$famsize = as.numeric(gorg$famsize)
 
 unique(gorg$famsize)
-```
 
-```{r remove_metal_rings}
-unique(gorg$ringtype)
-#'these rings have no clues regarding colour
-```
-
-```{r famsize_trajectory}
-#'how many geese are recorded more than once in the same season?
-
-#'assign a breeding year 
-gorg$breedyr = ifelse(month(gorg$date) < 6, year(gorg$date)-1, year(gorg$date))
-
-#'get geese recorded twice or more in the same breeding year
-fam.traj = gorg[which(duplicated(gorg$id, gorg$breedyr)),]
-
-#'how many unique individuals?
-length(unique(fam.traj$id))
-
-
-#ggplot(gorg)+
- # geom_line(aes(x=date, y = famsize, col = as.factor(id)))+
-  #guides(colour = F)+
-  #facet_wrap(~breedyr, scales = "free")
-```
-
-```{r}
+####Remove single birds####
 #'remove records where the parnter is NA or no partner, and the family size is 0.
 
 #'remove if partner status is NA or no partner, and the family size is 0
@@ -115,12 +82,13 @@ gorg = gorg %>% mutate(famsize = ifelse(famsize == 0 & partner.ringed.status %in
 
 #'remove NAs
 gorg = gorg %>% filter(!is.na(famsize))
-```
 
+####Export data####
 
+#'assign a breeding year
+gorg$breedyr = ifelse(month(gorg$date) < 6, year(gorg$date)-1, year(gorg$date))
 
-```{r export}
+#'filter by year and coordinates
 gorg = gorg %>% filter(breedyr >= 2000, lon < 10, lon > 0, lat>=50, lat<=54)
 
 write.csv(gorg, "data.geeseorg.csv")
-```

@@ -1,6 +1,9 @@
+
 ---
 title: "Goose Flock Data Description"
-output: pdf_document
+output:
+  html_document: default
+  pdf_document: default
 ---
 
 ```{r, include=FALSE}
@@ -8,7 +11,7 @@ output: pdf_document
 library(knitr)
 
 #'suppress all code output but run code
-opts_chunk$set(echo = FALSE)
+opts_chunk$set(include = FALSE)
 opts_knit$set(root.dir = "~/git/thesis/")
 tufte::tufte_handout()
 ```
@@ -131,7 +134,7 @@ goose_cols = colorRampPalette(brewer.pal(9, "YlOrRd"))
 ggplot(data = as.data.frame(goose_year_month), 
        aes(x=Breeding_year, y=Month, fill=value)) + 
   geom_tile()+ 
-  scale_fill_gradientn()+
+  scale_fill_gradient()+
   labs(list(fill = "Records"))+
   theme_bw()
 ```

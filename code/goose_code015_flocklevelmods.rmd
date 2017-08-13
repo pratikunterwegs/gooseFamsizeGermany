@@ -1,8 +1,13 @@
----
-title: Flock level models
----
 
-# Source data
+```{r}
+#'load knitr
+library(knitr);library(plyr);library(dplyr)
+
+#'suppress all code output but run code
+opts_chunk$set(include = FALSE)
+opts_knit$set(root.dir = "~/git/thesis/code")
+```
+
 
 ```{r load_dataprep}
 library(maps); library(sjPlot)
@@ -10,47 +15,10 @@ source("dataprep.R")
 library(mgcv); library(lme4)
 ```
 
-# Flockmod
-
-Model with flocksize as response, lon-lat, days, p.index, as predictors, others as random effects.
-
-```{r run_glmer}
-#geese = geese %>% filter(complete.cases(lon, t_since_in, p.index, Breeding_year, Observer, Food_type))
-
-flockmod = glmer(flocksize ~ distkol + t_since_in + p.index + mintemp + ppt + windspeed + (1|Breeding_year) + (1|Observer) + (1|Food_type), data = geese, family = poisson)
-
-```
-
-```{r summary}
-summary(flockmod)
-```
-
-# Number of families ~ flocksize
-
-```{r gam_fams}
-fams2 = fams %>% filter(flocksize>0, flocksize == N_sampled) %>% plyr::mutate(propjuv = propjuv/100)
-
-famsmod = gam(fams ~ s(flocksize, k = 2) + distkol + p.index+ s(Breeding_year, bs = "re") + s(t_since_in, k = 4) +s(Observer, bs = "re") + s(Food_type, bs = "re"), data = fams2, family = poisson)
-```
-
-```{r}
-summary(famsmod)
-```
-
-```{r}
-w = geese %>% group_by(Breeding_year) %>% summarise(prevwinter = first(durwinter))
-
-y = 2001:2017
-
-geese = merge(geese, cbind(w[,"prevwinter"],y), by.x = "Breeding_year", by.y = "y", all.x = T)
-
-```
-
-
-# Juvenile proportion
-
-
 ```{r run_modjuvs}
+#'model for juvenile proportion of flocks from flock count data. no weather data included.
+
+#'get complete cases
 geese = geese %>% filter(complete.cases(Breeding_year, Observer, Food_type, distkol, t_since_in, flocksize, p.index))
 
 #'using arctic birds index

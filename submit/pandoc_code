@@ -1,0 +1,1 @@
+pandoc *.md Yaml.yaml -o goose_paper.pdf -s -S --latex-engine=xelatex --filter pandoc-citeproc

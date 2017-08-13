@@ -1,17 +1,13 @@
----
-title: Cleaning Data
----
 
 ```{r, include=FALSE}
 #'load knitr
 library(knitr);library(plyr);library(dplyr)
 
 #'suppress all code output but run code
-opts_chunk$set(eval = FALSE)
+opts_chunk$set(include = FALSE)
 opts_knit$set(root.dir = "~/git/thesis/code")
 ```
 
-# Import data from excel file, set column types
 
 ```{r load data, include=FALSE}
 #'load libs
@@ -34,7 +30,6 @@ data.raw.goose = read_excel("~/git/thesis/Age-ratiodata-GWfG-toPratik.xlsx",
 
 ```
 
-# Define general spatio-temporal extent
 
 ```{r reduce_data}
 #'all records in the netherlands or nrw after than 2000
@@ -47,7 +42,6 @@ goose.clean = goose.clean %>% filter(Breeding_year >= 2000)
 goose.old = goose.clean %>% filter(Breeding_year < 2000)
 ```
 
-# Get time as a new column, define explicit temporal extents
 
 ```{r assign_time}
 #'fix missing days, if days are missing, assign the 15th of the month
@@ -62,7 +56,6 @@ goose.clean$time = as.POSIXct(paste(goose.clean$Year,                           
 goose.clean = goose.clean[goose.clean$time < "2017-05-01",]
 ```
 
-# Fix missing counts
 
 ```{r fix_flocksize}
 #'fix flock size:
@@ -93,7 +86,7 @@ apply(goose.clean, 2, function(x){sum(is.na(x))})
 write.csv(goose.clean, "~/git/thesis/code/data.goose.clean.csv")
 ```
 
-# Add zone as a variable, rename some variables
+
 
 ```{r add_vars}
 #'duplicate goose.clean
@@ -131,7 +124,7 @@ goose.clean$fams = apply(goose.clean[,c(9:18)], 1, function(x){sum(x, na.rm = T)
 fams = goose.clean[goose.clean$fams > 0,]
 ```
 
-# Geocode the data
+
 
 ```{r geocoding_and_spatial_sites}
 #'merge the dataframe fams which has detailed family count data with geocoded sites, and with geocoded zones
@@ -148,8 +141,6 @@ fams.coords = fams.coords[complete.cases(fams.coords[,c("lon","lat")]),]
 fams.coords = fams.coords %>% filter(lon > 0 & lon < 10, lat >=50 & lat <= 54)
 ```
 
-# Geocoding by zone
-This is not necessary, since all sites have geocodable names (lookup names).
 
 ```{r coordinates_zones}
 #'get the province coordinates
@@ -159,18 +150,17 @@ zones = zones %>% filter(regions %in% c("Leer","Friesland","Duisburg","Rotterdam
 
 zones$zone = c("Rhinelands","IJsselmeer","East Frisia","Southwest")
 
-#'merge with site names, and if lon-lat is NA, then with zone coords
+#'merge with site names
 goose.clean = merge(goose.clean, geocode.sites[,c("lookup", "Site_name","lon","lat")], by = "Site_name")
 
 #'where do NAs remain, and how many?
 dim(goose.clean[complete.cases(goose.clean[,c("lon","lat")]),])
 ```
 
-# Export data
 
 ```{r export_data}
 #'remove oob points
-goose.clean = goose.clean %>% filter(lon > 0, lon < 10, lat >=50 & lat <=54)
+goose.clean = goose.clean %>% filter(lon > 0, lon < 10, lat >=50, lat <=54)
 
 #'write to csv as data.goose.clean
 write.csv(goose.clean, "data.goose.clean.csv")
@@ -182,7 +172,6 @@ write.csv(fams, "fams.csv")
 write.csv(fams.coords, "data.fams.coords.csv")
 ```
 
-# Expand family data
 
 ```{r expand_family_data, eval=FALSE}
 #set all fams from NA to 0
@@ -202,8 +191,6 @@ famrep = unlist(famrep)
 fams.expand$famsize = as.numeric(famrep)
 ```
 
-
-# Make data spatial
 
 ```{r make_expanded_data_spatial, eval=FALSE}
 #'make expanded data spatial
