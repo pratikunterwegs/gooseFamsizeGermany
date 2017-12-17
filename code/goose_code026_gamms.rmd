@@ -25,26 +25,6 @@ fams.expand = fams.expand %>% filter(flocksize > 0)
 
 ```
 
-# Reduce the Rhinelands data
-
-```{r}
-#'how many families from the Rhinelands?
-plyr::count(fams.expand, "zone")
-
-#fams.expand = fams.expand %>% filter(complete.cases(lon, flocksize, t_since_in, p.index, Breeding_year, Observer, Food_type))
-#'as many as from the other zones combined, almost
-
-#'subsample to have only half as many. first remove rhinelands data from the frame
-fams.expand.sub = fams.expand %>% filter(zone !=  "Rhinelands")
-#'now subsample
-fams.rhine = fams.expand %>% filter(zone == "Rhinelands")
-n.rhine = dim(fams.rhine)[1]
-fams.rhine = fams.rhine[runif(n.rhine/2, 1, n.rhine),]
-
-#'reattach to the main data
-fams.expand.sub = rbind(fams.expand.sub, fams.rhine)
-```
-
 # Which time proxy?
 
 ```{r, eval=FALSE}
@@ -76,21 +56,21 @@ geeseorg$distkol = round(geeseorg$distkol)
 ```
 
 ```{r}
-distmod = glmer(distkol ~ (famsize) + t_since_in + (1|Breeding_year) + (1|Food_type) + (1|Observer), data = fams.expand.sub %>% filter(t_since_in < 60), family = "poisson")
+distmod = glmer(distkol ~ (famsize) + t_since_in + (1|Breeding_year) + (1|Food_type) + (1|Observer), data = fams.expand.sub %>% filter(t_since_in < 60), family = "gaussian")
 
-distmod_late = glmer(distkol ~ (famsize) + t_since_in + (1|Breeding_year) + (1|Food_type) + (1|Observer), data = fams.expand.sub %>% filter(t_since_in > 60), family = "poisson")
+distmod_late = glmer((distkol) ~ (famsize) + t_since_in + (1|Breeding_year) + (1|Food_type) + (1|Observer), data = fams.expand.sub %>% filter(t_since_in > 60), family = "gaussian")
 
-distmod2 = glmer(distkol ~ (famsize) + t_since_in + (1|breedyr) + (1|neckring), data = geeseorg %>% filter(t_since_in < 60), family = "poisson")
+distmod2 = glmer(distkol ~ (famsize) + t_since_in + (1|breedyr) + (1|neckring), data = geeseorg %>% filter(t_since_in < 60), family = "gaussian")
 
-distmod2.1 = glmer(distkol ~ (famsize) + t_since_in + (1|breedyr) + (1|neckring), data = geeseorg %>% filter(t_since_in < 60, famsize >0), family = "poisson")
+distmod2.1 = glmer(distkol ~ (famsize) + t_since_in + (1|breedyr) + (1|neckring), data = geeseorg %>% filter(t_since_in < 60, famsize >0), family = "gaussian")
 
-distmod2_late = glmer(distkol ~ (famsize) + t_since_in + (1|breedyr) + (1|neckring), data = geeseorg %>% filter(t_since_in > 60), family = "poisson")
+distmod2_late = glmer(distkol ~ (famsize) + t_since_in + (1|breedyr) + (1|neckring), data = geeseorg %>% filter(t_since_in > 60), family = "gaussian")
 
-distmod2.1_late = glmer(distkol ~ (famsize) + t_since_in + (1|breedyr) + (1|neckring), data = geeseorg %>% filter(t_since_in > 60, famsize >0), family = "poisson")
+distmod2.1_late = glmer(distkol ~ (famsize) + t_since_in + (1|breedyr) + (1|neckring), data = geeseorg %>% filter(t_since_in > 60, famsize >0), family = "gaussian")
 ```
 
 ```{r}
-save(distmod, distmod_late, distmod2, distmod2_late, file = "distmods.Rdata")
+save(distmod, distmod_late, distmod2, distmod2_late, distmod2.1, distmod2.1_late, file = "distmods.Rdata")
 ```
 
 # geese.org data
@@ -214,5 +194,3 @@ distmod_strat_zone_late = glmer(distkol ~ (famsize) + t_since_in + (1|Breeding_y
 
 summary(distmod_strat_zone_late)
 ```
-
-

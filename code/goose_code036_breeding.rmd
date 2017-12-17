@@ -1,0 +1,75 @@
+
+```{r}
+library(plyr);library(dplyr);library(purrr);library(purrrlyr)
+```
+
+```{r}
+#'load the usual data
+source("dataprep.R")
+```
+
+```{r}
+#'count the number of times a goose is recorded between and not within years
+library(lubridate)
+
+geeseorg$date = as.POSIXct(geeseorg$date)
+
+g1 = geeseorg %>% arrange(neckring, breedyr, rev(date))
+g1 =  g1[!duplicated(g1[,c("neckring", "breedyr")]),]
+g2 = g1 %>% count(neckring)
+
+#'retain records of geese observed between years
+g1 = merge(g1, g2, by = "neckring")
+g1 = g1 %>% filter(n > 1)
+
+#'around 4300 geese seen between years, sort by id and year
+g1 = g1 %>% arrange(neckring, breedyr)
+
+#'set breedyr as a numeric
+g1$breedyr = as.numeric(as.character(g1$breedyr))
+
+#'find consecutive years
+g3 = g1 %>% group_by(neckring) %>% mutate(consecutive = c(0, abs(diff(breedyr)) == 1))
+
+#'find consecutives in the reverse order, then remove rows with consecutiveness sum = 0
+g3 = g3 %>% arrange(neckring, -breedyr)
+g3 = g3 %>% group_by(neckring) %>% mutate(consecutive2 = c(0, abs(diff(breedyr)) == 1))
+
+g3 = g3 %>% filter(consecutive+consecutive2 > 0)
+
+#'reoder by ascending breeding year
+g3 = g3 %>% arrange(neckring, breedyr)
+
+#'did the bird breed in the previous year?
+g3 = g3 %>% mutate(success = ifelse(famsize > 0, 1, 0))
+g3 = g3 %>% group_by(neckring) %>% mutate(prev_yr_br = c(0, abs(diff(success)) == 1))
+
+#'set all breeding successes in years where no info for previous years, ie, where consecutive2 > consecutive = NA
+g3$prev_yr_br = ifelse(g3$consecutive2 > g3$consecutive, NA, g3$prev_yr_br)
+
+```
+
+```{r}
+#'run a simple model for the probability than family size is greater than zero (ie, breeding success) as a response to whether there was breeding success in the previous year
+
+library(lme4)
+
+consecutive_breeding_mod01 = glmer(success ~ prev_yr_br + (1|neckring) + (1|breedyr), data = g3, family = binomial)
+```
+
+```{r}
+summary(consecutive_breeding_mod01)
+```
+
+```{r}
+#'try a simple fisher exact test
+#'first look at the numbers
+g3 %>% group_by(prev_yr_br) %>% count(success)
+
+#'make a matrix and run a fisher exact test
+g4 = matrix(c(922, 315, 165, 233), nrow = 2)
+rownames(g4) = c("prev_year_fail","prev_year_success");colnames(g4) = c("current_year_fail","current_year_success")
+
+fisher.test(g4)
+```
+

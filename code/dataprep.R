@@ -119,11 +119,4 @@ geeseorg$distkol = distVincentyEllipsoid(p1 = geeseorg[,c("lon","lat")], p2 = ko
 fams.expand = fams.expand %>% filter(flocksize > 0)
 
 #'select only Rhine data
-fams.expand.sub = fams.expand %>% filter(zone !=  "Rhinelands")
-#'now subsample only half
-fams.rhine = fams.expand %>% filter(zone == "Rhinelands")
-n.rhine = dim(fams.rhine)[1]
-fams.rhine = fams.rhine[runif(n.rhine/2, 1, n.rhine),]
-
-#'reattach to the main data
-fams.expand.sub = rbind(fams.expand.sub, fams.rhine)
+fams.expand.sub = rbind(fams.expand %>% filter(zone != "Rhinelands"), fams.expand %>% filter(zone == "Rhinelands") %>% sample_frac(size = 0.5))

@@ -54,7 +54,7 @@ fams2015 = lapply(fams2015, function(x){lapply(x, function(y){y %>% filter(t < "
 
 ####Append lists####
 
-f1 = append(fams2014.5, fams2016.4)
+f1 = append(fams2014, c(fams2015, fams2016.4))
 
 ####Add names to each track####
 for(i in 1:13){

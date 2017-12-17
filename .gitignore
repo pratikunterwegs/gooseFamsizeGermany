@@ -10,4 +10,9 @@
 *.csv
 *.kml
 *.docx
+*.doc
+*.dbf
+*.shp
+*.shx
+*.jpg
 *.odt

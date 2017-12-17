@@ -52,6 +52,7 @@ fams2015 = lapply(fams2015, function(x){lapply(x, function(y){y %>% filter(t < "
 
 
 ```{r append_lists}
+#'merge lists
 f1 = append(fams2014, c(fams2015, fams2016.4))
 ```
 
@@ -63,6 +64,9 @@ for(i in 1:13){
         f1[[i]][[j]]$id = names(f1[[i]])[j]
     }
 }
+
+#'assign age
+f1 = lapply(f1, function(x) {lapply(x, function(y){y %>% mutate(age = ifelse(y$id %in% c("X43_AdrieII_M","X44_Adriana_F","Anna","Anton","X71_Jan_M","X70_Janika_F", "X52_EvertII_M","X53_Eva_F", "Hannah","HArkady","HeBerend","Hennie","X82_Chris_M", "X81_Christa_F", "Jouri","Jolanda","Mari","Maria","Nanneke","Napoleon","Rolf","Ronja","X48_Tineke_F","X49_Timo_M", "X58_WouterII_M", "X59_Wolka_F"), "ad", "juv"))})})
 ```
 
 
@@ -115,6 +119,8 @@ fdistm = lapply(fdistm, function(x){x = as.data.frame(x)})
 
 #'add names to dfs
 names(fdistm) = names(f2)
+
+#'add column names
 ```
 
 ```{r}

@@ -45,6 +45,7 @@ library(rasterVis)
 library(proj4)
 library(rgdal) #'sudo apt-get install libgdal-dev libproj-dev tcl-dev
 library(sp)
+library(sf)
 library(maptools)
 
 #adehabitat family
@@ -85,10 +86,13 @@ library(ctmm) #'installed till here
 library(TwoStepCLogit)
 library(scales)
 library(pbs)
+
+#remote sensing
 library(RStoolbox)
+library(moveVis)
 
 library(cluster)
-library(RCurl)
+#library(RCurl)
 library(bitops)
 library(plotKML)
 
