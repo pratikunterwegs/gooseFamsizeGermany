@@ -83,6 +83,8 @@ dev.off()
 
 # Fig 3. Family size ~ time
 
+## Fig 3a. Obs data
+
 ```{r model_preds_mod03}
 #'get model responses for mod03, mod03.gorg, mod03.gorg.s
 #'flock counts
@@ -138,18 +140,27 @@ png(filename="~/git/thesis/texts/fig03.png", height = 1600, width=1600, res = 30
 dev.off()
 ```
 
-## Fig 3.b
+## Fig 3b. GPS data
 
-```{r}
-pdf(file = "/home/pratik/git/thesis/texts/fig03b.pdf", height = 4, width = 4)
+```{r get_data}
+load("splits.with.ids")
+```
 
-ggplot()+
-  geom_path(data = splits %>% filter(event %in% c("Start", "Split")), aes(x = t_since_in, y = fsize, group = fam), arrow = arrow(length = unit(0.02, "npc"), type = "closed"), lty = 1, lwd = 0.2, col = "black")+
-  
- geom_text(data = splits %>% filter(fam %in% c("Ev","Wo","Ha","Na","Ti","Ma","Ro","An","Jo"), event == "Start"), aes(x=t_since_in, y = fsize, label = substr(fam,1,1), angle = 0), hjust = 1, vjust = 0, size = 4)+
-  labs(list(x = "Days since arrival", y = "Family size"))+ 
-  ylim(1,7.2)+ xlim(30,180)+
-  theme_bw()+a
+
+```{r plot_3b}
+pdf(file = "~/git/thesis/texts/fig3b.pdf", height = 4, width = 4)
+
+ggplot(data = splits %>% filter(fam %in% c("Ev","Wo","Ha","Na","Ti","Ma","Ro","An","Jo")))+
+  geom_path(aes(x = t_since_in, y = juvs, group = fam), lty = 1)+
+
+  geom_point(data = splits %>% filter(fam %in% c("Ev","Wo","Ha","Na","Ti","Ma","Ro","An","Jo"), event == "end"), aes(x = t_since_in, y = juvs, group = fam), col = 1, pch = 4, size = 2)+
+  geom_point(data = splits %>% filter(fam %in% c("Ev","Wo","Ha","Na","Ti","Ma","Ro","An","Jo"), event == "split"), aes(x = t_since_in, y = juvs+0.2, group = fam), shape = 21, fill = "white", col = 2, size = 5, stroke = 0.8)+
+   geom_text(data = splits %>% filter(fam %in% c("Ev","Wo","Ha","Na","Ti","Ma","Ro","An","Jo"), event == "split"), aes(x = t_since_in, y = juvs+0.2, group = fam, label = juvs))+
+  facet_wrap(~fam, nrow = 5, strip.position="right")+
+  theme_minimal()+a+theme(strip.background=element_rect(fill="white", size = 0.7),
+                          axis.line.x=element_line(), axis.line.y=element_line(), axis.ticks=element_line())+
+  scale_y_continuous(breaks= c(0,5))+
+    labs(list(x = "Days since arrival", y = "Number of juveniles"))
 
 dev.off()
 ```

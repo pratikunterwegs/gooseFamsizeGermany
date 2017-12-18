@@ -1,3 +1,8 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
 
 ```{r load_env, message=FALSE, warning=FALSE}
 source("knitr_options.r")
@@ -58,15 +63,13 @@ f1 = append(fams2014, c(fams2015, fams2016.4))
 
 
 ```{r add_names_tracks}
-#add bird names to tracks
+#add bird names to tracks and assign age
 for(i in 1:13){
     for(j in 1:length(f1[[i]])){
         f1[[i]][[j]]$id = names(f1[[i]])[j]
+        f1[[i]][[j]]$age = ifelse(f1[[i]][[j]]$id %in% c("X43_AdrieII_M","X44_Adriana_F","Anna","Anton","X71_Jan_M","X70_Janika_F", "X52_EvertII_M","X53_Eva_F", "Hannah","HArkady","HeBerend","Hennie","X82_Chris_M", "X81_Christa_F", "Jouri","Jolanda","Mari","Maria","Nanneke","Napoleon","Rolf","Ronja","X48_Tineke_F","X49_Timo_M", "X58_WouterII_M", "X59_Wolka_F"), "ad", "juv")
     }
 }
-
-#'assign age
-f1 = lapply(f1, function(x) {lapply(x, function(y){y %>% mutate(age = ifelse(y$id %in% c("X43_AdrieII_M","X44_Adriana_F","Anna","Anton","X71_Jan_M","X70_Janika_F", "X52_EvertII_M","X53_Eva_F", "Hannah","HArkady","HeBerend","Hennie","X82_Chris_M", "X81_Christa_F", "Jouri","Jolanda","Mari","Maria","Nanneke","Napoleon","Rolf","Ronja","X48_Tineke_F","X49_Timo_M", "X58_WouterII_M", "X59_Wolka_F"), "ad", "juv"))})})
 ```
 
 
@@ -79,7 +82,7 @@ f1 = lapply(f1, function(x){lapply(x, function(y){y %>% dplyr::select(t, lon, la
 
 library(data.table)
 #'round position to the half hour
-#f1 = lapply(f1, function(x){lapply(x, function(y){y %>% slice_rows("t") %>% dmap(function(x) mean(x, na.rm = T))})})
+f1 = lapply(f1, function(x){lapply(x, function(y){y %>% group_by(t) %>% summarise(lon = mean(lon, na.rm = T), lat = mean(lat, na.rm = T), id = unique(id), age = unique(age))})})
 ```
 
 ```{r distances}
@@ -121,6 +124,9 @@ fdistm = lapply(fdistm, function(x){x = as.data.frame(x)})
 names(fdistm) = names(f2)
 
 #'add column names
+for(i in 1:13){
+  colnames(fdistm[[i]]) = names(f1[[i]])
+}
 ```
 
 ```{r}
@@ -133,29 +139,48 @@ load("famdists02.rdata")
 #'set all NA to Inf. turns the dfs into a list again.
 #fdistm2 = lapply(fdistm, function(x){lapply(x, function(y){replace(y, which(is.na(y)), NA)})})
 fdistm2 = fdistm
-```
 
+#'are indivs within 1km or not?
+fdistm2 = lapply(fdistm, function(x) x < 1000)
 
-```{r make_df_sizes}
-#'make df
-fdistm3 = fdistm2
-#fdistm3 = lapply(fdistm3, as.data.frame)
+for(i in 1:13) fdistm2[[i]][is.na(fdistm2[[i]])] = 0
+
+for(i in 1:13) fdistm2[[i]] = rollapply(fdistm2[[i]], seq(dim(fdistm2[[i]])[1],1), max, align = "left")
+
+#fdistm2 = lapply(fdistm2, function(x) x = as.data.frame(x))
+
+#'assign age
+for(i in 1:13) colnames(fdistm2[[i]]) = ifelse(colnames(fdistm2[[i]]) %in% c("X43_AdrieII_M","X44_Adriana_F","Anna","Anton","X71_Jan_M","X70_Janika_F", "X52_EvertII_M","X53_Eva_F", "Hannah","HArkady","HeBerend","Hennie","X82_Chris_M", "X81_Christa_F", "Jouri","Jolanda","Mari","Maria","Nanneke","Napoleon","Rolf","Ronja","X48_Tineke_F","X49_Timo_M", "X58_WouterII_M", "X59_Wolka_F"), "ad", "juv")
+
+#'count juvs and ads in each fam
+
+for (i in 1:13) {
+  b = fdistm2[[i]]
+  fdistm2[[i]] = cbind(b, juvs = apply(b[,colnames(b) == "juv"], 1, sum), ads = apply(b[,colnames(b) == "ad"], 1, sum))
+}
 
 #'get family sizes per half hour
-fdistm3 = lapply(fdistm3, function(x){x %>% mutate(fsize= apply(x, 1, function(y){sum(y<1000, na.rm = T)}))})
+fdistm3 = list()
+fdistm3 = lapply(fdistm, function(x){x = x %>% mutate(fsize= apply(x, 1, function(y){sum(y < 1e3, na.rm = T)}))})
+
+for(i in 1:13) fdistm3[[i]]$fsize = rollapply(fdistm3[[i]]$fsize, seq(dim(fdistm[[i]])[1],1), function(x) max(x, na.rm = T), align = "left")
 ```
 
 
 ```{r add_time}
 #'add the timestamps to the matrix
 for(i in 1:length(f2)){
+  fdistm2[[i]] = cbind(fdistm2[[i]], time = (f2[[i]]$t))
   fdistm3[[i]] = cbind(fdistm3[[i]], time = (f2[[i]]$t))
 }
 
 library(lubridate)
 
 #'round time to the day
-#fsize = lapply(fdistm3, function(x){x = x %>% plyr::summarise(time = round_date(time, "day"), fsize)})
+#fdistm3 = lapply(fdistm3, function(x){x = x %>% mutate(time = round_date(time, "day"), fsize)})
+
+#'17/12/17 work. find which geese are present in 1km on each day
+#fdistm2 = lapply(fdistm2, function(x){x = x %>% group_by(time = round_date(time, "day")) %>% dmap(max)})
 ```
 
 ```{r get_maxsize}
@@ -164,7 +189,7 @@ library(purrr);library(zoo)
 #fsize2 = lapply(fsize, function(x){x = x %>% slice_rows("time") %>% dmap(max)})
 
 #'set famsize to the max famsize in the next n fixes
-fsize2 = lapply(fdistm3, function(x){x = x %>% mutate(fsize = rollapply(fsize, seq(dim(x)[1],1), max, align = "left"))})
+#fsize2 = lapply(fdistm3, function(x){x = x %>% mutate(fsize = rollapply(fsize, seq(dim(x)[1],1), max, align = "left"))})
 ```
 
 ```{r save_fam_size_data}
@@ -180,14 +205,14 @@ daycoords = lapply(f2, function(x){x %>% select(t, lon.x, lat.x) %>% plyr::summa
 
 #'merge coords with fsize2 and assign families
 for(i in 1:length(daycoords)){
-  daycoords[[i]] = merge(daycoords[[i]], fsize2[[i]], by = "time")
-  daycoords[[i]]$fam = names(fsize2)[i]
+  daycoords[[i]] = cbind(daycoords[[i]], fsize = fdistm3[[i]]$fsize, fdistm2[[i]][,c("ads","juvs")])
+  daycoords[[i]]$fam = names(fdistm3)[i]
 }
 
 #'keep rel cols
 famcoords = lapply(daycoords, function(x){x %>% select(time, lon, lat, fam)})
 #'rbind the list
-famcoords = bind_rows(famcoords)
+famcoords = bind_rows(daycoords)
 
 save(daycoords, file = "fsize_coords.rdata")
 
@@ -196,35 +221,44 @@ save(daycoords, file = "fsize_coords.rdata")
 
 ```{r find_splits}
 #'select rel cols
-daycoords = lapply(daycoords, function(x){x %>% select(time, lon, lat, fam, fsize)})
 daycoords = bind_rows(daycoords)
 #'split by family
-splits = split(daycoords, f = daycoords$fam)
+splits = dlply(daycoords, "fam")
 
 #'get attrs at split
 splits2 = lapply(splits, function(x){x[which(diff(x$fsize)<0)+1,]})
 
+#'get the start and end points of the tracks.
 ends = lapply(splits, function(x){rbind(x[1,], x[dim(x)[1],])})
 
-splits2 = bind_rows(splits2)
-splits2$event = "Split"
+#'combine split data. 17/12/17, splits3 subbed for splits2
+#splits2 = bind_rows(splits3)
+#splits2$event = "Split"
 
-ends = bind_rows(ends)      
-ends$event = rep(c("Start","Exit"), 13)
+splits2 = splits2 %>% map(function(x) x %>% mutate(event = "split"))
 
-splits = rbind(splits2, ends)
+ends = ends %>% map(function(x) x %>% mutate(event = c("start","end")))
 
-splits = splits %>% plyr::arrange(fam, time)
+#'attach ends to fam splits within lists, ie, splits3
+for (i in 1:13) splits2[[i]] = rbind(splits2[[i]], ends[[i]])
+
+#'arrange by time
+splits2 = splits2 %>% map(function(x) x %>% arrange(time))
 
 #'bind rows
-splits2 = bind_rows(splits)
+splits = bind_rows(splits2)
 
-coordinates(splits2) = ~lon+lat
+source("days_since.r")
+splits$t_since_in = days_since(splits$time)
+
+#coordinates(splits2) = ~lon+lat
 
 #'convert to spatial lines for tmap
 #famlines = split(splits[,c("lon","lat")], f = splits$fam)
 
 #famlines = spLines(lapply(famlines, function(x){as.matrix(x)}))
+
+save(splits, file="splits.with.ids.rdata")
 ```
 
 ```{r split_for_move}
@@ -250,7 +284,9 @@ for(i in 1:13){
 fam.move2 = bind_rows(fam.move2)
 
 #'add splits
-fam.move2 = merge(fam.move2,splits %>% select(time,fsize, fam, event), by = c("time", "fam"), all.x = T)
+fam.move2 = merge(fam.move2,splits %>% select(time, fam, event), by = c("time", "fam"), all.x = T)
+
+fam.move2 = merge(fam.move2, daycoords[,c("fam","time","fsize")], by = c("fam","time"))
 
 fam.move2 =  fam.move2 %>% arrange(fam, time)
 
@@ -260,5 +296,5 @@ fam.move2$event = as.factor(fam.move2$event)
 ```
 
 ```{r save_split_data}
-save(daycoords, splits, splits2, famcoords, fam.move, file = "fsize_coords.rdata")
+save(daycoords, splits, famcoords, fam.move, file = "fsize_coords.rdata")
 ```

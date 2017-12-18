@@ -1,5 +1,7 @@
 ---
 title: Predicting family splits
+editor_options: 
+  chunk_output_type: console
 ---
 
 This is an MCMCglmm model to test the hypothesis that family splits are forced, rather than voluntary circumstances. We expect that splits will be associated with a low time to flight, and with a high inter position distance, in keeping with the hypothesis that families split when members lose contact during uncoordinated flights.
@@ -7,7 +9,7 @@ This is an MCMCglmm model to test the hypothesis that family splits are forced, 
 Run family visits R script for revisit stats.
 
 ```{r load_data}
-load("famssplitMCMCmodel.rdata")
+#load("famssplitMCMCmodel.rdata")
 load("split.mod.rdata")
 ```
 
@@ -84,41 +86,28 @@ event (split 1, other 0) ~ time in winter + flights (dist over 2km) per day + di
 ```{r load_daycoords}
 load("fsize_coords.rdata")
 
-#'from fam.move2, get dists, timestamps, etc
-
-#fam.move = fam.move[fam.move$y < 54,]
-fam.move2 = split(fam.move)
-
-famcoords$fsize = NULL
+#'bind rows daycoords
+daycoords = bind_rows(daycoords)
 
 #'get famsizes into event data
-famcoords = merge(famcoords, daycoords[,c("fam","time","fsize")], by = c("fam","time"))
-
-fam.dist = lapply(fam.move2, function(x){
-  dist = c(NA, distance(x))
-})
-
-#'add distances
-famcoords$dist = unlist(fam.dist)
+fam.move2 = merge(fam.move2, daycoords[,c("fam","time","fsize")], by = c("fam","time"))
 
 library(lubridate)
 #'get time in winter
 source("days_since.r")
-famcoords$days = days_since(famcoords$time)
+fam.move2$days = days_since(fam.move2$time)
 ```
 
 ```{r prep_data}
 #'remove outlier
-famcoords = famcoords %>% filter(lat <54)
-
-#'get, per day, the mean and cumulative distances, the number of dists above 2km, mean time since winter, family size
+#'get, per day, the mean and cumulative distances, the number of dists above 1km, mean time since winter, family size
 
 #'distance over 1000m? split or not?
-famcoords$flight = famcoords$dist > 1000
-famcoords$split = ifelse(!is.na(famcoords$event), famcoords$event == "Split", FALSE)
+fam.move2$flight = fam.move2$dist > 1000
+fam.move2$split = ifelse(fam.move2$event == "split", T, FALSE)
 
 #'count flights
-famstats =  data.frame(famcoords %>% group_by(fam, date = round_date(time, "day")) %>% summarise(mdist = mean(dist, na.rm = T), ddist = sum(na.omit(dist)), days = mean(days, na.rm = T), fsize = min(fsize), flights = sum(flight), split = sum(split), mlon = mean(lon, na.rm = T), mlat = mean(lat, na.rm = T)))
+famstats =  data.frame(fam.move2 %>% group_by(fam, date = round_date(time, "day")) %>% summarise(mdist = mean(dist, na.rm = T), ddist = sum(na.omit(dist)), days = mean(days, na.rm = T), fsize = min(fsize), flights = sum(flight), split = sum(split), mlon = mean(lon, na.rm = T), mlat = mean(lat, na.rm = T)))
 
 
 #'assign NA flight numbers to 0
@@ -155,7 +144,7 @@ summary(mod.day.split)
 
 save(mod.day.split, entry, file = "split.mod.rdata")
 
-m = predict(mod.day.split, newdata = famstats, type = "response")
+m = predict(mod.day.split, newdata = famstats, type = "response", re.form =~(1|fam))
 ```
 
 
@@ -169,15 +158,17 @@ famstats = merge(famstats, daycoords2, by.x = c("fam","date"), by.y = c("fam","t
 famstats$p = m
 
 library(ggplot2)
+a = theme(panel.grid = element_blank(), legend.position="none")
 
 ggplot()+
-  geom_path(data = famstats, aes(x = lon, y = lat, group = fam),
+  geom_path(data = famstats, aes(x = mlon, y = mlat, group = fam),
             col = ifelse(famstats$p >0.01, 2, 1))+
   facet_wrap(~fam, scales = "free")
 
 ```
 
-```{r}
+```{r get_cond_preds}
+library(visreg)
 visdaysplit = visreg(mod.day.split, "days", scale = "response")
 visflightssplit = visreg(mod.day.split, "tflights", scale = "response")
 vissizesplit = visreg(mod.day.split, "fsize", scale = "response")
@@ -191,53 +182,58 @@ visdistsplit = visreg(mod.day.split, "tdist", scale = "response")
 visdistsplitdata = visdistsplit$fit
 ```
 
-
-
+## Fig 6a. p ~ days
 
 ```{r plot_day_split_probs}
-a = theme(panel.grid.minor = element_blank())
-b = theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text.y = element_blank(), axis.ticks.y = element_blank())
-#png(file = "~/git/thesis/texts/split_time.png", height = 800, width = 800, res = 300, title = "split_time")
-split1 = ggplot()+
-  geom_line(data = visdaysplitdata, aes(x = days, y = visregFit), col = 1)+
-  ylim(0,1)+
-  labs(list(x = "Days since arrival", y= "p(split)", title = "a"), size = 2)+
-  theme_bw()+a+theme(plot.title = element_text(size = 20))+
-  theme(axis.title = element_text(size = 20))
+pdf(file = "~/git/thesis/texts/fig6a.pdf", height = 4, width = 4)
+#'
+ggplot()+
+  geom_vline(data = famstats %>% filter(split == 1), aes(xintercept=days), col = 2, lty = 3)+
+  geom_line(data = visdaysplitdata, aes(x = days, y = visregFit), col = 1, lwd = 1)+
+  labs(list(x = "Days since arrival", y= "Split probability"))+
+  theme_bw()+a+ylim(NA,0.1)+scale_y_continuous(breaks = c(0,0.05))
 
 dev.off()
 ```
+
+## Fig 6d. p ~ flights
 
 ```{r plot_flights_split}
-png(file = "~/git/thesis/texts/split_tflights.png", height = 800, width = 800, res = 300, title = "split_totalflights")
-split2 = ggplot()+
-  geom_line(data = visflightssplitdata, aes(x = tflights, y = visregFit), col = 1)+
-  ylim(0,1)+
-  labs(list(x = "Total flights", y= NULL, title = "d"))+
-  theme_bw()+a+theme(plot.title = element_text(size = 20))+
-  theme(axis.title = element_text(size = 20))
+pdf(file = "~/git/thesis/texts/fig6d.pdf", height = 4, width = 4)
+#'
+ggplot()+
+    geom_vline(data = famstats %>% filter(split == 1), aes(xintercept=tflights), col = 2, lty = 3)+
+  geom_line(data = visflightssplitdata, aes(x = tflights, y = visregFit), col = 1, lwd = 1)+
+  labs(list(x = "Total flights", y= "Split probability"))+
+  theme_bw()+a
+
 dev.off()
 ```
+
+## Fig 6c. p ~ size
 
 ```{r plot_size_split}
-png(file = "~/git/thesis/texts/split_size.png", height = 800, width = 800, res = 300, title = "split_size")
-split3 = ggplot()+
-  geom_line(data = vissizesplitdata, aes(x = fsize, y = visregFit), col = 1)+
-  ylim(0,1)+
-  labs(list(x = "N juveniles", y= "p(split)", title = "c"))+
-  theme_bw()+a+theme(plot.title = element_text(size = 20))+
-  theme(axis.title = element_text(size = 20))
+pdf(file = "~/git/thesis/texts/fig6c.pdf", height = 4, width = 4)
+#'
+
+ggplot()+
+    geom_vline(data = famstats %>% filter(split == 1), aes(xintercept=fsize), col = 2, lty = 3)+
+  geom_line(data = vissizesplitdata, aes(x = fsize, y = visregFit), col = 1, lwd = 1)+
+  labs(list(x = "Family size", y= "Split probability"))+
+  theme_bw()+a+ylim(NA,0.1)+scale_y_continuous(breaks = c(0,0.05,0.07))
+
 dev.off()
 ```
 
 ```{r plot_flights_split}
-png(file = "~/git/thesis/texts/split_dist.png", height = 800, width = 800, res = 300, title = "split_tdist")
-split4 = ggplot()+
+pdf(file = "~/git/thesis/texts/fig6b.pdf", height = 4, width = 4)
+#'
+ggplot()+
+  geom_vline(data = famstats %>% filter(split == 1), aes(xintercept=tdist/100), col = 2, lty = 3)+
   geom_line(data = visdistsplitdata, aes(x = tdist/100, y = visregFit), col = 1)+
-  ylim(0,1)+
-  labs(list(x = "100 kms. cumulatively flown", y= NULL, title = "b"))+
-  theme_bw()+a+theme(plot.title = element_text(size = 20))+
-  theme(axis.title = element_text(size = 20))
+  labs(list(x = "Distance travelled (100 km)", y= "Split probability"))+
+  theme_bw()+a
+
 dev.off()
 ```
 

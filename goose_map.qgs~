@@ -226,7 +226,7 @@
       </filegroup>
     </legendlayer>
   </legend>
-  <Composer title="map1" visible="1">
+  <Composer title="map1" visible="0">
     <Composition resizeToContentsMarginLeft="0" snapping="1" showPages="1" guidesVisible="1" resizeToContentsMarginTop="0" alignmentSnap="1" printResolution="300" paperWidth="203.2" gridVisible="1" snapGridOffsetX="0" smartGuides="1" snapGridOffsetY="0" resizeToContentsMarginRight="0" snapTolerancePixels="5" printAsRaster="1" generateWorldFile="0" paperHeight="152.4" numPages="1" snapGridResolution="10" resizeToContentsMarginBottom="0">
       <symbol alpha="1" clip_to_extent="1" type="fill" name="">
         <layer pass="0" class="SimpleFill" locked="0">
@@ -708,20 +708,20 @@ def my_form_open(dialog, layer, feature):
           <customproperties/>
         </ComposerItem>
       </ComposerMap>
-      <ComposerScaleBar lineCapStyle="square" style="Single Box" numMapUnitsPerScaleBarUnit="1000" segmentSizeMode="0" alignment="0" numSegments="2" segmentMillimeters="9.22592" lineJoinStyle="miter" minBarWidth="50" numUnitsPerSegment="25000" units="1" labelBarSpace="3" outlineWidth="0.3" numSegmentsLeft="0" maxBarWidth="150" height="3" boxContentSpace="1" mapId="0" unitLabel="km">
+      <ComposerScaleBar lineCapStyle="square" style="Single Box" numMapUnitsPerScaleBarUnit="1000" segmentSizeMode="0" alignment="0" numSegments="2" segmentMillimeters="10.1712" lineJoinStyle="miter" minBarWidth="50" numUnitsPerSegment="25000" units="1" labelBarSpace="3" outlineWidth="0.3" numSegmentsLeft="0" maxBarWidth="150" height="3" boxContentSpace="1" mapId="0" unitLabel="km">
         <scaleBarFont description="Cantarell,14,-1,5,50,0,0,0,0,0" style=""/>
         <fillColor alpha="255" red="0" blue="0" green="0"/>
         <fillColor2 alpha="255" red="255" blue="255" green="255"/>
         <strokeColor alpha="255" red="0" blue="0" green="0"/>
         <textColor alpha="255" red="0" blue="0" green="0"/>
-        <ComposerItem pagey="137.842" page="1" id="" lastValidViewScaleFactor="-1" positionMode="0" positionLock="false" x="0.783948" y="137.842" visibility="1" zValue="2" background="true" transparency="0" frameJoinStyle="miter" blendMode="0" width="33.7706" outlineWidth="0.1" excludeFromExports="0" uuid="{14bb9cb0-3249-41a3-9cf2-d05f48207198}" height="13.2" itemRotation="0" frame="true" pagex="0.783948">
+        <ComposerItem pagey="137.842" page="1" id="" lastValidViewScaleFactor="-1" positionMode="0" positionLock="false" x="0.783948" y="137.842" visibility="1" zValue="2" background="true" transparency="0" frameJoinStyle="miter" blendMode="0" width="35.6612" outlineWidth="0.1" excludeFromExports="0" uuid="{14bb9cb0-3249-41a3-9cf2-d05f48207198}" height="13.2" itemRotation="0" frame="true" pagex="0.783948">
           <FrameColor alpha="255" red="0" blue="0" green="0"/>
           <BackgroundColor alpha="128" red="241" blue="199" green="244"/>
           <customproperties/>
         </ComposerItem>
       </ComposerScaleBar>
       <ComposerMap mapRotation="0" keepLayerSet="false" id="0" previewMode="Cache" drawCanvasItems="true">
-        <Extent ymin="3032691.49033633712679148" xmin="3799905.4702413734048605" ymax="3439074.88446525111794472" xmax="4347168.4410016443580389"/>
+        <Extent ymin="3051665.08317421982064843" xmin="3805593.73309344192966819" ymax="3420266.80120498081669211" xmax="4301977.38004153314977884"/>
         <LayerSet/>
         <Grid/>
         <ComposerMapGrid rightAnnotationDirection="0" gridFramePenColor="0,0,0,255" show="1" bottomAnnotationPosition="0" annotationPrecision="0" showAnnotation="1" topFrameDivisions="0" uuid="{b2ed4563-a609-4810-92ef-30b0f6cc1564}" leftAnnotationDirection="0" topAnnotationPosition="1" rightAnnotationDisplay="1" offsetX="0" offsetY="0" rightFrameDivisions="0" gridStyle="0" annotationFontColor="100,100,100,255" intervalX="1" gridFrameSideFlags="10" intervalY="1" bottomAnnotationDirection="0" leftAnnotationDisplay="3" leftFrameDivisions="0" frameFillColor1="255,255,255,255" annotationExpression="" frameFillColor2="0,0,0,255" crossLength="3" gridFramePenThickness="0.29999999999999999" bottomAnnotationDisplay="2" unit="0" topAnnotationDisplay="3" leftAnnotationPosition="1" blendMode="0" gridFrameStyle="0" rightAnnotationPosition="0" gridFrameWidth="2" name="Grid 1" annotationFormat="3" bottomFrameDivisions="0" topAnnotationDirection="0" frameAnnotationDistance="2">
