@@ -236,14 +236,3 @@ ggplot()+
 
 dev.off()
 ```
-
-```{r}
-library(gridExtra)
-pdf(file = "~/git/thesis/texts/split_dayprob.pdf", height = 6, width = 8, title = "split_dayprob")
-grid.arrange(split1, split4, split3, split2, ncol = 2)
-
-dev.off()
-```
-
-
-

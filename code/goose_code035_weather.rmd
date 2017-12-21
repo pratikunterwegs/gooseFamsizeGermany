@@ -90,10 +90,11 @@ geese = merge(geese, nlweather, by.x = c("station","time"), by.y = c("station","
 ```
 
 ```{r nfams_temp}
+library(mgcv)
 #'number of families in flocks 
-nfams.tempmod = bam(fams ~ s(flocksize) + distkol + s(t_since_in, k = 4) + mintemp + ppt + windspeed + s(Breeding_year, bs = "re") + s(Observer, bs = "re") + s(Food_type, bs = "re"), data = fams2, family = "poisson")
+nfams.tempmod = bam(fams ~ s(flocksize) + distkol + s(t_since_in, k = 4) + mintemp + ppt + windspeed + s(Breeding_year, bs = "re") + s(Observer, bs = "re") + s(Food_type, bs = "re"), data = fams, family = "poisson")
 
-nfamspred = predict(nfams.tempmod, type = "response", terms = "s(flocksize)", newdata = fams2, se.fit = T)
+nfamspred = predict(nfams.tempmod, type = "response", terms = "s(flocksize)", newdata = fams, se.fit = T)
 
 summary(nfams.tempmod)
 
@@ -105,7 +106,7 @@ visreg(nfams.tempmod, "ppt", scale = "response")
 ```
 
 ```{r flocksize_temp}
-flock.tempmod = bam(flocksize ~ distkol + mintemp + ppt + windspeed + t_since_in + s(Observer, bs = "fs") + s(Food_type, bs = "fs"), data = geese, family = "poisson")
+flock.tempmod = glmer(flocksize ~ sqrt(distkol) + mintemp + ppt + windspeed + t_since_in + (1|Observer) + (1|Food_type)+ (1|Breeding_year), data = geese, family = "poisson")
 
 summary(flock.tempmod)
 

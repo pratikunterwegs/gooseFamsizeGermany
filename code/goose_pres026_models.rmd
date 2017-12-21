@@ -143,19 +143,22 @@ dev.off()
 ## Fig 3b. GPS data
 
 ```{r get_data}
-load("splits.with.ids")
+load("splits.with.ids.rdata")
 ```
 
 
 ```{r plot_3b}
 pdf(file = "~/git/thesis/texts/fig3b.pdf", height = 4, width = 4)
 
+splits = splits[!duplicated(splits[,c("fam","juvs","event")]),]
+#'family Ev lost a juvenile on the last day recorded in the study period/area
+splits["13",8] = "split"
+
 ggplot(data = splits %>% filter(fam %in% c("Ev","Wo","Ha","Na","Ti","Ma","Ro","An","Jo")))+
   geom_path(aes(x = t_since_in, y = juvs, group = fam), lty = 1)+
 
-  geom_point(data = splits %>% filter(fam %in% c("Ev","Wo","Ha","Na","Ti","Ma","Ro","An","Jo"), event == "end"), aes(x = t_since_in, y = juvs, group = fam), col = 1, pch = 4, size = 2)+
-  geom_point(data = splits %>% filter(fam %in% c("Ev","Wo","Ha","Na","Ti","Ma","Ro","An","Jo"), event == "split"), aes(x = t_since_in, y = juvs+0.2, group = fam), shape = 21, fill = "white", col = 2, size = 5, stroke = 0.8)+
-   geom_text(data = splits %>% filter(fam %in% c("Ev","Wo","Ha","Na","Ti","Ma","Ro","An","Jo"), event == "split"), aes(x = t_since_in, y = juvs+0.2, group = fam, label = juvs))+
+  geom_point(data = splits %>% filter(fam %in% c("Ev","Wo","Ha","Na","Ti","Ma","Ro","An","Jo"), event %in% c("split","start")), aes(x = t_since_in, y = juvs+0.2, group = fam), shape = 21, fill = "white", col = 2, size = 5, stroke = 0.8)+
+   geom_text(data = splits %>% filter(fam %in% c("Ev","Wo","Ha","Na","Ti","Ma","Ro","An","Jo"), event %in% c("split","start")), aes(x = t_since_in, y = juvs+0.2, group = fam, label = juvs))+
   facet_wrap(~fam, nrow = 5, strip.position="right")+
   theme_minimal()+a+theme(strip.background=element_rect(fill="white", size = 0.7),
                           axis.line.x=element_line(), axis.line.y=element_line(), axis.ticks=element_line())+
@@ -207,7 +210,9 @@ dev.off()
 
 ```{r model_pred_flockmod}
 #'get model pred
-geese.fig5 = geese %>% mutate(flockpred = predict(flockmod, newdata = .,type = "response", allow.new.levels = T, re.form = NA))%>% group_by(distkol = round_any(distkol, 25)) %>% summarise(mean.flock = mean(flocksize, na.rm = T), mean.flockpred = mean(flockpred, na.rm = T), sd.flock = sd(flocksize, na.rm=T), sd.flockpred = sd(flocksize, na.rm = T), n.flock = length(flocksize), n.flockpred = length(flockpred)) %>% mutate(flock.ci = qnorm(0.975)*sd.flock/sqrt(n.flock), flockpred.ci = qnorm(0.975)*sd.flockpred/sqrt(n.flockpred))
+geese.fig5 = geese %>% group_by(distkol = round_any(distkol, 25)) %>% summarise(mean.flock = mean(flocksize, na.rm = T), mean.flockpred = mean(flockpred, na.rm = T), sd.flock = sd(flocksize, na.rm=T), sd.flockpred = sd(flocksize, na.rm = T), n.flock = length(flocksize), n.flockpred = length(flockpred)) %>% mutate(flock.ci = qnorm(0.975)*sd.flock/sqrt(n.flock), flockpred.ci = qnorm(0.975)*sd.flockpred/sqrt(n.flockpred))
+
+flockpred = visreg(flock.tempmod, "distkol",scale = "response", plot=F)$fit
 ```
 
 ```{r flock_distkol}
@@ -216,7 +221,7 @@ pdf(file = "~/git/thesis/texts/fig5b.pdf", width = 3, height = 3, title = "flock
 geese.fig5 %>% filter(distkol <= 3000) %>% 
 ggplot()+
   geom_pointrange(aes(x = distkol, y = mean.flock, ymin = mean.flock-flock.ci, ymax = mean.flock+flock.ci), fatten = 3, pch = 21, col = "black", fill = "white")+
-  geom_line(aes(x = distkol, y = mean.flockpred), col = 1, lty = 2)+
+  geom_line(data = flockpred, aes(x = distkol, y = visregFit), col = 1, lty = 2)+
   labs(list(x = "Distance from breeding area (km)", y = "Flock size"))+
   theme_bw()+a+
   ylim(NA,2000)
@@ -229,7 +234,7 @@ dev.off()
 ```{r}
 fams.fig5 = fams %>% group_by(distkol = round_any(distkol, 5)) %>% summarise(mean.fams = mean(fams, na.rm =T), sd.fams = sd(fams, na.rm = T), n.fams = length(fams)) %>% mutate(fams.ci = qnorm(0.975)*sd.fams/sqrt(n.fams))
 
-pred.fig5 = visreg(famsmod, xvar = "distkol", type = "conditional", scale = "response", plot=F)$fit
+pred.fig5 = visreg(nfams.tempmod, xvar = "distkol", type = "conditional", scale = "response", plot=F)$fit
 ```
 
 
