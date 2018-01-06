@@ -9,6 +9,9 @@ k = read_excel("~/git/thesis/kolguyev.xlsx", sheet = 1)
 
 k = k %>% filter(n.par %in% 1:2, species == "wfg")
 
+png(filename = "kolguyev.famsizes.hist.png", res = 300, height = 1600, width = 1600)
+hist(k$n.juv, main = NULL, xlab = "# juveniles")
+dev.off()
 
 #'read in data from geeseorg and geese
 #'

@@ -1,5 +1,7 @@
 ---
 title: "Migration data"
+editor_options: 
+  chunk_output_type: console
 ---
 # Assign activity levels to data
 
@@ -80,12 +82,13 @@ a1 = sort_df(a1, vars = "Date")
 
 ```{r vis, fig.height=12, fig.width = 15, eval = FALSE}
 library(ggplot2)
-pdf("goose_num_date.pdf", width = 15, height = 12)
+png("~/git/thesis/migration_timing.png", width = 4800, height = 3200, res = 300)
 ggplot(a1)+
   geom_line(aes(x=Date, y = NumberperHour))+
-  facet_wrap(~Year+season, scales = "free")+
+  facet_wrap(~Year, scales = "free")+
   labs(list(title = "No./hr ~ Date"))+
-  theme_bw()
+  theme_bw()+
+  theme(strip.background = element_blank(), strip.placement = "none")
 dev.off()
 ```
 
@@ -104,25 +107,44 @@ peaks = dcast(peaks, bryear ~ season, value.var = "peak")
 peaks$durwinter = as.numeric(abs(difftime(peaks$autumn, peaks$spring)))
 
 #'add peaks to df
-a1 = merge(a1, peaks, by = c("bryear"))
+#a1 = merge(a1, peaks, by = c("bryear"))
 
 #'get time to peak from each record
-a1$t_since_in = as.numeric(abs(difftime(a1$Date, a1$autumn, units = "days")))
+#a1$t_since_in = as.numeric(abs(difftime(a1$Date, a1$autumn.x, units = "days")))
 
-a1$t_to_out = as.numeric(abs(difftime(a1$Date, a1$spring, units = "days")))
+#a1$t_to_out = as.numeric(abs(difftime(a1$Date, a1$spring.x, units = "days")))
 ```
 
 ```{r plot_peaks}
 #'plot peaks as a line
 library(ggplot2)
-pdf("goose_num_date.pdf", width = 15, height = 12)
-ggplot(a1)+
+png("goose_flight_intensity.png", width = 1600, height = 1600, res = 400)
+ggplot(a1 %>% filter(bryear %in% c(2001, 2005, 2010, 2016)))+
   geom_line(aes(x=Date, y = NumberperHour))+
-  geom_vline(aes(xintercept = as.numeric(peak), group = c("Year")), col = 2)+
-  facet_wrap(~Year+season, scales = "free")+
-  labs(list(title = "No./hr ~ Date"))+
-  theme_bw()
+  
+  geom_hline(data = a1 %>% filter(bryear %in% c(2001, 2005, 2010, 2016)) %>% filter(percentile >= 90) %>% group_by(bryear) %>% mutate(num = mean(NumberperHour)), aes(yintercept = num), col = colb, lty = 2)+
+  
+  geom_rect(data = peaks %>% filter(bryear %in% c(2001, 2005, 2010, 2016)) %>% group_by(bryear), aes(xmin = as.POSIXct(autumn), xmax = as.POSIXct(spring), ymin = 600, ymax = 650, group = bryear), fill = "lightblue", col = "lightblue", lty = 1, alpha = 0.5)+
+  geom_text(data = peaks %>% filter(bryear %in% c(2001, 2005, 2010, 2016)) %>% group_by(bryear), aes(x = as.POSIXct(autumn)+durwinter/2*864e2, y = 625, label = durwinter, group = bryear), size = 3)+
+  facet_wrap(~bryear, scales = "free_x")+
+  labs(list(title = NULL, y = "Geese per observ. time (n/hr)"))+
+  theme_bw()+theme(axis.text.x = element_text(size = 8, angle = 20, hjust = 1), strip.background = element_blank())+ylim(NA, 700)
 dev.off()
+```
+
+```{r}
+png(filename = "durwinters.png", width = 1600, height = 1600, res = 300)
+ggplot()+
+  geom_line(data = peaks, aes(x = bryear, y = durwinter), lty = 1)+
+  geom_hline(data = peaks, aes(yintercept = mean(durwinter, na.rm = T)), col = colb, lty = 2)+
+  geom_point(data = peaks, aes(x = bryear, y = durwinter), shape = 21, size = 3, fill = cola, col = "white")+
+  theme_bw()+g1+labs(list(x = "Breeding year", y = "Goose winter residence (days)"))
+
+dev.off()
+```
+
+```{r}
+source("ggplot.opts.r")
 ```
 
 

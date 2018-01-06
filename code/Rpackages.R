@@ -1,9 +1,13 @@
 # Always install in R #
 
+#'libcurl4-openssl-dev
+#' for curl and tidyverse
+
 ####Colours and plotting####
 library(RColorBrewer)
 library(ggplot2)
-#library(GGally)
+library(GGally)
+library(ggthemes)
 library(car)
 library(lattice)
 
@@ -163,4 +167,3 @@ library(spdep)
 ####Visualisation####
 library(sjPlot)
 library(visreg)
-

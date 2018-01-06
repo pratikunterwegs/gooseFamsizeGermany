@@ -15,7 +15,7 @@ opts_knit$set(root.dir = "~/git/thesis/")
 #'read in the file
 lindex = read_ods("~/git/thesis/arcticbirds_lemming_abundance.ods", sheet = 1)
 
-#'set NA to 0 
+#'set NA to 0
 # DO NOT SET NA TO 0. NA MEANS NA.
 # lindex$index[is.na(lindex$index)] = 0
 
@@ -23,7 +23,7 @@ lindex = read_ods("~/git/thesis/arcticbirds_lemming_abundance.ods", sheet = 1)
 nolet.pi = read_excel("~/git/thesis/Brent_pop_model_data_predation_index.xlsx", sheet = 4)
 ```
 
-The predation index is $p = 0.5*(A_{t-1}– A_t + 3)$.
+The predation index is $p = 0.5*(A_{t-1}– A_t + 2)$.
 
 ```{r get_index}
 #'get lemming values by year
@@ -60,5 +60,12 @@ write.csv(lemming.w, "lemmings.csv")
 write.csv(lemming.e, "lemming_nolet.csv")
 ```
 
-## Lemming index, 1999 and before
+```{r}
+png(filename = "~/git/thesis/lemming_index.png", res = 300, width = 1600, height = 1600)
+plot(lemming.w$l.index ~ lemming.w$year, type = "b", ylab = "Index value", xlab = "Summer of...", ylim = c(0,2))
+lines(lemming.w$p.index ~ lemming.w$year, type = "b", col = 2)
+legend(x = 2000, y = 2, col = c(2,1), legend = c("Predation", "Rodent abundance"), pch = 21)
+
+dev.off()
+```
 

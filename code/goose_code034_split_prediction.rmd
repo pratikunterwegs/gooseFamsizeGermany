@@ -9,7 +9,7 @@ This is an MCMCglmm model to test the hypothesis that family splits are forced, 
 Run family visits R script for revisit stats.
 
 ```{r load_data}
-#load("famssplitMCMCmodel.rdata")
+load("famssplitMCMCmodel.rdata")
 load("split.mod.rdata")
 ```
 
@@ -88,9 +88,35 @@ load("fsize_coords.rdata")
 
 #'bind rows daycoords
 daycoords = bind_rows(daycoords)
+```
 
-#'get famsizes into event data
+```{r}
+#'get speed, dist, lag, angle.
+fam.move2 = lapply(fam.move, function(x){x = data.frame(speed = c(NA, speed(x)), dist = c(NA, distance(x)), angle = c(NA, angle(x)), lag = c(NA, timeLag(x)), lon = coordinates(x)[,1], lat = coordinates(x)[,2], time = timestamps(x))})
+
+for(i in 1:13){
+  fam.move2[[i]]$fam = names(fam.move2)[i]
+}
+
+#'now rbind
+fam.move2 = bind_rows(fam.move2)
+
+#'add splits
+fam.move2 = merge(fam.move2,splits %>% dplyr::select(time, fam, event), by = c("time", "fam"), all.x = T)
+
 fam.move2 = merge(fam.move2, daycoords[,c("fam","time","fsize")], by = c("fam","time"))
+
+fam.move2 =  fam.move2 %>% arrange(fam, time)
+
+fam.move2$event = ifelse(is.na(fam.move2$event), "other", fam.move2$event)
+
+fam.move2$event = as.factor(fam.move2$event)
+```
+
+
+```{r}
+#'get famsizes into event data
+#fam.move2 = merge(fam.move2, daycoords[,c("fam","time","fsize")], by = c("fam","time"))
 
 library(lubridate)
 #'get time in winter
@@ -187,11 +213,11 @@ visdistsplitdata = visdistsplit$fit
 ```{r plot_day_split_probs}
 pdf(file = "~/git/thesis/texts/fig6a.pdf", height = 4, width = 4)
 #'
-ggplot()+
+f6a = ggplot()+
   geom_vline(data = famstats %>% filter(split == 1), aes(xintercept=days), col = 2, lty = 3)+
   geom_line(data = visdaysplitdata, aes(x = days, y = visregFit), col = 1, lwd = 1)+
-  labs(list(x = "Days since arrival", y= "Split probability"))+
-  theme_bw()+a+ylim(NA,0.1)+scale_y_continuous(breaks = c(0,0.05))
+  labs(list(x = "Days since arrival", y= NULL))+
+  theme_bw()+g1+ylim(NA,1)
 
 dev.off()
 ```
@@ -201,11 +227,11 @@ dev.off()
 ```{r plot_flights_split}
 pdf(file = "~/git/thesis/texts/fig6d.pdf", height = 4, width = 4)
 #'
-ggplot()+
+f6d = ggplot()+
     geom_vline(data = famstats %>% filter(split == 1), aes(xintercept=tflights), col = 2, lty = 3)+
   geom_line(data = visflightssplitdata, aes(x = tflights, y = visregFit), col = 1, lwd = 1)+
-  labs(list(x = "Total flights", y= "Split probability"))+
-  theme_bw()+a
+  labs(list(x = "Total flights", y= NULL))+
+  theme_bw()+g1
 
 dev.off()
 ```
@@ -216,11 +242,11 @@ dev.off()
 pdf(file = "~/git/thesis/texts/fig6c.pdf", height = 4, width = 4)
 #'
 
-ggplot()+
+f6c = ggplot()+
     geom_vline(data = famstats %>% filter(split == 1), aes(xintercept=fsize), col = 2, lty = 3)+
   geom_line(data = vissizesplitdata, aes(x = fsize, y = visregFit), col = 1, lwd = 1)+
-  labs(list(x = "Family size", y= "Split probability"))+
-  theme_bw()+a+ylim(NA,0.1)+scale_y_continuous(breaks = c(0,0.05,0.07))
+  labs(list(x = "Family size", y= NULL))+
+  theme_bw()+g1+ylim(NA,1)
 
 dev.off()
 ```
@@ -228,11 +254,19 @@ dev.off()
 ```{r plot_flights_split}
 pdf(file = "~/git/thesis/texts/fig6b.pdf", height = 4, width = 4)
 #'
-ggplot()+
+f6b = ggplot()+
   geom_vline(data = famstats %>% filter(split == 1), aes(xintercept=tdist/100), col = 2, lty = 3)+
   geom_line(data = visdistsplitdata, aes(x = tdist/100, y = visregFit), col = 1)+
-  labs(list(x = "Distance travelled (100 km)", y= "Split probability"))+
-  theme_bw()+a
+  labs(list(x = "Distance travelled (100 km)", y= NULL))+
+  theme_bw()+g1
 
 dev.off()
 ```
+
+```{r}
+library(gridExtra)
+cairo_pdf(filename = "fig6.pdf", width = 8, height = 8)
+grid.arrange(f6a,f6b,f6c,f6d, nrow =2)
+dev.off()
+```
+

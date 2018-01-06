@@ -284,7 +284,7 @@ for(i in 1:13){
 fam.move2 = bind_rows(fam.move2)
 
 #'add splits
-fam.move2 = merge(fam.move2,splits %>% select(time, fam, event), by = c("time", "fam"), all.x = T)
+fam.move2 = merge(fam.move2,splits %>% dplyr::select(time, fam, event), by = c("time", "fam"), all.x = T)
 
 fam.move2 = merge(fam.move2, daycoords[,c("fam","time","fsize")], by = c("fam","time"))
 
@@ -296,7 +296,7 @@ fam.move2$event = as.factor(fam.move2$event)
 ```
 
 ```{r save_split_data}
-save(daycoords, splits, famcoords, fam.move, file = "fsize_coords.rdata")
+save(daycoords, splits, famcoords, fam.move, fam.move2, file = "fsize_coords.rdata")
 ```
 
 # Journal data export
