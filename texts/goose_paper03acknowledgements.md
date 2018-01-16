@@ -1,0 +1,4 @@
+
+# Acknowledgements
+
+Acknowledgements - We thank the many observers who participated in age-ratio and family size counts of goose flocks, and those who determined social status when entering their sightings of marked geese on *geese.org*. Thanks to Yke van Randen who provided *geese.org* data, Gerard Troost who provided data from *trektellen.org*, the Dutch Association of Goose Catchers who caught goose families for tagging with GPS transmitters, and Helmut Kruckenberg and Peter Glazov who majorly contributed to the 2016 Kolguyev expedition which was funded by a National Geographic Society Grant to AK (GEFNE141-15). PRG was financially supported by the European Commission through the program Erasmus Mundus Master Course - International Master in Applied Ecology (EMMC-IMAE) (FPA 532524-1-FR-2012-ERA MUNDUS-EMMC).

@@ -1,16 +1,16 @@
 #'load libs
 #'
-setwd("~/git/thesis/code")
+setwd("~/git/family_sizes_geese_2018/code")
 library(readxl);library(plyr);library(dplyr);library(lubridate);library(ggplot2)
 
 #'read in data
 #'
-k = read_excel("~/git/thesis/kolguyev.xlsx", sheet = 1)
+k = read_excel("~/git/family_sizes_geese_2018/kolguyev.xlsx", sheet = 1)
 
 k = k %>% filter(n.par %in% 1:2, species == "wfg")
 
 png(filename = "kolguyev.famsizes.hist.png", res = 300, height = 1600, width = 1600)
-hist(k$n.juv, main = NULL, xlab = "# juveniles")
+hist(k$n.juv, main = NULL, xlab = "# juveniles",col = "darkgrey")
 dev.off()
 
 #'read in data from geeseorg and geese

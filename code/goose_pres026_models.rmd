@@ -23,6 +23,7 @@ load("fsize_coords.rdata")
 #'define ggplot axis and grid options
 a = theme(panel.grid = element_blank(), legend.position="none")
 b1 = theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text.y = element_blank(), axis.ticks.y = element_blank())
+source("ggplot.opts.r")
 ```
 
 # Fig 2. Distance to Kolguyev ~ family size
@@ -48,9 +49,9 @@ fig2.data = rbind(fes.early,fes.late,gorg.early,gorg.late)
 ## Plot
 
 ```{r export_distkol_fams1, eval = FALSE}
-#pdf(file = "~/git/thesis/texts/fig2.pdf", height = 4, width = 4, title = "distance_famsize")
+cairo_pdf(filename = "~/git/family_sizes_geese_2018/texts/fig2.pdf", height = 4, width = 4)
 #
-png(filename= "~/git/thesis/texts/fig2.png", height=1600, width = 1600, res = 300)
+#png(filename= "~/git/thesis/texts/fig2.png", height=1600, width = 1600, res = 300)
 
 #'red:early, triangle:geese.org, dotted:geese.org
 
@@ -64,17 +65,17 @@ geom_ribbon(aes(x = famsize, ymin = pred.mean-pred.ci, ymax = pred.mean+pred.ci,
   
 geom_line(aes(x = famsize, y = pred.mean, col = time, lty = time))+
 
-geom_pointrange(aes(x = famsize, y = d.mean, ymin = d.mean-d.ci, ymax = d.mean+d.ci, col = time, shape = time), fatten = 7, fill = "white", stroke = 1)+
+geom_pointrange(aes(x = famsize, y = d.mean, ymin = d.mean-d.ci, ymax = d.mean+d.ci, col = time, shape = time), fatten = 3, fill = "white", stroke = 0.6)+
 
 facet_wrap(~data, ncol = 1)+
   
 scale_shape_manual(values=c(21,24))+
-scale_colour_manual(values=c(2,4))+
+scale_colour_manual(values=c(cola,colb))+
   
 labs(list(x = "Number of juveniles", y = "Distance to breeding area (km)"))+
   ylim(2850, 3000)+
   xlim(0,7)+
-  theme_bw()+a+
+  theme_bw()+g1+
 theme(legend.position="none",strip.background = element_blank(),
   strip.text = element_blank())
 
@@ -119,23 +120,23 @@ data.fig3 = rbind(gorg.s.fig3, geeseorg.fig3, fes.fig3)
 ```
 
 ```{r export_fam_time, warning=FALSE, message=FALSE}
-#pdf(file = "~/git/thesis/texts/fig03.pdf", height = 4, width = 4, title = "famsize_time")
+pdf(file = "~/git/family_sizes_geese_2018/texts/fig03.pdf", height = 4, width = 4)
 
-png(filename="~/git/thesis/texts/fig03.png", height = 1600, width=1600, res = 300)
+#png(filename="~/git/thesis/texts/fig03.png", height = 1600, width=1600, res = 300)
 
 #'point data
   
   ggplot(data = data.fig3)+
-  geom_pointrange(aes(x = t_since_in, y = m.famsize, ymin = m.famsize - ci.famsize, ymax = m.famsize +ci.famsize, col = data, shape = data), fill = "white", fatten = 7, lty = 2, lwd = 0.5)+
   
   geom_ribbon(aes(x = t_since_in, ymin = m.pred-ci.pred, ymax = m.pred+ci.pred, group = data), fill = "grey", alpha = 0.5)+
   geom_line(aes(x = t_since_in, y = m.pred, col = data))+
+    geom_pointrange(aes(x = t_since_in, y = m.famsize, ymin = m.famsize - ci.famsize, ymax = m.famsize +ci.famsize, col = data, shape = data), fill = "white", fatten = 5, stroke = 0.6, lty = 1, lwd = 0.5)+
   
   scale_shape_manual(values=c(21,24,22))+
-  scale_colour_manual(values = c(2,4,1))+
+  scale_colour_manual(values = c(cola, colb,"grey20"))+
   
   labs(list(x = "Days since arrival", y = "Mean number of juveniles"))+
-  theme_bw()+a
+  theme_bw()+g1
 
 dev.off()
 ```
@@ -160,7 +161,7 @@ ggplot(data = splits %>% filter(fam %in% c("Ev","Wo","Ha","Na","Ti","Ma","Ro","A
   geom_point(data = splits %>% filter(fam %in% c("Ev","Wo","Ha","Na","Ti","Ma","Ro","An","Jo"), event %in% c("split","start")), aes(x = t_since_in, y = juvs+0.2, group = fam), shape = 21, fill = "white", col = 2, size = 5, stroke = 0.8)+
    geom_text(data = splits %>% filter(fam %in% c("Ev","Wo","Ha","Na","Ti","Ma","Ro","An","Jo"), event %in% c("split","start")), aes(x = t_since_in, y = juvs+0.2, group = fam, label = juvs))+
   facet_wrap(~fam, nrow = 5, strip.position="right")+
-  theme_minimal()+a+theme(strip.background=element_rect(fill="white", size = 0.7),
+  theme_minimal()+g1+theme(strip.background=element_blank(),
                           axis.line.x=element_line(), axis.line.y=element_line(), axis.ticks=element_line())+
   scale_y_continuous(breaks= c(0,5))+
     labs(list(x = "Days since arrival", y = "Number of juveniles"))
@@ -190,14 +191,14 @@ pdf(file = "~/git/thesis/texts/figA2.pdf", height=4, width = 4)
 
 data.figA2 %>% 
 ggplot()+
-  geom_pointrange(aes(x = pin, y = m.famsize, ymin = m.famsize-ci.famsize, ymax = m.famsize+ci.famsize, group = data, col = data, shape = data), fill = "white", fatten= 7 , lty = 2, lwd = 0.5)+
-
-  scale_shape_manual(values = c(21,24,22))+
-  scale_colour_manual(values = c(2,4,1))+
-  
   geom_line(aes(x = pin, y = m.pred, col = data))+
   geom_ribbon(aes(x = pin, ymin = m.pred-ci.pred, ymax = m.pred+ci.pred, group = data), fill = "grey", alpha = 0.5)+
-  theme_bw()+a+
+  geom_pointrange(aes(x = pin, y = m.famsize, ymin = m.famsize-ci.famsize, ymax = m.famsize+ci.famsize, group = data, col = data, shape = data), fill = "white", fatten= 5 , stroke = 0.6, lty = 1, lwd = 0.5)+
+  scale_shape_manual(values = c(21,24,22))+
+  scale_colour_manual(values = c(cola,colb,"grey20"))+
+  
+  
+  theme_bw()+g1+
   labs(list(x = "Predation index", y = "Mean number of juveniles"))+ylim(NA,2.5)
   
 dev.off()
@@ -209,6 +210,7 @@ dev.off()
 ## Fig 5b. Flocksize ~ distkol
 
 ```{r model_pred_flockmod}
+library(visreg)
 #'get model pred
 geese.fig5 = geese %>% group_by(distkol = round_any(distkol, 25)) %>% summarise(mean.flock = mean(flocksize, na.rm = T), mean.flockpred = mean(flockpred, na.rm = T), sd.flock = sd(flocksize, na.rm=T), sd.flockpred = sd(flocksize, na.rm = T), n.flock = length(flocksize), n.flockpred = length(flockpred)) %>% mutate(flock.ci = qnorm(0.975)*sd.flock/sqrt(n.flock), flockpred.ci = qnorm(0.975)*sd.flockpred/sqrt(n.flockpred))
 

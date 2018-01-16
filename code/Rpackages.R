@@ -18,6 +18,7 @@ library(formatR)
 library(tufte)
 
 ####Dealing with data####
+library(tidyverse)
 library(readr)
 library(readxl)
 library(readODS)

@@ -1,0 +1,1 @@
+pandoc goose_paper*.md ele-yaml.yaml -o ele_paper.docx --reference-docx=ele_reference_word.docx --filter=pandoc-citeproc
