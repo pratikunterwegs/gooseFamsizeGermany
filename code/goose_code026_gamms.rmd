@@ -50,21 +50,23 @@ mod03 = glmer(famsize ~ flocksize + t_since_in + p.index + (1|Breeding_year) + (
 # Distance from breeding grounds ~ family size
 
 ```{r}
-fams.expand.sub$distkol = round(fams.expand.sub$distkol)
+fams.expand$distkol = round(fams.expand$distkol)
+
+fams.expand$food = as.factor(ifelse(fams.expand$Food_type == "Gras", "grass", "other"))
 
 geeseorg$distkol = round(geeseorg$distkol)
 ```
 
 ```{r}
-distmod = glmer(distkol ~ (famsize) + t_since_in + (1|Breeding_year) + (1|Food_type) + (1|Observer), data = fams.expand.sub %>% filter(t_since_in < 60), family = "gaussian")
+distmod = lmer(distkol ~ famsize + sqrt(t_since_in) + (1|Breeding_year) + (1|Observer) + (1|zone), data = fams.expand %>%  filter(t_since_in < 60))
 
-distmod_late = glmer((distkol) ~ (famsize) + t_since_in + (1|Breeding_year) + (1|Food_type) + (1|Observer), data = fams.expand.sub %>% filter(t_since_in > 60), family = "gaussian")
+distmod_late = lmer(distkol ~ (famsize) + sqrt(t_since_in) + (1|Breeding_year) + + (1|zone) + (1|Observer), data = fams.expand %>% filter(t_since_in > 60))
 
-distmod2 = glmer(distkol ~ (famsize) + t_since_in + (1|breedyr) + (1|neckring), data = geeseorg %>% filter(t_since_in < 60), family = "gaussian")
+distmod2 = glmer(distkol ~ (famsize) + sqrt(t_since_in) + (1|breedyr) + (1|neckring), data = geeseorg %>% filter(t_since_in < 60), family = "gaussian")
 
-distmod2.1 = glmer(distkol ~ (famsize) + t_since_in + (1|breedyr) + (1|neckring), data = geeseorg %>% filter(t_since_in < 60, famsize >0), family = "gaussian")
+distmod2.1 = glmer(distkol ~ (famsize) + sqrt(t_since_in) + (1|breedyr) + (1|neckring), data = geeseorg %>% filter(t_since_in < 60, famsize >0), family = "gaussian")
 
-distmod2_late = glmer(distkol ~ (famsize) + t_since_in + (1|breedyr) + (1|neckring), data = geeseorg %>% filter(t_since_in > 60), family = "gaussian")
+distmod2_late = glmer(distkol ~ (famsize) + sqrt(t_since_in) + (1|breedyr) + (1|neckring), data = geeseorg %>% filter(t_since_in > 60), family = "gaussian")
 
 distmod2.1_late = glmer(distkol ~ (famsize) + t_since_in + (1|breedyr) + (1|neckring), data = geeseorg %>% filter(t_since_in > 60, famsize >0), family = "gaussian")
 ```

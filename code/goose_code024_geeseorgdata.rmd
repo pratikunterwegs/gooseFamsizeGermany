@@ -12,7 +12,7 @@ opts_knit$set(root.dir = "~/git/thesis/")
 ```{r load_data, warning=FALSE}
 #'read in the first sheet
 library(readxl)
-gorg <- read_excel("~/git/thesis/export-kees-andrea.xls")
+gorg <- read_excel("~/git/family_sizes_geese_2018/export-kees-andrea.xls")
 
 #'summary
 summary(gorg)

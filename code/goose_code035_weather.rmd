@@ -10,12 +10,12 @@ library(readr); library(plyr); library(dplyr); library(purrr);library(purrrlyr);
 
 ```{r load_sites}
 library(readr)
-knmi_sites <- read_csv("~/git/thesis/code/knmi_sites.txt")
+knmi_sites <- read_csv("~/git/family_sizes_geese_2018/code/knmi_sites.txt")
 ```
 
 
 ```{r load_data}
-nlweather = read_csv("~/git/thesis/code/holland_weather.txt", 
+nlweather = read_csv("~/git/family_sizes_geese_2018/code/holland_weather.txt", 
      col_types = cols(date = col_date(format = "%Y%m%d"), 
          mintemp = col_number(), ppt = col_number(), 
         windspeed = col_number()))
@@ -34,7 +34,7 @@ nlweather$ppt = ifelse(nlweather$ppt < 0, 0.01, nlweather$ppt)
 # Germany weather
 
 ```{r}
-deweather <- read_csv("~/git/thesis/code/weather_munster.csv", 
+deweather <- read_csv("~/git/family_sizes_geese_2018/code/weather_munster.csv", 
    col_types = cols(date = col_date(format = "%Y%m%d")))
 ```
 
@@ -71,6 +71,14 @@ stn.near = data.frame(lookup = flocksites[,c("lookup")],
 
 #'mean distances
 mean(apply(flock_stns, 2, min))
+
+
+#'for geese.org data
+gorgstns = apply(geeseorg[,c("lon","lat")],1, function(x){distVincentyEllipsoid(p1 = x, p2 = knmi_sites[,c("lon","lat")])})/1000
+
+geeseorg$stn = knmi_sites[apply(gorgstns, 2, which.min),"station"]$station
+
+
 ```
 
 ```{r merge_data}
@@ -87,6 +95,8 @@ fams = merge(fams, nlweather, by.x = c("station","time"), by.y = c("station","da
 geese = merge(geese, stn.near, by = "lookup", all.x = T)
 geese = merge(geese, nlweather, by.x = c("station","time"), by.y = c("station","date"), all.x = T)
 
+#'geesorg data
+geeseorg = merge(geeseorg, nlweather, by.x = c("stn", "date"), by.y = c("station","date"), all.x = T)
 ```
 
 ```{r nfams_temp}
@@ -98,7 +108,7 @@ nfamspred = predict(nfams.tempmod, type = "response", terms = "s(flocksize)", ne
 
 summary(nfams.tempmod)
 
-pdf(file = "~/git/thesis/texts/nfamsclim.pdf", width = 5, height = 5, title = "nfamsclim")
+pdf(file = "~/git/family_sizes_geese_2018/texts/nfamsclim.pdf", width = 5, height = 5, title = "nfamsclim")
 vis.gam(nfams.tempmod, view = c("mintemp", "ppt"), type = "response", theta = 30, color = "cm", zlab = "N families", xlab = "Min. temp", ylab = "Precipitation")
 dev.off()
 
@@ -106,11 +116,11 @@ visreg(nfams.tempmod, "ppt", scale = "response")
 ```
 
 ```{r flocksize_temp}
-flock.tempmod = glmer(flocksize ~ sqrt(distkol) + mintemp + ppt + windspeed + t_since_in + (1|Observer) + (1|Food_type)+ (1|Breeding_year), data = geese, family = "poisson")
+flock.tempmod = glmer(flocksize ~ sqrt(distkol) + mintemp + sqrt(ppt) + windspeed + log(t_since_in) + (1|Observer) + (1|Food_type)+ (1|Breeding_year), data = geese, family = "poisson")
 
 summary(flock.tempmod)
 
-pdf(file = "~/git/thesis/texts/flockclim.pdf", width = 5, height = 5, title = "flockclim")
+pdf(file = "~/git/family_sizes_geese_2018/texts/flockclim.pdf", width = 5, height = 5, title = "flockclim")
 vis.gam(flock.tempmod, view = c("mintemp", "ppt"), type = "response", theta = 45, color = "cm", zlab = "Flocksize", xlab = "Min. temp", ylab = "Precipitation")
 dev.off()
 

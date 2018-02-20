@@ -9,7 +9,7 @@
     <layer-tree-layer expanded="1" checked="Qt::Unchecked" id="places20170824125230960" name="places">
       <customproperties/>
     </layer-tree-layer>
-    <layer-tree-layer expanded="1" checked="Qt::Unchecked" id="splits20170607212850439" name="splits">
+    <layer-tree-layer expanded="1" checked="Qt::Checked" id="splits20170607212850439" name="splits">
       <customproperties/>
     </layer-tree-layer>
     <layer-tree-layer expanded="0" checked="Qt::Unchecked" id="fam_lines20170614150123519" name="fam_lines">
@@ -26,7 +26,7 @@
         <property key="legend/title-label" value="Migration monitoring"/>
       </customproperties>
     </layer-tree-layer>
-    <layer-tree-layer expanded="1" checked="Qt::Unchecked" id="sites20170607212840499" name="sites">
+    <layer-tree-layer expanded="1" checked="Qt::Checked" id="sites20170607212840499" name="sites">
       <customproperties>
         <property key="legend/title-label" value="Family count sites"/>
       </customproperties>
@@ -36,22 +36,22 @@
         <property key="legend/title-label" value="Flock count sites"/>
       </customproperties>
     </layer-tree-layer>
-    <layer-tree-layer expanded="1" checked="Qt::Unchecked" id="flocks_copy20170717111707471" name="flocks copy">
+    <layer-tree-layer expanded="1" checked="Qt::Checked" id="flocks_copy20170717111707471" name="flocks copy">
       <customproperties/>
     </layer-tree-layer>
-    <layer-tree-layer expanded="1" checked="Qt::Checked" id="autumn_migration20170608120913883" name="autumn_migration">
+    <layer-tree-layer expanded="1" checked="Qt::Unchecked" id="autumn_migration20170608120913883" name="autumn_migration">
       <customproperties/>
     </layer-tree-layer>
     <layer-tree-layer expanded="0" checked="Qt::Unchecked" id="gooselines20170708131633032" name="gooselines">
       <customproperties/>
     </layer-tree-layer>
-    <layer-tree-layer expanded="1" checked="Qt::Unchecked" id="ne_10m_lakes20170607212820359" name="ne_10m_lakes">
+    <layer-tree-layer expanded="1" checked="Qt::Checked" id="ne_10m_lakes20170607212820359" name="ne_10m_lakes">
       <customproperties/>
     </layer-tree-layer>
     <layer-tree-layer expanded="1" checked="Qt::Checked" id="kdegeese20170607212859393" name="kdegeese">
       <customproperties/>
     </layer-tree-layer>
-    <layer-tree-layer expanded="1" checked="Qt::Unchecked" id="ne_10m_rivers_lake_centerlines20170607212829308" name="rivers">
+    <layer-tree-layer expanded="1" checked="Qt::Checked" id="ne_10m_rivers_lake_centerlines20170607212829308" name="rivers">
       <customproperties/>
     </layer-tree-layer>
     <layer-tree-layer expanded="1" checked="Qt::Checked" id="ne_10m_admin_0_boundary_lines_land20170608084419261" name="borders">
@@ -74,10 +74,10 @@
   <mapcanvas>
     <units>meters</units>
     <extent>
-      <xmin>3846832.0829327218234539</xmin>
-      <ymin>797121.41769960871897638</ymin>
-      <xmax>7159445.03382176533341408</xmax>
-      <ymax>4105419.41996466368436813</ymax>
+      <xmin>5769853.35986771062016487</xmin>
+      <ymin>6729846.63377563469111919</ymin>
+      <xmax>9082466.31075675413012505</xmax>
+      <ymax>10038144.63604068942368031</ymax>
     </extent>
     <rotation>0</rotation>
     <projections>1</projections>
@@ -143,9 +143,9 @@
         <legendlayerfile isInOverview="0" layerid="places20170824125230960" visible="0"/>
       </filegroup>
     </legendlayer>
-    <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="splits" showFeatureCount="0">
+    <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="splits" showFeatureCount="0">
       <filegroup open="true" hidden="false">
-        <legendlayerfile isInOverview="0" layerid="splits20170607212850439" visible="0"/>
+        <legendlayerfile isInOverview="0" layerid="splits20170607212850439" visible="1"/>
       </filegroup>
     </legendlayer>
     <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="fam_lines" showFeatureCount="0">
@@ -163,9 +163,9 @@
         <legendlayerfile isInOverview="0" layerid="trektellen20170613153445557" visible="0"/>
       </filegroup>
     </legendlayer>
-    <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="sites" showFeatureCount="0">
+    <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="sites" showFeatureCount="0">
       <filegroup open="true" hidden="false">
-        <legendlayerfile isInOverview="0" layerid="sites20170607212840499" visible="0"/>
+        <legendlayerfile isInOverview="0" layerid="sites20170607212840499" visible="1"/>
       </filegroup>
     </legendlayer>
     <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="flocks" showFeatureCount="0">
@@ -173,14 +173,14 @@
         <legendlayerfile isInOverview="0" layerid="flocks20170613154038624" visible="0"/>
       </filegroup>
     </legendlayer>
-    <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="flocks copy" showFeatureCount="0">
+    <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="flocks copy" showFeatureCount="0">
       <filegroup open="true" hidden="false">
-        <legendlayerfile isInOverview="0" layerid="flocks_copy20170717111707471" visible="0"/>
+        <legendlayerfile isInOverview="0" layerid="flocks_copy20170717111707471" visible="1"/>
       </filegroup>
     </legendlayer>
-    <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="autumn_migration" showFeatureCount="0">
+    <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="autumn_migration" showFeatureCount="0">
       <filegroup open="true" hidden="false">
-        <legendlayerfile isInOverview="0" layerid="autumn_migration20170608120913883" visible="1"/>
+        <legendlayerfile isInOverview="0" layerid="autumn_migration20170608120913883" visible="0"/>
       </filegroup>
     </legendlayer>
     <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="gooselines" showFeatureCount="0">
@@ -188,9 +188,9 @@
         <legendlayerfile isInOverview="0" layerid="gooselines20170708131633032" visible="0"/>
       </filegroup>
     </legendlayer>
-    <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="ne_10m_lakes" showFeatureCount="0">
+    <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="ne_10m_lakes" showFeatureCount="0">
       <filegroup open="true" hidden="false">
-        <legendlayerfile isInOverview="0" layerid="ne_10m_lakes20170607212820359" visible="0"/>
+        <legendlayerfile isInOverview="0" layerid="ne_10m_lakes20170607212820359" visible="1"/>
       </filegroup>
     </legendlayer>
     <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="kdegeese" showFeatureCount="0">
@@ -198,9 +198,9 @@
         <legendlayerfile isInOverview="0" layerid="kdegeese20170607212859393" visible="1"/>
       </filegroup>
     </legendlayer>
-    <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="rivers" showFeatureCount="0">
+    <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="rivers" showFeatureCount="0">
       <filegroup open="true" hidden="false">
-        <legendlayerfile isInOverview="0" layerid="ne_10m_rivers_lake_centerlines20170607212829308" visible="0"/>
+        <legendlayerfile isInOverview="0" layerid="ne_10m_rivers_lake_centerlines20170607212829308" visible="1"/>
       </filegroup>
     </legendlayer>
     <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="borders" showFeatureCount="0">
@@ -265,7 +265,7 @@
           <customproperties/>
         </ComposerItem>
       </ComposerLabel>
-      <ComposerLabel valign="32" marginX="1" marginY="1" labelText="B" htmlState="0" halign="1">
+      <ComposerLabel valign="32" marginX="1" marginY="1" labelText="(b)" htmlState="0" halign="1">
         <LabelFont description="Noto Sans,16,-1,5,75,0,0,0,0,0" style=""/>
         <FontColor red="0" blue="0" green="0"/>
         <ComposerItem pagey="103.888" page="1" id="b" lastValidViewScaleFactor="-1" positionMode="0" positionLock="false" x="130.467" y="103.888" visibility="1" zValue="13" background="false" transparency="0" frameJoinStyle="miter" blendMode="0" width="9.53324" outlineWidth="0.3" excludeFromExports="0" uuid="{20ab5e45-881b-4f69-aa39-daf55a650b82}" height="10.9198" itemRotation="0" frame="false" pagex="130.467">
@@ -274,7 +274,7 @@
           <customproperties/>
         </ComposerItem>
       </ComposerLabel>
-      <ComposerLabel valign="32" marginX="1" marginY="1" labelText="A" htmlState="0" halign="1">
+      <ComposerLabel valign="32" marginX="1" marginY="1" labelText="(a)" htmlState="0" halign="1">
         <LabelFont description="Noto Sans,16,-1,5,75,0,0,0,0,0" style=""/>
         <FontColor red="0" blue="0" green="0"/>
         <ComposerItem pagey="3.54494" page="1" id="a" lastValidViewScaleFactor="-1" positionMode="0" positionLock="false" x="2.51159" y="3.54494" visibility="1" zValue="12" background="false" transparency="0" frameJoinStyle="miter" blendMode="0" width="10.0605" outlineWidth="0.3" excludeFromExports="0" uuid="{efe4d848-ab12-43ad-8263-9dfc10f8e1e6}" height="10.5682" itemRotation="0" frame="false" pagex="2.51159">
@@ -723,7 +723,7 @@ def my_form_open(dialog, layer, feature):
           <annotationFontProperties description="Noto Sans,8,-1,5,75,1,0,0,0,0" style=""/>
         </ComposerMapGrid>
         <AtlasMap scalingMode="2" atlasDriven="0" margin="0.10000000000000001"/>
-        <ComposerItem pagey="104.013" page="1" id="Russia" lastValidViewScaleFactor="2.84371" positionMode="0" positionLock="false" x="129.929" y="104.013" visibility="1" zValue="3" background="true" transparency="0" frameJoinStyle="miter" blendMode="0" width="72.6957" outlineWidth="0.25" excludeFromExports="0" uuid="{bde9d5b6-e5f4-4a72-baf3-109eddc1a23a}" height="47.1107" itemRotation="0" frame="true" pagex="129.929">
+        <ComposerItem pagey="104.013" page="1" id="Russia" lastValidViewScaleFactor="3.53815" positionMode="0" positionLock="false" x="129.929" y="104.013" visibility="1" zValue="3" background="true" transparency="0" frameJoinStyle="miter" blendMode="0" width="72.6957" outlineWidth="0.25" excludeFromExports="0" uuid="{bde9d5b6-e5f4-4a72-baf3-109eddc1a23a}" height="47.1107" itemRotation="0" frame="true" pagex="129.929">
           <FrameColor alpha="255" red="0" blue="0" green="0"/>
           <BackgroundColor alpha="255" red="196" blue="252" green="232"/>
           <customproperties/>
@@ -803,7 +803,7 @@ def my_form_open(dialog, layer, feature):
           <annotationFontProperties description="Noto Sans,8,-1,5,75,1,0,0,0,0" style=""/>
         </ComposerMapGrid>
         <AtlasMap scalingMode="2" atlasDriven="0" margin="0.10000000000000001"/>
-        <ComposerItem pagey="1.2" page="1" id="nl" lastValidViewScaleFactor="2.84371" positionMode="0" positionLock="false" x="0.6" y="1.2" visibility="1" zValue="1" background="true" transparency="0" frameJoinStyle="miter" blendMode="0" width="202" outlineWidth="0.35" excludeFromExports="0" uuid="{ed7355cb-0cd2-4c54-986c-d76ffddd42c3}" height="150" itemRotation="0" frame="true" pagex="0.6">
+        <ComposerItem pagey="1.2" page="1" id="nl" lastValidViewScaleFactor="3.53815" positionMode="0" positionLock="false" x="0.6" y="1.2" visibility="1" zValue="1" background="true" transparency="0" frameJoinStyle="miter" blendMode="0" width="202" outlineWidth="0.35" excludeFromExports="0" uuid="{ed7355cb-0cd2-4c54-986c-d76ffddd42c3}" height="150" itemRotation="0" frame="true" pagex="0.6">
           <FrameColor alpha="255" red="0" blue="0" green="0"/>
           <BackgroundColor alpha="255" red="196" blue="252" green="232"/>
           <customproperties/>
@@ -1295,7 +1295,7 @@ def my_form_open(dialog, layer, feature):
           <annotationFontProperties description="Heuristica,8,-1,5,50,0,0,0,0,0" style=""/>
         </ComposerMapGrid>
         <AtlasMap scalingMode="2" atlasDriven="0" margin="0.10000000000000001"/>
-        <ComposerItem pagey="71" page="1" id="" lastValidViewScaleFactor="1.95646" positionMode="0" positionLock="true" x="0" y="71" visibility="1" zValue="5" background="true" transparency="0" frameJoinStyle="miter" blendMode="0" width="78" outlineWidth="0.2" excludeFromExports="0" uuid="{2d38cc1b-847d-4e7e-8715-c65a7e2a5ab4}" height="50" itemRotation="0" frame="true" pagex="0">
+        <ComposerItem pagey="71" page="1" id="" lastValidViewScaleFactor="2.43423" positionMode="0" positionLock="true" x="0" y="71" visibility="1" zValue="5" background="true" transparency="0" frameJoinStyle="miter" blendMode="0" width="78" outlineWidth="0.2" excludeFromExports="0" uuid="{2d38cc1b-847d-4e7e-8715-c65a7e2a5ab4}" height="50" itemRotation="0" frame="true" pagex="0">
           <FrameColor alpha="255" red="0" blue="0" green="0"/>
           <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
           <customproperties/>
@@ -1366,7 +1366,7 @@ def my_form_open(dialog, layer, feature):
           <annotationFontProperties description="Noto Sans,9,-1,5,50,0,0,0,0,0" style=""/>
         </ComposerMapGrid>
         <AtlasMap scalingMode="2" atlasDriven="0" margin="0.10000000000000001"/>
-        <ComposerItem pagey="0" page="1" id="" lastValidViewScaleFactor="1.95646" positionMode="0" positionLock="false" x="0" y="0" visibility="1" zValue="4" background="true" transparency="0" frameJoinStyle="miter" blendMode="0" width="104" outlineWidth="0.2" excludeFromExports="0" uuid="{0e4beec6-dbf5-4971-a47d-81666f579368}" height="71" itemRotation="0" frame="true" pagex="0">
+        <ComposerItem pagey="0" page="1" id="" lastValidViewScaleFactor="2.43423" positionMode="0" positionLock="false" x="0" y="0" visibility="1" zValue="4" background="true" transparency="0" frameJoinStyle="miter" blendMode="0" width="104" outlineWidth="0.2" excludeFromExports="0" uuid="{0e4beec6-dbf5-4971-a47d-81666f579368}" height="71" itemRotation="0" frame="true" pagex="0">
           <FrameColor alpha="255" red="0" blue="0" green="0"/>
           <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
           <customproperties/>
@@ -1488,7 +1488,7 @@ def my_form_open(dialog, layer, feature):
           <annotationFontProperties description="Heuristica,11,-1,5,75,1,0,0,0,0" style=""/>
         </ComposerMapGrid>
         <AtlasMap scalingMode="2" atlasDriven="0" margin="0.10000000000000001"/>
-        <ComposerItem pagey="0" page="1" id="" lastValidViewScaleFactor="1.95646" positionMode="0" positionLock="false" x="0" y="0" visibility="1" zValue="1" background="true" transparency="0" frameJoinStyle="miter" blendMode="0" width="297" outlineWidth="0.3" excludeFromExports="0" uuid="{94c4578f-8e4e-4b0b-8ccf-9b89bf952809}" height="210" itemRotation="0" frame="true" pagex="0">
+        <ComposerItem pagey="0" page="1" id="" lastValidViewScaleFactor="2.43423" positionMode="0" positionLock="false" x="0" y="0" visibility="1" zValue="1" background="true" transparency="0" frameJoinStyle="miter" blendMode="0" width="297" outlineWidth="0.3" excludeFromExports="0" uuid="{94c4578f-8e4e-4b0b-8ccf-9b89bf952809}" height="210" itemRotation="0" frame="true" pagex="0">
           <FrameColor alpha="255" red="0" blue="0" green="0"/>
           <BackgroundColor alpha="255" red="166" blue="227" green="206"/>
           <customproperties/>
@@ -1503,7 +1503,7 @@ def my_form_open(dialog, layer, feature):
       </customproperties>
     </Composition>
   </Composer>
-  <Composer title="migrmap" visible="1">
+  <Composer title="migrmap" visible="0">
     <Composition resizeToContentsMarginLeft="0" snapping="0" showPages="1" guidesVisible="1" resizeToContentsMarginTop="0" alignmentSnap="1" printResolution="300" paperWidth="297" gridVisible="0" snapGridOffsetX="0" smartGuides="1" snapGridOffsetY="0" resizeToContentsMarginRight="0" snapTolerancePixels="5" printAsRaster="0" generateWorldFile="0" paperHeight="210" numPages="1" snapGridResolution="10" resizeToContentsMarginBottom="0">
       <symbol alpha="1" clip_to_extent="1" type="fill" name="">
         <layer pass="0" class="SimpleFill" locked="0">
@@ -1520,18 +1520,89 @@ def my_form_open(dialog, layer, feature):
           <prop k="style" v="solid"/>
         </layer>
       </symbol>
+      <ComposerScaleBar lineCapStyle="square" style="Single Box" numMapUnitsPerScaleBarUnit="1000" segmentSizeMode="0" alignment="0" numSegments="4" segmentMillimeters="24.2211" lineJoinStyle="miter" minBarWidth="50" numUnitsPerSegment="750000" units="1" labelBarSpace="3" outlineWidth="0.3" numSegmentsLeft="0" maxBarWidth="150" height="3" boxContentSpace="1" mapId="0" unitLabel="km">
+        <scaleBarFont description="Noto Sans,12,-1,5,50,0,0,0,0,0" style=""/>
+        <fillColor alpha="255" red="0" blue="0" green="0"/>
+        <fillColor2 alpha="255" red="255" blue="255" green="255"/>
+        <strokeColor alpha="255" red="0" blue="0" green="0"/>
+        <textColor alpha="255" red="0" blue="0" green="0"/>
+        <ComposerItem pagey="190" page="1" id="" lastValidViewScaleFactor="-1" positionMode="0" positionLock="false" x="184.256" y="190" visibility="1" zValue="2" background="false" transparency="0" frameJoinStyle="miter" blendMode="0" width="112.744" outlineWidth="0.3" excludeFromExports="0" uuid="{3fe4f718-e06f-4f59-ae81-70d52f8fb064}" height="20" itemRotation="0" frame="false" pagex="184.256">
+          <FrameColor alpha="255" red="0" blue="0" green="0"/>
+          <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
+          <customproperties/>
+        </ComposerItem>
+      </ComposerScaleBar>
       <ComposerMap mapRotation="20" keepLayerSet="false" id="0" previewMode="Cache" drawCanvasItems="true">
-        <Extent ymin="2424523.66809819452464581" xmin="1728543.77585289860144258" ymax="8723956.62644280679523945" xmax="10637741.81694027967751026"/>
+        <Extent ymin="2424523.66809819452464581" xmin="1728543.77585289860144258" ymax="8723956.6264428086578846" xmax="10637741.81694027967751026"/>
         <LayerSet/>
         <Grid/>
+        <ComposerMapGrid rightAnnotationDirection="0" gridFramePenColor="0,0,0,255" show="0" bottomAnnotationPosition="1" annotationPrecision="3" showAnnotation="0" topFrameDivisions="0" uuid="{9725b5bd-1f74-4cef-9215-fe596397e333}" leftAnnotationDirection="0" topAnnotationPosition="1" rightAnnotationDisplay="0" offsetX="0" offsetY="0" rightFrameDivisions="0" gridStyle="0" annotationFontColor="0,0,0,255" intervalX="0" gridFrameSideFlags="15" intervalY="0" bottomAnnotationDirection="0" leftAnnotationDisplay="0" leftFrameDivisions="0" frameFillColor1="255,255,255,255" annotationExpression="" frameFillColor2="0,0,0,255" crossLength="3" gridFramePenThickness="0.5" bottomAnnotationDisplay="0" unit="0" topAnnotationDisplay="0" leftAnnotationPosition="1" blendMode="0" gridFrameStyle="0" rightAnnotationPosition="1" gridFrameWidth="2" name="Grid 1" annotationFormat="0" bottomFrameDivisions="0" topAnnotationDirection="0" frameAnnotationDistance="1">
+          <lineStyle>
+            <symbol alpha="1" clip_to_extent="1" type="line" name="">
+              <layer pass="0" class="SimpleLine" locked="0">
+                <prop k="capstyle" v="square"/>
+                <prop k="customdash" v="5;2"/>
+                <prop k="customdash_map_unit_scale" v="0,0,0,0,0,0"/>
+                <prop k="customdash_unit" v="MM"/>
+                <prop k="draw_inside_polygon" v="0"/>
+                <prop k="joinstyle" v="bevel"/>
+                <prop k="line_color" v="0,0,0,255"/>
+                <prop k="line_style" v="solid"/>
+                <prop k="line_width" v="0"/>
+                <prop k="line_width_unit" v="MM"/>
+                <prop k="offset" v="0"/>
+                <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+                <prop k="offset_unit" v="MM"/>
+                <prop k="use_custom_dash" v="0"/>
+                <prop k="width_map_unit_scale" v="0,0,0,0,0,0"/>
+              </layer>
+            </symbol>
+          </lineStyle>
+          <markerStyle>
+            <symbol alpha="1" clip_to_extent="1" type="marker" name="">
+              <layer pass="0" class="SimpleMarker" locked="0">
+                <prop k="angle" v="0"/>
+                <prop k="color" v="0,0,0,255"/>
+                <prop k="horizontal_anchor_point" v="1"/>
+                <prop k="name" v="circle"/>
+                <prop k="offset" v="0,0"/>
+                <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+                <prop k="offset_unit" v="MM"/>
+                <prop k="outline_color" v="0,0,0,255"/>
+                <prop k="outline_style" v="solid"/>
+                <prop k="outline_width" v="0"/>
+                <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+                <prop k="outline_width_unit" v="MM"/>
+                <prop k="scale_method" v="diameter"/>
+                <prop k="size" v="2"/>
+                <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+                <prop k="size_unit" v="MM"/>
+                <prop k="vertical_anchor_point" v="1"/>
+              </layer>
+            </symbol>
+          </markerStyle>
+          <annotationFontProperties description="Noto Sans,11,-1,5,50,0,0,0,0,0" style=""/>
+        </ComposerMapGrid>
         <AtlasMap scalingMode="2" atlasDriven="0" margin="0.10000000000000001"/>
-        <ComposerItem pagey="-3.32027e-15" page="1" id="" lastValidViewScaleFactor="1.95646" positionMode="0" positionLock="false" x="0" y="-3.32027e-15" visibility="1" zValue="1" background="true" transparency="0" frameJoinStyle="miter" blendMode="0" width="297" outlineWidth="0.3" excludeFromExports="0" uuid="{5986ab5c-9c1d-4739-89bb-fdf14e931446}" height="210" itemRotation="0" frame="false" pagex="0">
+        <ComposerItem pagey="0" page="1" id="" lastValidViewScaleFactor="2.43423" positionMode="0" positionLock="false" x="0" y="0" visibility="1" zValue="1" background="true" transparency="0" frameJoinStyle="miter" blendMode="0" width="297" outlineWidth="0.3" excludeFromExports="0" uuid="{5986ab5c-9c1d-4739-89bb-fdf14e931446}" height="210" itemRotation="0" frame="false" pagex="0">
           <FrameColor alpha="255" red="0" blue="0" green="0"/>
           <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
           <customproperties/>
         </ComposerItem>
       </ComposerMap>
-      <customproperties/>
+      <customproperties>
+        <property key="imageCropMarginBottom" value="0"/>
+        <property key="imageCropMarginLeft" value="0"/>
+        <property key="imageCropMarginRight" value="0"/>
+        <property key="imageCropMarginTop" value="0"/>
+        <property key="imageCropToContents" value="false"/>
+        <property key="svgCropMarginBottom" value="0"/>
+        <property key="svgCropMarginLeft" value="0"/>
+        <property key="svgCropMarginRight" value="0"/>
+        <property key="svgCropMarginTop" value="0"/>
+        <property key="svgCropToContents" value="false"/>
+        <property key="svgGroupLayers" value="true"/>
+      </customproperties>
     </Composition>
   </Composer>
   <projectlayers>
@@ -1948,7 +2019,7 @@ def my_form_open(dialog, layer, feature):
       </pipe>
       <blendMode>0</blendMode>
     </maplayer>
-    <maplayer minimumScale="-4.65661e-10" maximumScale="1e+08" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Line" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+    <maplayer minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Line" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
       <extent>
         <xmin>4.04895739999999993</xmin>
         <ymin>50.1461078000000029</ymin>
@@ -1999,7 +2070,7 @@ def my_form_open(dialog, layer, feature):
               <prop k="customdash_unit" v="MM"/>
               <prop k="draw_inside_polygon" v="0"/>
               <prop k="joinstyle" v="bevel"/>
-              <prop k="line_color" v="0,0,0,255"/>
+              <prop k="line_color" v="227,26,28,255"/>
               <prop k="line_style" v="solid"/>
               <prop k="line_width" v="0.16"/>
               <prop k="line_width_unit" v="MM"/>
@@ -2181,7 +2252,7 @@ def my_form_open(dialog, layer, feature):
         <selectedonly on=""/>
       </labelattributes>
       <SingleCategoryDiagramRenderer diagramType="Pie">
-        <DiagramCategory penColor="#000000" labelPlacementMethod="XHeight" penWidth="0" diagramOrientation="Up" minimumSize="0" barWidth="5" penAlpha="255" maxScaleDenominator="1e+08" backgroundColor="#ffffff" transparency="0" width="15" scaleDependency="Area" backgroundAlpha="255" angleOffset="1440" scaleBasedVisibility="0" enabled="0" height="15" sizeType="MM" minScaleDenominator="-4.65661e-10">
+        <DiagramCategory penColor="#000000" labelPlacementMethod="XHeight" penWidth="0" diagramOrientation="Up" minimumSize="0" barWidth="5" penAlpha="255" maxScaleDenominator="1e+08" backgroundColor="#ffffff" transparency="0" width="15" scaleDependency="Area" backgroundAlpha="255" angleOffset="1440" scaleBasedVisibility="0" enabled="0" height="15" sizeType="MM" minScaleDenominator="0">
           <fontProperties description="Cantarell,11,-1,5,50,0,0,0,0,0" style=""/>
           <attribute field="" color="#000000" label=""/>
         </DiagramCategory>
@@ -5476,7 +5547,7 @@ def my_form_open(dialog, layer, feature):
               <prop k="joinstyle" v="bevel"/>
               <prop k="line_color" v="31,120,180,255"/>
               <prop k="line_style" v="solid"/>
-              <prop k="line_width" v="1"/>
+              <prop k="line_width" v="0.4"/>
               <prop k="line_width_unit" v="MM"/>
               <prop k="offset" v="0"/>
               <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
@@ -5519,7 +5590,7 @@ def my_form_open(dialog, layer, feature):
         <property key="labeling/fieldName" value="name"/>
         <property key="labeling/fitInPolygonOnly" value="false"/>
         <property key="labeling/fontCapitals" value="0"/>
-        <property key="labeling/fontFamily" value="TeX Gyre Schola"/>
+        <property key="labeling/fontFamily" value="Universalis ADF Std"/>
         <property key="labeling/fontItalic" value="false"/>
         <property key="labeling/fontLetterSpacing" value="0"/>
         <property key="labeling/fontLimitPixelSize" value="false"/>
@@ -5530,7 +5601,7 @@ def my_form_open(dialog, layer, feature):
         <property key="labeling/fontSizeMapUnitScale" value="0,0,0,0,0,0"/>
         <property key="labeling/fontStrikeout" value="false"/>
         <property key="labeling/fontUnderline" value="false"/>
-        <property key="labeling/fontWeight" value="75"/>
+        <property key="labeling/fontWeight" value="50"/>
         <property key="labeling/fontWordSpacing" value="0"/>
         <property key="labeling/formatNumbers" value="false"/>
         <property key="labeling/isExpression" value="false"/>
@@ -5546,7 +5617,7 @@ def my_form_open(dialog, layer, feature):
         <property key="labeling/minFeatureSize" value="0"/>
         <property key="labeling/multilineAlign" value="0"/>
         <property key="labeling/multilineHeight" value="1"/>
-        <property key="labeling/namedStyle" value="Bold"/>
+        <property key="labeling/namedStyle" value="Regular"/>
         <property key="labeling/obstacle" value="true"/>
         <property key="labeling/obstacleFactor" value="1"/>
         <property key="labeling/obstacleType" value="0"/>
@@ -7056,6 +7127,9 @@ def my_form_open(dialog, layer, feature):
         <value>0.000000</value>
       </LayerSnappingToleranceList>
     </Digitizing>
+    <PAL>
+      <DrawOutlineLabels type="bool">true</DrawOutlineLabels>
+    </PAL>
     <Identify>
       <disabledLayers type="QStringList"/>
     </Identify>

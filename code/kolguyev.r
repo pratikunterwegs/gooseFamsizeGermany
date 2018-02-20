@@ -10,8 +10,21 @@ k = read_excel("~/git/family_sizes_geese_2018/kolguyev.xlsx", sheet = 1)
 k = k %>% filter(n.par %in% 1:2, species == "wfg")
 
 png(filename = "kolguyev.famsizes.hist.png", res = 300, height = 1600, width = 1600)
-hist(k$n.juv, main = NULL, xlab = "# juveniles",col = "darkgrey")
+hist(k$n.juv, main = NULL, xlab = "# juveniles",col = "darkgrey", freq = F, add = T, alpha = 0.4)
+hist(geeseorg$famsize, xlab = NULL, main = NULL, ylab = NULL, col = "lightblue", alpha = 1, freq = F, breaks = 8)
 dev.off()
+
+
+png("~/Documents/ces_ihs_pres2018/famsizehist.png", res = 300, height = 1600, width = 800)
+ggplot()+
+  geom_histogram(data = fams.expand, aes(x = famsize, ..density..), bins=10, fill = "darkgrey", lwd = 0.3)+
+  #geom_histogram(data = fams.expand %>% filter(t_since_in < 60), aes(x = famsize, y= ..density..), bins=10, fill = colb, alpha = 0.5)+
+ #geom_histogram(data = fams.expand %>% filter(t_since_in>120), aes(x = famsize, y = ..density..), bins=10, fill = cola, alpha = 0.5)
+  #geom_freqpoly(data = k, aes(x = n.juv, ..density..), bins = 12)+
+ # geom_histogram(data = geeseorg, aes(x = famsize, ..density..), bins = 12)+
+  theme_bw()+g1+labs(list(x = "# juveniles/pair"))
+dev.off()
+
 
 #'read in data from geeseorg and geese
 #'
@@ -98,4 +111,16 @@ ggplot()+
             hjust = c("inward", "left", "inward"), size = 3)+
   theme_bw()+
   theme(axis.text.x = element_blank())
+dev.off()
+
+
+### Family associated birds ####
+
+fambirds = fams.expand %>% group_by(flockid) %>% summarise(fambirds = length(famsize)*2 + sum(famsize), flocksize = first(flocksize), famprop = fambirds/flocksize, time = first(t_since_in)) %>% group_by(time = round_any(time, 5)) %>% summarise(mfp = mean(famprop), sdfp = sd(famprop), nfp = length(famprop)) %>% mutate(ci = 1.96*sdfp/sqrt(nfp))
+
+png("~/Documents/ces_ihs_pres2018/famprop.png", height = 800, width = 800, res = 200)
+ggplot(fambirds)+
+  geom_smooth(aes(x = time, y = mfp), col = 1, lwd = 1)+
+  geom_point(aes(x = time, y = mfp), shape = 21, size = 3)+
+theme_bw()+g1+ylim(0.2,0.45)+labs(list(x = "Proportion in families", y = "Flocksize"))
 dev.off()

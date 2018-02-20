@@ -17,5 +17,3 @@ header-includes:
 3. Sovon Vogelonderzoek Nederland, Toernooiveld 1, 6525 ED Nijmegen, The Netherlands
 4. Wageningen Environmental Research (Alterra) Team Animal Ecology, P.O. Box 47, 6700 AA, Wageningen, The Netherlands
 5. Department of Biology, University of Konstanz, Konstanz, Germany
-
-

@@ -2,10 +2,6 @@
 ```{r, include=FALSE}
 #'load knitr
 library(knitr);library(plyr);library(dplyr)
-
-#'suppress all code output but run code
-opts_chunk$set(include = FALSE)
-opts_knit$set(root.dir = "~/git/thesis/code")
 ```
 
 
@@ -15,7 +11,7 @@ library(readxl)
 library(RColorBrewer)
 
 #'import data
-data.raw.goose = read_excel("~/git/thesis/Age-ratiodata-GWfG-toPratik.xlsx", 
+data.raw.goose = read_excel("~/git/family_sizes_geese_2018/Age-ratiodata-GWfG-toPratik.xlsx", 
     sheet = "Plain_table", col_types = c("text", 
         "numeric", "numeric", "numeric", 
         "numeric", "text", "text", "text", 
@@ -83,7 +79,7 @@ apply(goose.clean, 2, function(x){sum(is.na(x))})
 ```{r export_basic_clean_data}
 #export to csv
 
-write.csv(goose.clean, "~/git/thesis/code/data.goose.clean.csv")
+#write.csv(goose.clean, "~/git/thesis/code/data.goose.clean.csv")
 ```
 
 
@@ -119,6 +115,8 @@ goose.clean = goose.clean[,c("Breeding_year","Region","Site_name",
 
 #'sum and count the number of families
 goose.clean$fams = apply(goose.clean[,c(9:18)], 1, function(x){sum(x, na.rm = T)})
+
+goose.clean$flockid = seq(1,dim(goose.clean)[1],1)
 
 #'subset for family size data
 fams = goose.clean[goose.clean$fams > 0,]
@@ -163,13 +161,13 @@ dim(goose.clean[complete.cases(goose.clean[,c("lon","lat")]),])
 goose.clean = goose.clean %>% filter(lon > 0, lon < 10, lat >=50, lat <=54)
 
 #'write to csv as data.goose.clean
-write.csv(goose.clean, "data.goose.clean.csv")
+#write.csv(goose.clean, "data.goose.clean.csv")
 
 #'write the full family data to csv
-write.csv(fams, "fams.csv")
+#write.csv(fams, "fams.csv")
 
 #'write geocoded family data to csv
-write.csv(fams.coords, "data.fams.coords.csv")
+#write.csv(fams.coords, "data.fams.coords.csv")
 ```
 
 
@@ -203,5 +201,5 @@ fams.expand.coords = fams.expand.coords %>% filter(complete.cases(lon,lat))
 fams.expand.coords = fams.expand.coords %>% filter(lon > 0 & lon < 10, lat >=50 & lat <=54)
 
 #'write to csv
-write.csv(fams.expand.coords, "fams.expand.coords.csv")
+#write.csv(fams.expand.coords, "fams.expand.coords.csv")
 ```
