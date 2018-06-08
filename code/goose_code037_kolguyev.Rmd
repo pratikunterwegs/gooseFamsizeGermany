@@ -1,0 +1,90 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r include=FALSE}
+knitr::opts_chunk$set(include = FALSE)
+```
+
+```{r prep_data}
+#'load libs
+
+library(readxl);library(plyr);library(dplyr);library(lubridate);library(ggplot2)
+
+#'read in data
+#'
+k = read_excel("~/git/family_sizes_geese_2018/kolguyev.xlsx", sheet = 1)
+
+k = k %>% filter(n.par %in% 1:2, species == "wfg")
+```
+
+```{r read_NL_data}
+####Load migration data####
+migration = read.csv("migration_data.csv", row.names = 1)
+migration$Date = as.Date(migration$Date)
+migration$spring = as.Date(migration$spring)
+migration$autumn = as.Date(migration$autumn)
+mig.red = migration[,c("Date","Count_effort.min.","NumberperHour","t_since_in","t_to_out","durwinter")]
+
+#'subset for 2016-17
+#'
+kwint = fams.expand %>% filter(Breeding_year == 2016, t_since_in < 60)
+kwint2 = geeseorg %>% filter(breedyr == 2016, t_since_in <60)
+```
+
+```{r merge_data}
+#'merge data
+#'
+k$site = "kolguyev"
+kwint$site = "nl"
+kwint2$site = "nl2"
+#'assign new variable name
+k$famsize = k$n.juv
+
+#'bind rows
+data2016 = rbind(as.data.frame(k[,c("famsize","site")]), 
+          as.data.frame(kwint[,c("famsize","site")]),
+          as.data.frame(kwint2[,c("famsize","site")]))
+
+data2016$site = as.factor(data2016$site)
+```
+
+```{r compare_sites_famsizes}
+#'run glm
+#'
+mod.site = kruskal.test(famsize ~ site, data = data2016)
+
+#'check mod
+summary(mod.site)
+
+library(PMCMR)
+
+#'nemenyi posthoc
+mod.site.posthoc = posthoc.kruskal.nemenyi.test(x = data2016$famsize, g = data2016$site, dist = "Chisquare")
+
+#'plot
+plot(mod.site.posthoc)
+```
+
+```{r plot_mod.site, include=FALSE}
+#'plot
+cairo_ps(filename = "figs/fig1.eps", width = 4, height = 4)
+
+data2016 %>% group_by(site) %>% summarise(m = mean(famsize), sd = sd(famsize), n = length(famsize)) %>% mutate(ci = qnorm(0.975)*sd/sqrt(n)) %>% 
+
+ggplot()+
+  geom_errorbar(aes(x = site, y =m, ymin = m-ci,
+                               ymax = m+ci), width = 0.1)+
+  geom_point(aes(x = site, y = m))+
+  labs(list(x = NULL, y = "Family size"))+
+  scale_x_discrete(labels=NULL)+
+  geom_text(aes(x = c(1.1,2.1,2.9), y = m), 
+            label = c("Kolguyev","Dataset B","Dataset C"),
+            hjust = c("inward", "left", "inward"), size = 3)+
+  theme.pub()+
+  theme(axis.text.x = element_blank())
+dev.off()
+
+```

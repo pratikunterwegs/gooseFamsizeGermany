@@ -1,0 +1,71 @@
+
+# Load environment
+
+```{r set_env, message=FALSE}
+#'load knitr
+library(knitr);library(plyr);library(dplyr);library(data.table);library(purrr);library(ggplot2);library(purrrlyr)
+
+library(mgcv);library(gamm4);library(visreg)
+
+#'suppress all code output but run code
+opts_chunk$set(eval = FALSE)
+```
+
+# Source data
+
+```{r load_data}
+#'load data.goose.clean
+source("dataprep.R")
+
+#'remove any flocksizes mistakenly assigned 0
+fams.expand = fams.expand %>% filter(flocksize > 0)
+
+```
+
+# Distance from breeding grounds ~ family size
+
+```{r prep_data_distmods}
+#'make only 2 foodtypes: grass, and other
+fams.expand$food = as.factor(ifelse(fams.expand$Food_type == "Gras", "grass", "other"))
+
+#'round the distance to ones for poisson model
+geeseorg$distkol = round(geeseorg$distkol)
+
+fams.expand$distkol = round(fams.expand$distkol)
+```
+
+```{r run distmods}
+#'run distance models
+#'census data
+
+distmod = lmer(distkol ~ famsize*sqrt(t_since_in) + (1|Breeding_year) + (1|Observer) + (1|Food_type) + (1|zone), data = fams.expand)
+
+#'geeseorg data
+distmod2 = lmer(distkol ~ famsize*sqrt(t_since_in) + (1|breedyr) + (1|neckring), data = geeseorg)
+```
+
+```{r}
+save(distmod, distmod2, fams.expand, geeseorg, file = "distmods.Rdata")
+```
+
+# Family size
+
+## flock counts
+
+```{r m03}
+#'run model 2.a to test hypothesis 2 and 3 (partially)
+
+mod.famsize.flock.time = glmer(famsize ~ log(flocksize) + sqrt(t_since_in) + (1|Breeding_year) + (1|Observer) + (1|Food_type), data = fams.expand, family = "poisson")
+```
+
+## geese.org data
+
+Run model three on geese.org data. Random effects now include "id", and do not include observer and habitat type. Fixed effects do not include flock size.
+
+```{r gorg.m03}
+mod.famsize.geeseorg = glmer(famsize ~ sqrt(t_since_in) + (1|neckring) + (1|breedyr), data = geeseorg, family = "poisson")
+```
+
+```{r}
+save(mod.famsize.flock.time, mod.famsize.geeseorg, file = "familysize_models.rdata")
+```

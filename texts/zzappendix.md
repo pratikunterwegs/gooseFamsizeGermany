@@ -105,7 +105,7 @@ Model & Type & Response & Fixed effects & Random effects & Records used & Cohen'
 Here we provide figures referred to in the text.
 
 \begin{figure}[H]
-\includegraphics[width = 1\linewidth]{fam_predation.pdf}
+\includegraphics[width = 1\linewidth]{figA2.pdf}
 \caption{{\small GLMM fits (lines) and mean number of juveniles per family at each
 unique level of pooled summer predation index (symbols) using two
 datasets: blue, all families of marked geese (dataset \emph{C}); red,
@@ -114,7 +114,7 @@ successful families only of marked geese (subset of \emph{C}).}}
 \end{figure}
 
 \begin{figure}[H]
-\includegraphics[width = 1\linewidth]{juvprop_time.pdf}
+\includegraphics[width = 1\linewidth]{fig4c.pdf}
 \caption{{\small GAMM partial fit (line) and mean proportion of first-winter juveniles in
 white-fronted goose flocks on each winter day, pooled across all years
 (circles). Note that days since arrival was modelled as a smoothed
@@ -123,12 +123,7 @@ through 0. 95\% confidence interval is shaded grey.}}
 \end{figure}
 
 \begin{figure}[H]
-\includegraphics[width = 1\linewidth]{flock_dist.pdf}
+\includegraphics[width = 1\linewidth]{fig5.pdf}
 \caption{{\small GLMM fit (line) and mean size of flocks at each site (circles, n
 = 111) as a function of its distance from Kolguyev Island. Sites to the north-east of the study site are approximately 500 km nearer to Kolguyev than sites in the south-west.}}
-\end{figure}
-
-\begin{figure}[H]
-\includegraphics[width = 1\linewidth]{jprop_flock.pdf}
-\caption{{\small GAMM fit (line) and mean juvenile proportion of flocks, in increments of 25 individuals (circles). Larger flocks have a lower proportion of juveniles, and lower variance in the proportion. 95\% confidence interval is shaded grey.}}
 \end{figure}

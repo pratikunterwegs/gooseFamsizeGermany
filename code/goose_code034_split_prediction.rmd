@@ -1,83 +1,9 @@
----
-title: Predicting family splits
-editor_options: 
-  chunk_output_type: console
----
-
-This is an MCMCglmm model to test the hypothesis that family splits are forced, rather than voluntary circumstances. We expect that splits will be associated with a low time to flight, and with a high inter position distance, in keeping with the hypothesis that families split when members lose contact during uncoordinated flights.
-
 Run family visits R script for revisit stats.
 
 ```{r load_data}
 #load("famssplitMCMCmodel.rdata")
 load("split.mod.rdata")
 ```
-
-```{r bind_rows}
-splitsmoddata = bind_rows(fams.splits)
-
-#'remove Inf values in times, no idea where they're from
-splitsmoddata = splitsmoddata %>% filter(is.finite(t.to.fly),
-                                         !is.na(t.to.fly))
-
-#'get time since entry in days, entry calculated from kolguyev birds
-splitsmoddata$tdiff = as.numeric(splitsmoddata$time - entry)
-
-#'assign binary response variable
-splitsmoddata$split = ifelse(splitsmoddata$event == "Split", 1, 0)
-
-#'assign zeros to NAs
-splitsmoddata$split[is.na(splitsmoddata$split)] = 0
-
-splitsmoddata$fam = as.factor(splitsmoddata$fam)
-
-#'get hour of day
-splitsmoddata$hour = hour(splitsmoddata$time)
-```
-
-
-```{r max_size}
-max = data.frame(fam = names(fams.splits), max = c(5,4,6,5,4,5))
-
-splitsmoddata = merge(splitsmoddata, max, by = "fam", all.x = T)
-
-splitsmoddata$prop = splitsmoddata$fsize/splitsmoddata$max
-```
-
-
-We now run a logistic regression, with
-1. time to flight
-2. time since entry (proxy for winter days)
-3. distance in prev segment
-4. hour of day
-5. fsize
-as fixed predictors, and the family as a mixed effect.
-
-Should max family size be an effect as well? Maybe. Let's see.
-
-
-```{r run_model}
-#'run glmer
-library(lme4)
-
-splitsmod = glmer(split ~ t.to.fly + dist + (1|fam), data = splitsmoddata, family = binomial(link = logit))
-```
-
-```{r summary_mod}
-summary(splitsmod)
-
-library(car)
-Anova(splitsmod)
-```
-
-
-```{r model_vis}
-library(visreg)
-
-visreg(splitsmod, "t.to.fly", scale = "response")
-
-```
-
 
 # Predicting splits at the day level
 
@@ -146,7 +72,7 @@ famstats = data.frame(famstats %>% group_by(fam) %>% mutate(tflights = c(cumsum(
 famstats$fam = as.factor(famstats$fam)
 
 #'set famstats splits value to 0 or 1. family An lost both juvs on one day. count all splits in the fam.
-famstats = famstats %>% group_by(fam) %>% mutate(sumsplit = c(cumsum(split))) 
+famstats = famstats %>% group_by(fam) %>% mutate(sumsplit = c(cumsum(split)))
 famstats$split[famstats$split>0] = 1
 
 #famstats = famstats %>% filter(fam %in% c("An","Ev","Ha","Jo","Ma","Na","Ro","Ti","Wo"))
@@ -160,10 +86,10 @@ library(lme4)
 library(gamm4)
 famstats = famstats[complete.cases(famstats),]
 
-mod.day.split = 
-  glmer(split ~ sqrt(days) + fsize + flights + log(ddist) + (1|fam), data = famstats, family = binomial(link = logit))
+mod.day.split =
+  glmer(split ~ fsize + flights + sqrt(ddist) + (1|fam), data = famstats, family = binomial(link = logit))
 
-#modsplit2 = 
+#modsplit2 =
  # bam(split ~ ti(flights)+ ti(log(ddist))+ ti(flights, log(ddist)) + ti(sqrt(days)) + ti(fsize) + ti(sqrt(days), fsize) + s(fam, bs = "re"), data = famstats, family = "binomial")
 
 #famstats$predict = predict(mod.day.split, newdata = famstats, type = "response", allow.new.levels = T)
@@ -186,7 +112,7 @@ m = predict(mod.day.split, newdata = famstats, type = "response", re.form =~(1|f
 
 
 ```{r merge_splitsmod_predicts}
-splitsmoddata$p = m
+#splitsmoddata$p = m
 
 daycoords2 = daycoords %>% filter(lat < 54) %>% group_by(fam, time = round_date(time, "day")) %>% dmap(mean)
 
@@ -211,12 +137,13 @@ ggplot()+
 ```{r plot_day_split_probs}
 #pdf(file = "~/git/thesis/texts/fig6a.pdf", height = 4, width = 4)
 #'
-f6a = 
+f6a =
   ggplot()+
   #geom_vline(data = famstats %>% filter(split == 1), aes(xintercept=days), col = 2, lty = 3)+
-  geom_smooth(data = famstats, aes(x = fsize, y = p), col = 1, lwd = 0.4, method = "loess")+
-  labs(list(x = "Family size", y= "Split probability", title = "(a)"))+
-  theme_bw()+g1+ylim(NA,0.09)
+  geom_smooth(data = famstats, aes(x = juvs, y = p), col = "grey20", lwd = 1, method = "loess")+
+  labs(list(x = "Family size", y= "Daily split probability", title = NULL))+
+  theme.pub()+
+  coord_cartesian()
 
 #dev.off()
 ```
@@ -224,52 +151,25 @@ f6a =
 ## Fig 6b. p ~ daily sum distance
 
 ```{r plot_flights_split}
-#pdf(file = "~/git/thesis/texts/fig6d.pdf", height = 4, width = 4)
+pdf(file = "~/git/family_sizes_geese_2018/texts/fig6d.pdf", height = 4, width = 4)
 #'
-f6b = 
+f6b =
   ggplot()+
    # geom_vline(data = famstats %>% filter(split == 1), aes(xintercept=ddist/1e3), col = 2, lty = 1, lwd = 0.2)+
   #geom_line(data = visdistsplitdata, aes(x = ddist, y = visregFit), col = 1, lwd = 0.4)+
-  geom_smooth(data = famstats, aes(x = ddist/1e3, y = p), col = 1, lwd = 0.4)+
-  labs(list(x = "Daily distance (km)", y= NULL, title = "(b)"))+
-  theme_bw()+g1+xlim(NA,100)#+ylim(NA, 0.1)
+  geom_smooth(data = famstats, aes(x = ddist/1e3, y = p), col = "grey20", lwd = 1)+
+  labs(list(x = "Distance travelled/day (km)", y= "Daily split probability", title = NULL))+
+  theme.pub()+
+  coord_cartesian(xlim = c(0,100), ylim = c(0,0.1))
 
 dev.off()
 ```
 
-## Fig 6c. p ~ size
-
-```{r plot_size_split}
-#pdf(file = "~/git/thesis/texts/fig6c.pdf", height = 4, width = 4)
-#'
-
-#f6c = 
-ggplot()+
-    geom_vline(data = famstats %>% filter(split == 1), aes(xintercept=fsize), col = 2, lty = 3)+
-  geom_line(data = vissizesplitdata, aes(x = fsize, y = visregFit), col = 1, lwd = 1)+
-  labs(list(x = "Family size", y= NULL, title = "C"))+
-  theme_bw()+g1+ylim(NA,1)
-
-dev.off()
-```
-
-```{r plot_flights_split}
-#pdf(file = "~/git/thesis/texts/fig6b.pdf", height = 4, width = 4)
-#'
-#f6b = 
-  ggplot()+
-  geom_vline(data = famstats %>% filter(split == 1), aes(xintercept=mdist/1e3), col = 2, lty = 3)+
-  geom_line(data = visdistsplitdata, aes(x = mdist/1e3, y = visregFit), col = 1)+
-  labs(list(x = "Total distance travelled (km)", y= NULL, title ="B"))+
-  theme_bw()+g1
-
-dev.off()
-```
 
 # Export png
 
 ```{r}
-png(filename = "~/git/family_sizes_geese_2018/texts/fig6.png", res = 300, height = 1600, width = 1600)
+cairo_ps(filename = "figs/fig5.eps", height = 4, width = 6)
 
 gridExtra::grid.arrange(f6a, f6b, ncol = 2)
 

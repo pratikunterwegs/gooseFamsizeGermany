@@ -1,0 +1,139 @@
+# Get NL weather data
+
+```{r load_libs}
+library(readr); library(plyr); library(dplyr); library(purrr);library(purrrlyr);library(data.table);library(lubridate)
+```
+
+```{r load_sites}
+library(readr)
+knmi_sites <- read_csv("~/git/family_sizes_geese_2018/code/knmi_sites.txt")
+```
+
+
+```{r load_data}
+nlweather = read_csv("~/git/family_sizes_geese_2018/code/holland_weather.txt",
+     col_types = cols(date = col_date(format = "%Y%m%d"),
+         mintemp = col_number(), ppt = col_number(),
+        windspeed = col_number()))
+
+#'div temp and windspeed by 10
+nlweather$mintemp = nlweather$mintemp/10
+nlweather$windspeed = nlweather$windspeed/10
+
+#'filter out station 209 and 215, have few records, 209 is missing entirely
+
+nlweather = nlweather %>% filter(station != 209, station != 215)
+#'set ppt of -1 to 0.01
+nlweather$ppt = ifelse(nlweather$ppt < 0, 0.01, nlweather$ppt)
+```
+
+# Germany weather
+
+```{r}
+deweather <- read_csv("~/git/family_sizes_geese_2018/code/weather_munster.csv",
+   col_types = cols(date = col_date(format = "%Y%m%d")))
+```
+
+# Rbind weather frames
+
+```{r}
+weather = rbind(nlweather, deweather)
+```
+
+
+# Load data
+
+```{r load_data}
+source("dataprep.R")
+```
+
+```{r nearest_stn}
+#'get unique family sites
+famsites = fams.expand %>% group_by(lookup) %>% summarise(first(lon), first(lat))
+
+#'get unique flock sites
+flocksites = geese %>% group_by(lookup) %>% summarise(lon = first(lon), lat = first(lat))
+```
+
+```{r fam_temp_dists}
+library(geosphere)
+
+#'matrix of distances
+flock_stns = apply(flocksites[,c("lon","lat")], 1, function(x){distVincentyEllipsoid(p1 = x, p2 = knmi_sites[,c("lon","lat")])})/1000
+
+#'which station is nearest?
+stn.near = data.frame(lookup = flocksites[,c("lookup")],
+               station = knmi_sites[apply(flock_stns, 2, which.min),"station"])
+
+#'mean distances
+mean(apply(flock_stns, 2, min))
+
+
+#'for geese.org data
+gorgstns = apply(geeseorg[,c("lon","lat")],1, function(x){distVincentyEllipsoid(p1 = x, p2 = knmi_sites[,c("lon","lat")])})/1000
+
+geeseorg$stn = knmi_sites[apply(gorgstns, 2, which.min),"station"]$station
+
+
+```
+
+```{r merge_data}
+#'fams in flocks
+fams = fams %>% left_join(stn.near, by = "lookup") %>% left_join(nlweather, by = c("station", "time" = "date"))
+
+weather_stations_used = knmi_sites %>% left_join(stn.near) %>% mutate(used = !is.na(lookup))
+
+write_csv(weather_stations_used, "weather_stations_used.csv")
+
+#'fams expanded
+fams.expand = fams.expand %>% left_join(stn.near, by = "lookup") %>% left_join(nlweather, by = c("station", "time" = "date"))
+
+#'flock data
+geese = geese %>% left_join(stn.near, by = "lookup") %>% left_join(nlweather, by = c("station","time"="date"))
+```
+
+```{r fam_assoc}
+#'what proportion of birds are in families?
+fambirds = fams.expand %>% group_by(flockid) %>% summarise(fambirds = length(famsize)*2 + sum(famsize), flocksize = first(flocksize), famprop = fambirds/flocksize, t_since_in = first(t_since_in), distkol = first(distkol), mintemp = first(mintemp), ppt = first(ppt), windspeed = first(windspeed), Breeding_year = first(Breeding_year), Observer = first(Observer), Food_type = first(Food_type), famjuvsprop = sum(famsize)/first(juvs), zone = first(zone)) %>% filter(famprop <= 1, famjuvsprop <=1)
+```
+
+
+```{r nfams_temp}
+library(mgcv)
+#'proportion of family associated birds model
+fambirds$mintemp = sqrt(fambirds$mintemp+20)
+
+famprop.mod = glmer(famprop ~ sqrt(flocksize) + sqrt(distkol) + (t_since_in)+ (1|Breeding_year) + (1|Observer) + (1|zone), data = fambirds %>% filter(famprop <= 1, flocksize <= 5000), family = "binomial")
+```
+
+```{r famjuvsprop}
+#'what proportion of a flock's juveniles are associated in families, rather than being independent?
+
+famjuvprop.mod = glmer(famjuvsprop ~ sqrt(flocksize) + sqrt(distkol) + (t_since_in) + (1|Breeding_year) + (1|Observer) + (1|zone), data = fambirds %>% filter(famprop <= 1, flocksize <=5000), family = "binomial")
+```
+
+```{r juvenile_proportion_model}
+#'what proportion of a flock is composed of juveniles?
+geese$mintemp = sqrt(geese$mintemp+20)
+
+
+juvprop.mod = glmer(propjuv ~ sqrt(flocksize) + sqrt(distkol) + (t_since_in) + (1|Breeding_year) + (1|Observer) + (1|zone), data = geese %>% filter(flocksize>0, flocksize <= 5000), family = "binomial")
+
+```
+
+
+```{r flocksize_temp}
+#'flocksize model
+#'rescale for low temps
+
+flocksize.mod = glmer(flocksize ~ sqrt(distkol) + log(t_since_in) + mintemp + (1|Observer) + (1|zone)+ (1|Breeding_year), data = geese, family = "poisson")
+```
+
+```{r juvprop_flocks}
+#'run for juvenile proportion of flocks
+```
+
+
+```{r juvsclim}
+save(famprop.mod, famjuvprop.mod, juvprop.mod, flocksize.mod, fambirds, geese, geeseorg,file = "mods_flocklevel.rdata")
+```

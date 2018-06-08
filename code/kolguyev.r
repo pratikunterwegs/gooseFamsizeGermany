@@ -9,12 +9,6 @@ k = read_excel("~/git/family_sizes_geese_2018/kolguyev.xlsx", sheet = 1)
 
 k = k %>% filter(n.par %in% 1:2, species == "wfg")
 
-png(filename = "kolguyev.famsizes.hist.png", res = 300, height = 1600, width = 1600)
-hist(k$n.juv, main = NULL, xlab = "# juveniles",col = "darkgrey", freq = F, add = T, alpha = 0.4)
-hist(geeseorg$famsize, xlab = NULL, main = NULL, ylab = NULL, col = "lightblue", alpha = 1, freq = F, breaks = 8)
-dev.off()
-
-
 png("~/Documents/ces_ihs_pres2018/famsizehist.png", res = 300, height = 1600, width = 800)
 ggplot()+
   geom_histogram(data = fams.expand, aes(x = famsize, ..density..), bins=10, fill = "darkgrey", lwd = 0.3)+
@@ -72,11 +66,11 @@ kwint2$site = "nl2"
 k$famsize = k$n.juv
 
 #'bind rows
-data2016 = rbind(as.data.frame(k[,c("famsize","site")]), 
+data2016 = rbind(as.data.frame(k[,c("famsize","site")]),
           as.data.frame(kwint[,c("famsize","site")]),
           as.data.frame(kwint2[,c("famsize","site")]))
 
-data2016$site = as.factor(a$site)
+data2016$site = as.factor(data2016$site)
 
 #'run glm
 #'
@@ -94,25 +88,26 @@ vis.mod.site = visreg(mod.site, scale = "response", plot = F)
 
 vis.mod.site.fit = vis.mod.site$fit
 
-#'plot
+#'plot a comparison of family sizes on kolguyev and counts and neckband data
 #'
 #'
-png(file = "~/git/thesis/texts/kolguyev.png", width = 800, height = 800,
-    res = 300)
-ggplot()+
-  geom_errorbar(data = vis.mod.site.fit, aes(x = site,  ymin = visregLwr,
-                               ymax = visregUpr), width = 0.1)+
-  geom_point(data = vis.mod.site.fit, aes(x = site, y = visregFit))+
-  labs(list(x = NULL, y = "Family size"))+
-  scale_x_discrete(labels=c("Pre-migration", "Post-migration A", 
-                            "Post-migration B"))+
-  geom_text(aes(x = c(1.1,2.1,2.9), y = vis.mod.site.fit$visregFit), 
-            label = c("Kolguyev","In flocks","Marked birds"),
-            hjust = c("inward", "left", "inward"), size = 3)+
-  theme_bw()+
-  theme(axis.text.x = element_blank())
-dev.off()
+source("ggplot_pub.r")
+#'
+pdf(file = "~/git/family_sizes_geese_2018/texts/fig2_summer_winter_familysize.pdf", height = 4, width = 4)
 
+data2016 %>% filter(famsize>=0) %>%  group_by(site) %>%
+
+  summarise(mean = mean(famsize), sd = sd(famsize), n = length(famsize)) %>%
+  mutate(ci = qnorm(0.975)*sd/sqrt(n)) %>%
+
+  ggplot()+
+  geom_pointrange(aes(x = site, y = mean, ymin = mean-ci, ymax = mean+ci))+
+  theme.pub()+
+  geom_text(aes(x = c(1.1,2,2.9), y = c(2.4, 1.9, 0.45), label = c("Kolguyev", "Counting data", "Marked birds"), hjust = "inward"))+
+  labs(list(x = NULL, y = "Mean family size"))+
+  scale_x_discrete(labels = NULL)
+
+dev.off()
 
 ### Family associated birds ####
 

@@ -16,7 +16,7 @@ Lemming abundance from the breeding grounds transformed into a predation index r
 We found no influence of the number of juveniles in a family on how far from the breeding grounds a family wintered in the first sixty days after arrival (dataset *B*: successful families in flocks, and *C*: families of marked geese, model *1*, χ^2^ B = 1.135, p B = 0.286, χ^2^ C = 2.007, p C = 0.157, see Fig. 2). Later in the winter, larger families from dataset *B* (successful families in flocks) wintered farther west (χ^2^ = 4.194, p = 0.041), while dataset *C* (families of marked geese) did not reveal any influence of juvenile number on wintering site (χ^2^ = 0.27, p = 0.6033).
 
 \begin{figure}
-\includegraphics[width = 1\linewidth]{dist_fam.pdf}
+\includegraphics[width = 1\linewidth]{fig2.pdf}
 \caption{{\small GLMM fits (lines), and mean distance of wintering sites from Kolguyev Island (symbols) per number of juveniles in a family. Data and fit for
 records from \textless{} 60 days after arrival are shown in red; data and fit for records \textgreater{} 60 days after arrival are in blue.
 Triangles \& dotted lines represent data from marked geese (dataset \emph{C}), circles and solid lines family counts (dataset \emph{B}.}}
@@ -30,22 +30,22 @@ We tested whether the exclusion of unsuccessful pairs from family counts in floc
 The number of successful families in flocks increased with flock size (χ^2^ = 7162, p < 0.001), and the number of days since goose arrival in autumn (χ^2^ = 171.3, p < 0.001, see Fig. 4), but was unaffected by summer predation (χ^2^ = 0, p = 0.98). Further, there were more successful families in flocks farther from the breeding grounds (χ^2^ = 12.73, p = 0.0004, see Fig. 5).
 
 \begin{figure}
-\includegraphics[width = 1\linewidth]{fam_time.pdf}
+\includegraphics[width = 1\linewidth]{fig3.pdf}
 \caption{{\small GLMM fits (lines) and mean number of juveniles per family on each day since goose autumn arrival pooled across years (dots). Successful families in flocks (dataset \emph{B}) are shown in red, and families of marked geese (dataset \emph{C}) are shown in blue. Arrows show development of size of 9 GPS tracked families that underwent splits.}}
 \end{figure}
 
 \begin{figure}
-\includegraphics[width = 1\linewidth]{nfams_time.pdf}
+\includegraphics[width = 1\linewidth]{fig4a.pdf}
 \caption{{\small GAMM partial fit (line) and mean number of successful families in
 white-fronted goose flocks on each winter day, pooled across all winters
 (circles). 95\% confidence interval is shaded grey.}}
 \end{figure}
 
 \begin{figure}
-\includegraphics[width = 1\linewidth]{nfams_dist.pdf}
+\includegraphics[width = 1\linewidth]{fig5.pdf}
 \caption{{\small GAMM fit (line) and mean number of successful families in
 white-fronted goose flocks at each site (circles, n = 49) as a function
-of its distance from the Kolguyev Island. 95\% confidence interval is
+of its distance from Kolguyev Island. 95\% confidence interval is
 shaded grey.}}
 \end{figure}
 
@@ -63,6 +63,6 @@ Within flocks, juvenile proportions increased through the winter (χ^2^ = 19.43,
 The daily probability of families separating (see Fig. 6) was significantly lower later in the winter (χ^2^ = 8.314, p = 0.004), and lower in larger families (χ^2^ = 11.41, p < 0.001). There was no effect of the daily number of flights (χ^2^ = 0.018, p = 0.893), nor the daily distance moved (χ^2^ = 2.99, p = 0.083). Split probability was higher in families that made cumulatively more flights over the period leading up to the split (χ^2^ = 143.23, p < 0.001), but decreased in families that moved a shorter cumulative distance over the days leading up to splits (χ^2^ = 182.63, p < 0.001). At the half-hour scale, split probability increased with time since the previous take-off (χ^2^ = 6.07, p = 0.014), but was not related to the distance travelled in the previous half hour (χ^2^ = 0.389, p = 0.533).
 
 \begin{figure}
-\includegraphics[width = 1\linewidth]{split_dayprob.pdf}
+\includegraphics[width = 1\linewidth]{fig6.png}
 \caption{{\small GAMM partial fits (lines) for (a) days since arrival, (b) cumulative number of flights over winter, (c) number of juveniles, and (d) cumulative number of displacements of more than 1000 km.}}
 \end{figure}

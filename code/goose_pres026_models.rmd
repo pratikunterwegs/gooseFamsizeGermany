@@ -1,12 +1,13 @@
 ---
-title: thesis model plots
+title: Geese families papers plots
 editor_options: 
   chunk_output_type: console
 ---
 
 ```{r set_env, message=FALSE, echo=FALSE, warning=FALSE}
-#'load knitr
-library(knitr);library(plyr);library(dplyr);library(data.table);library(purrr);library(ggplot2)
+#source libs
+source("libs.r")
+source("ggplot.opts.r");source("ggplot.pub.r")
 
 #'load model libs
 library(mgcv);library(gamm4)
@@ -15,128 +16,90 @@ library(sp);library(gstat)
 ```
 
 ```{r, message=FALSE, echo=FALSE, warning=FALSE, eval=TRUE}
+#dataprep
 source("dataprep.R")
-load("goosemods_pres.RData")
-load("distmods.Rdata")
-load("fsize_coords.rdata")
-
-#'define ggplot axis and grid options
-a = theme(panel.grid = element_blank(), legend.position="none")
-b1 = theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text.y = element_blank(), axis.ticks.y = element_blank())
-source("ggplot.opts.r")
+load("familysize_models.rdata");load("distmods.Rdata");load("mods_flocklevel.rdata")
 ```
 
 # Fig 2. Distance to Kolguyev ~ family size
 
-```{r distkol_fams1, message=FALSE, echo=FALSE, warning=FALSE}
-#'get model preds fams early
-fes.early = fams.expand %>% filter(t_since_in < 60) %>% mutate(pred.distmod = predict(distmod, newdata = ., type = "response", allow.new.levels = T, re.form = ~(1|Breeding_year)+(1|Observer))) %>% group_by(famsize) %>% summarise(d.mean = mean(distkol, na.rm = T), d.sd = sd(distkol, na.rm=T), d.n = length(distkol), pred.mean = mean(pred.distmod, na.rm = T), pred.sd = sd(pred.distmod, na.rm = T), pred.n = length(pred.distmod)) %>% mutate(d.ci = qnorm(0.975)*d.sd/sqrt(d.n), pred.ci = qnorm(0.975)*pred.sd/sqrt(pred.n)) %>% mutate(data = "flock", time = "early")
+## get data
+```{r get data fig2}
+#'get data
+#'dataset B
+fams.expand = fams.expand %>% mutate(distpred = predict(distmod, type = "response", allow.new.levels = T, newdata = fams.expand), data = "fams")
 
-#'get model preds fams late
-fes.late = fams.expand %>% filter(t_since_in > 60) %>% mutate(pred.distmod = predict(distmod_late, newdata = ., type = "response", allow.new.levels = T,re.form = ~(1|Breeding_year)+(1|Observer))) %>% group_by(famsize) %>% summarise(d.mean = mean(distkol, na.rm = T), d.sd = sd(distkol, na.rm=T), d.n = length(distkol), pred.mean = mean(pred.distmod, na.rm = T), pred.sd = sd(pred.distmod, na.rm = T), pred.n = length(pred.distmod)) %>% mutate(d.ci = qnorm(0.975)*d.sd/sqrt(d.n), pred.ci = qnorm(0.975)*pred.sd/sqrt(pred.n)) %>% mutate(data = "flock", time = "late")
+#'dataset C
+geeseorg = geeseorg %>% mutate(distpred = predict(distmod2, type = "response", allow.new.levels = T, newdata = geeseorg), data = "geese.org")
 
-#'model preds geese.org early
-gorg.early = geeseorg %>% filter(t_since_in < 60) %>%  mutate(pred.distmod = predict(distmod2, newdata = ., type = "response", allow.new.levels = T, re.form = ~(1|breedyr)+(1|neckring))) %>% group_by(famsize) %>% summarise(d.mean = mean(distkol, na.rm = T), d.sd = sd(distkol, na.rm=T), d.n = length(distkol), pred.mean = mean(pred.distmod, na.rm = T), pred.sd = sd(pred.distmod, na.rm = T), pred.n = length(pred.distmod)) %>% mutate(d.ci = qnorm(0.975)*d.sd/sqrt(d.n), pred.ci = qnorm(0.975)*pred.sd/sqrt(pred.n)) %>% mutate(data = "gorg", time = "early")
+#'get the famsize, the timesincein, dataset name, and the prediction
 
-#'model preds geese.org late
-gorg.late = geeseorg %>% filter(t_since_in > 60) %>%  mutate(pred.distmod = predict(distmod2_late, newdata = ., type = "response", allow.new.levels = T,re.form = ~(1|breedyr)+(1|neckring))) %>% group_by(famsize) %>% summarise(d.mean = mean(distkol, na.rm = T), d.sd = sd(distkol, na.rm=T), d.n = length(distkol), pred.mean = mean(pred.distmod, na.rm = T), pred.sd = sd(pred.distmod, na.rm = T), pred.n = length(pred.distmod)) %>% mutate(d.ci = qnorm(0.975)*d.sd/sqrt(d.n), pred.ci = qnorm(0.975)*pred.sd/sqrt(pred.n)) %>% mutate(data = "gorg", time = "late")
-
-#'bind datasets
-fig2.data = rbind(fes.early,fes.late,gorg.early,gorg.late)
-
+fig2data = fams.expand %>% dplyr::select(data, famsize, t_since_in, distpred) %>% rbind(geeseorg %>% select(data, famsize, t_since_in, distpred)) %>% filter(t_since_in <= 200) %>%  group_by(data, famsize, days = round_any(t_since_in, 90)) %>% summarise(mean = mean(distpred,na.rm=T), sd = sd(distpred), n = length(distpred)) %>% mutate(ci = qnorm(0.975)*sd/sqrt(n))
 ```
 
-## Plot
+
+## plot fig2
 
 ```{r export_distkol_fams1, eval = FALSE}
-#cairo_pdf(filename = "~/git/family_sizes_geese_2018/texts/fig2.pdf", height = 5, width = 4)
-#
-png(filename= "~/git/family_sizes_geese_2018/texts/fig2.png", height=1200, width = 1600, res = 300)
-
-#'red:early, triangle:geese.org, dotted:geese.org
+cairo_ps(filename = "figs/fig3.eps", height = 4, width = 6)
 
 #'plot
 
-fig2.data %>% 
-  
+fig2data %>% 
+ 
 ggplot()+
-
-#geom_ribbon(aes(x = famsize, ymin = pred.mean-pred.ci, ymax = pred.mean+pred.ci, group = time), fill = "grey", alpha = 0.5)+
-  geom_pointrange(aes(x = famsize, y = d.mean, ymin = d.mean-d.ci, ymax = d.mean+d.ci, shape = time), fatten = 5, fill = "white", stroke = 0.7, position = position_dodge(width = 0.4), lwd = 0.4)+
-geom_line(aes(x = famsize, y = pred.mean, col = time, lty = time))+
-
-
-
-facet_wrap(~ifelse(data=="flock","(a)","(b)"), ncol = 2)+
+  geom_smooth(aes(x = famsize, y = mean, lty = as.factor(days), group = as.factor(days)), se = F, method = "glm", col = 1, lwd = 0.5)+
   
-scale_shape_manual(values=c(21,24))+
-scale_colour_manual(values=c(colb,cola))+
+  geom_pointrange(aes(x = famsize, y = mean, ymin = mean-ci, ymax = mean+ci, shape = as.factor(days), fill = as.factor(days)), position = position_dodge(), fatten = 10, lwd = 0.2)+
   
-labs(list(x = "Number of juveniles", y = "Distance to breeding area (km)"))+
-  ylim(2850, 3000)+
-  xlim(0,8)+
-  theme_bw()+g1+
-theme(legend.position="none",strip.background = element_blank(), strip.text = element_text(size = 12,hjust = 0, face = "bold"))
-
+  facet_wrap(~ifelse(data == "fams", "(a)", "(b)"), scales = "free")+
+  labs(list(x = "Family size", y = "Distance to breeding grounds (km)"))+
+  theme.pub()+
+  theme(strip.text = element_text(face = "bold", hjust = 0))+
+  scale_shape_manual(values = c(21,22,24))+xlim(0,7)+
+  scale_fill_manual(values = c("white","grey", "black"))+
+  coord_cartesian(ylim = c(2850,2950))
+  
 dev.off()
 ```
 
-# Fig 3. Family size ~ time
+# Fig 3. Family siz
 
 ## Fig 3a. Obs data
 
 ```{r model_preds_mod03}
-#'get model responses for mod03, mod03.gorg, mod03.gorg.s
-#'flock counts
-fams.expand.sub$pred.mod03 = predict(mod03, newdata = fams.expand.sub, type = "response", allow.new.levels = T)
+#'get model responses
+#'dataset B
+fams.expand = fams.expand %>% mutate(fsizepred = predict(mod.famsize.flock.time, type = "response", allow.new.levels = T, newdata = fams.expand), data = "fams")
 
-#'geeeorg
-geeseorg$pred.mod03 = predict(mod03.gorg, newdata = geeseorg, type = "response", allow.new.levels = T)
+#'dataset C
+geeseorg = geeseorg %>% mutate(fsizepred = predict(mod.famsize.geeseorg, type = "response", allow.new.levels = T, newdata = geeseorg), data = "geeseorg")
 
-#'geeseorg successful fams only
-geeseorg.s = geeseorg %>% filter(famsize > 0) %>% mutate(pred.mod03 = predict(mod03.gorg.s, newdata = ., type = "response", allow.new.levels = T))
+#'get plot data
+fig3data = fams.expand %>% dplyr::select(data, t_since_in, fsizepred) %>% rbind(geeseorg %>% select(data,t_since_in, fsizepred)) %>% filter(t_since_in <= 200) %>%  group_by(data, days = round_any(t_since_in, 10)) %>% summarise(mean = mean(fsizepred,na.rm=T), sd = sd(fsizepred), n = length(fsizepred)) %>% mutate(ci = qnorm(0.975)*sd/sqrt(n))
 ```
 
-```{r t_since_in_splits}
-#'add t_since_in to splits data
-splits$time = as.Date(splits$time)
+```{r export_fam_time}
 
-#'merge mig.red and splits
-splits = merge(splits, mig.red, by.x = "time", by.y = "Date")
-```
-
-```{r mod03_means}
-#'get means and add to mod03 data for plotting
-geeseorg.fig3 = geeseorg %>% filter(t_since_in <= 150) %>% group_by(t_since_in = round_any(t_since_in, 15)) %>% summarise(m.famsize = mean(famsize, na.rm = T), sd.famsize = sd(famsize, na.rm = T), n.famsize = length(famsize), m.pred = mean(pred.mod03, na.rm = T), sd.pred = sd(pred.mod03, na.rm=T), n.pred = length(pred.mod03)) %>% mutate(ci.pred = qnorm(0.975)*sd.pred/sqrt(n.pred), ci.famsize = qnorm(0.975)*sd.famsize/sqrt(n.famsize)) %>% mutate(data = "gorg")
-
-#'fams.expand.fig3
-fes.fig3 = fams.expand.sub %>% filter(t_since_in <= 150) %>% group_by(t_since_in = round_any(t_since_in, 15)) %>% summarise(m.famsize = mean(famsize, na.rm = T), sd.famsize = sd(famsize, na.rm = T), n.famsize = length(famsize), m.pred = mean(pred.mod03, na.rm = T), sd.pred = sd(pred.mod03, na.rm=T), n.pred = length(pred.mod03)) %>% mutate(ci.pred = qnorm(0.975)*sd.pred/sqrt(n.pred), ci.famsize = qnorm(0.975)*sd.famsize/sqrt(n.famsize)) %>% mutate(data = "fes")
-
-#'geeseorg successes
-gorg.s.fig3 = geeseorg.s %>% filter(t_since_in <= 150) %>% group_by(t_since_in = round_any(t_since_in, 15)) %>% summarise(m.famsize = mean(famsize, na.rm = T), sd.famsize = sd(famsize, na.rm = T), n.famsize = length(famsize), m.pred = mean(pred.mod03, na.rm = T), sd.pred = sd(pred.mod03, na.rm=T), n.pred = length(pred.mod03)) %>% mutate(ci.pred = qnorm(0.975)*sd.pred/sqrt(n.pred), ci.famsize = qnorm(0.975)*sd.famsize/sqrt(n.famsize)) %>% mutate(data = "gorg.s")
-
-data.fig3 = rbind(gorg.s.fig3, geeseorg.fig3, fes.fig3)
-```
-
-```{r export_fam_time, warning=FALSE, message=FALSE}
-#pdf(file = "~/git/family_sizes_geese_2018/texts/fig03.pdf", height = 4, width = 4)
-
-png(filename="~/git/thesis/texts/fig3.png", height = 1600, width=1600, res = 300)
-
-#'point data
+fig3a=
+#fig3data %>%  
+ggplot()+
+  geom_smooth(data = fig3data, aes(x = days, y = mean, lty = data), lwd = 0.5, col = 1, method = "glm")+
   
-fig3a=  
-ggplot(data = data.fig3)+
+  geom_pointrange(data = fig3data, aes(x = days, y = mean, ymin = mean - ci, ymax = mean + ci, shape = data, fill = data), fatten = 10, lwd = 0.2, position = position_dodge(width = 5))+
   
-  geom_ribbon(aes(x = t_since_in, ymin = m.pred-ci.pred, ymax = m.pred+ci.pred, group = data), fill = "grey", alpha = 0.5)+
-  geom_line(aes(x = t_since_in, y = m.pred, col = data, lty = data))+
-    geom_pointrange(aes(x = t_since_in, y = m.famsize, ymin = m.famsize - ci.famsize, ymax = m.famsize +ci.famsize, shape = data), fill = "white", fatten = 5, stroke = 0.76, lty = 1, lwd = 0.4)+
+  geom_smooth(data = fig5data1 %>% filter(variable == "pfamjuvs.pred"),
+  aes(x = days, y = (1 - mean)*4), col = 1, lty = 4, method = "glm", lwd = 0.5)+
   
-  scale_shape_manual(values=c(21,24,22))+
-  scale_colour_manual(values = c(colb, cola,"grey20"))+
+  geom_pointrange(data = fig5data1 %>% filter(variable == "pfamjuvs.pred"), aes(x = days, y = (1 - mean)*4, ymin = (1 - mean-ci)*4, ymax = (1-mean+ci)*4), lwd = 0.2, fatten = 10, shape = 24, fill = "white")+
   
-  labs(list(x = "Days since arrival", y = "Mean number of juveniles", title = "(a)"))+
-  theme_bw()+g1+theme(plot.title = element_text(size = 12, face = "bold"))
+  scale_y_continuous(sec.axis = sec_axis(~.*0.5, name = "Proportion indepent juveniles"))+
+  
+  scale_shape_manual(values=c(21,22))+
+  scale_fill_manual(values = c("black", "grey"))+
+  labs(list(x = "Days since arrival", y = "Family size"))+
+  xlim(0,180)+
+  theme.pub()
 
 dev.off()
 ```
@@ -155,438 +118,142 @@ splits = splits[!duplicated(splits[,c("fam","juvs","event")]),]
 #'family Ev lost a juvenile on the last day recorded in the study period/area
 splits["13",8] = "split"
 
+# %>% #filter(fam %in% c("Ev","Wo","Ha","Na","Ti","Ma","Ro","An","Jo"))
+         
+
 fig3b = 
 ggplot(data = splits %>% filter(fam %in% c("Ev","Wo","Ha","Na","Ti","Ma","Ro","An","Jo")))+
-  geom_path(aes(x = t_since_in, y = juvs, group = fam), lty = 1)+
+  geom_line(aes(x = t_since_in, y= juvs, group = fam), lty = 1, lwd = 0.1)+
+  geom_point(aes(x = t_since_in, y = juvs, shape = fam, col = fam), fill = "grey", size = 2)+
+  
+  scale_shape_manual(values = c(0:2,5,6,15:18,21:24))+
+  scale_colour_manual(values = grey.colors(13, 0.1, 0.5))+
 
- # geom_point(data = splits %>% filter(fam %in% c("Ev","Wo","Ha","Na","Ti","Ma","Ro","An","Jo"), event %in% c("split","start")), aes(x = t_since_in, y = juvs+0.2, group = fam), shape = 16, col = "white", size = 5, stroke = 0.8)+
-   geom_text(data = splits %>% filter(fam %in% c("Ev","Wo","Ha","Na","Ti","Ma","Ro","An","Jo"), event %in% c("split","start")), aes(x = t_since_in-5, y = juvs-0.8, group = fam, label = juvs), col = 1, size = 3)+
-  facet_wrap(~fam, nrow = 5, strip.position="right")+
-  theme_minimal()+g1+theme(strip.background=element_blank(),
-                          axis.line.x=element_line(), axis.line.y=element_line(), axis.ticks=element_line(), plot.title = element_text(size = 12, face = "bold"))+
-  scale_y_continuous(breaks= c(0,5))+
-    labs(list(x = "Days since arrival", y = "Number of juveniles", title = "(b)"))
+  theme.pub()+
+  scale_y_continuous(breaks= c(0:5))+
+  labs(list(x = "Days since arrival", y = "Family size", title = "(b)", shape = "Family", colour = "Family"))+
+  theme(legend.position = "right", legend.direction = "vertical",legend.key = element_blank())
 
-dev.off()
+#dev.off()
 ```
 
 ## Export fig 3
 
+```{r export fig3}
+#'export to ps
+cairo_pdf(filename = "figs/fig4.eps", height = 4, width = 4)
+
+fig3a
+#library(gridExtra)
+
+#gridExtra::grid.arrange(fig3a, fig3b, ncol = 2, layout_matrix = cbind(1,1,1,2,2,2,2))
+
+dev.off()
+```
+
+# Fig 4. Split probability
+
+see goosecode034
+
+# Fig 5. Independent juveniles
+
+## get data
 ```{r}
-png(filename = "~/git/family_sizes_geese_2018/texts/fig3.png", res = 400, height = 1800, width = 3200)
+#'use fambirds and geese
+pfam.pred = predict(famprop.mod, type = "response", allow.new.levels = T, newdata = fambirds)
+pfamjuvs.pred = predict(famjuvprop.mod, type = "response", allow.new.levels = T, newdata = fambirds)
+
+#'get predicted values
+fig5data1 = fambirds %>% mutate(pfam.pred, pfamjuvs.pred) %>% select(t_since_in, pfam.pred, pfamjuvs.pred) %>% mutate(days = round_any(t_since_in, 10)) %>% select(-t_since_in) %>% melt(id.vars = "days") %>% group_by(days, variable) %>% summarise(mean = mean(value, na.rm = T), sd = sd(value, na.rm = T), n = length(value)) %>% mutate(ci = qnorm(0.975)*sd/sqrt(n))
+```
+
+## plot data
+
+```{r}
+fig5data1 %>% filter(variable == "pfamjuvs.pred") %>% 
+  ggplot()+
+  geom_smooth(aes(x = days, y = (1 - mean), group = variable), col = 1, method = "glm", lwd = 0.5)+
+  geom_pointrange(aes(x = days, y = (1 - mean), ymin = (1 - mean-ci), ymax = (1-mean+ci)), lwd = 0.2, fatten = 10)+
+ # facet_wrap(~variable, scales = "free")+
+  theme.pub()
+```
+
+# Fig 6: Flock level patterns
+
+## get data
+```{r}
+#'family proportion over time, juvenile proportion in flocks, independent juveniles in flocks
+
+#'get data on the famprop and independent juveniles in flocksize
+fig5data2 = fambirds %>% mutate(pfam.pred, pfamjuvs.pred = 1-pfamjuvs.pred) %>% select(flocksize, pfam.pred, pfamjuvs.pred) %>% mutate(flocksize = round_any(flocksize, 100)) %>% melt(id.vars = "flocksize") %>% group_by(flocksize, variable) %>% summarise(mean = mean(value, na.rm = T), sd = sd(value, na.rm = T), n = length(value)) %>% mutate(ci = qnorm(0.975)*sd/sqrt(n))
+
+fig6data = geese %>% mutate(pjuv = predict(juvprop.mod, newdata = geese, allow.new.levels = T, type = "response")) %>% select(flocksize, pjuv) %>% mutate(flocksize = round_any(flocksize, 100)) %>% melt(id.vars = "flocksize") %>% group_by(flocksize, variable) %>% summarise(mean = mean(value, na.rm = T), sd = sd(value, na.rm = T), n = length(value)) %>% mutate(ci = qnorm(0.975)*sd/sqrt(n))
+```
+
+## make 4 panel plot
+
+```{r}
+#'get fig6a
+fig6a = ggplot()+
+  geom_smooth(data = fig5data1 %>% filter(variable == "pfam.pred"), aes(x = days, y = mean), se =T, method = "glm", col = 1, lwd = 0.5)+
+  geom_pointrange(data = fig5data1 %>% filter(variable == "pfam.pred"), aes(x = days, y = mean, ymin = mean-ci, ymax = mean+ci))+
+  
+  facet_wrap(~variable)+
+  theme.pub()+theme(strip.text = element_blank())+
+  labs(list(x = "Days since arrival", y = "Family proportion of flock", title = "(c)"))
+```
+
+```{r}
+#fig6b = 
+  ggplot()+
+  geom_smooth(data = fig6data, aes(x = flocksize, y = mean), se =T, method = "glm", col = 1, lwd = 0.5)+
+  geom_pointrange(data = fig6data, aes(x = flocksize, y = mean, ymin = mean-ci, ymax = mean+ci))+
+  
+  #facet_wrap(~variable)+
+  theme.pub()+theme(strip.text = element_blank())+
+ # labs(list(x = "Days since arrival", y = "Family proportion of flock", title = "(v)"))+
+  xlim(0,2500)+ylim(0,0.3)
+```
+
+
+```{r}
+#'get other figs
+fig6b = 
+  ggplot(fig5data2 %>% filter(variable == "pfam.pred"))+
+  geom_ribbon(aes(x = flocksize, y = mean, ymin = mean -ci, ymax = mean+ci, group = variable), fill = "grey", lwd = 0.5)+
+  geom_line(aes(x = flocksize, y = mean, ymin = mean -ci, ymax = mean+ci, group = variable), lwd = 0.5)+
+  
+  geom_pointrange(aes(x = flocksize, y = mean, ymin = mean-ci, ymax = mean+ci))+
+  
+  #facet_wrap(~ifelse(variable == "pfam.pred", "(b)", "(c)"), scales = "free")+
+  coord_cartesian(xlim = c(0,2500))+
+  ylim(0,NA)+
+  labs(list(x = "Flock size", y = "Family proportion of flock", title = "(a)"))+
+  theme.pub()+theme(strip.text = element_text(face = "bold", hjust = 0))
+
+fig6c = 
+  ggplot(fig5data2 %>% filter(variable != "pfam.pred"))+
+  geom_smooth(aes(x = flocksize, y = mean, ymin = mean -ci, ymax = mean+ci, group = variable), fill = "grey", lwd = 0.5, col = 1, method = "glm")+
+  #geom_line(aes(x = flocksize, y = mean, ymin = mean -ci, ymax = mean+ci, group = variable), lwd = 0.5)+
+  
+  geom_pointrange(aes(x = flocksize, y = mean, ymin = mean-ci, ymax = mean+ci))+
+  
+  #facet_wrap(~ifelse(variable == "pfam.pred", "(b)", "(c)"), scales = "free")+
+  coord_cartesian(xlim = c(0,2500), ylim = c(0,0.75))+
+  labs(list(x = "Flock size", y = "Proportion of independent juveniles", title = "(b)"))+
+  theme.pub()+theme(strip.text = element_text(face = "bold", hjust = 0))
+```
+
+## export fig 6
+
+```{r}
+#'export to eps
+cairo_pdf(filename = "figs/fig6.eps", height = 4, width = 9)
 
 library(gridExtra)
 
-gridExtra::grid.arrange(fig3a, fig3b, ncol = 2)
+gridExtra::grid.arrange(fig6a, fig6b, fig6c, ncol = 3)
 
 dev.off()
 ```
 
-
-# Fig A2. Family size ~ p.index
-
-```{r get_data}
-#'get means and add to mod03 data for plotting
-geeseorg.figA2 = geeseorg %>% group_by(pin = round_any(p.index, 0.1)) %>% summarise(m.famsize = mean(famsize, na.rm = T), sd.famsize = sd(famsize, na.rm = T), n.famsize = length(famsize), m.pred = mean(pred.mod03, na.rm = T), sd.pred = sd(pred.mod03, na.rm=T), n.pred = length(pred.mod03)) %>% mutate(ci.pred = qnorm(0.975)*sd.pred/sqrt(n.pred), ci.famsize = qnorm(0.975)*sd.famsize/sqrt(n.famsize)) %>% mutate(data = "gorg")
-
-#'fams.expand.fig3
-fes.figA2 = fams.expand.sub %>% group_by(pin = round_any(p.index, 0.1)) %>% summarise(m.famsize = mean(famsize, na.rm = T), sd.famsize = sd(famsize, na.rm = T), n.famsize = length(famsize), m.pred = mean(pred.mod03, na.rm = T), sd.pred = sd(pred.mod03, na.rm=T), n.pred = length(pred.mod03)) %>% mutate(ci.pred = qnorm(0.975)*sd.pred/sqrt(n.pred), ci.famsize = qnorm(0.975)*sd.famsize/sqrt(n.famsize)) %>% mutate(data = "fes")
-
-#'geeseorg successes
-gorg.s.figA2 = geeseorg.s %>% group_by(pin = round_any(p.index, 0.1)) %>% summarise(m.famsize = mean(famsize, na.rm = T), sd.famsize = sd(famsize, na.rm = T), n.famsize = length(famsize), m.pred = mean(pred.mod03, na.rm = T), sd.pred = sd(pred.mod03, na.rm=T), n.pred = length(pred.mod03)) %>% mutate(ci.pred = qnorm(0.975)*sd.pred/sqrt(n.pred), ci.famsize = qnorm(0.975)*sd.famsize/sqrt(n.famsize)) %>% mutate(data = "gorg.s")
-
-data.figA2 = rbind(gorg.s.figA2, geeseorg.figA2, fes.figA2)
-```
-
-```{r figA2}
-#'plot fig A2
-#pdf(file = "~/git/thesis/texts/figA2.pdf", height=4, width = 4)
-
-png(filename = "~/git/family_sizes_geese_2018/texts/figA2.png", height = 1600, width = 1600, res = 400)
-
-data.figA2 %>% 
-ggplot()+
-  geom_line(aes(x = pin, y = m.pred, col = data))+
-  geom_ribbon(aes(x = pin, ymin = m.pred-ci.pred, ymax = m.pred+ci.pred, group = data), fill = "grey", alpha = 0.5)+
-  geom_pointrange(aes(x = pin, y = m.famsize, ymin = m.famsize-ci.famsize, ymax = m.famsize+ci.famsize, group = data, col = data, shape = data), fill = "white", fatten= 5 , stroke = 0.6, lty = 1, lwd = 0.5)+
-  scale_shape_manual(values = c(21,24,22))+
-  scale_colour_manual(values = c(colb,cola,"grey20"))+
-  
-  
-  theme_bw()+g1+
-  labs(list(x = "Predation index", y = "Mean number of juveniles"))+ylim(NA,2.5)
-  
-dev.off()
-```
-
-
-# Fig 5.
-
-## Fig 5b. Flocksize ~ distkol
-
-```{r model_pred_flockmod}
-library(visreg)
-#'get model pred
-geese.fig5 = geese %>% mutate(flockpred = predict(flock.tempmod, newdata = ., allow.new.levels = T, type = "response")) %>%  group_by(distkol = round_any(distkol, 10)) %>% summarise(mean.flock = mean(flocksize, na.rm = T), mean.flockpred = mean(flockpred, na.rm = T), sd.flock = sd(flocksize, na.rm=T), sd.flockpred = sd(flocksize, na.rm = T), n.flock = length(flocksize), n.flockpred = length(flockpred)) %>% mutate(flock.ci = qnorm(0.975)*sd.flock/sqrt(n.flock), flockpred.ci = qnorm(0.975)*sd.flockpred/sqrt(n.flockpred))
-
-#flockpred = visreg(flock.tempmod, "distkol",scale = "response", plot=F)$fit
-```
-
-```{r flock_distkol}
-#pdf(file = "~/git/thesis/texts/fig5b.pdf", width = 3, height = 3, title = "flock_dist")
-
-fig5b = 
-
-ggplot(data = geese.fig5 %>% filter(distkol <= 3000))+
-  geom_smooth(aes(x = distkol, y = mean.flockpred), col = 1, lty = 2, span = 1, method = "gam", lwd = 0.5)+
-  geom_pointrange(aes(x = distkol, y = mean.flock, ymin = mean.flock-flock.ci, ymax = mean.flock+flock.ci), pch = 24, col = "black", fill = "white", size = 0.3, stroke = 0.4)+
-  labs(list(x = "Distance from breeding area (km)", y = "Flock size", title = "(b)"))+
-  theme_bw()+theme(title = element_text(size = 10))+g1+
-  ylim(0,2000)
-
-fig5b = ggplotGrob(fig5b)
-
-#dev.off()
-```
-
-## Fig 5a. Families ~ distance
-
-```{r}
-fams.fig5 = fams %>% group_by(distkol = round_any(distkol, 5)) %>% summarise(mean.fams = mean(fams, na.rm =T), sd.fams = sd(fams, na.rm = T), n.fams = length(fams)) %>% mutate(fams.ci = qnorm(0.975)*sd.fams/sqrt(n.fams))
-
-pred.fig5 = visreg(nfams.tempmod, xvar = "distkol", type = "conditional", scale = "response", plot=F)$fit
-```
-
-
-```{r fams_distkol}
-#pdf(file = "~/git/thesis/texts/fig5a.pdf", width = 4, height = 4, title = "flock_dist")
-
-fig5a = fams.fig5 %>%
-ggplot()+
-geom_ribbon(data = pred.fig5, aes(x = distkol, ymin = visregLwr, ymax = visregUpr), fill = "grey", alpha = 0.5)+
-  geom_pointrange(aes(x = distkol, y = mean.fams, ymin = mean.fams-fams.ci, ymax = mean.fams+fams.ci), fatten = 5, pch = 21, col = "black", fill = "white")+
-  geom_line(data = pred.fig5, aes(x = distkol, y = visregFit), col = 1, lty = 2, method = "lm", fill = 1, size = 0.8)+
-  labs(list(x = "Distance from breeding area (km)", y = "Number of families", title = "(a)"))+
-  theme_bw()+g1
-
-dev.off()
-```
-
-## Arrange and export fig 5
-
-```{r}
-png(filename = "~/git/family_sizes_geese_2018/texts/fig5.png", res = 370, height = 1600, width = 1600)
-
-fig5a +
-  annotation_custom(
-    grob = fig5b,
-    xmin = 2.8e3,
-    xmax = 3e3,
-    ymin = 40,
-    ymax = 135
-  )
-
-dev.off()
-```
-
-
-# Juvenile % ~ time
-
-```{r pred_gamjuvs_time}
-vis.juvs.time = visreg(modjuvs, "t_since_in", plot = T, scale = "response", type = "conditional", breaks = 20)
-
-vis.juvs.time.data = vis.juvs.time$fit
-```
-
-```{r}
-pdf(file = "~/git/thesis/texts/juvprop_time.pdf", width = 4, height =3)
-
-ggplot()+
-  #geom_smooth(data = geese %>% dplyr::select(month, t_since_in, propjuv) %>%  group_by(t_since_in) %>% dmap(mean), aes(x = t_since_in, y = propjuv))+
-
-  geom_ribbon(aes(x = geese$t_since_in, ymin = x$fit-1.96*x$se.fit, ymax = x$fit+1.96*x$se.fit), fill = "grey50")+
-  
-  geom_point(data = geese %>% dplyr::select(month, t_since_in, propjuv) %>%  group_by(t_since_in) %>% dmap(mean), aes(x = t_since_in, y = propjuv), size = 1, shape = 1, col = 1)+
-  
- # geom_smooth(aes(x = geese$t_since_in, y = x$fit), lwd = 1, col = 1)+
-  
-  geom_line(data = vis.juvs.time.data, aes(x = t_since_in, y = visregFit), size = 1, col = 1)+
-  labs(list(x = "Days since arrival", y = "Juvenile proportion"))+
-  ylim(0,0.6)+
-  theme_bw()+a
-
-dev.off()
-```
-
-# Juvenile % ~ p.index
-
-```{r}
-vis.juvprop.pred = visreg(modjuvs, "p.index", scale = "response", plot = F)
-
-vis.juvprop.pred.data = vis.juvprop.pred$fit
-```
-
-```{r}
-png(file = "~/git/thesis/texts/juv_trends.png", width = 800, height = 800, title = "juv_trends")
-vis.gam(modjuvs, view = c("p.index","t_since_in"), type = "response", plot.type = "contour", main = NULL, xlab = "Predation index", ylab = "Days since arrival", color = "gray", contour.col = c("grey10","grey90","grey90","grey90","grey90","grey10"))
-dev.off()
-```
-
-
-```{r}
-#postscript(file = "plot13juvprop_pred.eps", colormodel = "grey", horizontal = FALSE, onefile = FALSE, height = 4, width = 5)
-
-ggplot()+
-  geom_point(data = geese, aes(x=p.index, y = propjuv), size = 0.1)+
-  geom_ribbon(data = vis.juvprop.pred.data, aes(x = p.index, ymin = visregLwr, ymax = visregUpr), fill= "grey90", alpha = 0.9)+
-  geom_line(data = vis.juvprop.pred.data, aes(x = p.index, y = visregFit), size = 1, col=2)+
-  labs(list(x = "Predation index", y = "Juvenile proportion", title = "d"))+
-  geom_text(aes(x = 1.9, y = 0.7, label = "{chi}^2==0.021"), hjust = "inward", parse = T)+ylim(0,0.8)+
-  theme_bw()+a
-
-#dev.off()
-```
-
-# Flock size ~ p.index
-
-```{r pred_flocksize_pindex}
-vis.flocksize.pred = visreg(flockmod, "p.index", scale = "response", plot = F)
-
-vis.flocksize.pred.data = vis.flocksize.pred$fit
-```
-
-```{r}
-#postscript(file = "plot13flocksize_pred.eps", colormodel = "grey", horizontal = FALSE, onefile = FALSE, height = 4, width = 5)
-
-p11 = ggplot()+
-  geom_point(data = geese, aes(x = p.index, y = flocksize), size = 0.1)+
-  geom_ribbon(data = vis.flocksize.pred.data, aes(x = p.index, ymin = visregLwr, ymax = visregUpr), fill= "grey90", alpha = 0.9)+
-  geom_line(data = vis.flocksize.pred.data, aes(x = p.index, y = visregFit), size = 1, col = 2)+
-  labs(list(x = NULL, y = "Flock size", title = "a"))+
-  ylim(0,9e3)+
-  geom_text(aes(x = 1.5, y = 8500, label = "{Omega[0]}^2==0.99"), hjust = "inward", parse = T)+
-  theme_bw()+a
-
-#dev.off()
-```
-
-```{r}
-load("climmods.rdata")
-```
-
-
-#Fig 4
-
-## Fig 4a. Number of families in flock ~ time
-
-```{r nfams_time}
-#'get data
-fams.fig4a = 
-fams %>% 
-  mutate(pfams = predict(nfams.tempmod, newdata=.,scale = "response", allow.new.levels = T)) %>% 
-    group_by(time = round_any(t_since_in, 5)) %>% summarise(mean.fams = mean(fams, na.rm =T), sd.fams = sd(fams, na.rm = T), n.fams = length(fams), mean.pfams = mean(pfams, na.rm = T), sd.pfams = sd(pfams, na.rm = T), n.pfams = length(pfams)) %>% mutate(fams.ci = qnorm(0.975)*sd.fams/sqrt(n.fams), pred.ci = qnorm(0.975)*sd.pfams/sqrt(n.pfams))
-    
-library(visreg)
-pred.fig4a = predict(nfams.tempmod, "t_since_in", scale = "response", plot = F)$fit
-```
-
-```{r}
-#pdf(file = "~/git/thesis/texts/fig4a.pdf", width = 4, height = 4, title = "nfams_time")
-
-#fig4a = 
-fams.fig4a %>% 
-ggplot()+
-  geom_hline(yintercept=mean(fams$fams),col = 2, lty = 5, lwd = 0.5)+
-  geom_pointrange(aes(x = time, y = mean.fams, ymin = mean.fams-fams.ci, ymax = mean.fams+fams.ci), fatten = 5, col = 1, fill = "white", shape = 21, lwd = 0.4, lty = 2)+
-  geom_ribbon(data = pred.fig4a, aes(x = t_since_in, ymin = visregLwr, ymax = visregUpr), fill= "grey", alpha = 0.5)+
-  geom_line(data = pred.fig4a, aes(x = t_since_in, y = visregFit), col = 1, lty = 1)+
- # geom_line(aes(x = time, y = mean.pfams), col = 1, lty = 2)+
-  labs(list(x = "Time since arrival (days)", y = "Successful families (n)", title = "(a)"))+
-  theme_bw()+a+theme(plot.title = element_text(size = 12, face = "bold"))+ylim(10, 50)
-
-#dev.off()
-```
-
-## Fig.4b. Number of families in flock ~ flock size
-
-```{r nfams_flocksize}
-#'get data
-fams.fig4b = fams %>%
-    group_by(flocksize = round_any(flocksize, 50)) %>% summarise(mean.fams = mean(fams, na.rm =T), sd.fams = sd(fams, na.rm = T), n.fams = length(fams)) %>% mutate(fams.ci = qnorm(0.975)*sd.fams/sqrt(n.fams))
-
-pred.fig4b = visreg(nfams.tempmod, "flocksize", scale="response", plot = F)$fit
-```
-
-```{r nfams_flocksize_plot}
-#'plot 4b
-#pdf(file = "~/git/thesis/texts/fig4b.pdf", width = 4, height = 4, title = "nfams_time")
-
-fig4b = 
-  fams.fig4b %>% 
-  ggplot()+
-  geom_hline(yintercept=mean(fams$fams),col = 2, lty = 5, lwd = 0.5)+
-  geom_pointrange(aes(x = flocksize, y = mean.fams, ymin = mean.fams -fams.ci, ymax = mean.fams+fams.ci), fatten = 5, col = 1, fill = "white", shape = 21, lwd = 0.4, lty = 2)+
-  geom_ribbon(data = pred.fig4b, aes(x = flocksize, ymin = visregLwr, ymax = visregUpr), fill = "grey", alpha = 0.5)+
-  geom_line(data = pred.fig4b, aes(x = flocksize, y = visregFit), col = 1, lty = 1)+
-  theme_bw()+a+xlim(NA, 2e3)+
-  labs(list(y = "Successful families (n)", x = "Flock size", title = "(b)"))+ylim(0, 130)+theme(plot.title = element_text(size = 12, face = "bold"))
-
-#dev.off()
-```
-
-## Fig 4c. Juvenile proportion ~ time
-
-```{r jprop_time_data}
-#'get data and preds
-
-fig4c.fit = predict(modjuvs, type = "response", terms = "s(t_since_in)", newdata = geese, se.fit = T, re.form=NA)$fit
-
-fig4c.se = fit = predict(modjuvs, type = "response", terms = "s(t_since_in)", newdata = geese, se.fit = T,re.form=NA)$se.fit
-
-flock.fig4c = geese %>% mutate(fit = fig4c.fit, se = fig4c.se) %>% 
-  group_by(time = round_any(t_since_in, 5)) %>% summarise(mean.j = mean(propjuv, na.rm = T), sd.j = mean(propjuv, na.rm = T), n.j = length(propjuv), mean.fit = mean(fit, na.rm = T), mean.se = mean(se, na.rm = T)) %>% mutate(ci.j = qnorm(0.975)*sd.j/sqrt(n.j), ci.fit = mean.se*qnorm(0.975))
-```
-
-```{r plot_fig4c}
-#pdf(file = "~/git/thesis/texts/fig4c.pdf", width = 4, height = 4)
-
-fig4c = 
-  flock.fig4c %>% 
-  ggplot()+
-  geom_hline(yintercept= 0.18, col = 2, lty = 5, lwd = 0.5)+
-  
-  geom_ribbon(aes(x = time, ymin = mean.fit - ci.fit, ymax = mean.fit + ci.fit), fill = "grey", alpha = 0.5)+
-  geom_pointrange(aes(x = time, y = mean.j, ymin = mean.j - ci.j, ymax = mean.j+ci.j), fatten = 5, col = 1, fill = "white", shape = 21, lwd = 0.4, lty = 2)+
-  geom_line(aes(x = time, y = mean.fit), col = 1, lty = 1)+
-  theme_bw()+a+
-  labs(list(x = "Time since arrival (days)", y = "Juvenile proportion",title = "(c)"))+ylim(0.1, 0.4)+xlim(NA,180)+theme(plot.title = element_text(size = 12, face = "bold"))
-
-dev.off()
-```
-
-## Fig 4d. Juvenile proportion ~ flock size
-
-```{r juvs_flocksize}
-#get data
-
-#fit.fig4d = visreg(modjuvs, "flocksize", scale = "response", plot = F)$fit
-
-flock.fig4d = geese %>% 
-mutate(fit = fig4c.fit, se = fig4c.se) %>% 
-  group_by(flocksize = round_any(flocksize, 20)) %>% summarise(mean.j = mean(propjuv, na.rm = T), sd.j = mean(propjuv, na.rm = T), n.j = length(propjuv), mean.fit = mean(fit, na.rm = T), mean.se = mean(se, na.rm = T)) %>% mutate(ci.j = qnorm(0.975)*sd.j/sqrt(n.j), ci.fit = qnorm(0.975)*mean.se)
-```
-
-```{r plot_fig4c}
-#pdf(file = "~/git/thesis/texts/fig4d.pdf", height=4, width=4)
-
-fig4d=
-  flock.fig4d %>% 
-ggplot()+
-  geom_hline(yintercept= 0.18, col = 2, lty = 5, lwd = 0.5)+
-
-geom_ribbon(aes(x = flocksize, ymin = mean.fit-ci.fit, ymax = mean.fit+ci.fit), fill = "grey", alpha = 0.5)+
-  geom_pointrange(aes(x = flocksize, y = mean.j, ymin = mean.j -ci.j, ymax = mean.j+ci.j), fatten = 5, col = 1, fill = "white", shape = 21, lwd = 0.4, lty = 2)+
-geom_line(aes(x = flocksize, y = mean.fit), col = 1, lty = 1)+
-theme_bw()+a+
-labs(list(y = "Juvenile proportion", x = "Flock size", title = "(d)"))+
-xlim(NA, 1e3)+ylim(0.05,0.35)+theme(plot.title = element_text(size = 12, face = "bold"))
-
-
-dev.off()
-```
-
-## Export fig 4
-
-```{r}
-library(gridExtra)
-
-png(filename = "~/git/family_sizes_geese_2018/texts/fig4.png", res = 300, width = 2.4e3, height = 2.4e3)
-
-grid.arrange(fig4a, fig4b, fig4c, fig4d)
-
-dev.off()
-```
-
-
-# Other plots
-
-# Flocksize ~ time
-
-* Significant effect, flocks are larger in the late winter
-
-```{r model_pred_flockmod_time}
-#'get model pred
-vis.flockmod.days = visreg(flockmod, "t_since_in", scale = "response", plot = F)
-
-vis.flockmod.days.data = vis.flockmod.days$fit
-
-p6.res = vis.flockmod.days$res
-```
-
-```{r export_flock_time_plot}
-#postscript(file = "plot06flocksize_days.eps", colormodel = "grey", horizontal = FALSE, onefile = FALSE, height = 4, width = 5)
-
-#p8 = ggplot()+
-  geom_point(data = geese, aes(x = t_since_in, y = flocksize), size = 0.1)+
-  geom_ribbon(data = vis.flockmod.days.data, aes(x = t_since_in, ymin = visregLwr, ymax = visregUpr), fill = "grey90", alpha = 0.9)+
-  geom_line(data = vis.flockmod.days.data, aes(x = t_since_in, y = visregFit), size = 1, col = 2)+
-  labs(list(x = "Days since first arrivals", y = NULL, title = "b"))+
-  ylim(0,5000)+
-  theme_bw()+b
-
-#dev.off()
-```
-
-# Number fams ~ flock size
-
-```{r modpred_fam_flocksize}
-visfamsmod2 = visreg(nfams.tempmod, "flocksize", scale = "response", plot = F)
-
-visfamsmod.data2 = visfamsmod2$fit
-```
-
-```{r plot_mod}
-pdf(file = "~/git/thesis/texts/nfams_flock.pdf", width = 4, height = 3, title = "nfams_flock")
-
-ggplot()+
-    geom_ribbon(aes(x = fams2$flocksize, ymin = nfamspred$fit-1.96*nfamspred$se.fit, ymax = nfamspred$fit+1.96*nfamspred$se.fit), fill = "grey50", na.rm = T)+
-  
-  geom_point(data = fams2 %>% group_by(mround(flocksize,10)) %>% dmap(mean), aes(x = flocksize, y = fams), shape = 1, size = 2, colour = 1)+
- geom_smooth(aes(x = fams2$flocksize, y = nfamspred$fit), lwd = 1, col = 1)+
-  labs(list(x = "Flock size", y = "N successful families"))+
-  ylim(0,200)+
-  theme_bw()+a
-
-
-
-dev.off()
-```
-
-# Juvenile % ~ flocksize
-
-```{r pred_gamjuvs_lon}
-vis.juvs.flock = visreg(modjuvs, "flocksize", scale = "response",plot = F)
-
-vis.juvs.flock.data = vis.juvs.flock$fit
-```
-
-```{r}
-mround <- function(x, base) {round(x/base)*base}
-```
-
-
-```{r}
-pdf(file = "~/git/thesis/texts/jprop_flock.pdf", width = 4, height = 3, title = "juvprop_flocksize")
-
-ggplot()+
-  
- geom_ribbon(aes(x = geese$flocksize, ymin = y$fit-1.96*x$se.fit, ymax = y$fit+1.96*x$se.fit), fill = "grey50")+
-  
-   geom_point(data=geese %>% mutate(roundflock = mround(flocksize, 25)) %>% slice_rows("roundflock") %>% dmap(mean), aes(x = flocksize, y = propjuv), size = 2, col = 1, shape = 1)+
-  
-  geom_smooth(aes(x = geese$flocksize, y = x$fit), size = 1, col = 1, se = F)+
-  labs(list(x = "Flock size", y = "Juvenile proportion"))+
-  theme_bw()+a
-
-dev.off()
-```

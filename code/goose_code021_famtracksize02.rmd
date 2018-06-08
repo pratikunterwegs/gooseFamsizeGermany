@@ -323,7 +323,7 @@ data.journal = fdistm %>% map(function(x) x = melt(x, id.vars = c("time","fam"))
 load("splits.with.ids.rdata")
 
 #'mod splits
-splits.journal = splits %>% filter(event == "split") %>% select(time, event, fam) %>% mutate(time = round_date(time, "day")) %>% rename(date = time)
+splits.journal = splits %>% filter(event == "split") %>% dplyr::select(time, event, fam) %>% mutate(time = round_date(time, "day")) %>% rename(date = time)
 
 #'merge splits and data.journal by time and family
 data.journal = left_join(data.journal, splits.journal, by = c("date","fam")) %>% rename(split = event) %>% mutate(split = ifelse(is.na(split), 0, 1))
