@@ -1,7 +1,7 @@
 # Get NL weather data
 
 ```{r load_libs}
-library(readr); library(plyr); library(dplyr); library(purrr);library(purrrlyr);library(data.table);library(lubridate)
+source("libs.R")
 ```
 
 ```{r load_sites}
@@ -91,6 +91,8 @@ fams.expand = fams.expand %>% left_join(stn.near, by = "lookup") %>% left_join(n
 #'flock data
 geese = geese %>% left_join(stn.near, by = "lookup") %>% left_join(nlweather, by = c("station","time"="date"))
 ```
+
+# models
 
 ```{r fam_assoc}
 #'what proportion of birds are in families?
