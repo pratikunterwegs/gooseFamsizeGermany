@@ -2,7 +2,7 @@ Run family visits R script for revisit stats.
 
 ```{r load_data}
 #load("famssplitMCMCmodel.rdata")
-load("split.mod.rdata")
+load("generated_data/split.mod.rdata")
 ```
 
 # Predicting splits at the day level
@@ -10,7 +10,7 @@ load("split.mod.rdata")
 event (split 1, other 0) ~ time in winter + flights (dist over 2km) per day + distance per day + total distance + family size
 
 ```{r load_daycoords}
-load("fsize_coords.rdata")
+load("generated_data/fsize_coords.rdata")
 
 #'bind rows daycoords
 daycoords = bind_rows(daycoords)
@@ -98,13 +98,13 @@ mod.day.split =
 ```{r summary_split_mod}
 summary(mod.day.split)
 
-summary(modsplit2)
+#summary(modsplit2)
 
 #'plot family size and days
 
 save(mod.day.split, modsplit2, entry, file = "split.mod.rdata")
 
-load("split.mod.rdata")
+load("generated_data/split.mod.rdata")
 
 m = predict(mod.day.split, newdata = famstats, type = "response", re.form =~(1|fam))
 ```
@@ -114,7 +114,7 @@ m = predict(mod.day.split, newdata = famstats, type = "response", re.form =~(1|f
 ```{r merge_splitsmod_predicts}
 #splitsmoddata$p = m
 
-daycoords2 = daycoords %>% filter(lat < 54) %>% group_by(fam, time = round_date(time, "day")) %>% dmap(mean)
+daycoords2 = daycoords %>% filter(lat < 54) %>% group_by(fam, time = round_date(time, "day")) %>% dmap(last)
 
 famstats = merge(famstats, daycoords2, by.x = c("fam","date"), by.y = c("fam","time"))
 
@@ -140,10 +140,10 @@ ggplot()+
 f6a =
   ggplot()+
   #geom_vline(data = famstats %>% filter(split == 1), aes(xintercept=days), col = 2, lty = 3)+
-  geom_smooth(data = famstats, aes(x = juvs, y = p), col = "grey20", lwd = 1, method = "loess")+
-  labs(list(x = "Family size", y= "Daily split probability", title = NULL))+
-  theme.pub()+
-  coord_cartesian()
+  geom_boxplot(data = famstats, aes(x = juvs, y = p, group = juvs), fill = "grey90", width = 0.5)+
+  labs(list(x = "Family size", y= "Daily split probability", title = "(a)"))+
+  theme_pub()+
+  coord_cartesian(ylim=c(0,0.1))
 
 #dev.off()
 ```
@@ -155,12 +155,14 @@ pdf(file = "~/git/family_sizes_geese_2018/texts/fig6d.pdf", height = 4, width = 
 #'
 f6b =
   ggplot()+
-   # geom_vline(data = famstats %>% filter(split == 1), aes(xintercept=ddist/1e3), col = 2, lty = 1, lwd = 0.2)+
+   #geom_vline(data = famstats %>% filter(split == 1), aes(xintercept=ddist/1e3), col = 2, lty = 1, lwd = 0.2)+
   #geom_line(data = visdistsplitdata, aes(x = ddist, y = visregFit), col = 1, lwd = 0.4)+
-  geom_smooth(data = famstats, aes(x = ddist/1e3, y = p), col = "grey20", lwd = 1)+
-  labs(list(x = "Distance travelled/day (km)", y= "Daily split probability", title = NULL))+
-  theme.pub()+
-  coord_cartesian(xlim = c(0,100), ylim = c(0,0.1))
+  geom_boxplot(data = famstats %>% mutate(x = cut(ddist/1e3, breaks = seq(0,100,10))) %>% 
+                 filter(!is.na(x)), aes(x = x, y = p), fill = "grey90")+
+  labs(list(x = "Distance travelled/day (km)", y= "Daily split probability", title = "(b)"))+
+  theme_pub()+
+  coord_cartesian(ylim = c(0,0.15))+
+    scale_x_discrete(labels = c(seq(10, 80, 10), "90-100"))
 
 dev.off()
 ```

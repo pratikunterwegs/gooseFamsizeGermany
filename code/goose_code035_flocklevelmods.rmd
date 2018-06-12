@@ -90,13 +90,31 @@ fams.expand = fams.expand %>% left_join(stn.near, by = "lookup") %>% left_join(n
 
 #'flock data
 geese = geese %>% left_join(stn.near, by = "lookup") %>% left_join(nlweather, by = c("station","time"="date"))
+
+#'geeseorg data
+geeseorg = geeseorg %>% 
+  #left_join(stn.near, by = ) %>% 
+  left_join(nlweather, by = c("stn" = "station", "date" = "date"))
 ```
 
 # models
 
 ```{r fam_assoc}
 #'what proportion of birds are in families?
-fambirds = fams.expand %>% group_by(flockid) %>% summarise(fambirds = length(famsize)*2 + sum(famsize), flocksize = first(flocksize), famprop = fambirds/flocksize, t_since_in = first(t_since_in), distkol = first(distkol), mintemp = first(mintemp), ppt = first(ppt), windspeed = first(windspeed), Breeding_year = first(Breeding_year), Observer = first(Observer), Food_type = first(Food_type), famjuvsprop = sum(famsize)/first(juvs), zone = first(zone)) %>% filter(famprop <= 1, famjuvsprop <=1)
+fambirds = fams.expand %>% 
+  group_by(flockid) %>% 
+  summarise(fambirds = length(famsize)*2 + sum(famsize), 
+            flocksize = first(flocksize), 
+            famprop = fambirds/flocksize, 
+            t_since_in = first(t_since_in), 
+            distkol = first(distkol), 
+            mintemp = first(mintemp), 
+            ppt = first(ppt), 
+            windspeed = first(windspeed), 
+            Breeding_year = first(Breeding_year), 
+            Observer = first(Observer), 
+            Food_type = first(Food_type), 
+            famjuvsprop = sum(famsize)/first(juvs)) %>% filter(famprop <= 1, famjuvsprop <=1)
 ```
 
 
@@ -105,13 +123,13 @@ library(mgcv)
 #'proportion of family associated birds model
 fambirds$mintemp = sqrt(fambirds$mintemp+20)
 
-famprop.mod = glmer(famprop ~ sqrt(flocksize) + sqrt(distkol) + (t_since_in)+ (1|Breeding_year) + (1|Observer) + (1|zone), data = fambirds %>% filter(famprop <= 1, flocksize <= 5000), family = "binomial")
+famprop.mod = glmer(famprop ~ sqrt(flocksize) + sqrt(distkol) + (t_since_in)+ (1|Breeding_year) + (1|Observer), data = fambirds %>% filter(famprop <= 1, flocksize <= 5000), family = "binomial")
 ```
 
 ```{r famjuvsprop}
 #'what proportion of a flock's juveniles are associated in families, rather than being independent?
 
-famjuvprop.mod = glmer(famjuvsprop ~ sqrt(flocksize) + sqrt(distkol) + (t_since_in) + (1|Breeding_year) + (1|Observer) + (1|zone), data = fambirds %>% filter(famprop <= 1, flocksize <=5000), family = "binomial")
+famjuvprop.mod = glmer(famjuvsprop ~ sqrt(flocksize) + sqrt(distkol) + (t_since_in) + (1|Breeding_year) + (1|Observer), data = fambirds %>% filter(famprop <= 1, flocksize <=5000), family = "binomial")
 ```
 
 ```{r juvenile_proportion_model}
@@ -119,7 +137,7 @@ famjuvprop.mod = glmer(famjuvsprop ~ sqrt(flocksize) + sqrt(distkol) + (t_since_
 geese$mintemp = sqrt(geese$mintemp+20)
 
 
-juvprop.mod = glmer(propjuv ~ sqrt(flocksize) + sqrt(distkol) + (t_since_in) + (1|Breeding_year) + (1|Observer) + (1|zone), data = geese %>% filter(flocksize>0, flocksize <= 5000), family = "binomial")
+juvprop.mod = glmer(propjuv ~ sqrt(flocksize) + sqrt(distkol) + (t_since_in) + (1|Breeding_year) + (1|Observer), data = geese %>% filter(flocksize>0), family = "binomial")
 
 ```
 
@@ -128,7 +146,7 @@ juvprop.mod = glmer(propjuv ~ sqrt(flocksize) + sqrt(distkol) + (t_since_in) + (
 #'flocksize model
 #'rescale for low temps
 
-flocksize.mod = glmer(flocksize ~ sqrt(distkol) + log(t_since_in) + mintemp + (1|Observer) + (1|zone)+ (1|Breeding_year), data = geese, family = "poisson")
+flocksize.mod = glmer(flocksize ~ sqrt(distkol) + log(t_since_in) + mintemp + (1|Observer)+ (1|Breeding_year), data = geese, family = "poisson")
 ```
 
 ```{r juvprop_flocks}

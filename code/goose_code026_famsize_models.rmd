@@ -28,6 +28,14 @@ fams.expand = fams.expand %>% filter(flocksize > 0)
 #'make only 2 foodtypes: grass, and other
 fams.expand$food = as.factor(ifelse(fams.expand$Food_type == "Gras", "grass", "other"))
 
+#'make 3 cuts in winter
+fams.expand = fams.expand %>% 
+  mutate(stage = as.factor(cut(t_since_in, breaks = c(0, 90, 180))))
+
+#'make 3 cuts in winter in geeseorg
+geeseorg = geeseorg %>% 
+  mutate(stage = as.factor(cut(t_since_in, breaks = c(0, 90, 180))))
+
 #'round the distance to ones for poisson model
 geeseorg$distkol = round(geeseorg$distkol)
 
@@ -37,11 +45,16 @@ fams.expand$distkol = round(fams.expand$distkol)
 ```{r run distmods}
 #'run distance models
 #'census data
+fams.expand$mintemp = fams.expand$mintemp +10
 
-distmod = lmer(distkol ~ famsize*sqrt(t_since_in) + (1|Breeding_year) + (1|Observer) + (1|Food_type) + (1|zone), data = fams.expand)
+distmod = glmer(distkol ~ famsize*stage + sqrt(mintemp) + (1|Breeding_year) + (1|Observer), data = fams.expand, family = "poisson")
 
 #'geeseorg data
-distmod2 = lmer(distkol ~ famsize*sqrt(t_since_in) + (1|breedyr) + (1|neckring), data = geeseorg)
+geeseorg$mintemp = geeseorg$mintemp+10
+
+distmod2 = glmer(distkol ~ famsize*stage + sqrt(mintemp) + (1|breedyr) + (1|neckring), data = geeseorg, family = poisson(), na.action = na.omit)
+
+a = bam(distkol ~ s(famsize) + s(t_since_in), data = fams.expand)
 ```
 
 ```{r}

@@ -70,12 +70,12 @@ plot(mod.site.posthoc)
 
 ```{r plot_mod.site, include=FALSE}
 #'plot
-cairo_ps(filename = "figs/fig1.eps", width = 4, height = 4)
+cairo_ps(filename = "figs/fig2.eps", width = 4, height = 4)
 
 data2016 %>% group_by(site) %>% summarise(m = mean(famsize), sd = sd(famsize), n = length(famsize)) %>% mutate(ci = qnorm(0.975)*sd/sqrt(n)) %>% 
 
 ggplot()+
-  geom_errorbar(aes(x = site, y =m, ymin = m-ci,
+  geom_pointrange(aes(x = site, y =m, ymin = m-ci,
                                ymax = m+ci), width = 0.1)+
   geom_point(aes(x = site, y = m))+
   labs(list(x = NULL, y = "Family size"))+
@@ -83,7 +83,7 @@ ggplot()+
   geom_text(aes(x = c(1.1,2.1,2.9), y = m), 
             label = c("Kolguyev","Dataset B","Dataset C"),
             hjust = c("inward", "left", "inward"), size = 3)+
-  theme.pub()+
+  theme_pub()+
   theme(axis.text.x = element_blank())
 dev.off()
 
