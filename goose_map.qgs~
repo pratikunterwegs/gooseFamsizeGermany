@@ -18,6 +18,12 @@
   </projectCrs>
   <layer-tree-group>
     <customproperties/>
+    <layer-tree-layer name="Voronoi polygons" source="Polygon?crs=EPSG:4326&amp;field=Site_nm:string(80)&amp;field=Brdng_y:string(80)&amp;field=Region:string(80)&amp;field=flocksz:integer(9)&amp;field=adults:integer(9)&amp;field=juvs:integer(9)&amp;field=N_smpld:integer(9)&amp;field=propjuv:double(23,15)&amp;field=meanfam:double(23,15)&amp;field=time:date(10)&amp;field=zone:string(80)&amp;field=Observr:string(80)&amp;field=Fod_typ:string(80)&amp;field=lookup:string(80)&amp;field=month:double(23,15)&amp;field=cnt_ffr:integer(9)&amp;field=NmbrprH:double(23,15)&amp;field=t_snc_n:double(23,15)&amp;field=t_to_ot:double(23,15)&amp;field=durwntr:double(23,15)&amp;field=distkol:double(23,15)&amp;field=station:integer(9)&amp;field=windspd:double(23,15)&amp;field=mintemp:double(23,15)&amp;field=ppt:double(23,15)&amp;uid={7d173431-a5e1-4693-9d87-7f624494423c}" checked="Qt::Unchecked" id="output_c0238c2f_4b09_496e_8eea_767f1505a96b" providerKey="memory" expanded="0">
+      <customproperties/>
+    </layer-tree-layer>
+    <layer-tree-layer name="flock_zone_sites" source="./code/spatials/flock_sites/flock_zone_sites.shp" checked="Qt::Checked" id="flock_zone_sites_118bd41d_0f66_46d3_8f71_54734c452160" providerKey="ogr" expanded="1">
+      <customproperties/>
+    </layer-tree-layer>
     <layer-tree-layer name="sites" source="./code/spatials/sites.shp" checked="Qt::Unchecked" id="sites20170607212840499" providerKey="ogr" expanded="1">
       <customproperties>
         <property value="Family count sites" key="legend/title-label"/>
@@ -96,6 +102,8 @@
       <item>geeseorg_grid20170613161326983</item>
       <item>ne_10m_land20170607212732249</item>
       <item>NE2_HR_LC_SR_W_DR20170707080613764</item>
+      <item>flock_zone_sites_118bd41d_0f66_46d3_8f71_54734c452160</item>
+      <item>output_c0238c2f_4b09_496e_8eea_767f1505a96b</item>
     </custom-order>
   </layer-tree-group>
   <snapping-settings mode="1" intersection-snapping="0" enabled="0" tolerance="0" type="1" unit="2">
@@ -112,8 +120,10 @@
       <layer-setting enabled="0" tolerance="0" id="gooselines20170708131633032" type="2" units="2"/>
       <layer-setting enabled="0" tolerance="0" id="kdegeese20170607212859393" type="2" units="2"/>
       <layer-setting enabled="0" tolerance="0" id="sites20170607212840499" type="2" units="2"/>
+      <layer-setting enabled="0" tolerance="12" id="output_c0238c2f_4b09_496e_8eea_767f1505a96b" type="1" units="1"/>
       <layer-setting enabled="0" tolerance="0" id="geeseorg_grid20170613161326983" type="2" units="2"/>
       <layer-setting enabled="0" tolerance="0" id="ne_10m_admin_0_boundary_lines_land20170608084419261" type="2" units="2"/>
+      <layer-setting enabled="0" tolerance="12" id="flock_zone_sites_118bd41d_0f66_46d3_8f71_54734c452160" type="1" units="1"/>
       <layer-setting enabled="0" tolerance="0" id="splits20170607212850439" type="2" units="2"/>
     </individual-layer-settings>
   </snapping-settings>
@@ -121,10 +131,10 @@
   <mapcanvas name="theMapCanvas" annotationsVisible="1">
     <units>meters</units>
     <extent>
-      <xmin>3928207.79357814323157072</xmin>
-      <ymin>3134549.17234441172331572</ymin>
-      <xmax>4181524.89736151043325663</xmax>
-      <ymax>3365228.57614203076809645</ymax>
+      <xmin>3803412.08383279945701361</xmin>
+      <ymin>3020933.52757386490702629</ymin>
+      <xmax>4443244.46678069140762091</xmax>
+      <ymax>3562321.45371764898300171</ymax>
     </extent>
     <rotation>0</rotation>
     <destinationsrs>
@@ -142,6 +152,16 @@
     <rendermaptile>0</rendermaptile>
   </mapcanvas>
   <legend updateDrawingOrder="true">
+    <legendlayer name="Voronoi polygons" open="false" checked="Qt::Unchecked" showFeatureCount="0" drawingOrder="-1">
+      <filegroup open="false" hidden="false">
+        <legendlayerfile layerid="output_c0238c2f_4b09_496e_8eea_767f1505a96b" visible="0" isInOverview="0"/>
+      </filegroup>
+    </legendlayer>
+    <legendlayer name="flock_zone_sites" open="true" checked="Qt::Checked" showFeatureCount="0" drawingOrder="-1">
+      <filegroup open="true" hidden="false">
+        <legendlayerfile layerid="flock_zone_sites_118bd41d_0f66_46d3_8f71_54734c452160" visible="1" isInOverview="0"/>
+      </filegroup>
+    </legendlayer>
     <legendlayer name="sites" open="true" checked="Qt::Unchecked" showFeatureCount="0" drawingOrder="-1">
       <filegroup open="true" hidden="false">
         <legendlayerfile layerid="sites20170607212840499" visible="0" isInOverview="0"/>
@@ -1064,6 +1084,729 @@ def my_form_open(dialog, layer, feature):
       </conditionalstyles>
       <expressionfields/>
       <previewExpression>"field_1"</previewExpression>
+      <mapTip></mapTip>
+    </maplayer>
+    <maplayer autoRefreshEnabled="0" refreshOnNotifyMessage="" labelsEnabled="0" refreshOnNotifyEnabled="0" simplifyLocal="1" simplifyDrawingTol="1" hasScaleBasedVisibilityFlag="0" simplifyDrawingHints="0" maxScale="0" minScale="1e+8" type="vector" geometry="Point" autoRefreshTime="0" simplifyAlgorithm="0" simplifyMaxScale="1" readOnly="0">
+      <extent>
+        <xmin>4.05488689999999963</xmin>
+        <ymin>51.19132019999999983</ymin>
+        <xmax>8.34110219999999991</xmax>
+        <ymax>53.37441789999999742</ymax>
+      </extent>
+      <id>flock_zone_sites_118bd41d_0f66_46d3_8f71_54734c452160</id>
+      <datasource>./code/spatials/flock_sites/flock_zone_sites.shp</datasource>
+      <keywordList>
+        <value></value>
+      </keywordList>
+      <layername>flock_zone_sites</layername>
+      <srs>
+        <spatialrefsys>
+          <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
+          <srsid>3452</srsid>
+          <srid>4326</srid>
+          <authid>EPSG:4326</authid>
+          <description>WGS 84</description>
+          <projectionacronym>longlat</projectionacronym>
+          <ellipsoidacronym>WGS84</ellipsoidacronym>
+          <geographicflag>true</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <resourceMetadata>
+        <identifier></identifier>
+        <parentidentifier></parentidentifier>
+        <language></language>
+        <type></type>
+        <title></title>
+        <abstract></abstract>
+        <fees></fees>
+        <encoding></encoding>
+        <crs>
+          <spatialrefsys>
+            <proj4></proj4>
+            <srsid>0</srsid>
+            <srid>0</srid>
+            <authid></authid>
+            <description></description>
+            <projectionacronym></projectionacronym>
+            <ellipsoidacronym></ellipsoidacronym>
+            <geographicflag>false</geographicflag>
+          </spatialrefsys>
+        </crs>
+        <extent>
+          <spatial maxz="0" miny="0" maxy="0" crs="" minz="0" dimensions="2" minx="0" maxx="0"/>
+          <temporal>
+            <period>
+              <start></start>
+              <end></end>
+            </period>
+          </temporal>
+        </extent>
+        <contact>
+          <name></name>
+          <organization></organization>
+          <position></position>
+          <voice></voice>
+          <fax></fax>
+          <email></email>
+          <role></role>
+        </contact>
+        <links/>
+      </resourceMetadata>
+      <provider encoding="UTF-8">ogr</provider>
+      <vectorjoins/>
+      <layerDependencies/>
+      <dataDependencies/>
+      <expressionfields/>
+      <map-layer-style-manager current="default">
+        <map-layer-style name="default"/>
+      </map-layer-style-manager>
+      <auxiliaryLayer/>
+      <renderer-v2 enableorderby="0" symbollevels="0" forceraster="0" type="categorizedSymbol" attr="zone">
+        <categories>
+          <category label="East Frisia" value="East Frisia" symbol="0" render="true"/>
+          <category label="IJsselmeer" value="IJsselmeer" symbol="1" render="true"/>
+          <category label="Other" value="Other" symbol="2" render="true"/>
+          <category label="Rhinelands" value="Rhinelands" symbol="3" render="true"/>
+          <category label="Southwest" value="Southwest" symbol="4" render="true"/>
+          <category label="" value="" symbol="5" render="true"/>
+        </categories>
+        <symbols>
+          <symbol name="0" type="marker" alpha="1" clip_to_extent="1">
+            <layer locked="0" enabled="1" pass="0" class="SimpleMarker">
+              <prop v="0" k="angle"/>
+              <prop v="72,201,150,255" k="color"/>
+              <prop v="1" k="horizontal_anchor_point"/>
+              <prop v="bevel" k="joinstyle"/>
+              <prop v="circle" k="name"/>
+              <prop v="0,0" k="offset"/>
+              <prop v="3x:0,0,0,0,0,0" k="offset_map_unit_scale"/>
+              <prop v="MM" k="offset_unit"/>
+              <prop v="0,0,0,255" k="outline_color"/>
+              <prop v="solid" k="outline_style"/>
+              <prop v="0.4" k="outline_width"/>
+              <prop v="3x:0,0,0,0,0,0" k="outline_width_map_unit_scale"/>
+              <prop v="MM" k="outline_width_unit"/>
+              <prop v="diameter" k="scale_method"/>
+              <prop v="4" k="size"/>
+              <prop v="3x:0,0,0,0,0,0" k="size_map_unit_scale"/>
+              <prop v="MM" k="size_unit"/>
+              <prop v="1" k="vertical_anchor_point"/>
+              <data_defined_properties>
+                <Option type="Map">
+                  <Option name="name" value="" type="QString"/>
+                  <Option name="properties"/>
+                  <Option name="type" value="collection" type="QString"/>
+                </Option>
+              </data_defined_properties>
+            </layer>
+          </symbol>
+          <symbol name="1" type="marker" alpha="1" clip_to_extent="1">
+            <layer locked="0" enabled="1" pass="0" class="SimpleMarker">
+              <prop v="0" k="angle"/>
+              <prop v="149,203,113,255" k="color"/>
+              <prop v="1" k="horizontal_anchor_point"/>
+              <prop v="bevel" k="joinstyle"/>
+              <prop v="circle" k="name"/>
+              <prop v="0,0" k="offset"/>
+              <prop v="3x:0,0,0,0,0,0" k="offset_map_unit_scale"/>
+              <prop v="MM" k="offset_unit"/>
+              <prop v="0,0,0,255" k="outline_color"/>
+              <prop v="solid" k="outline_style"/>
+              <prop v="0.4" k="outline_width"/>
+              <prop v="3x:0,0,0,0,0,0" k="outline_width_map_unit_scale"/>
+              <prop v="MM" k="outline_width_unit"/>
+              <prop v="diameter" k="scale_method"/>
+              <prop v="4" k="size"/>
+              <prop v="3x:0,0,0,0,0,0" k="size_map_unit_scale"/>
+              <prop v="MM" k="size_unit"/>
+              <prop v="1" k="vertical_anchor_point"/>
+              <data_defined_properties>
+                <Option type="Map">
+                  <Option name="name" value="" type="QString"/>
+                  <Option name="properties"/>
+                  <Option name="type" value="collection" type="QString"/>
+                </Option>
+              </data_defined_properties>
+            </layer>
+          </symbol>
+          <symbol name="2" type="marker" alpha="1" clip_to_extent="1">
+            <layer locked="0" enabled="1" pass="0" class="SimpleMarker">
+              <prop v="0" k="angle"/>
+              <prop v="239,33,119,255" k="color"/>
+              <prop v="1" k="horizontal_anchor_point"/>
+              <prop v="bevel" k="joinstyle"/>
+              <prop v="circle" k="name"/>
+              <prop v="0,0" k="offset"/>
+              <prop v="3x:0,0,0,0,0,0" k="offset_map_unit_scale"/>
+              <prop v="MM" k="offset_unit"/>
+              <prop v="0,0,0,255" k="outline_color"/>
+              <prop v="solid" k="outline_style"/>
+              <prop v="0.4" k="outline_width"/>
+              <prop v="3x:0,0,0,0,0,0" k="outline_width_map_unit_scale"/>
+              <prop v="MM" k="outline_width_unit"/>
+              <prop v="diameter" k="scale_method"/>
+              <prop v="4" k="size"/>
+              <prop v="3x:0,0,0,0,0,0" k="size_map_unit_scale"/>
+              <prop v="MM" k="size_unit"/>
+              <prop v="1" k="vertical_anchor_point"/>
+              <data_defined_properties>
+                <Option type="Map">
+                  <Option name="name" value="" type="QString"/>
+                  <Option name="properties"/>
+                  <Option name="type" value="collection" type="QString"/>
+                </Option>
+              </data_defined_properties>
+            </layer>
+          </symbol>
+          <symbol name="3" type="marker" alpha="1" clip_to_extent="1">
+            <layer locked="0" enabled="1" pass="0" class="SimpleMarker">
+              <prop v="0" k="angle"/>
+              <prop v="159,47,239,255" k="color"/>
+              <prop v="1" k="horizontal_anchor_point"/>
+              <prop v="bevel" k="joinstyle"/>
+              <prop v="circle" k="name"/>
+              <prop v="0,0" k="offset"/>
+              <prop v="3x:0,0,0,0,0,0" k="offset_map_unit_scale"/>
+              <prop v="MM" k="offset_unit"/>
+              <prop v="0,0,0,255" k="outline_color"/>
+              <prop v="solid" k="outline_style"/>
+              <prop v="0.4" k="outline_width"/>
+              <prop v="3x:0,0,0,0,0,0" k="outline_width_map_unit_scale"/>
+              <prop v="MM" k="outline_width_unit"/>
+              <prop v="diameter" k="scale_method"/>
+              <prop v="4" k="size"/>
+              <prop v="3x:0,0,0,0,0,0" k="size_map_unit_scale"/>
+              <prop v="MM" k="size_unit"/>
+              <prop v="1" k="vertical_anchor_point"/>
+              <data_defined_properties>
+                <Option type="Map">
+                  <Option name="name" value="" type="QString"/>
+                  <Option name="properties"/>
+                  <Option name="type" value="collection" type="QString"/>
+                </Option>
+              </data_defined_properties>
+            </layer>
+          </symbol>
+          <symbol name="4" type="marker" alpha="1" clip_to_extent="1">
+            <layer locked="0" enabled="1" pass="0" class="SimpleMarker">
+              <prop v="0" k="angle"/>
+              <prop v="206,169,116,255" k="color"/>
+              <prop v="1" k="horizontal_anchor_point"/>
+              <prop v="bevel" k="joinstyle"/>
+              <prop v="circle" k="name"/>
+              <prop v="0,0" k="offset"/>
+              <prop v="3x:0,0,0,0,0,0" k="offset_map_unit_scale"/>
+              <prop v="MM" k="offset_unit"/>
+              <prop v="0,0,0,255" k="outline_color"/>
+              <prop v="solid" k="outline_style"/>
+              <prop v="0.4" k="outline_width"/>
+              <prop v="3x:0,0,0,0,0,0" k="outline_width_map_unit_scale"/>
+              <prop v="MM" k="outline_width_unit"/>
+              <prop v="diameter" k="scale_method"/>
+              <prop v="4" k="size"/>
+              <prop v="3x:0,0,0,0,0,0" k="size_map_unit_scale"/>
+              <prop v="MM" k="size_unit"/>
+              <prop v="1" k="vertical_anchor_point"/>
+              <data_defined_properties>
+                <Option type="Map">
+                  <Option name="name" value="" type="QString"/>
+                  <Option name="properties"/>
+                  <Option name="type" value="collection" type="QString"/>
+                </Option>
+              </data_defined_properties>
+            </layer>
+          </symbol>
+          <symbol name="5" type="marker" alpha="1" clip_to_extent="1">
+            <layer locked="0" enabled="1" pass="0" class="SimpleMarker">
+              <prop v="0" k="angle"/>
+              <prop v="107,160,238,255" k="color"/>
+              <prop v="1" k="horizontal_anchor_point"/>
+              <prop v="bevel" k="joinstyle"/>
+              <prop v="circle" k="name"/>
+              <prop v="0,0" k="offset"/>
+              <prop v="3x:0,0,0,0,0,0" k="offset_map_unit_scale"/>
+              <prop v="MM" k="offset_unit"/>
+              <prop v="0,0,0,255" k="outline_color"/>
+              <prop v="solid" k="outline_style"/>
+              <prop v="0.4" k="outline_width"/>
+              <prop v="3x:0,0,0,0,0,0" k="outline_width_map_unit_scale"/>
+              <prop v="MM" k="outline_width_unit"/>
+              <prop v="diameter" k="scale_method"/>
+              <prop v="4" k="size"/>
+              <prop v="3x:0,0,0,0,0,0" k="size_map_unit_scale"/>
+              <prop v="MM" k="size_unit"/>
+              <prop v="1" k="vertical_anchor_point"/>
+              <data_defined_properties>
+                <Option type="Map">
+                  <Option name="name" value="" type="QString"/>
+                  <Option name="properties"/>
+                  <Option name="type" value="collection" type="QString"/>
+                </Option>
+              </data_defined_properties>
+            </layer>
+          </symbol>
+        </symbols>
+        <source-symbol>
+          <symbol name="0" type="marker" alpha="1" clip_to_extent="1">
+            <layer locked="0" enabled="1" pass="0" class="SimpleMarker">
+              <prop v="0" k="angle"/>
+              <prop v="255,255,255,255" k="color"/>
+              <prop v="1" k="horizontal_anchor_point"/>
+              <prop v="bevel" k="joinstyle"/>
+              <prop v="circle" k="name"/>
+              <prop v="0,0" k="offset"/>
+              <prop v="3x:0,0,0,0,0,0" k="offset_map_unit_scale"/>
+              <prop v="MM" k="offset_unit"/>
+              <prop v="0,0,0,255" k="outline_color"/>
+              <prop v="solid" k="outline_style"/>
+              <prop v="0.4" k="outline_width"/>
+              <prop v="3x:0,0,0,0,0,0" k="outline_width_map_unit_scale"/>
+              <prop v="MM" k="outline_width_unit"/>
+              <prop v="diameter" k="scale_method"/>
+              <prop v="4" k="size"/>
+              <prop v="3x:0,0,0,0,0,0" k="size_map_unit_scale"/>
+              <prop v="MM" k="size_unit"/>
+              <prop v="1" k="vertical_anchor_point"/>
+              <data_defined_properties>
+                <Option type="Map">
+                  <Option name="name" value="" type="QString"/>
+                  <Option name="properties"/>
+                  <Option name="type" value="collection" type="QString"/>
+                </Option>
+              </data_defined_properties>
+            </layer>
+          </symbol>
+        </source-symbol>
+        <colorramp name="[source]" type="randomcolors"/>
+        <rotation/>
+        <sizescale/>
+      </renderer-v2>
+      <customproperties>
+        <property value="0" key="embeddedWidgets/count"/>
+        <property key="variableNames"/>
+        <property key="variableValues"/>
+      </customproperties>
+      <blendMode>0</blendMode>
+      <featureBlendMode>0</featureBlendMode>
+      <layerOpacity>1</layerOpacity>
+      <SingleCategoryDiagramRenderer diagramType="Histogram" attributeLegend="1">
+        <DiagramCategory barWidth="5" enabled="0" scaleBasedVisibility="0" penAlpha="255" sizeType="MM" minimumSize="0" penWidth="0" backgroundAlpha="255" penColor="#000000" width="15" sizeScale="3x:0,0,0,0,0,0" scaleDependency="Area" lineSizeType="MM" height="15" backgroundColor="#ffffff" opacity="1" diagramOrientation="Up" rotationOffset="270" lineSizeScale="3x:0,0,0,0,0,0" maxScaleDenominator="1e+8" minScaleDenominator="0" labelPlacementMethod="XHeight">
+          <fontProperties description="Noto Sans,11,-1,5,50,0,0,0,0,0" style=""/>
+        </DiagramCategory>
+      </SingleCategoryDiagramRenderer>
+      <DiagramLayerSettings dist="0" linePlacementFlags="18" priority="0" zIndex="0" obstacle="0" showAll="1" placement="0">
+        <properties>
+          <Option type="Map">
+            <Option name="name" value="" type="QString"/>
+            <Option name="properties"/>
+            <Option name="type" value="collection" type="QString"/>
+          </Option>
+        </properties>
+      </DiagramLayerSettings>
+      <fieldConfiguration>
+        <field name="Site_nm">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="Brdng_y">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="Region">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="flocksz">
+          <editWidget type="Range">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="adults">
+          <editWidget type="Range">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="juvs">
+          <editWidget type="Range">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="N_smpld">
+          <editWidget type="Range">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="propjuv">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="meanfam">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="time">
+          <editWidget type="DateTime">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="zone">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="Observr">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="Fod_typ">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="lookup">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="month">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="cnt_ffr">
+          <editWidget type="Range">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="NmbrprH">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="t_snc_n">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="t_to_ot">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="durwntr">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="distkol">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="station">
+          <editWidget type="Range">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="windspd">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="mintemp">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="ppt">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+      </fieldConfiguration>
+      <aliases>
+        <alias name="" field="Site_nm" index="0"/>
+        <alias name="" field="Brdng_y" index="1"/>
+        <alias name="" field="Region" index="2"/>
+        <alias name="" field="flocksz" index="3"/>
+        <alias name="" field="adults" index="4"/>
+        <alias name="" field="juvs" index="5"/>
+        <alias name="" field="N_smpld" index="6"/>
+        <alias name="" field="propjuv" index="7"/>
+        <alias name="" field="meanfam" index="8"/>
+        <alias name="" field="time" index="9"/>
+        <alias name="" field="zone" index="10"/>
+        <alias name="" field="Observr" index="11"/>
+        <alias name="" field="Fod_typ" index="12"/>
+        <alias name="" field="lookup" index="13"/>
+        <alias name="" field="month" index="14"/>
+        <alias name="" field="cnt_ffr" index="15"/>
+        <alias name="" field="NmbrprH" index="16"/>
+        <alias name="" field="t_snc_n" index="17"/>
+        <alias name="" field="t_to_ot" index="18"/>
+        <alias name="" field="durwntr" index="19"/>
+        <alias name="" field="distkol" index="20"/>
+        <alias name="" field="station" index="21"/>
+        <alias name="" field="windspd" index="22"/>
+        <alias name="" field="mintemp" index="23"/>
+        <alias name="" field="ppt" index="24"/>
+      </aliases>
+      <excludeAttributesWMS/>
+      <excludeAttributesWFS/>
+      <defaults>
+        <default expression="" field="Site_nm" applyOnUpdate="0"/>
+        <default expression="" field="Brdng_y" applyOnUpdate="0"/>
+        <default expression="" field="Region" applyOnUpdate="0"/>
+        <default expression="" field="flocksz" applyOnUpdate="0"/>
+        <default expression="" field="adults" applyOnUpdate="0"/>
+        <default expression="" field="juvs" applyOnUpdate="0"/>
+        <default expression="" field="N_smpld" applyOnUpdate="0"/>
+        <default expression="" field="propjuv" applyOnUpdate="0"/>
+        <default expression="" field="meanfam" applyOnUpdate="0"/>
+        <default expression="" field="time" applyOnUpdate="0"/>
+        <default expression="" field="zone" applyOnUpdate="0"/>
+        <default expression="" field="Observr" applyOnUpdate="0"/>
+        <default expression="" field="Fod_typ" applyOnUpdate="0"/>
+        <default expression="" field="lookup" applyOnUpdate="0"/>
+        <default expression="" field="month" applyOnUpdate="0"/>
+        <default expression="" field="cnt_ffr" applyOnUpdate="0"/>
+        <default expression="" field="NmbrprH" applyOnUpdate="0"/>
+        <default expression="" field="t_snc_n" applyOnUpdate="0"/>
+        <default expression="" field="t_to_ot" applyOnUpdate="0"/>
+        <default expression="" field="durwntr" applyOnUpdate="0"/>
+        <default expression="" field="distkol" applyOnUpdate="0"/>
+        <default expression="" field="station" applyOnUpdate="0"/>
+        <default expression="" field="windspd" applyOnUpdate="0"/>
+        <default expression="" field="mintemp" applyOnUpdate="0"/>
+        <default expression="" field="ppt" applyOnUpdate="0"/>
+      </defaults>
+      <constraints>
+        <constraint notnull_strength="0" exp_strength="0" field="Site_nm" constraints="0" unique_strength="0"/>
+        <constraint notnull_strength="0" exp_strength="0" field="Brdng_y" constraints="0" unique_strength="0"/>
+        <constraint notnull_strength="0" exp_strength="0" field="Region" constraints="0" unique_strength="0"/>
+        <constraint notnull_strength="0" exp_strength="0" field="flocksz" constraints="0" unique_strength="0"/>
+        <constraint notnull_strength="0" exp_strength="0" field="adults" constraints="0" unique_strength="0"/>
+        <constraint notnull_strength="0" exp_strength="0" field="juvs" constraints="0" unique_strength="0"/>
+        <constraint notnull_strength="0" exp_strength="0" field="N_smpld" constraints="0" unique_strength="0"/>
+        <constraint notnull_strength="0" exp_strength="0" field="propjuv" constraints="0" unique_strength="0"/>
+        <constraint notnull_strength="0" exp_strength="0" field="meanfam" constraints="0" unique_strength="0"/>
+        <constraint notnull_strength="0" exp_strength="0" field="time" constraints="0" unique_strength="0"/>
+        <constraint notnull_strength="0" exp_strength="0" field="zone" constraints="0" unique_strength="0"/>
+        <constraint notnull_strength="0" exp_strength="0" field="Observr" constraints="0" unique_strength="0"/>
+        <constraint notnull_strength="0" exp_strength="0" field="Fod_typ" constraints="0" unique_strength="0"/>
+        <constraint notnull_strength="0" exp_strength="0" field="lookup" constraints="0" unique_strength="0"/>
+        <constraint notnull_strength="0" exp_strength="0" field="month" constraints="0" unique_strength="0"/>
+        <constraint notnull_strength="0" exp_strength="0" field="cnt_ffr" constraints="0" unique_strength="0"/>
+        <constraint notnull_strength="0" exp_strength="0" field="NmbrprH" constraints="0" unique_strength="0"/>
+        <constraint notnull_strength="0" exp_strength="0" field="t_snc_n" constraints="0" unique_strength="0"/>
+        <constraint notnull_strength="0" exp_strength="0" field="t_to_ot" constraints="0" unique_strength="0"/>
+        <constraint notnull_strength="0" exp_strength="0" field="durwntr" constraints="0" unique_strength="0"/>
+        <constraint notnull_strength="0" exp_strength="0" field="distkol" constraints="0" unique_strength="0"/>
+        <constraint notnull_strength="0" exp_strength="0" field="station" constraints="0" unique_strength="0"/>
+        <constraint notnull_strength="0" exp_strength="0" field="windspd" constraints="0" unique_strength="0"/>
+        <constraint notnull_strength="0" exp_strength="0" field="mintemp" constraints="0" unique_strength="0"/>
+        <constraint notnull_strength="0" exp_strength="0" field="ppt" constraints="0" unique_strength="0"/>
+      </constraints>
+      <constraintExpressions>
+        <constraint desc="" field="Site_nm" exp=""/>
+        <constraint desc="" field="Brdng_y" exp=""/>
+        <constraint desc="" field="Region" exp=""/>
+        <constraint desc="" field="flocksz" exp=""/>
+        <constraint desc="" field="adults" exp=""/>
+        <constraint desc="" field="juvs" exp=""/>
+        <constraint desc="" field="N_smpld" exp=""/>
+        <constraint desc="" field="propjuv" exp=""/>
+        <constraint desc="" field="meanfam" exp=""/>
+        <constraint desc="" field="time" exp=""/>
+        <constraint desc="" field="zone" exp=""/>
+        <constraint desc="" field="Observr" exp=""/>
+        <constraint desc="" field="Fod_typ" exp=""/>
+        <constraint desc="" field="lookup" exp=""/>
+        <constraint desc="" field="month" exp=""/>
+        <constraint desc="" field="cnt_ffr" exp=""/>
+        <constraint desc="" field="NmbrprH" exp=""/>
+        <constraint desc="" field="t_snc_n" exp=""/>
+        <constraint desc="" field="t_to_ot" exp=""/>
+        <constraint desc="" field="durwntr" exp=""/>
+        <constraint desc="" field="distkol" exp=""/>
+        <constraint desc="" field="station" exp=""/>
+        <constraint desc="" field="windspd" exp=""/>
+        <constraint desc="" field="mintemp" exp=""/>
+        <constraint desc="" field="ppt" exp=""/>
+      </constraintExpressions>
+      <attributeactions>
+        <defaultAction value="{00000000-0000-0000-0000-000000000000}" key="Canvas"/>
+      </attributeactions>
+      <attributetableconfig sortExpression="" actionWidgetStyle="dropDown" sortOrder="0">
+        <columns>
+          <column name="Site_nm" hidden="0" type="field" width="-1"/>
+          <column name="Brdng_y" hidden="0" type="field" width="-1"/>
+          <column name="Region" hidden="0" type="field" width="-1"/>
+          <column name="flocksz" hidden="0" type="field" width="-1"/>
+          <column name="adults" hidden="0" type="field" width="-1"/>
+          <column name="juvs" hidden="0" type="field" width="-1"/>
+          <column name="N_smpld" hidden="0" type="field" width="-1"/>
+          <column name="propjuv" hidden="0" type="field" width="-1"/>
+          <column name="meanfam" hidden="0" type="field" width="-1"/>
+          <column name="time" hidden="0" type="field" width="-1"/>
+          <column name="zone" hidden="0" type="field" width="-1"/>
+          <column name="Observr" hidden="0" type="field" width="-1"/>
+          <column name="Fod_typ" hidden="0" type="field" width="-1"/>
+          <column name="lookup" hidden="0" type="field" width="-1"/>
+          <column name="month" hidden="0" type="field" width="-1"/>
+          <column name="cnt_ffr" hidden="0" type="field" width="-1"/>
+          <column name="NmbrprH" hidden="0" type="field" width="-1"/>
+          <column name="t_snc_n" hidden="0" type="field" width="-1"/>
+          <column name="t_to_ot" hidden="0" type="field" width="-1"/>
+          <column name="durwntr" hidden="0" type="field" width="-1"/>
+          <column name="distkol" hidden="0" type="field" width="-1"/>
+          <column name="station" hidden="0" type="field" width="-1"/>
+          <column name="windspd" hidden="0" type="field" width="-1"/>
+          <column name="mintemp" hidden="0" type="field" width="-1"/>
+          <column name="ppt" hidden="0" type="field" width="-1"/>
+          <column hidden="1" type="actions" width="-1"/>
+        </columns>
+      </attributetableconfig>
+      <editform></editform>
+      <editforminit/>
+      <editforminitcodesource>0</editforminitcodesource>
+      <editforminitfilepath></editforminitfilepath>
+      <editforminitcode><![CDATA[# -*- coding: utf-8 -*-
+"""
+QGIS forms can have a Python function that is called when the form is
+opened.
+
+Use this function to add extra logic to your forms.
+
+Enter the name of the function in the "Python Init function"
+field.
+An example follows:
+"""
+from qgis.PyQt.QtWidgets import QWidget
+
+def my_form_open(dialog, layer, feature):
+	geom = feature.geometry()
+	control = dialog.findChild(QWidget, "MyLineEdit")
+]]></editforminitcode>
+      <featformsuppress>0</featformsuppress>
+      <editorlayout>generatedlayout</editorlayout>
+      <editable>
+        <field name="Brdng_y" editable="1"/>
+        <field name="Fod_typ" editable="1"/>
+        <field name="N_smpld" editable="1"/>
+        <field name="NmbrprH" editable="1"/>
+        <field name="Observr" editable="1"/>
+        <field name="Region" editable="1"/>
+        <field name="Site_nm" editable="1"/>
+        <field name="adults" editable="1"/>
+        <field name="cnt_ffr" editable="1"/>
+        <field name="distkol" editable="1"/>
+        <field name="durwntr" editable="1"/>
+        <field name="flocksz" editable="1"/>
+        <field name="juvs" editable="1"/>
+        <field name="lookup" editable="1"/>
+        <field name="meanfam" editable="1"/>
+        <field name="mintemp" editable="1"/>
+        <field name="month" editable="1"/>
+        <field name="ppt" editable="1"/>
+        <field name="propjuv" editable="1"/>
+        <field name="station" editable="1"/>
+        <field name="t_snc_n" editable="1"/>
+        <field name="t_to_ot" editable="1"/>
+        <field name="time" editable="1"/>
+        <field name="windspd" editable="1"/>
+        <field name="zone" editable="1"/>
+      </editable>
+      <labelOnTop>
+        <field name="Brdng_y" labelOnTop="0"/>
+        <field name="Fod_typ" labelOnTop="0"/>
+        <field name="N_smpld" labelOnTop="0"/>
+        <field name="NmbrprH" labelOnTop="0"/>
+        <field name="Observr" labelOnTop="0"/>
+        <field name="Region" labelOnTop="0"/>
+        <field name="Site_nm" labelOnTop="0"/>
+        <field name="adults" labelOnTop="0"/>
+        <field name="cnt_ffr" labelOnTop="0"/>
+        <field name="distkol" labelOnTop="0"/>
+        <field name="durwntr" labelOnTop="0"/>
+        <field name="flocksz" labelOnTop="0"/>
+        <field name="juvs" labelOnTop="0"/>
+        <field name="lookup" labelOnTop="0"/>
+        <field name="meanfam" labelOnTop="0"/>
+        <field name="mintemp" labelOnTop="0"/>
+        <field name="month" labelOnTop="0"/>
+        <field name="ppt" labelOnTop="0"/>
+        <field name="propjuv" labelOnTop="0"/>
+        <field name="station" labelOnTop="0"/>
+        <field name="t_snc_n" labelOnTop="0"/>
+        <field name="t_to_ot" labelOnTop="0"/>
+        <field name="time" labelOnTop="0"/>
+        <field name="windspd" labelOnTop="0"/>
+        <field name="zone" labelOnTop="0"/>
+      </labelOnTop>
+      <widgets/>
+      <conditionalstyles>
+        <rowstyles/>
+        <fieldstyles/>
+      </conditionalstyles>
+      <expressionfields/>
+      <previewExpression>Site_nm</previewExpression>
       <mapTip></mapTip>
     </maplayer>
     <maplayer autoRefreshEnabled="0" refreshOnNotifyMessage="" labelsEnabled="1" refreshOnNotifyEnabled="0" simplifyLocal="1" simplifyDrawingTol="1" hasScaleBasedVisibilityFlag="0" simplifyDrawingHints="0" maxScale="-4.65661e-10" minScale="1e+8" type="vector" geometry="Point" autoRefreshTime="0" simplifyAlgorithm="0" simplifyMaxScale="1" readOnly="0">
@@ -3977,6 +4720,683 @@ def my_form_open(dialog, layer, feature):
       <previewExpression>COALESCE( "name", '&lt;NULL>' )</previewExpression>
       <mapTip></mapTip>
     </maplayer>
+    <maplayer autoRefreshEnabled="0" refreshOnNotifyMessage="" labelsEnabled="0" refreshOnNotifyEnabled="0" simplifyLocal="1" simplifyDrawingTol="1" hasScaleBasedVisibilityFlag="0" simplifyDrawingHints="1" maxScale="0" minScale="1e+8" type="vector" geometry="Polygon" autoRefreshTime="0" simplifyAlgorithm="0" simplifyMaxScale="1" readOnly="0">
+      <extent>
+        <xmin>3.96756299199999951</xmin>
+        <ymin>51.01987158800000088</ymin>
+        <xmax>8.31299060067134832</xmax>
+        <ymax>53.54586651199999636</ymax>
+      </extent>
+      <id>output_c0238c2f_4b09_496e_8eea_767f1505a96b</id>
+      <datasource>memory?geometry=Polygon&amp;crs=EPSG:4326&amp;field=Site_nm:string(80,0)&amp;field=Brdng_y:string(80,0)&amp;field=Region:string(80,0)&amp;field=flocksz:integer(9,0)&amp;field=adults:integer(9,0)&amp;field=juvs:integer(9,0)&amp;field=N_smpld:integer(9,0)&amp;field=propjuv:double(23,15)&amp;field=meanfam:double(23,15)&amp;field=time:date(10,0)&amp;field=zone:string(80,0)&amp;field=Observr:string(80,0)&amp;field=Fod_typ:string(80,0)&amp;field=lookup:string(80,0)&amp;field=month:double(23,15)&amp;field=cnt_ffr:integer(9,0)&amp;field=NmbrprH:double(23,15)&amp;field=t_snc_n:double(23,15)&amp;field=t_to_ot:double(23,15)&amp;field=durwntr:double(23,15)&amp;field=distkol:double(23,15)&amp;field=station:integer(9,0)&amp;field=windspd:double(23,15)&amp;field=mintemp:double(23,15)&amp;field=ppt:double(23,15)</datasource>
+      <keywordList>
+        <value></value>
+      </keywordList>
+      <layername>Voronoi polygons</layername>
+      <srs>
+        <spatialrefsys>
+          <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
+          <srsid>3452</srsid>
+          <srid>4326</srid>
+          <authid>EPSG:4326</authid>
+          <description>WGS 84</description>
+          <projectionacronym>longlat</projectionacronym>
+          <ellipsoidacronym>WGS84</ellipsoidacronym>
+          <geographicflag>true</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <resourceMetadata>
+        <identifier></identifier>
+        <parentidentifier></parentidentifier>
+        <language></language>
+        <type></type>
+        <title></title>
+        <abstract></abstract>
+        <fees></fees>
+        <encoding></encoding>
+        <crs>
+          <spatialrefsys>
+            <proj4></proj4>
+            <srsid>0</srsid>
+            <srid>0</srid>
+            <authid></authid>
+            <description></description>
+            <projectionacronym></projectionacronym>
+            <ellipsoidacronym></ellipsoidacronym>
+            <geographicflag>false</geographicflag>
+          </spatialrefsys>
+        </crs>
+        <extent>
+          <spatial maxz="0" miny="0" maxy="0" crs="" minz="0" dimensions="2" minx="0" maxx="0"/>
+          <temporal>
+            <period>
+              <start></start>
+              <end></end>
+            </period>
+          </temporal>
+        </extent>
+        <contact>
+          <name></name>
+          <organization></organization>
+          <position></position>
+          <voice></voice>
+          <fax></fax>
+          <email></email>
+          <role></role>
+        </contact>
+        <links/>
+      </resourceMetadata>
+      <provider encoding="UTF-8">memory</provider>
+      <vectorjoins/>
+      <layerDependencies/>
+      <dataDependencies/>
+      <expressionfields/>
+      <map-layer-style-manager current="default">
+        <map-layer-style name="default"/>
+      </map-layer-style-manager>
+      <auxiliaryLayer/>
+      <renderer-v2 enableorderby="0" symbollevels="0" forceraster="0" type="categorizedSymbol" attr="zone">
+        <categories>
+          <category label="East Frisia" value="East Frisia" symbol="0" render="true"/>
+          <category label="IJsselmeer" value="IJsselmeer" symbol="1" render="true"/>
+          <category label="Other" value="Other" symbol="2" render="true"/>
+          <category label="Rhinelands" value="Rhinelands" symbol="3" render="true"/>
+          <category label="Southwest" value="Southwest" symbol="4" render="true"/>
+          <category label="" value="" symbol="5" render="false"/>
+        </categories>
+        <symbols>
+          <symbol name="0" type="fill" alpha="1" clip_to_extent="1">
+            <layer locked="0" enabled="1" pass="0" class="SimpleFill">
+              <prop v="3x:0,0,0,0,0,0" k="border_width_map_unit_scale"/>
+              <prop v="98,223,57,255" k="color"/>
+              <prop v="bevel" k="joinstyle"/>
+              <prop v="0,0" k="offset"/>
+              <prop v="3x:0,0,0,0,0,0" k="offset_map_unit_scale"/>
+              <prop v="MM" k="offset_unit"/>
+              <prop v="35,35,35,255" k="outline_color"/>
+              <prop v="solid" k="outline_style"/>
+              <prop v="0.26" k="outline_width"/>
+              <prop v="MM" k="outline_width_unit"/>
+              <prop v="solid" k="style"/>
+              <data_defined_properties>
+                <Option type="Map">
+                  <Option name="name" value="" type="QString"/>
+                  <Option name="properties"/>
+                  <Option name="type" value="collection" type="QString"/>
+                </Option>
+              </data_defined_properties>
+            </layer>
+          </symbol>
+          <symbol name="1" type="fill" alpha="1" clip_to_extent="1">
+            <layer locked="0" enabled="1" pass="0" class="SimpleFill">
+              <prop v="3x:0,0,0,0,0,0" k="border_width_map_unit_scale"/>
+              <prop v="200,56,92,255" k="color"/>
+              <prop v="bevel" k="joinstyle"/>
+              <prop v="0,0" k="offset"/>
+              <prop v="3x:0,0,0,0,0,0" k="offset_map_unit_scale"/>
+              <prop v="MM" k="offset_unit"/>
+              <prop v="35,35,35,255" k="outline_color"/>
+              <prop v="solid" k="outline_style"/>
+              <prop v="0.26" k="outline_width"/>
+              <prop v="MM" k="outline_width_unit"/>
+              <prop v="solid" k="style"/>
+              <data_defined_properties>
+                <Option type="Map">
+                  <Option name="name" value="" type="QString"/>
+                  <Option name="properties"/>
+                  <Option name="type" value="collection" type="QString"/>
+                </Option>
+              </data_defined_properties>
+            </layer>
+          </symbol>
+          <symbol name="2" type="fill" alpha="1" clip_to_extent="1">
+            <layer locked="0" enabled="1" pass="0" class="SimpleFill">
+              <prop v="3x:0,0,0,0,0,0" k="border_width_map_unit_scale"/>
+              <prop v="21,67,219,255" k="color"/>
+              <prop v="bevel" k="joinstyle"/>
+              <prop v="0,0" k="offset"/>
+              <prop v="3x:0,0,0,0,0,0" k="offset_map_unit_scale"/>
+              <prop v="MM" k="offset_unit"/>
+              <prop v="35,35,35,255" k="outline_color"/>
+              <prop v="solid" k="outline_style"/>
+              <prop v="0.26" k="outline_width"/>
+              <prop v="MM" k="outline_width_unit"/>
+              <prop v="solid" k="style"/>
+              <data_defined_properties>
+                <Option type="Map">
+                  <Option name="name" value="" type="QString"/>
+                  <Option name="properties"/>
+                  <Option name="type" value="collection" type="QString"/>
+                </Option>
+              </data_defined_properties>
+            </layer>
+          </symbol>
+          <symbol name="3" type="fill" alpha="1" clip_to_extent="1">
+            <layer locked="0" enabled="1" pass="0" class="SimpleFill">
+              <prop v="3x:0,0,0,0,0,0" k="border_width_map_unit_scale"/>
+              <prop v="211,177,73,255" k="color"/>
+              <prop v="bevel" k="joinstyle"/>
+              <prop v="0,0" k="offset"/>
+              <prop v="3x:0,0,0,0,0,0" k="offset_map_unit_scale"/>
+              <prop v="MM" k="offset_unit"/>
+              <prop v="35,35,35,255" k="outline_color"/>
+              <prop v="solid" k="outline_style"/>
+              <prop v="0.26" k="outline_width"/>
+              <prop v="MM" k="outline_width_unit"/>
+              <prop v="solid" k="style"/>
+              <data_defined_properties>
+                <Option type="Map">
+                  <Option name="name" value="" type="QString"/>
+                  <Option name="properties"/>
+                  <Option name="type" value="collection" type="QString"/>
+                </Option>
+              </data_defined_properties>
+            </layer>
+          </symbol>
+          <symbol name="4" type="fill" alpha="1" clip_to_extent="1">
+            <layer locked="0" enabled="1" pass="0" class="SimpleFill">
+              <prop v="3x:0,0,0,0,0,0" k="border_width_map_unit_scale"/>
+              <prop v="203,116,232,255" k="color"/>
+              <prop v="bevel" k="joinstyle"/>
+              <prop v="0,0" k="offset"/>
+              <prop v="3x:0,0,0,0,0,0" k="offset_map_unit_scale"/>
+              <prop v="MM" k="offset_unit"/>
+              <prop v="35,35,35,255" k="outline_color"/>
+              <prop v="solid" k="outline_style"/>
+              <prop v="0.26" k="outline_width"/>
+              <prop v="MM" k="outline_width_unit"/>
+              <prop v="solid" k="style"/>
+              <data_defined_properties>
+                <Option type="Map">
+                  <Option name="name" value="" type="QString"/>
+                  <Option name="properties"/>
+                  <Option name="type" value="collection" type="QString"/>
+                </Option>
+              </data_defined_properties>
+            </layer>
+          </symbol>
+          <symbol name="5" type="fill" alpha="1" clip_to_extent="1">
+            <layer locked="0" enabled="1" pass="0" class="SimpleFill">
+              <prop v="3x:0,0,0,0,0,0" k="border_width_map_unit_scale"/>
+              <prop v="70,223,188,255" k="color"/>
+              <prop v="bevel" k="joinstyle"/>
+              <prop v="0,0" k="offset"/>
+              <prop v="3x:0,0,0,0,0,0" k="offset_map_unit_scale"/>
+              <prop v="MM" k="offset_unit"/>
+              <prop v="35,35,35,255" k="outline_color"/>
+              <prop v="solid" k="outline_style"/>
+              <prop v="0.26" k="outline_width"/>
+              <prop v="MM" k="outline_width_unit"/>
+              <prop v="solid" k="style"/>
+              <data_defined_properties>
+                <Option type="Map">
+                  <Option name="name" value="" type="QString"/>
+                  <Option name="properties"/>
+                  <Option name="type" value="collection" type="QString"/>
+                </Option>
+              </data_defined_properties>
+            </layer>
+          </symbol>
+        </symbols>
+        <source-symbol>
+          <symbol name="0" type="fill" alpha="1" clip_to_extent="1">
+            <layer locked="0" enabled="1" pass="0" class="SimpleFill">
+              <prop v="3x:0,0,0,0,0,0" k="border_width_map_unit_scale"/>
+              <prop v="26,167,96,255" k="color"/>
+              <prop v="bevel" k="joinstyle"/>
+              <prop v="0,0" k="offset"/>
+              <prop v="3x:0,0,0,0,0,0" k="offset_map_unit_scale"/>
+              <prop v="MM" k="offset_unit"/>
+              <prop v="35,35,35,255" k="outline_color"/>
+              <prop v="solid" k="outline_style"/>
+              <prop v="0.26" k="outline_width"/>
+              <prop v="MM" k="outline_width_unit"/>
+              <prop v="solid" k="style"/>
+              <data_defined_properties>
+                <Option type="Map">
+                  <Option name="name" value="" type="QString"/>
+                  <Option name="properties"/>
+                  <Option name="type" value="collection" type="QString"/>
+                </Option>
+              </data_defined_properties>
+            </layer>
+          </symbol>
+        </source-symbol>
+        <colorramp name="[source]" type="randomcolors"/>
+        <rotation/>
+        <sizescale/>
+      </renderer-v2>
+      <customproperties>
+        <property key="dualview/previewExpressions">
+          <value>"Site_nm"</value>
+        </property>
+        <property value="0" key="embeddedWidgets/count"/>
+        <property key="variableNames"/>
+        <property key="variableValues"/>
+      </customproperties>
+      <blendMode>0</blendMode>
+      <featureBlendMode>0</featureBlendMode>
+      <layerOpacity>1</layerOpacity>
+      <SingleCategoryDiagramRenderer diagramType="Histogram" attributeLegend="1">
+        <DiagramCategory barWidth="5" enabled="0" scaleBasedVisibility="0" penAlpha="255" sizeType="MM" minimumSize="0" penWidth="0" backgroundAlpha="255" penColor="#000000" width="15" sizeScale="3x:0,0,0,0,0,0" scaleDependency="Area" lineSizeType="MM" height="15" backgroundColor="#ffffff" opacity="1" diagramOrientation="Up" rotationOffset="270" lineSizeScale="3x:0,0,0,0,0,0" maxScaleDenominator="1e+8" minScaleDenominator="0" labelPlacementMethod="XHeight">
+          <fontProperties description="Noto Sans,11,-1,5,50,0,0,0,0,0" style=""/>
+        </DiagramCategory>
+      </SingleCategoryDiagramRenderer>
+      <DiagramLayerSettings dist="0" linePlacementFlags="18" priority="0" zIndex="0" obstacle="0" showAll="1" placement="0">
+        <properties>
+          <Option type="Map">
+            <Option name="name" value="" type="QString"/>
+            <Option name="properties"/>
+            <Option name="type" value="collection" type="QString"/>
+          </Option>
+        </properties>
+      </DiagramLayerSettings>
+      <fieldConfiguration>
+        <field name="Site_nm">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="Brdng_y">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="Region">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="flocksz">
+          <editWidget type="Range">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="adults">
+          <editWidget type="Range">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="juvs">
+          <editWidget type="Range">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="N_smpld">
+          <editWidget type="Range">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="propjuv">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="meanfam">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="time">
+          <editWidget type="DateTime">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="zone">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="Observr">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="Fod_typ">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="lookup">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="month">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="cnt_ffr">
+          <editWidget type="Range">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="NmbrprH">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="t_snc_n">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="t_to_ot">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="durwntr">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="distkol">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="station">
+          <editWidget type="Range">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="windspd">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="mintemp">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="ppt">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+      </fieldConfiguration>
+      <aliases>
+        <alias name="" field="Site_nm" index="0"/>
+        <alias name="" field="Brdng_y" index="1"/>
+        <alias name="" field="Region" index="2"/>
+        <alias name="" field="flocksz" index="3"/>
+        <alias name="" field="adults" index="4"/>
+        <alias name="" field="juvs" index="5"/>
+        <alias name="" field="N_smpld" index="6"/>
+        <alias name="" field="propjuv" index="7"/>
+        <alias name="" field="meanfam" index="8"/>
+        <alias name="" field="time" index="9"/>
+        <alias name="" field="zone" index="10"/>
+        <alias name="" field="Observr" index="11"/>
+        <alias name="" field="Fod_typ" index="12"/>
+        <alias name="" field="lookup" index="13"/>
+        <alias name="" field="month" index="14"/>
+        <alias name="" field="cnt_ffr" index="15"/>
+        <alias name="" field="NmbrprH" index="16"/>
+        <alias name="" field="t_snc_n" index="17"/>
+        <alias name="" field="t_to_ot" index="18"/>
+        <alias name="" field="durwntr" index="19"/>
+        <alias name="" field="distkol" index="20"/>
+        <alias name="" field="station" index="21"/>
+        <alias name="" field="windspd" index="22"/>
+        <alias name="" field="mintemp" index="23"/>
+        <alias name="" field="ppt" index="24"/>
+      </aliases>
+      <excludeAttributesWMS/>
+      <excludeAttributesWFS/>
+      <defaults>
+        <default expression="" field="Site_nm" applyOnUpdate="0"/>
+        <default expression="" field="Brdng_y" applyOnUpdate="0"/>
+        <default expression="" field="Region" applyOnUpdate="0"/>
+        <default expression="" field="flocksz" applyOnUpdate="0"/>
+        <default expression="" field="adults" applyOnUpdate="0"/>
+        <default expression="" field="juvs" applyOnUpdate="0"/>
+        <default expression="" field="N_smpld" applyOnUpdate="0"/>
+        <default expression="" field="propjuv" applyOnUpdate="0"/>
+        <default expression="" field="meanfam" applyOnUpdate="0"/>
+        <default expression="" field="time" applyOnUpdate="0"/>
+        <default expression="" field="zone" applyOnUpdate="0"/>
+        <default expression="" field="Observr" applyOnUpdate="0"/>
+        <default expression="" field="Fod_typ" applyOnUpdate="0"/>
+        <default expression="" field="lookup" applyOnUpdate="0"/>
+        <default expression="" field="month" applyOnUpdate="0"/>
+        <default expression="" field="cnt_ffr" applyOnUpdate="0"/>
+        <default expression="" field="NmbrprH" applyOnUpdate="0"/>
+        <default expression="" field="t_snc_n" applyOnUpdate="0"/>
+        <default expression="" field="t_to_ot" applyOnUpdate="0"/>
+        <default expression="" field="durwntr" applyOnUpdate="0"/>
+        <default expression="" field="distkol" applyOnUpdate="0"/>
+        <default expression="" field="station" applyOnUpdate="0"/>
+        <default expression="" field="windspd" applyOnUpdate="0"/>
+        <default expression="" field="mintemp" applyOnUpdate="0"/>
+        <default expression="" field="ppt" applyOnUpdate="0"/>
+      </defaults>
+      <constraints>
+        <constraint notnull_strength="0" exp_strength="0" field="Site_nm" constraints="0" unique_strength="0"/>
+        <constraint notnull_strength="0" exp_strength="0" field="Brdng_y" constraints="0" unique_strength="0"/>
+        <constraint notnull_strength="0" exp_strength="0" field="Region" constraints="0" unique_strength="0"/>
+        <constraint notnull_strength="0" exp_strength="0" field="flocksz" constraints="0" unique_strength="0"/>
+        <constraint notnull_strength="0" exp_strength="0" field="adults" constraints="0" unique_strength="0"/>
+        <constraint notnull_strength="0" exp_strength="0" field="juvs" constraints="0" unique_strength="0"/>
+        <constraint notnull_strength="0" exp_strength="0" field="N_smpld" constraints="0" unique_strength="0"/>
+        <constraint notnull_strength="0" exp_strength="0" field="propjuv" constraints="0" unique_strength="0"/>
+        <constraint notnull_strength="0" exp_strength="0" field="meanfam" constraints="0" unique_strength="0"/>
+        <constraint notnull_strength="0" exp_strength="0" field="time" constraints="0" unique_strength="0"/>
+        <constraint notnull_strength="0" exp_strength="0" field="zone" constraints="0" unique_strength="0"/>
+        <constraint notnull_strength="0" exp_strength="0" field="Observr" constraints="0" unique_strength="0"/>
+        <constraint notnull_strength="0" exp_strength="0" field="Fod_typ" constraints="0" unique_strength="0"/>
+        <constraint notnull_strength="0" exp_strength="0" field="lookup" constraints="0" unique_strength="0"/>
+        <constraint notnull_strength="0" exp_strength="0" field="month" constraints="0" unique_strength="0"/>
+        <constraint notnull_strength="0" exp_strength="0" field="cnt_ffr" constraints="0" unique_strength="0"/>
+        <constraint notnull_strength="0" exp_strength="0" field="NmbrprH" constraints="0" unique_strength="0"/>
+        <constraint notnull_strength="0" exp_strength="0" field="t_snc_n" constraints="0" unique_strength="0"/>
+        <constraint notnull_strength="0" exp_strength="0" field="t_to_ot" constraints="0" unique_strength="0"/>
+        <constraint notnull_strength="0" exp_strength="0" field="durwntr" constraints="0" unique_strength="0"/>
+        <constraint notnull_strength="0" exp_strength="0" field="distkol" constraints="0" unique_strength="0"/>
+        <constraint notnull_strength="0" exp_strength="0" field="station" constraints="0" unique_strength="0"/>
+        <constraint notnull_strength="0" exp_strength="0" field="windspd" constraints="0" unique_strength="0"/>
+        <constraint notnull_strength="0" exp_strength="0" field="mintemp" constraints="0" unique_strength="0"/>
+        <constraint notnull_strength="0" exp_strength="0" field="ppt" constraints="0" unique_strength="0"/>
+      </constraints>
+      <constraintExpressions>
+        <constraint desc="" field="Site_nm" exp=""/>
+        <constraint desc="" field="Brdng_y" exp=""/>
+        <constraint desc="" field="Region" exp=""/>
+        <constraint desc="" field="flocksz" exp=""/>
+        <constraint desc="" field="adults" exp=""/>
+        <constraint desc="" field="juvs" exp=""/>
+        <constraint desc="" field="N_smpld" exp=""/>
+        <constraint desc="" field="propjuv" exp=""/>
+        <constraint desc="" field="meanfam" exp=""/>
+        <constraint desc="" field="time" exp=""/>
+        <constraint desc="" field="zone" exp=""/>
+        <constraint desc="" field="Observr" exp=""/>
+        <constraint desc="" field="Fod_typ" exp=""/>
+        <constraint desc="" field="lookup" exp=""/>
+        <constraint desc="" field="month" exp=""/>
+        <constraint desc="" field="cnt_ffr" exp=""/>
+        <constraint desc="" field="NmbrprH" exp=""/>
+        <constraint desc="" field="t_snc_n" exp=""/>
+        <constraint desc="" field="t_to_ot" exp=""/>
+        <constraint desc="" field="durwntr" exp=""/>
+        <constraint desc="" field="distkol" exp=""/>
+        <constraint desc="" field="station" exp=""/>
+        <constraint desc="" field="windspd" exp=""/>
+        <constraint desc="" field="mintemp" exp=""/>
+        <constraint desc="" field="ppt" exp=""/>
+      </constraintExpressions>
+      <attributeactions>
+        <defaultAction value="{00000000-0000-0000-0000-000000000000}" key="Canvas"/>
+      </attributeactions>
+      <attributetableconfig sortExpression="" actionWidgetStyle="dropDown" sortOrder="0">
+        <columns>
+          <column name="Site_nm" hidden="0" type="field" width="-1"/>
+          <column name="Brdng_y" hidden="0" type="field" width="-1"/>
+          <column name="Region" hidden="0" type="field" width="-1"/>
+          <column name="flocksz" hidden="0" type="field" width="-1"/>
+          <column name="adults" hidden="0" type="field" width="-1"/>
+          <column name="juvs" hidden="0" type="field" width="-1"/>
+          <column name="N_smpld" hidden="0" type="field" width="-1"/>
+          <column name="propjuv" hidden="0" type="field" width="-1"/>
+          <column name="meanfam" hidden="0" type="field" width="-1"/>
+          <column name="time" hidden="0" type="field" width="-1"/>
+          <column name="zone" hidden="0" type="field" width="-1"/>
+          <column name="Observr" hidden="0" type="field" width="-1"/>
+          <column name="Fod_typ" hidden="0" type="field" width="-1"/>
+          <column name="lookup" hidden="0" type="field" width="-1"/>
+          <column name="month" hidden="0" type="field" width="-1"/>
+          <column name="cnt_ffr" hidden="0" type="field" width="-1"/>
+          <column name="NmbrprH" hidden="0" type="field" width="-1"/>
+          <column name="t_snc_n" hidden="0" type="field" width="-1"/>
+          <column name="t_to_ot" hidden="0" type="field" width="-1"/>
+          <column name="durwntr" hidden="0" type="field" width="-1"/>
+          <column name="distkol" hidden="0" type="field" width="-1"/>
+          <column name="station" hidden="0" type="field" width="-1"/>
+          <column name="windspd" hidden="0" type="field" width="-1"/>
+          <column name="mintemp" hidden="0" type="field" width="-1"/>
+          <column name="ppt" hidden="0" type="field" width="-1"/>
+          <column hidden="1" type="actions" width="-1"/>
+        </columns>
+      </attributetableconfig>
+      <editform></editform>
+      <editforminit/>
+      <editforminitcodesource>0</editforminitcodesource>
+      <editforminitfilepath></editforminitfilepath>
+      <editforminitcode><![CDATA[# -*- coding: utf-8 -*-
+"""
+QGIS forms can have a Python function that is called when the form is
+opened.
+
+Use this function to add extra logic to your forms.
+
+Enter the name of the function in the "Python Init function"
+field.
+An example follows:
+"""
+from qgis.PyQt.QtWidgets import QWidget
+
+def my_form_open(dialog, layer, feature):
+	geom = feature.geometry()
+	control = dialog.findChild(QWidget, "MyLineEdit")
+]]></editforminitcode>
+      <featformsuppress>0</featformsuppress>
+      <editorlayout>generatedlayout</editorlayout>
+      <editable>
+        <field name="Brdng_y" editable="1"/>
+        <field name="Fod_typ" editable="1"/>
+        <field name="N_smpld" editable="1"/>
+        <field name="NmbrprH" editable="1"/>
+        <field name="Observr" editable="1"/>
+        <field name="Region" editable="1"/>
+        <field name="Site_nm" editable="1"/>
+        <field name="adults" editable="1"/>
+        <field name="cnt_ffr" editable="1"/>
+        <field name="distkol" editable="1"/>
+        <field name="durwntr" editable="1"/>
+        <field name="flocksz" editable="1"/>
+        <field name="juvs" editable="1"/>
+        <field name="lookup" editable="1"/>
+        <field name="meanfam" editable="1"/>
+        <field name="mintemp" editable="1"/>
+        <field name="month" editable="1"/>
+        <field name="ppt" editable="1"/>
+        <field name="propjuv" editable="1"/>
+        <field name="station" editable="1"/>
+        <field name="t_snc_n" editable="1"/>
+        <field name="t_to_ot" editable="1"/>
+        <field name="time" editable="1"/>
+        <field name="windspd" editable="1"/>
+        <field name="zone" editable="1"/>
+      </editable>
+      <labelOnTop>
+        <field name="Brdng_y" labelOnTop="0"/>
+        <field name="Fod_typ" labelOnTop="0"/>
+        <field name="N_smpld" labelOnTop="0"/>
+        <field name="NmbrprH" labelOnTop="0"/>
+        <field name="Observr" labelOnTop="0"/>
+        <field name="Region" labelOnTop="0"/>
+        <field name="Site_nm" labelOnTop="0"/>
+        <field name="adults" labelOnTop="0"/>
+        <field name="cnt_ffr" labelOnTop="0"/>
+        <field name="distkol" labelOnTop="0"/>
+        <field name="durwntr" labelOnTop="0"/>
+        <field name="flocksz" labelOnTop="0"/>
+        <field name="juvs" labelOnTop="0"/>
+        <field name="lookup" labelOnTop="0"/>
+        <field name="meanfam" labelOnTop="0"/>
+        <field name="mintemp" labelOnTop="0"/>
+        <field name="month" labelOnTop="0"/>
+        <field name="ppt" labelOnTop="0"/>
+        <field name="propjuv" labelOnTop="0"/>
+        <field name="station" labelOnTop="0"/>
+        <field name="t_snc_n" labelOnTop="0"/>
+        <field name="t_to_ot" labelOnTop="0"/>
+        <field name="time" labelOnTop="0"/>
+        <field name="windspd" labelOnTop="0"/>
+        <field name="zone" labelOnTop="0"/>
+      </labelOnTop>
+      <widgets/>
+      <conditionalstyles>
+        <rowstyles/>
+        <fieldstyles/>
+      </conditionalstyles>
+      <expressionfields/>
+      <previewExpression>Site_nm</previewExpression>
+      <mapTip></mapTip>
+    </maplayer>
     <maplayer autoRefreshEnabled="0" refreshOnNotifyMessage="" labelsEnabled="0" refreshOnNotifyEnabled="0" simplifyLocal="1" simplifyDrawingTol="1" hasScaleBasedVisibilityFlag="0" simplifyDrawingHints="0" maxScale="-4.65661e-10" minScale="1e+8" type="vector" geometry="Point" autoRefreshTime="0" simplifyAlgorithm="0" simplifyMaxScale="1" readOnly="0">
       <extent>
         <xmin>4.82919919999999969</xmin>
@@ -5277,6 +6697,8 @@ def my_form_open(dialog, layer, feature):
     <layer id="geeseorg_grid20170613161326983"/>
     <layer id="ne_10m_land20170607212732249"/>
     <layer id="NE2_HR_LC_SR_W_DR20170707080613764"/>
+    <layer id="flock_zone_sites_118bd41d_0f66_46d3_8f71_54734c452160"/>
+    <layer id="output_c0238c2f_4b09_496e_8eea_767f1505a96b"/>
   </layerorder>
   <properties>
     <WCSUrl type="QString"></WCSUrl>
