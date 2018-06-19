@@ -228,9 +228,30 @@ fig5data1 %>% filter(variable == "pfamjuvs.pred") %>%
 #'family proportion over time, juvenile proportion in flocks, independent juveniles in flocks
 
 #'get data on the famprop and independent juveniles in flocksize
-fig5data2 = fambirds %>% mutate(pfam.pred, pfamjuvs.pred = 1-pfamjuvs.pred) %>% select(flocksize, pfam.pred, pfamjuvs.pred) %>% mutate(flocksize = round_any(flocksize, 100)) %>% melt(id.vars = "flocksize") %>% group_by(flocksize, variable) %>% summarise(mean = mean(value, na.rm = T), sd = sd(value, na.rm = T), n = length(value)) %>% mutate(ci = qnorm(0.975)*sd/sqrt(n))
+fig5data2 = fambirds %>% 
+  mutate(pfam.pred, a = 1-pfamjuvs.pred) %>% 
+  select(flocksize, pfam.pred, a) %>% 
+  mutate(flocksize = round_any(flocksize, 100)) %>% 
+  melt(id.vars = "flocksize") %>% 
+  group_by(flocksize, variable) %>% 
+  summarise(mean = mean(value, na.rm = T), sd = sd(value, na.rm = T), n = length(value)) %>% 
+  mutate(ci = qnorm(0.975)*sd/sqrt(n))
 
-fig6data = geese %>% mutate(pjuv = predict(juvprop.mod, newdata = geese, allow.new.levels = T, type = "response")) %>% select(flocksize, pjuv) %>% mutate(flocksize = round_any(flocksize, 100)) %>% melt(id.vars = "flocksize") %>% group_by(flocksize, variable) %>% summarise(mean = mean(value, na.rm = T), sd = sd(value, na.rm = T), n = length(value)) %>% mutate(ci = qnorm(0.975)*sd/sqrt(n))
+fig6data = geese %>% 
+  mutate(pjuv = predict(juvprop.mod, newdata = geese, allow.new.levels = T, type = "response")) %>% 
+  select(flocksize, pjuv) %>% 
+  mutate(flocksize = round_any(flocksize, 100)) %>% 
+  melt(id.vars = "flocksize") %>% 
+  group_by(flocksize, variable) %>% 
+  summarise(mean = mean(value, na.rm = T), sd = sd(value, na.rm = T), n = length(value)) %>% mutate(ci = qnorm(0.975)*sd/sqrt(n))
+
+fig5cdata = geese %>% 
+  mutate(pjuv = predict(juvprop.mod, newdata = geese, allow.new.levels = T, type = "response")) %>% 
+  select(t_since_in, pjuv, propjuv) %>% 
+  mutate(t_since_in = round_any(t_since_in, 10)) %>% 
+  melt(id.vars = "t_since_in") %>% 
+  group_by(t_since_in, variable) %>% 
+  summarise(mean = mean(value, na.rm = T), sd = sd(value, na.rm = T), n = length(value)) %>% mutate(ci = qnorm(0.975)*sd/sqrt(n))
 ```
 
 ## make 3 panel plot
@@ -261,17 +282,33 @@ fig6a =
   ylim(0,NA)+
   labs(list(x = "Flock size", y = "Family proportion of flock", title = "(a)"))+
   theme_pub()+theme(strip.text = element_text(face = "bold", hjust = 0))
+```
 
+```{r}
+fig6d = 
+  ggplot()+
+  geom_smooth(data = fig5cdata %>% filter(variable == "pjuv"), aes(x = t_since_in, y = mean, ymin = mean -ci, ymax = mean+ci, group = variable), fill = "grey", lwd = 0.5, col = 1, method = "glm")+
+  #geom_line(aes(x = flocksize, y = mean, ymin = mean -ci, ymax = mean+ci, group = variable), lwd = 0.5)+
+  
+  geom_pointrange(data = fig5cdata %>% filter(variable == "propjuv"), aes(x = t_since_in, y = mean, ymin = mean-ci, ymax = mean+ci), shape = 21, fill = "white")+
+  
+  #facet_wrap(~ifelse(variable == "pfam.pred", "(b)", "(c)"), scales = "free")+
+  coord_cartesian(xlim = c(0,180), ylim = c(0.125,0.35))+
+  labs(list(x = "Days since arrival", y = "Proportion of juveniles", title = "(d)"))+
+  theme_pub()+theme(strip.text = element_text(face = "bold", hjust = 0))
+
+  ###########################
+  
 fig6c = 
-  ggplot(fig5data2 %>% filter(variable != "pfam.pred"))+
-  geom_smooth(aes(x = flocksize, y = mean, ymin = mean -ci, ymax = mean+ci, group = variable), fill = "grey", lwd = 0.5, col = 1, method = "glm")+
+  ggplot(fig5data2 %>% filter(variable == "a"))+
+  geom_smooth(aes(x = flocksize, y = mean, ymin = mean -ci, ymax = mean+ci, group = variable), fill = "grey", lwd = 0.5, col = 1, method = "loess")+
   #geom_line(aes(x = flocksize, y = mean, ymin = mean -ci, ymax = mean+ci, group = variable), lwd = 0.5)+
   
   geom_pointrange(aes(x = flocksize, y = mean, ymin = mean-ci, ymax = mean+ci), shape = 21, fill = "white")+
   
   #facet_wrap(~ifelse(variable == "pfam.pred", "(b)", "(c)"), scales = "free")+
-  coord_cartesian(xlim = c(0,2500), ylim = c(0,0.75))+
-  labs(list(x = "Flock size", y = "Proportion of independent juveniles", title = "(b)"))+
+  coord_cartesian(xlim = c(0,2100), ylim = c(0,0.6))+
+  labs(list(x = "Flock size", y = "Proportion indpendent juveniles", title = "(c)"))+
   theme_pub()+theme(strip.text = element_text(face = "bold", hjust = 0))
 ```
 
@@ -279,11 +316,11 @@ fig6c =
 
 ```{r}
 #'export to eps
-cairo_pdf(filename = "figs/fig6.eps", height = 4, width = 9)
+cairo_pdf(filename = "figs/fig6.eps", height = 5, width = 8)
 
 library(gridExtra)
 
-gridExtra::grid.arrange(fig6a, fig6b, fig6c, ncol = 3)
+gridExtra::grid.arrange(fig6a, fig6b, fig6c, fig6d, nrow = 2)
 
 dev.off()
 ```

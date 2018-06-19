@@ -123,21 +123,22 @@ library(mgcv)
 #'proportion of family associated birds model
 fambirds$mintemp = sqrt(fambirds$mintemp+20)
 
-famprop.mod = glmer(famprop ~ sqrt(flocksize) + sqrt(distkol) + (t_since_in)+ (1|Breeding_year) + (1|Observer), data = fambirds %>% filter(famprop <= 1, flocksize <= 5000), family = "binomial")
+famprop.mod = glmer(famprop ~ sqrt(flocksize) + sqrt(distkol) + (t_since_in)+ (1|Breeding_year) + (1|Observer), data = fambirds %>% filter(famprop <= 1, flocksize <= 3000), family = "binomial")
 ```
 
 ```{r famjuvsprop}
 #'what proportion of a flock's juveniles are associated in families, rather than being independent?
 
-famjuvprop.mod = glmer(famjuvsprop ~ sqrt(flocksize) + sqrt(distkol) + (t_since_in) + (1|Breeding_year) + (1|Observer), data = fambirds %>% filter(famprop <= 1, flocksize <=5000), family = "binomial")
+famjuvprop.mod = glmer(famjuvsprop ~ sqrt(flocksize) + sqrt(distkol) + (t_since_in) + (1|Breeding_year) + (1|Observer), data = fambirds %>% filter(famprop <= 1, flocksize <=3e3), family = "binomial")
 ```
 
 ```{r juvenile_proportion_model}
 #'what proportion of a flock is composed of juveniles?
-geese$mintemp = sqrt(geese$mintemp+20)
+#geese$mintemp = sqrt(geese$mintemp+20)
+geese = geese %>% filter(flocksize %between% c(1, 3e3)) %>% 
+  mutate(Observer = as.factor(Observer))
 
-
-juvprop.mod = glmer(propjuv ~ sqrt(flocksize) + sqrt(distkol) + (t_since_in) + (1|Breeding_year) + (1|Observer), data = geese %>% filter(flocksize>0), family = "binomial")
+juvprop.mod = bam(propjuv ~ sqrt(flocksize) + log(distkol) + sqrt(t_since_in) + s(Breeding_year, bs = "re") + s(Observer, bs = "re"), data = geese, family = binomial)
 
 ```
 
@@ -155,5 +156,5 @@ flocksize.mod = glmer(flocksize ~ sqrt(distkol) + log(t_since_in) + mintemp + (1
 
 
 ```{r juvsclim}
-save(famprop.mod, famjuvprop.mod, juvprop.mod, flocksize.mod, fambirds, geese, geeseorg,file = "mods_flocklevel.rdata")
+save(famprop.mod, famjuvprop.mod, juvprop.mod, flocksize.mod, fambirds, geese, geeseorg,file = "generated_data/mods_flocklevel.rdata")
 ```
