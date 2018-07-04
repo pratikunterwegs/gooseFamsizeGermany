@@ -17,7 +17,13 @@ library(readxl);library(plyr);library(dplyr);library(lubridate);library(ggplot2)
 #'
 k = read_excel("~/git/family_sizes_geese_2018/kolguyev.xlsx", sheet = 1)
 
-k = k %>% filter(n.par %in% 1:2, species == "wfg")
+k = k %>% filter(n.par %in% 1:2, species == "wfg", n.juv > 0)
+
+```
+
+```{r}
+#'source dataprep
+source("dataprep.R")
 ```
 
 ```{r read_NL_data}
@@ -63,14 +69,11 @@ library(PMCMR)
 
 #'nemenyi posthoc
 mod.site.posthoc = posthoc.kruskal.nemenyi.test(x = data2016$famsize, g = data2016$site, dist = "Chisquare")
-
-#'plot
-plot(mod.site.posthoc)
 ```
 
 ```{r plot_mod.site, include=FALSE}
 #'plot
-cairo_ps(filename = "figs/fig2.eps", width = 4, height = 4)
+cairo_pdf(filename = "figs/fig2.pdf", width = 85/25.4, height = 85/25.4)
 
 data2016 %>% group_by(site) %>% summarise(m = mean(famsize), sd = sd(famsize), n = length(famsize)) %>% mutate(ci = qnorm(0.975)*sd/sqrt(n)) %>% 
 
@@ -80,11 +83,12 @@ ggplot()+
   geom_point(aes(x = site, y = m))+
   labs(list(x = NULL, y = "Family size"))+
   scale_x_discrete(labels=NULL)+
+  scale_y_continuous(breaks = seq(0.5, 2.5, 1))+
   geom_text(aes(x = c(1.1,2.1,2.9), y = m), 
-            label = c("Kolguyev","Dataset B","Dataset C"),
+            label = c("Kolguyev Island","Dataset B \n (Flock counts)","Dataset C \n (Neckband resightings)"),
             hjust = c("inward", "left", "inward"), size = 3)+
   theme_pub()+
-  theme(axis.text.x = element_blank())
-dev.off()
+  theme(axis.text.x = element_blank(), axis.ticks.x = element_blank())
 
+dev.off()
 ```

@@ -64,7 +64,7 @@ fig2data2 = fams.expand %>%
 ## plot fig 3
 
 ```{r export_distkol_fams1, eval = FALSE}
-cairo_ps(filename = "figs/fig3.eps", height = 4, width = 6)
+cairo_pdf(filename = "figs/fig3.pdf", height = 85/25.4, width = 180/25.4)
 
 #'plot
 
@@ -73,15 +73,16 @@ fig2data %>%
 ggplot()+
   geom_smooth(aes(x = famsize, y = mean, lty = stage, group = stage), se = F, col = 1, lwd = 0.5)+
   
-  geom_pointrange(aes(x = famsize, y = mean, ymin = mean-ci, ymax = mean+ci, shape = stage, fill = stage), position = position_dodge(width = 0.2), fatten = 10, lwd = 0.2)+
+  geom_pointrange(aes(x = famsize, y = mean, ymin = mean-ci, ymax = mean+ci, shape = stage, fill = stage), position = position_dodge(width = 0.2))+
   
-  facet_wrap(~ifelse(data == "fams", "(a)", "(b)"), scales = "fixed")+
+  facet_wrap(~ifelse(data == "fams", "(a)", "(b)"), scales = "free")+
   labs(list(x = "Family size", y = "Distance to breeding grounds (km)"))+
   theme_pub()+
   theme(strip.text = element_text(face = "bold", hjust = 0, size = 12))+
   scale_shape_manual(values = c(21,22))+
   xlim(-0.1,7.5)+
   scale_fill_manual(values = c("white","grey", "black"))+
+  scale_y_continuous(breaks = c(2850,2900,2950))+
   coord_cartesian(ylim = c(2850,2950))
   
 dev.off()
@@ -90,6 +91,16 @@ dev.off()
 # Fig 4. Family siz
 
 ## Fig 4a. Obs data
+
+## get data
+```{r}
+#'use fambirds and geese
+pfam.pred = predict(famprop.mod, type = "response", allow.new.levels = T, newdata = fambirds)
+pfamjuvs.pred = predict(famjuvprop.mod, type = "response", allow.new.levels = T, newdata = fambirds)
+
+#'get predicted values
+fig5data1 = fambirds %>% mutate(pfam.pred, pfamjuvs.pred) %>% select(t_since_in, pfam.pred, pfamjuvs.pred) %>% mutate(days = round_any(t_since_in, 10)) %>% select(-t_since_in) %>% melt(id.vars = "days") %>% group_by(days, variable) %>% summarise(mean = mean(value, na.rm = T), sd = sd(value, na.rm = T), n = length(value)) %>% mutate(ci = qnorm(0.975)*sd/sqrt(n))
+```
 
 ```{r model_preds_mod03}
 #'get model responses
@@ -106,7 +117,7 @@ fig3data = fams.expand %>%
   dplyr::select(data, t_since_in, fsizepred) %>% 
   rbind(geeseorg %>% select(data,t_since_in, fsizepred)) %>% 
   filter(t_since_in <= 200) %>% 
-  group_by(data, days = cut(t_since_in, breaks = seq(0,180,10))) %>% 
+  group_by(data, days = round_any(t_since_in, 10)) %>% 
   summarise(mean = mean(fsizepred,na.rm=T), sd = sd(fsizepred), n = length(fsizepred)) %>%
   mutate(ci = qnorm(0.975)*sd/sqrt(n))
 
@@ -121,20 +132,18 @@ fig3data2 = fams.expand %>%
 ```
 
 ```{r export_fam_time}
-
-fig3a=
+fig4a=
 fig3data %>%  
 ggplot()+
-  geom_smooth(data = fig3data, aes(x = days, y = mean, lty = data), lwd = 0.5, col = 1, method = "glm")+
+  geom_smooth(data = fig3data, aes(x = days, y = mean, lty = data), lwd = 0.5, col = 1, method = "glm", fill = "grey80")+
   
-  geom_pointrange(data = fig3data, aes(x = days, y = mean, ymin = mean - ci, ymax = mean + ci, shape = data, fill = data), fatten = 10, stroke = 0.6, lwd = 0.2, position = position_dodge(width = 5))+
+  geom_pointrange(data = fig3data, aes(x = days, y = mean, ymin = mean - ci, ymax = mean + ci, shape = data), fill = "white", position = position_dodge(width = 5))+
   
-  geom_smooth(data = fig5data1 %>% filter(variable == "pfamjuvs.pred"),
-  aes(x = days, y = (1 - mean)*4), col = 1, lty = 4, method = "glm", lwd = 0.5)+
+  geom_smooth(data = fig5data1 %>% filter(variable == "pfamjuvs.pred"), aes(x = days, y = (1 - mean)*4), col = 1, lty = 2, method = "glm", lwd = 0.5, fill = "grey80")+
   
-  geom_pointrange(data = fig5data1 %>% filter(variable == "pfamjuvs.pred"), aes(x = days, y = (1 - mean)*4, ymin = (1 - mean-ci)*4, ymax = (1-mean+ci)*4), stroke = 0.6, lwd = 0.2, fatten = 10, shape = 24, fill = "white")+
+  geom_pointrange(data = fig5data1 %>% filter(variable == "pfamjuvs.pred"), aes(x = days, y = (1 - mean)*4, ymin = (1 - mean-ci)*4, ymax = (1-mean+ci)*4), shape = 24, fill = "white")+
   
-  scale_y_continuous(sec.axis = sec_axis(~.*0.5, name = "Proportion indepent juveniles"))+
+  scale_y_continuous(sec.axis = sec_axis(~.*0.5, name = "Proportion indepent juveniles", labels = percent(seq(0,1,0.25))))+
   
   scale_shape_manual(values=c(21,22))+
   scale_fill_manual(values = c("black", "grey"))+
@@ -142,7 +151,6 @@ ggplot()+
   xlim(0,180)+
   theme_pub()
 
-dev.off()
 ```
 
 ## Fig 4b. GPS data
@@ -162,20 +170,21 @@ splits["13",8] = "split"
 # %>% #filter(fam %in% c("Ev","Wo","Ha","Na","Ti","Ma","Ro","An","Jo"))
          
 
-fig3b = 
-ggplot(data = splits %>% filter(fam %in% c("Ev","Wo","Ha","Na","Ti","Ma","Ro","An","Jo")))+
-  geom_line(aes(x = t_since_in, y= juvs, group = fam), lty = 1)+
-  geom_point(aes(x = t_since_in, y = juvs, shape = event), fill = "grey", size = 2)+
-  
-  scale_shape_manual(values = c(16, 24, 21))+
-  #scale_colour_manual(values = grey.colors(13, 0.1, 0.5))+
+data = splits %>% filter(fam %in% c("Ev","Wo","Ha","Na","Ti","Ma","Ro","An","Jo"))
 
+fig4b = 
+ggplot(data)+
+  geom_line(aes(x = t_since_in, y= juvs, group = fam), lty = 1, lwd = 0.4)+
+  geom_point(aes(x = t_since_in, y = juvs), shape = 21, fill = "white")+
+  
+  scale_shape_manual(values = c(as.character(unique(data$fam))))+
+  
   theme_pub()+
-  scale_y_continuous(breaks= c(0:5))+
+  scale_y_continuous(breaks= c(0,3,5))+
   labs(list(x = "Days since arrival", y = "Family size", title = "(b)", shape = "Family", colour = "Family"))+
-  facet_wrap(~fam, scales = "free")+
+  facet_wrap(~fam, scales = "fixed", switch = "x")+
   coord_cartesian(ylim=c(0,5), xlim = c(30, 180))+
-  theme(legend.position = "none", legend.direction = "vertical",legend.key = element_blank(), strip.background = element_rect(fill = "grey90", colour = "transparent"), strip.text = element_text(face = "bold"))
+  theme(legend.position = "none", legend.direction = "vertical",legend.key = element_blank(), strip.background = element_rect(fill = "transparent", colour = "transparent"), strip.text = element_text(face = "bold", size = 8), plot.background = element_blank())
 
 #dev.off()
 ```
@@ -184,12 +193,12 @@ ggplot(data = splits %>% filter(fam %in% c("Ev","Wo","Ha","Na","Ti","Ma","Ro","A
 
 ```{r export fig3}
 #'export to ps
-cairo_ps(filename = "figs/fig4.eps", height = 5, width = 10)
+cairo_pdf(filename = "figs/fig4.pdf", height = 100/25.4, width = 180/25.4)
 
 #fig3a
 library(gridExtra)
 
-gridExtra::grid.arrange(fig3a, fig3b, ncol = 2, layout_matrix = cbind(1,1,1,2,2,2,2))
+gridExtra::grid.arrange(fig4a, fig4b, ncol = 2)
 
 dev.off()
 ```
@@ -260,11 +269,13 @@ fig5cdata = geese %>%
 #'get fig6a
 fig6b = 
   ggplot()+
-  geom_smooth(data = fig5data1 %>% filter(variable == "pfam.pred"), aes(x = days, y = mean), se =T, method = "glm", col = 1, lwd = 0.5)+
+  geom_smooth(data = fig5data1 %>% filter(variable == "pfam.pred"), aes(x = days, y = mean), se =T, method = "glm", col = 1, lwd = 0.5, fill = "grey80")+
   geom_pointrange(data = fig5data1 %>% filter(variable == "pfam.pred"), aes(x = days, y = mean, ymin = mean-ci, ymax = mean+ci), fill = "white", shape = 21)+
+  scale_y_continuous(breaks = c(0,0.2,0.4), labels = c(percent(c(0,.2,.4))))+
   
   facet_wrap(~variable)+
-  theme_pub()+theme(strip.text = element_blank())+
+  theme_pub()+
+  theme(strip.text = element_blank())+
   labs(list(x = "Days since arrival", y = "Family proportion of flock", title = "(b)"))
 ```
 
@@ -272,14 +283,14 @@ fig6b =
 #'get other figs
 fig6a = 
   ggplot(fig5data2 %>% filter(variable == "pfam.pred"))+
-  geom_ribbon(aes(x = flocksize, y = mean, ymin = mean -ci, ymax = mean+ci, group = variable), fill = "grey", lwd = 0.5)+
+  geom_ribbon(aes(x = flocksize, y = mean, ymin = mean -ci, ymax = mean+ci, group = variable), fill = "grey80", lwd = 0.5)+
   geom_line(aes(x = flocksize, y = mean, ymin = mean -ci, ymax = mean+ci, group = variable), lwd = 0.5)+
   
   geom_pointrange(aes(x = flocksize, y = mean, ymin = mean-ci, ymax = mean+ci), shape = 21, fill = "white")+
-  
-  #facet_wrap(~ifelse(variable == "pfam.pred", "(b)", "(c)"), scales = "free")+
+    ylim(0,NA)+
+  scale_y_continuous(breaks = c(0,.25,0.5), labels = c(percent(c(0,.25,.5))))+
   coord_cartesian(xlim = c(0,2500))+
-  ylim(0,NA)+
+
   labs(list(x = "Flock size", y = "Family proportion of flock", title = "(a)"))+
   theme_pub()+theme(strip.text = element_text(face = "bold", hjust = 0))
 ```
@@ -287,12 +298,12 @@ fig6a =
 ```{r}
 fig6d = 
   ggplot()+
-  geom_smooth(data = fig5cdata %>% filter(variable == "pjuv"), aes(x = t_since_in, y = mean, ymin = mean -ci, ymax = mean+ci, group = variable), fill = "grey", lwd = 0.5, col = 1, method = "glm")+
+  geom_smooth(data = fig5cdata %>% filter(variable == "pjuv"), aes(x = t_since_in, y = mean), fill = "grey80", lwd = 0.5, col = 1, method = "glm")+
   #geom_line(aes(x = flocksize, y = mean, ymin = mean -ci, ymax = mean+ci, group = variable), lwd = 0.5)+
   
   geom_pointrange(data = fig5cdata %>% filter(variable == "propjuv"), aes(x = t_since_in, y = mean, ymin = mean-ci, ymax = mean+ci), shape = 21, fill = "white")+
   
-  #facet_wrap(~ifelse(variable == "pfam.pred", "(b)", "(c)"), scales = "free")+
+  scale_y_continuous(breaks = seq(0.15,0.35,0.1), labels = c(percent(seq(0.15,0.35,0.1))))+
   coord_cartesian(xlim = c(0,180), ylim = c(0.125,0.35))+
   labs(list(x = "Days since arrival", y = "Proportion of juveniles", title = "(d)"))+
   theme_pub()+theme(strip.text = element_text(face = "bold", hjust = 0))
@@ -301,13 +312,14 @@ fig6d =
   
 fig6c = 
   ggplot(fig5data2 %>% filter(variable == "a"))+
-  geom_smooth(aes(x = flocksize, y = mean, ymin = mean -ci, ymax = mean+ci, group = variable), fill = "grey", lwd = 0.5, col = 1, method = "loess")+
+  geom_smooth(aes(x = flocksize, y = mean, ymin = mean -ci, ymax = mean+ci, group = variable), fill = "grey80", lwd = 0.5, col = 1, method = "loess")+
   #geom_line(aes(x = flocksize, y = mean, ymin = mean -ci, ymax = mean+ci, group = variable), lwd = 0.5)+
   
   geom_pointrange(aes(x = flocksize, y = mean, ymin = mean-ci, ymax = mean+ci), shape = 21, fill = "white")+
   
   #facet_wrap(~ifelse(variable == "pfam.pred", "(b)", "(c)"), scales = "free")+
-  coord_cartesian(xlim = c(0,2100), ylim = c(0,0.6))+
+  coord_cartesian(xlim = c(0,2100), ylim = c(0,0.5))+
+  scale_y_continuous(breaks = seq(0,0.5,0.25), labels = c(percent(c(seq(0,0.5,0.25)))))+
   labs(list(x = "Flock size", y = "Proportion indpendent juveniles", title = "(c)"))+
   theme_pub()+theme(strip.text = element_text(face = "bold", hjust = 0))
 ```
@@ -316,7 +328,7 @@ fig6c =
 
 ```{r}
 #'export to eps
-cairo_pdf(filename = "figs/fig6.eps", height = 5, width = 8)
+cairo_pdf(filename = "figs/fig6.pdf", height = 180/25.4, width = 180/25.4)
 
 library(gridExtra)
 

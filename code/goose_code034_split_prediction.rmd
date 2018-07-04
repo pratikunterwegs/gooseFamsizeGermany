@@ -142,6 +142,7 @@ f6a =
   #geom_vline(data = famstats %>% filter(split == 1), aes(xintercept=days), col = 2, lty = 3)+
   geom_boxplot(data = famstats, aes(x = juvs, y = p, group = juvs), fill = "grey90", width = 0.5)+
   labs(list(x = "Family size", y= "Daily split probability", title = "(a)"))+
+  scale_y_continuous(labels = c(percent(seq(0,0.1, 0.025))))+
   theme_pub()+
   coord_cartesian(ylim=c(0,0.1))
 
@@ -162,7 +163,8 @@ f6b =
   labs(list(x = "Distance travelled/day (km)", y= "Daily split probability", title = "(b)"))+
   theme_pub()+
   coord_cartesian(ylim = c(0,0.15))+
-    scale_x_discrete(labels = c(seq(10, 80, 10), "90-100"))
+  scale_y_continuous(labels = c(percent(seq(0,0.15,0.05))))+
+  scale_x_discrete(labels = c(seq(10, 80, 10), "90-100"))
 
 dev.off()
 ```
@@ -171,7 +173,7 @@ dev.off()
 # Export png
 
 ```{r}
-cairo_ps(filename = "figs/fig5.eps", height = 4, width = 6)
+cairo_pdf(filename = "figs/fig5.pdf", height = 85/25.4, width = 180/25.4)
 
 gridExtra::grid.arrange(f6a, f6b, ncol = 2)
 
