@@ -73,13 +73,13 @@ mod.site.posthoc = posthoc.kruskal.nemenyi.test(x = data2016$famsize, g = data20
 
 ```{r plot_mod.site, include=FALSE}
 #'plot
-cairo_pdf(filename = "figs/fig2.pdf", width = 85/25.4, height = 85/25.4)
+cairo_ps(filename = "figs/fig2.eps", width = 84/25.4, height = 84/25.4, pointsize = 8, family = "arial", fallback_resolution = 300)
 
 data2016 %>% group_by(site) %>% summarise(m = mean(famsize), sd = sd(famsize), n = length(famsize)) %>% mutate(ci = qnorm(0.975)*sd/sqrt(n)) %>% 
 
 ggplot()+
   geom_pointrange(aes(x = site, y =m, ymin = m-ci,
-                               ymax = m+ci), width = 0.1)+
+                               ymax = m+ci))+
   geom_point(aes(x = site, y = m))+
   labs(list(x = NULL, y = "Family size"))+
   scale_x_discrete(labels=NULL)+
