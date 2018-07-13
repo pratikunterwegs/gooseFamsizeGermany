@@ -150,11 +150,6 @@ juvprop.mod = bam(propjuv ~ sqrt(flocksize) + log(distkol) + sqrt(t_since_in) + 
 flocksize.mod = glmer(flocksize ~ sqrt(distkol) + log(t_since_in) + mintemp + (1|Observer)+ (1|Breeding_year), data = geese, family = "poisson")
 ```
 
-```{r juvprop_flocks}
-#'run for juvenile proportion of flocks
-```
-
-
 ```{r juvsclim}
 save(famprop.mod, famjuvprop.mod, juvprop.mod, flocksize.mod, fambirds, geese, geeseorg,file = "generated_data/mods_flocklevel.rdata")
 ```
