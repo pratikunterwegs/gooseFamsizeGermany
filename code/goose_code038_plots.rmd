@@ -7,7 +7,7 @@ editor_options:
 
 ```{r set_env, message=FALSE, echo=FALSE, warning=FALSE}
 #source libs
-source("libs.R"); source("ggplot.pub_geese.r")
+source("libs.R"); source("ggplot.pub.r")
 
 #'load model libs
 library(mgcv);library(gamm4)
@@ -64,7 +64,7 @@ fig2data2 = fams.expand %>%
 ## plot fig 3
 
 ```{r export_distkol_fams1, eval = FALSE}
-cairo_ps(filename = "figs/fig3.eps", width = 174/25.4, height = 129/25.4, pointsize = 8, family = "arial", fallback_resolution = 300)
+cairo_pdf(filename = "figs/fig3.pdf", height = 85/25.4, width = 180/25.4)
 
 #'plot
 
@@ -88,7 +88,7 @@ ggplot()+
 dev.off()
 ```
 
-# Fig 4. Family size
+# Fig 4. Family siz
 
 ## Fig 4a. Obs data
 
@@ -184,7 +184,7 @@ ggplot(data)+
   labs(list(x = "Days since arrival", y = "Family size", title = "(b)", shape = "Family", colour = "Family"))+
   facet_wrap(~fam, scales = "fixed", switch = "x")+
   coord_cartesian(ylim=c(0,5), xlim = c(30, 180))+
-  theme(legend.position = "none", legend.direction = "vertical",legend.key = element_blank(), strip.background = element_rect(fill = "grey80", colour = "transparent"), strip.text = element_text(face = "bold", size = 8), plot.background = element_blank())
+  theme(legend.position = "none", legend.direction = "vertical",legend.key = element_blank(), strip.background = element_rect(fill = "transparent", colour = "transparent"), strip.text = element_text(face = "bold", size = 8), plot.background = element_blank())
 
 #dev.off()
 ```
@@ -193,7 +193,7 @@ ggplot(data)+
 
 ```{r export fig3}
 #'export to ps
-cairo_ps(filename = "figs/fig4.eps", width = 174/25.4, height = 129/25.4, pointsize = 8, family = "arial", fallback_resolution = 300)
+cairo_pdf(filename = "figs/fig4.pdf", height = 100/25.4, width = 180/25.4)
 
 #fig3a
 library(gridExtra)
@@ -328,7 +328,7 @@ fig6c =
 
 ```{r}
 #'export to eps
-cairo_ps(filename = "figs/fig6.eps", width = 174/25.4, height = 174/25.4, pointsize = 8, family = "arial", fallback_resolution = 300)
+cairo_pdf(filename = "figs/fig6.pdf", height = 180/25.4, width = 180/25.4)
 
 library(gridExtra)
 
