@@ -85,7 +85,7 @@ ggplot()+
   scale_x_discrete(labels=NULL)+
   scale_y_continuous(breaks = seq(0.5, 2.5, 1))+
   geom_text(aes(x = c(1.1,2.1,2.9), y = m), 
-            label = c("Kolguyev Island","Dataset B \n (Flock counts)","Dataset C \n (Neckband resightings)"),
+            label = c("Dataset A \n Kolguyev Island","Dataset B \n (Flock counts)","Dataset C \n (Neckband resightings)"),
             hjust = c("inward", "left", "inward"), size = 3)+
   theme_pub()+
   theme(axis.text.x = element_blank(), axis.ticks.x = element_blank())
