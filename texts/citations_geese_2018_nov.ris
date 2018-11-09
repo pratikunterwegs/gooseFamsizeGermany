@@ -1,0 +1,2546 @@
+TY  - BOOK
+T1  - move: Visualizing and Analyzing Animal Track Data
+A1  - Kranstauber, Bart
+A1  - Smolla, Marco
+Y1  - 2016///
+UR  - https://cran.r-project.org/package=move
+N1  - From Duplicate 2 (move: Visualizing and Analyzing Animal Track Data - Kranstauber, Bart; Smolla, Marco)
+
+R package version 2.1.0
+N2  - and statistically analyze animal movement data, among others functions to calculate dynamic Brownian Bridge Movement Models. Move helps addressing movement ecology questions.
+ER  - 
+TY  - BOOK
+T1  - Generalized Additive Models: An Introduction with R
+A1  - Wood, Simon N
+A1  - Maindonald, John
+A1  - Wood, Simon N
+Y1  - 2006///
+KW  - Linear models (Statistics)
+KW  - R (Computer program language) Mathematical models.
+KW  - Random walks (Mathematics)
+PB  - Chapman and Hall/CRC
+JF  - Texts in statistical science
+VL  - 16
+ET  - 2
+IS  - Book Review 3
+SP  - xvii, 392 p.
+EP  - xvii, 392 p.
+SN  - 1584884746 (acid-free paper)\r9781584884743 (acid-free paper)
+DO  - 10.18637/jss.v016.b03
+UR  - http://www.jstatsoft.org/index.php/jss/article/view/v016b03/v16b03.pdf
+UR  - http://catdir.loc.gov/catdir/enhancements/fy0702/2006040209-d.html%5Cnhttp://bvbr.bib-bvb.de:8991/F?func=service&doc_library=BVB01&doc_number=014829960&line_number=0001&func_code=DB_RE
+N2  - Abstracts not available for BookReviews
+ER  - 
+TY  - JOUR
+T1  - Fitting Linear Mixed-Effects Models Using {lme4}
+A1  - Bates, Douglas
+A1  - Mächler, Martin
+A1  - Bolker, Ben
+A1  - Walker, Steve
+Y1  - 2015///
+JF  - Journal of Statistical Software
+VL  - 67
+IS  - 1
+SP  - 1
+EP  - 48
+SN  - %(
+DO  - 10.18637/jss.v067.i01
+UR  - http://arxiv.org/abs/1406.5823
+N2  - Maximum likelihood or restricted maximum likelihood (REML) estimates of the parameters in linear mixed-effects models can be determined using the lmer function in the lme4 package for R. As for most model-fitting functions in R, the model is described in an lmer call by a formula, in this case including both fixed- and random-effects terms. The formula and data together determine a numerical representation of the model from which the profiled deviance or the profiled REML criterion can be evaluated as a function of some of the model parameters. The appropriate criterion is optimized, using one of the constrained optimization functions in R, to provide the parameter estimates. We describe the structure of the model, the steps in evaluating the profiled deviance or REML criterion, and the structure of classes or types that represents such a model. Sufficient detail is included to allow specialization of these structures by users who wish to write functions to fit specialized linear mixed models, such as models incorporating pedigrees or smoothing splines, that are not easily expressible in the formula language used by lmer.
+ER  - 
+TY  - JOUR
+T1  - Highly dynamic wintering strategies in migratory geese: Coping with environmental change
+A1  - Clausen, Kevin K.
+A1  - Madsen, Jesper
+A1  - Cottaar, Fred
+A1  - Kuijken, Eckhart
+A1  - Verscheure, Christine
+Y1  - 2018/07//
+KW  - land use change
+KW  - migration
+KW  - philopatry
+KW  - pink‐footed geese
+KW  - site use
+KW  - waterfowl
+PB  - Wiley/Blackwell (10.1111)
+JF  - Global Change Biology
+VL  - 24
+IS  - 7
+SP  - 3214
+EP  - 3225
+DO  - 10.1111/gcb.14061
+UR  - http://doi.wiley.com/10.1111/gcb.14061
+L1  - file:///home/pratik/.local/share/data/Mendeley Ltd./Mendeley Desktop/Downloaded/Clausen et al. - 2018 - Highly dynamic wintering strategies in migratory geese Coping with environmental change.pdf
+ER  - 
+TY  - CHAP
+T1  - The ecology and evolution of avian migration systems
+A1  - Gauthreaux, Sidney A
+Y1  - 1982///
+PB  - Elsevier
+JF  - Avian biology, volume VI
+SP  - 93
+EP  - 168
+ER  - 
+TY  - JOUR
+T1  - Rough-Legged Buzzards, Arctic Foxes and Red Foxes in a Tundra Ecosystem without Rodents
+A1  - Pokrovsky, Ivan
+A1  - Ehrich, Dorothée
+A1  - Ims, Rolf A.
+A1  - Kondratyev, Alexander V.
+A1  - Kruckenberg, Helmut
+A1  - Kulikova, Olga
+A1  - Mihnevich, Julia
+A1  - Pokrovskaya, Liya
+A1  - Shienok, Alexander
+ED  - Eklöv, Peter
+Y1  - 2015/02//
+PB  - Public Library of Science
+JF  - PLOS ONE
+VL  - 10
+IS  - 2
+SP  - e0118740
+EP  - e0118740
+DO  - 10.1371/journal.pone.0118740
+UR  - http://dx.plos.org/10.1371/journal.pone.0118740
+L1  - file:///home/pratik/.local/share/data/Mendeley Ltd./Mendeley Desktop/Downloaded/Pokrovsky et al. - 2015 - Rough-Legged Buzzards, Arctic Foxes and Red Foxes in a Tundra Ecosystem without Rodents.pdf
+N2  - Small rodents with multi-annual population cycles strongly influence the dynamics of food webs, and in particular predator-prey interactions, across most of the tundra biome. Rodents are however absent from some arctic islands, and studies on performance of arctic predators under such circumstances may be very instructive since rodent cycles have been predicted to collapse in a warming Arctic. Here we document for the first time how three normally rodent-dependent predator species—rough-legged buzzard, arctic fox and red fox – perform in a low-arctic ecosystem with no rodents. During six years (in 2006-2008 and 2011-2013) we studied diet and breeding performance of these predators in the rodent-free Kolguev Island in Arctic Russia. The rough-legged buzzards, previously known to be a small rodent specialist, have only during the last two decades become established on Kolguev Island. The buzzards successfully breed on the island at stable low density, but with high productivity based on goslings and willow ptarmigan as their main prey – altogether representing a novel ecological situation for this species. Breeding density of arctic fox varied from year to year, but with stable productivity based on mainly geese as prey. The density dynamic of the arctic fox appeared to be correlated with the date of spring arrival of the geese. Red foxes breed regularly on the island but in very low numbers that appear to have been unchanged over a long period – a situation that resemble what has been recently documented from Arctic America. Our study suggests that the three predators found breeding on Kolguev Island possess capacities for shifting to changing circumstances in low-arctic ecosystem as long as other small - medium sized terrestrial herbivores are present in good numbers.
+ER  - 
+TY  - JOUR
+T1  - SURVIVAL OF YOUNG GREATER SNOW GEESE (CHEN CAERULESCENS ATLANTICA) DURING FALL MIGRATION
+A1  - Menu, Stéphane
+A1  - Gauthier, Gilles
+A1  - Reed, Austin
+Y1  - 2009/01//
+KW  - Chen caerulescens atlantica
+KW  - Greater Snow Geese
+KW  - migration
+KW  - survival
+KW  - young
+JF  - http://dx.doi.org/10.1642/0004-8038(2005)122[0479:SOYGSG]2.0.CO;2
+DO  - 10.1642/0004-8038(2005)122[0479:SOYGSG]2.0.CO;2
+UR  - http://www.bioone.org/doi/abs/10.1642/0004-8038%282005%29122%5B0479%3ASOYGSG%5D2.0.CO%3B2
+N2  - Abstract The many hazards that await birds along their migratory routes may negatively affect their survival, especially among newly fledged young. We estimated survival of young Greater Snow Geese (Chen caerulescens atlantica) during fall migration from the High Arctic to temperate areas and examined factors affecting their survival over a five-year period, using two approaches. First, each year (1993–1997), we banded fledglings and adults in mid-August, just before their departure from Bylot Island in the High Arctic (Nunavut, Canada), and again at an important staging area 3,000 km to the south at the Cap Tourmente National Wildlife Area (Québec, Canada) in October; recovery data from those two banding periods allowed estimation of survival during fall migration. Second, we visually determined brood size of neck-banded females before and after the main portion of the migratory flight, to estimate survival of young. The two approaches yielded similar survival estimates and showed the same interannual va...
+ER  - 
+TY  - BOOK
+T1  - Wildfowl.
+A1  - Wildfowl Trust., Martin
+A1  - Wildfowl & Wetlands Trust., Martin
+A1  - Berg, Leo van den
+A1  - Ebbinge, Barwolt
+A1  - Haperen, Anton van
+A1  - Philippona, Jules
+A1  - Prop, Jouke
+A1  - Azn, Arend Timmerman
+Y1  - 1992/01//
+PB  - Wildfowl Trust
+JF  - Wildfowl
+VL  - 43
+IS  - 43
+SP  - 107
+EP  - 116
+UR  - https://wildfowl.wwt.org.uk/index.php/wildfowl/article/view/892
+ER  - 
+TY  - JOUR
+T1  - The greater snow goose Anser caerulescens atlanticus: Managing an overabundant population
+A1  - Lefebvre, Josée
+A1  - Gauthier, Gilles
+A1  - Giroux, Jean-François
+A1  - Reed, Austin
+A1  - Reed, Eric T.
+A1  - Bélanger, Luc
+Y1  - 2017/03//
+PB  - Springer Netherlands
+JF  - Ambio
+VL  - 46
+IS  - S2
+SP  - 262
+EP  - 274
+DO  - 10.1007/s13280-016-0887-1
+UR  - http://link.springer.com/10.1007/s13280-016-0887-1
+L1  - file:///home/pratik/.local/share/data/Mendeley Ltd./Mendeley Desktop/Downloaded/Lefebvre et al. - 2017 - The greater snow goose Anser caerulescens atlanticus Managing an overabundant population.pdf
+ER  - 
+TY  - JOUR
+T1  - Structure and Causation of the Dominance Hierarchy in a Flock of Bar-Headed Geese (Anser Indicus)
+A1  - Lamprecht, JÜRG
+Y1  - 1986/01//
+PB  - Brill
+JF  - Behaviour
+VL  - 96
+IS  - 1
+SP  - 28
+EP  - 48
+DO  - 10.1163/156853986X00207
+UR  - http://booksandjournals.brillonline.com/content/journals/10.1163/156853986x00207
+N2  - In a flock of tame, free-flying bar-headed geese <i>(Anser indicus)</i> the structure, stability and causes of the dominance hierarchy among different types of social units were studied. 1. In accordance with field results of other authors, families proved dominant over pairs, pairs over unpaired birds, and single males dominated single females. Single females with young ranked between families and pairs in this study, and lone breeding males whose females were incubating ranked between pairs and unpaired individuals. Contrary to some field studies, no rank differences were found between different-sized families. 2. The dominance value of pairs in winter correlated with subsequent fledging success, and there was some casual evidence that high-ranking males are more likely to obtain a mate. This would result in relating high rank to families, medium rank to pairs and low rank to unpaired birds. Yet as temporarily leaving the mate was promptly followed by a drop in rank and successful breeding by a rise in rank, the social context seems a major cause, and only to a minor extent a consequence of dominance rank. 3. Age correlated more strongly with a pair&apos;s rank in winter than weight, tarsus length and upper beak length. Rank in summer correlated highly with rank in the following winter. A positive feedback system age - dominance - fledging success-higher dominance-fledging success&apos; is suggested which could account for the &apos;delayed breeding&apos; common in geese and swans. 4. In pairs or families male age correlated more strongly than female age with winter dominance. Most opponents were displayed by the male alone, and only the male of a pair got involved in highest intensity aggression (wing-beat fighting). The widowed female of one high-ranking pair was low-ranking in subsequent years when paired with a young low-ranking male. The evidence suggests that the gander alone determines a family&apos;s or pair&apos;s rank. 5. There was no indication of a positive co-operative effect achieved by joint aggression. Comparison of frequencies of aggressive acts and postures between birds in different social contexts suggested that the presence of the mate and/or offspring increases fighting motivation, thus explaining the dependence of rank on the social context. 6. The stability of dyadic dominance relationships between social units was greater between than within social classes. The hierarchy of social classes can be explained by geese signalling their degree of fighting motivation to each other. Individual recognition of members of other social units seems of minor importance for the hierarchy even in this stable flock.
+ER  - 
+TY  - JOUR
+T1  - Towards a new understanding of migration timing: slower spring than autumn migration in geese reflects different decision rules for stopover use and departure
+A1  - Kölzsch, Andrea
+A1  - Müskens, Gerhard J. D. M.
+A1  - Kruckenberg, Helmut
+A1  - Glazov, Peter
+A1  - Weinzierl, Rolf
+A1  - Nolet, Bart A.
+A1  - Wikelski, Martin
+Y1  - 2016/10//
+PB  - Wiley/Blackwell (10.1111)
+JF  - Oikos
+VL  - 125
+IS  - 10
+SP  - 1496
+EP  - 1507
+DO  - 10.1111/oik.03121
+UR  - http://doi.wiley.com/10.1111/oik.03121
+L1  - file:///home/pratik/.local/share/data/Mendeley Ltd./Mendeley Desktop/Downloaded/Kölzsch et al. - 2016 - Towards a new understanding of migration timing slower spring than autumn migration in geese reflects different.pdf
+ER  - 
+TY  - JOUR
+T1  - Autumn survival inferred from wing age ratios: Wigeon juvenile survival half that of adults at best?
+A1  - Guillemain, Matthieu
+A1  - Fox, Anthony D.
+A1  - Pöysä, Hannu
+A1  - Väänänen, Veli-Matti
+A1  - Christensen, Thomas Kjær
+A1  - Triplet, Patrick
+A1  - Schricke, Vincent
+A1  - Korner-Nievergelt, Fränzi
+Y1  - 2013/04//
+PB  - Springer-Verlag
+JF  - Journal of Ornithology
+VL  - 154
+IS  - 2
+SP  - 351
+EP  - 358
+DO  - 10.1007/s10336-012-0899-y
+UR  - http://link.springer.com/10.1007/s10336-012-0899-y
+L1  - file:///home/pratik/.local/share/data/Mendeley Ltd./Mendeley Desktop/Downloaded/Guillemain et al. - 2013 - Autumn survival inferred from wing age ratios Wigeon juvenile survival half that of adults at best.pdf
+ER  - 
+TY  - JOUR
+T1  - Impact of hunting along the migration corridor of pink-footed geese <i>Anser brachyrhynchus</i> - implications for sustainable harvest management
+A1  - Clausen, Kevin Kuhlmann
+A1  - Christensen, Thomas Kjaer
+A1  - Gundersen, Ove Martin
+A1  - Madsen, Jesper
+ED  - Thompson, Des
+Y1  - 2017/10//
+KW  - age ratio bias
+KW  - geese
+KW  - harvest rate
+KW  - hunting
+KW  - population management
+KW  - survival
+KW  - sustainable harvest
+KW  - waterfowl
+PB  - Wiley/Blackwell (10.1111)
+JF  - Journal of Applied Ecology
+VL  - 54
+IS  - 5
+SP  - 1563
+EP  - 1570
+DO  - 10.1111/1365-2664.12850
+UR  - http://doi.wiley.com/10.1111/1365-2664.12850
+L1  - file:///home/pratik/.local/share/data/Mendeley Ltd./Mendeley Desktop/Downloaded/Clausen et al. - 2017 - Impact of hunting along the migration corridor of pink-footed geese iAnser brachyrhynchusi - implications for su.pdf
+ER  - 
+TY  - JOUR
+T1  - The effect of'Schreckstoff'on the shoaling behaviour of the minnow: a test of Hamilton's selfish herd theory
+A1  - Krause, Jens
+Y1  - 1993///
+PB  - Elsevier
+JF  - Animal Behaviour
+VL  - 45
+IS  - 5
+SP  - 1019
+EP  - 1024
+ER  - 
+TY  - GEN
+T1  - geosphere: Spherical Trigonometry
+A1  - Hijmans, Robert J
+Y1  - 2016///
+UR  - https://cran.r-project.org/package=geosphere
+N1  - R package version 1.5-5
+ER  - 
+TY  - JOUR
+T1  - Food intake, body reserves and reproductive success of barnacle geese Branta leucopsis staging in different habitats
+A1  - Prop, Jouke
+A1  - Black, Jeffrey M
+Y1  - 1998///
+PB  - Norsk polarinstitutt
+JF  - Skrifter-Norsk Polarinstitutt
+SP  - 175
+EP  - 194
+ER  - 
+TY  - JOUR
+T1  - Inter-Family Dominance in {C}anada Geese
+A1  - Hanson, Harold C
+Y1  - 1953///
+PB  - American Ornithologists' Union
+JF  - The Auk
+VL  - 70
+IS  - 1
+SP  - 11
+EP  - 16
+UR  - http://www.jstor.org/stable/4081052
+ER  - 
+TY  - JOUR
+T1  - Environmental Influence on Life-History Traits: Growth, Survival, and Fecundity in Black Brant (\emph{{B}ranta {b}ernicla})
+A1  - Sedinger, James S
+A1  - Flint, Paul L
+A1  - Lindberg, Mark S
+Y1  - 1995///
+KW  - Alaska
+KW  - Black Brant
+KW  - Branta bernicla nigricans
+KW  - fecundity
+KW  - herbivore
+KW  - life history
+KW  - survival
+PB  - Ecological Society of America
+JF  - Ecology
+VL  - 76
+IS  - 8
+SP  - 2404
+EP  - 2414
+DO  - 10.2307/2265816
+UR  - http://dx.doi.org/10.2307/2265816
+ER  - 
+TY  - JOUR
+T1  - Breeding success amongst greater whitefronted geese in 2009/10--a progress report
+A1  - Koffijberg, Kees
+Y1  - 2010///
+JF  - Goose Bull. Nov
+VL  - 2010
+SP  - 32
+EP  - 34
+ER  - 
+TY  - JOUR
+T1  - Dominance relations and agonistic behaviour of Tundra Swans (Cygnus columbianus columbianus) during fall and spring migration
+A1  - Badzinski, Shannon S
+Y1  - 2003///
+JF  - Canadian Journal of Zoology
+VL  - 81
+IS  - 4
+SP  - 727
+EP  - 733
+DO  - 10.1139/z03-049
+UR  - http://dx.doi.org/10.1139/z03-049
+ER  - 
+TY  - JOUR
+T1  - Flight speeds and climb rates of Brent Geese: mass-dependent differences between spring and autumn migration
+A1  - Green, Martin
+A1  - Alerstam, Thomas
+Y1  - 2000///
+PB  - Munksgaard
+JF  - Journal of Avian Biology
+VL  - 31
+IS  - 2
+SP  - 215
+EP  - 225
+DO  - 10.1034/j.1600-048X.2000.310213.x
+UR  - http://dx.doi.org/10.1034/j.1600-048X.2000.310213.x
+ER  - 
+TY  - JOUR
+T1  - Population size, breeding success and distribution of Bewick's Swans Cygnus columbianus bewickii wintering in Europe in 1986-87
+A1  - Dirksen, Sjoerd
+A1  - Beekman, Jan
+Y1  - 2013///
+KW  - 0
+JF  - Wildfowl
+VL  - 0
+IS  - 0
+UR  - http://wildfowl.wwt.org.uk/index.php/wildfowl/article/view/1374
+ER  - 
+TY  - JOUR
+T1  - Foraging dynamics in goose flocks: the cost of living on the edge
+A1  - Black, Jeffrey M
+A1  - Carbone, Christopher
+A1  - Wells, R L
+A1  - Owen, Myrfyn
+Y1  - 1992///
+PB  - Elsevier
+JF  - Animal Behaviour
+VL  - 44
+IS  - 1
+SP  - 41
+EP  - 50
+ER  - 
+TY  - JOUR
+T1  - Numbers and distribution of grey geese (genus \emph{{A}nser}) in the {F}ederal {R}epublic of {G}ermany, with special reference to the {L}ower {R}hine region
+A1  - Mooij, Johan H
+Y1  - 1991///
+JF  - Ardea
+VL  - 79
+SP  - 125
+EP  - 134
+ER  - 
+TY  - JOUR
+T1  - Methods to account for spatial autocorrelation in the analysis of species distributional data: a review
+A1  - F. Dormann, Carsten
+A1  - M. McPherson, Jana
+A1  - B. Araújo, Miguel
+A1  - Bivand, Roger
+A1  - Bolliger, Janine
+A1  - Carl, Gudrun
+A1  - G. Davies, Richard
+A1  - Hirzel, Alexandre
+A1  - Jetz, Walter
+A1  - Daniel Kissling, W
+A1  - Kühn, Ingolf
+A1  - Ohlemüller, Ralf
+A1  - R. Peres-Neto, Pedro
+A1  - Reineking, Björn
+A1  - Schröder, Boris
+A1  - M. Schurr, Frank
+A1  - Wilson, Robert
+Y1  - 2007///
+PB  - Blackwell Publishing Ltd
+JF  - Ecography
+VL  - 30
+IS  - 5
+SP  - 609
+EP  - 628
+DO  - 10.1111/j.2007.0906-7590.05171.x
+UR  - http://dx.doi.org/10.1111/j.2007.0906-7590.05171.x
+ER  - 
+TY  - GEN
+T1  - Birds of the western Palearctic: handbook of the birds of Europe, the Middle East and North Africa. Vol. 9
+A1  - Cramp, S
+A1  - Simmons, K E L
+Y1  - 1977///
+PB  - Oxford: Oxford University Press
+ER  - 
+TY  - JOUR
+T1  - Extended Parent-Offspring Relationships in {G}reenland {W}hite-Fronted Geese (\emph{{A}nser {a}lbifrons {f}lavirostris})
+A1  - Warren, Stephanie M
+A1  - Fox, A D
+A1  - Walsh, Alyn
+A1  - O'Sullivan, Paddy
+Y1  - 1993///
+PB  - American Ornithologists' Union
+JF  - The Auk
+VL  - 110
+IS  - 1
+SP  - 145
+EP  - 148
+UR  - http://www.jstor.org/stable/4088245
+ER  - 
+TY  - JOUR
+T1  - Geometry for the selfish herd
+A1  - Hamilton, William D
+Y1  - 1971///
+PB  - Elsevier
+JF  - Journal of theoretical Biology
+VL  - 31
+IS  - 2
+SP  - 295
+EP  - 311
+ER  - 
+TY  - JOUR
+T1  - Behavioural structuring of relatedness in the spotted hyena (\emph{{C}rocuta {c}rocuta}) suggests direct fitness benefits of clan-level cooperation
+A1  - Van Horn, Russell C
+A1  - Engh, Anne L
+A1  - Scribner, Kim T
+A1  - Funk, Stephan M
+A1  - Holekamp, Kay E
+Y1  - 2004///
+KW  - Crocuta crocuta
+KW  - cooperation
+KW  - genetic structure
+KW  - microsatellites
+KW  - relatedness
+KW  - spotted hyenas
+PB  - Blackwell Science Ltd
+JF  - Molecular Ecology
+VL  - 13
+IS  - 2
+SP  - 449
+EP  - 458
+DO  - 10.1046/j.1365-294X.2003.02071.x
+UR  - http://dx.doi.org/10.1046/j.1365-294X.2003.02071.x
+ER  - 
+TY  - JOUR
+T1  - A general and simple method for obtaining R2 from generalized linear mixed-effects models
+A1  - Nakagawa, Shinichi
+A1  - Schielzeth, Holger
+Y1  - 2013///
+PB  - Wiley Online Library
+JF  - Methods in Ecology and Evolution
+VL  - 4
+IS  - 2
+SP  - 133
+EP  - 142
+ER  - 
+TY  - JOUR
+T1  - Huddling in groups leads to daily energy savings in free-living African Four-Striped Grass Mice, Rhabdomys pumilio
+A1  - SCANTLEBURY, M
+A1  - BENNETT, N C
+A1  - SPEAKMAN, J R
+A1  - PILLAY, N
+A1  - SCHRADIN, C
+Y1  - 2006///
+KW  - Daily energy expenditure
+KW  - doubly labelled water
+KW  - resting metabolic rate
+KW  - sociality
+KW  - thermoregulation
+PB  - Blackwell Publishing Ltd
+JF  - Functional Ecology
+VL  - 20
+IS  - 1
+SP  - 166
+EP  - 173
+DO  - 10.1111/j.1365-2435.2006.01074.x
+UR  - http://dx.doi.org/10.1111/j.1365-2435.2006.01074.x
+ER  - 
+TY  - JOUR
+T1  - Food exploitation by a winter flock of greylag geese: behavioral dynamics, competition and social status
+A1  - Kotrschal, Kurt
+A1  - Hemetsberger, Josef
+A1  - Dittami, John
+Y1  - 1993///
+PB  - Springer
+JF  - Behavioral Ecology and Sociobiology
+VL  - 33
+IS  - 5
+SP  - 289
+EP  - 295
+ER  - 
+TY  - JOUR
+T1  - Wann werden `die {Kleinen}' endlich erwachsen? {Untersuchungen zum Familienzusammenhalt farbmarkierter Blessgänse \emph{Anser albifrons albifrons}}
+A1  - Kruckenberg, Helmut
+Y1  - 2005///
+PB  - AULA-VERLAG WIESBADEN
+JF  - Vogelwelt
+VL  - 126
+IS  - 8
+SP  - 253
+EP  - 253
+ER  - 
+TY  - JOUR
+T1  - Parasitism and group size in social animals: a meta-analysis
+A1  - Côté, Isabelle M
+A1  - Poulinb, Robert
+Y1  - 1995///
+JF  - Behavioral Ecology
+VL  - 6
+IS  - 2
+SP  - 159
+EP  - 159
+DO  - 10.1093/beheco/6.2.159
+UR  - +
+UR  - http://dx.doi.org/10.1093/beheco/6.2.159
+ER  - 
+TY  - BOOK
+T1  - Ducks, geese, and swans of the world
+A1  - Johnsgard, Paul A
+Y1  - 1978///
+PB  - University of Nebraska Press Lincoln
+ER  - 
+TY  - GEN
+T1  - Europe
+A1  - Poulsen, Thomas M
+A1  - East, W Gordon
+Y1  - 2017/04//
+PB  - Encyclopædia Britannica, inc.
+JF  - Europe: Relief
+UR  - https://www.britannica.com/place/Europe
+ER  - 
+TY  - JOUR
+T1  - Sex-specific differences in winter distribution patterns of Canvasbacks
+A1  - Nichols, James D
+A1  - Haramis, G Michael
+Y1  - 1980///
+PB  - JSTOR
+JF  - Condor
+SP  - 406
+EP  - 416
+ER  - 
+TY  - JOUR
+T1  - Costs and benefits of flocking in foraging {W}hite-fronted geese ({\it {A}nser albifrons}): effects of resource depletion
+A1  - Amano, T
+A1  - Ushiyama, K
+A1  - Fujita, G
+A1  - Higuchi, H
+Y1  - 2006///
+KW  - Anser albifrons
+KW  - competition
+KW  - flock size
+KW  - food abundance
+KW  - vigilance
+PB  - Blackwell Publishing Ltd
+JF  - Journal of Zoology
+VL  - 269
+IS  - 1
+SP  - 111
+EP  - 115
+DO  - 10.1111/j.1469-7998.2006.00076.x
+UR  - http://dx.doi.org/10.1111/j.1469-7998.2006.00076.x
+ER  - 
+TY  - JOUR
+T1  - Indirect effects of lemming cycles on sandpiper dynamics: 50 years of counts from southern {S}weden
+A1  - Blomqvist, Sven
+A1  - Holmgren, Noél
+A1  - Åkesson, Susanne
+A1  - Hedenström, Anders
+A1  - Pettersson, Jan
+Y1  - 2002///
+PB  - Springer
+JF  - Oecologia
+VL  - 133
+IS  - 2
+SP  - 146
+EP  - 158
+ER  - 
+TY  - JOUR
+T1  - Conflict of choice within pairs of Bewick's swans regarding their migratory movement to and from the wintering grounds
+A1  - Rees, Eillen C
+Y1  - 1987///
+JF  - Animal Behaviour
+VL  - 35
+IS  - 6
+SP  - 1685
+EP  - 1693
+DO  - http://dx.doi.org/10.1016/S0003-3472(87)80061-1
+UR  - http://www.sciencedirect.com/science/article/pii/S0003347287800611
+ER  - 
+TY  - JOUR
+T1  - Delayed nesting by female Canada Geese (Branta canadensis): benefits and costs
+A1  - Conover, Michael R
+Y1  - 2012///
+PB  - BioOne
+JF  - The Auk
+VL  - 129
+IS  - 1
+SP  - 140
+EP  - 146
+ER  - 
+TY  - JOUR
+T1  - Role of the family in the formation of goose flocks
+A1  - Elder, William H
+A1  - Elder, Nina L
+Y1  - 1949///
+JF  - Wilson Bull
+VL  - 61
+IS  - 3
+SP  - 133
+EP  - 140
+ER  - 
+TY  - JOUR
+T1  - Lesser {S}now Geese and {R}oss's Geese form mixed flocks during winter but differ in family maintenance and social status
+A1  - Jónsson, Jón Einar
+A1  - Afton, Alan D
+Y1  - 2008///
+PB  - BioOne
+JF  - The Wilson Journal of Ornithology
+VL  - 120
+IS  - 4
+SP  - 725
+EP  - 731
+ER  - 
+TY  - JOUR
+T1  - From behavioural analyses to models of collective motion in fish schools
+A1  - Lopez, Ugo
+A1  - Gautrais, Jacques
+A1  - Couzin, Iain D
+A1  - Theraulaz, Guy
+Y1  - 2012///
+PB  - Royal Society
+JF  - Interface focus
+VL  - 2
+IS  - 6
+SP  - 693
+EP  - 707
+ER  - 
+TY  - JOUR
+T1  - Zur räumlichen Verteilung überwinternder Saat-und Bleßgänse (Anser fabalis und A. albifrons) in Abhängigkeit von naturschutzschädlichen und fördernden Einflüssen
+A1  - Gerdes, K
+A1  - Reepmeyer, H
+Y1  - 1983///
+JF  - Vogelwelt
+VL  - 104
+SP  - 54
+EP  - 67
+ER  - 
+TY  - JOUR
+T1  - Regrouping of Family Members of the {W}hite-{F}ronted goose ({\it {A}nser albifrons}) after Individual Release
+A1  - Miller, Harvey
+A1  - Dzubin, Alex
+Y1  - 1965///
+PB  - [Wiley, Association of Field Ornithologists]
+JF  - Bird-Banding
+VL  - 36
+IS  - 3
+SP  - 184
+EP  - 191
+UR  - http://www.jstor.org/stable/4511184
+ER  - 
+TY  - JOUR
+T1  - The genetical evolution of social behaviour. {I}
+A1  - Hamilton, W D
+Y1  - 1964///
+JF  - Journal of Theoretical Biology
+VL  - 7
+IS  - 1
+SP  - 1
+EP  - 16
+DO  - http://dx.doi.org/10.1016/0022-5193(64)90038-4
+UR  - http://www.sciencedirect.com/science/article/pii/0022519364900384
+ER  - 
+TY  - JOUR
+T1  - Fast stable direct fitting and smoothness selection for generalized additive models
+A1  - Wood, Simon N
+Y1  - 2008///
+PB  - Wiley Online Library
+JF  - Journal of the Royal Statistical Society: Series B (Statistical Methodology)
+VL  - 70
+IS  - 3
+SP  - 495
+EP  - 518
+ER  - 
+TY  - JOUR
+T1  - Key actions towards the sustainable management of European geese
+A1  - Stroud, David A
+A1  - Madsen, Jesper
+A1  - Fox, Anthony D
+Y1  - 2017///
+PB  - Springer
+JF  - Ambio
+VL  - 46
+IS  - 2
+SP  - 328
+EP  - 338
+ER  - 
+TY  - JOUR
+T1  - The ties that bind: genetic relatedness predicts the fission and fusion of social groups in wild {A}frican elephants
+A1  - Archie, Elizabeth A
+A1  - Moss, Cynthia J
+A1  - Alberts, Susan C
+Y1  - 2006///
+PB  - The Royal Society
+JF  - Proceedings of the Royal Society of London B: Biological Sciences
+VL  - 273
+IS  - 1586
+SP  - 513
+EP  - 522
+DO  - 10.1098/rspb.2005.3361
+UR  - http://rspb.royalsocietypublishing.org/content/273/1586/513
+ER  - 
+TY  - JOUR
+T1  - Differences in Nutrient Requirements Imply a Non-Linear Emergence of Leaders in Animal Groups
+A1  - Sueur, Cédric
+A1  - Deneubourg, Jean-Louis
+A1  - Petit, Odile
+A1  - Couzin, Iain D
+Y1  - 2010///
+PB  - Public Library of Science
+JF  - PLOS Computational Biology
+VL  - 6
+IS  - 9
+SP  - 1
+EP  - 9
+DO  - 10.1371/journal.pcbi.1000917
+UR  - http://dx.doi.org/10.1371%2Fjournal.pcbi.1000917
+ER  - 
+TY  - JOUR
+T1  - Self-organization of front patterns in large wildebeest herds
+A1  - Gueron, Shay
+A1  - Levin, Simon A
+Y1  - 1993///
+PB  - Elsevier
+JF  - Journal of theoretical Biology
+VL  - 165
+IS  - 4
+SP  - 541
+EP  - 552
+ER  - 
+TY  - JOUR
+T1  - The geese of Europe and Asia
+A1  - Alphéraky, S
+Y1  - 1904///
+JF  - Translated version, London
+ER  - 
+TY  - JOUR
+T1  - Keeping up with early springs: rapid range expansion in an avian herbivore incurs a mismatch between reproductive timing and food supply
+A1  - van der Jeugd, Henk P
+A1  - Eichhorn, GÖTZ
+A1  - LITVIN, KONSTANTIN E
+A1  - STAHL, JULIA
+A1  - LARSSON, KJELL
+A1  - VAN DER GRAAF, ALEXANDRA J
+A1  - DRENT, RUDI H
+Y1  - 2009///
+KW  - adaptation
+KW  - global change
+KW  - latitude
+KW  - migration
+KW  - range expansion
+KW  - survival
+KW  - timing of reproduction
+PB  - Blackwell Publishing Ltd
+JF  - Global Change Biology
+VL  - 15
+IS  - 5
+SP  - 1057
+EP  - 1071
+DO  - 10.1111/j.1365-2486.2008.01804.x
+UR  - http://dx.doi.org/10.1111/j.1365-2486.2008.01804.x
+ER  - 
+TY  - JOUR
+T1  - Long-Term Changes in Survival Rates of Lesser Snow Geese
+A1  - Francis, Charles M
+A1  - Richards, Miriam H
+A1  - Cooke, Fred
+A1  - Rockwell, Robert F
+Y1  - 1992///
+PB  - Ecological Society of America
+JF  - Ecology
+VL  - 73
+IS  - 4
+SP  - 1346
+EP  - 1362
+DO  - 10.2307/1940681
+UR  - http://dx.doi.org/10.2307/1940681
+ER  - 
+TY  - BOOK
+T1  - Evolution of {S}ocial {I}nsect {C}olonies
+A1  - Crozier, Rossiter Henry
+A1  - Pamilo, Pekka
+Y1  - 1996///
+PB  - Oxford University Press, Oxford, UK
+ER  - 
+TY  - JOUR
+T1  - Monitoring least weasels after a winter peak of lemmings in {T}aimyr: body condition, diet and habitat use
+A1  - Feige, Nicole
+A1  - Ehrich, Dorothee
+A1  - Popov, Igor Y
+A1  - Broekhuizen, Sim
+Y1  - 2012///
+PB  - JSTOR
+JF  - Arctic
+SP  - 273
+EP  - 282
+ER  - 
+TY  - JOUR
+T1  - Why individual vigilance declines as group size increases
+A1  - Roberts, Gilbert
+Y1  - 1996///
+PB  - Elsevier
+JF  - Animal behaviour
+VL  - 51
+IS  - 5
+SP  - 1077
+EP  - 1086
+ER  - 
+TY  - JOUR
+T1  - Direct and inverse solutions of geodesics on the ellipsoid with application of nested equations
+A1  - Vincenty, Thaddeus
+Y1  - 1975///
+PB  - Taylor & Francis
+JF  - Survey review
+VL  - 23
+IS  - 176
+SP  - 88
+EP  - 93
+ER  - 
+TY  - JOUR
+T1  - Collective states, multistability and transitional behavior in schooling fish
+A1  - Tunstrøm, Kolbjørn
+A1  - Katz, Yael
+A1  - Ioannou, Christos C
+A1  - Huepe, Cristián
+A1  - Lutz, Matthew J
+A1  - Couzin, Iain D
+Y1  - 2013///
+PB  - Public Library of Science
+JF  - PLoS Comput Biol
+VL  - 9
+IS  - 2
+SP  - e1002915
+EP  - e1002915
+ER  - 
+TY  - JOUR
+T1  - The impact of roads on the densities of four bird species in an open field habitat—evidence of a long-distance effect
+A1  - der Zande, A N
+A1  - Ter Keurs, W J
+A1  - der Weijden, W J
+Y1  - 1980///
+PB  - Elsevier
+JF  - Biological conservation
+VL  - 18
+IS  - 4
+SP  - 299
+EP  - 321
+ER  - 
+TY  - JOUR
+T1  - Faltering lemming cycles reduce productivity and population size of a migratory {A}rctic goose species
+A1  - Nolet, Bart A
+A1  - Bauer, Silke
+A1  - Feige, Nicole
+A1  - Kokorev, Yakov I
+A1  - Popov, Igor Yu
+A1  - Ebbinge, Barwolt S
+Y1  - 2013///
+PB  - Wiley Online Library
+JF  - Journal of Animal Ecology
+VL  - 82
+IS  - 4
+SP  - 804
+EP  - 813
+ER  - 
+TY  - JOUR
+T1  - Responses of wintering brent geese to human disturbance
+A1  - Owens, N W
+Y1  - 1977///
+JF  - Wildfowl
+VL  - 28
+IS  - 28
+SP  - 10
+EP  - 10
+ER  - 
+TY  - JOUR
+T1  - Effects of agricultural change on abundance, fitness components and distribution of two arctic-nesting goose populations
+A1  - Fox, A D
+A1  - Madsen, J
+A1  - Boyd, H
+A1  - Kuijken, E
+A1  - Norriss, D W
+A1  - Tombre, I M
+A1  - Stroud, D A
+Y1  - 2005///
+PB  - Wiley Online Library
+JF  - Global Change Biology
+VL  - 11
+IS  - 6
+SP  - 881
+EP  - 893
+ER  - 
+TY  - BOOK
+T1  - An {R} Companion to Applied Regression
+A1  - Fox, John
+A1  - Weisberg, Sanford
+Y1  - 2011///
+PB  - Sage
+ET  - Second
+CY  - Thousand Oaks {CA}
+UR  - http://socserv.socsci.mcmaster.ca/jfox/Books/Companion
+ER  - 
+TY  - JOUR
+T1  - Geographic Variation and Its Climatic Correlates in the Sex Ratio of Eastern-Wintering Dark-Eyed Juncos (Junco Hyemalis Hyemalis)
+A1  - Ketterson, Ellen D
+A1  - Nolan, Val
+Y1  - 1976///
+PB  - Wiley Online Library
+JF  - Ecology
+VL  - 57
+IS  - 4
+SP  - 679
+EP  - 693
+ER  - 
+TY  - JOUR
+T1  - Winter site fidelity in {G}reenland {W}hite-fronted Geese ({\it {A}nser albifrons flavirostris}), implications for conservation and management
+A1  - Wilson, H J
+A1  - Norriss, D W
+A1  - Walsh, A
+A1  - Fox, A D
+A1  - Stroud, D A
+Y1  - 1991///
+JF  - Ardea
+VL  - 79
+SP  - 287
+EP  - 294
+ER  - 
+TY  - JOUR
+T1  - Group size and foraging efficiency in yellow baboons
+A1  - Stacey, Peter B
+Y1  - 1986///
+JF  - Behavioral Ecology and Sociobiology
+VL  - 18
+IS  - 3
+SP  - 175
+EP  - 187
+DO  - 10.1007/BF00290821
+UR  - http://dx.doi.org/10.1007/BF00290821
+ER  - 
+TY  - JOUR
+T1  - Agonistic behavior and dominance relationships among lesser snow geese during winter and spring migration
+A1  - Gregoire, Paul E
+A1  - Ankney, C Davison
+Y1  - 1990///
+PB  - JSTOR
+JF  - The Auk
+SP  - 550
+EP  - 560
+ER  - 
+TY  - JOUR
+T1  - Differential migration of the sexes of Pochard Aythya ferina: results from a European survey
+A1  - Carbone, Chris
+A1  - Owen, Myrfyn
+Y1  - 1995///
+JF  - Wildfowl
+VL  - 46
+IS  - 46
+SP  - 99
+EP  - 108
+ER  - 
+TY  - BOOK
+T1  - Living in groups
+A1  - Krause, Jens
+A1  - Ruxton, Graeme D
+Y1  - 2002///
+PB  - Oxford University Press
+ER  - 
+TY  - BOOK
+T1  - Status and Management of Goose Populations in Europe: With Special Reference to Populations Resting and Breeding in Denmark
+A1  - Madsen, Jesper
+Y1  - 1987///
+PB  - JH Schultz
+IS  - 211
+ER  - 
+TY  - BOOK
+T1  - The new wildfowler
+A1  - Sedgwick, Noel Mostyn
+A1  - Whitaker, P
+A1  - Harrison, J
+Y1  - 1961///
+PB  - H. Jenkins
+ER  - 
+TY  - JOUR
+T1  - Information and likelihood theory: a basis for model selection and inference
+A1  - Burnham, K P
+A1  - Anderson, D R
+Y1  - 2002///
+PB  - Springer-Verlag New York
+JF  - Model selection and multimodel inference: a practical information-theoretic approach
+VL  - 2
+SP  - 49
+EP  - 97
+ER  - 
+TY  - BOOK
+T1  - Naar een effectief en internationaal verantwoord beheer van de in {N}ederland overwinterende populatie {K}olganzen
+A1  - Jongejans, Eelke
+A1  - Nolet, Bart A
+A1  - Schekkerman, Hans
+A1  - Koffijberg, Kees
+A1  - de Kroon, Hans
+Y1  - 2015///
+PB  - SOVON Vogelonderzoek Nederland
+ER  - 
+TY  - JOUR
+T1  - Relationships between black-legged kittiwake nest-site characteristics and susceptibility to predation by large gulls
+A1  - Massaro, Melanie
+A1  - Chardine, John W
+A1  - Jones, Ian L
+Y1  - 2001///
+PB  - BioOne
+JF  - The Condor
+VL  - 103
+IS  - 4
+SP  - 793
+EP  - 801
+ER  - 
+TY  - JOUR
+T1  - Factors determining the population size of arctic-breeding geese, wintering in western Europe
+A1  - Ebbinge, B S
+Y1  - 1985///
+PB  - Nederlandse Ornithlogische Unie
+JF  - Ardea
+VL  - 73
+IS  - 12
+SP  - 1
+EP  - 128
+ER  - 
+TY  - GEN
+T1  - MuMIn: Multi-Model Inference
+A1  - Barton, Kamil
+Y1  - 2016///
+UR  - https://cran.r-project.org/package=MuMIn
+N1  - R package version 1.15.6
+ER  - 
+TY  - JOUR
+T1  - Generalized additive models for large data sets
+A1  - Wood, Simon N
+A1  - Goude, Yannig
+A1  - Shaw, Simon
+Y1  - 2015///
+PB  - Wiley Online Library
+JF  - Journal of the Royal Statistical Society: Series C (Applied Statistics)
+VL  - 64
+IS  - 1
+SP  - 139
+EP  - 155
+ER  - 
+TY  - JOUR
+T1  - Deterring arctic fox predation: the role of parental nest attendance by lesser snow geese
+A1  - Samelius, Gustaf
+A1  - Alisauskas, Ray T
+Y1  - 2001///
+JF  - Canadian Journal of Zoology
+VL  - 79
+IS  - 5
+SP  - 861
+EP  - 866
+DO  - 10.1139/z01-048
+UR  - http://www.nrcresearchpress.com/doi/abs/10.1139/z01-048
+ER  - 
+TY  - JOUR
+T1  - Foraging Patch Selection and Departure by Non-Omniscient Foragers: A Field Example in White-Fronted Geese
+A1  - Amano, Tatsuya
+A1  - Ushiyama, Katsumi
+A1  - Fujita, Go
+A1  - Higuchi, Hiroyoshi
+Y1  - 2006///
+PB  - Blackwell Publishing Ltd
+JF  - Ethology
+VL  - 112
+IS  - 6
+SP  - 544
+EP  - 553
+DO  - 10.1111/j.1439-0310.2006.01196.x
+UR  - http://dx.doi.org/10.1111/j.1439-0310.2006.01196.x
+ER  - 
+TY  - JOUR
+T1  - Colonial Seabird Nesting in Dense and Small Sub-Colonies: An Advantage against Aerial Predation
+A1  - Oro, Daniel
+Y1  - 1996///
+PB  - Cooper Ornithological Society
+JF  - The Condor
+VL  - 98
+IS  - 4
+SP  - 848
+EP  - 850
+UR  - http://www.jstor.org/stable/1369868
+ER  - 
+TY  - JOUR
+T1  - Barnacle geese preferentially pair with familiar associates from early life
+A1  - Choudhury, Sharmila
+A1  - Black, Jeffrey M
+Y1  - 1994///
+JF  - Animal Behaviour
+VL  - 48
+IS  - 1
+SP  - 81
+EP  - 88
+DO  - http://dx.doi.org/10.1006/anbe.1994.1213
+UR  - http://www.sciencedirect.com/science/article/pii/S0003347284712139
+ER  - 
+TY  - JOUR
+T1  - Differential distribution of wintering brant by necklace type
+A1  - Vangilder, Larry D
+A1  - Smith, Loren M
+Y1  - 1985///
+PB  - JSTOR
+JF  - The Auk
+VL  - 102
+IS  - 3
+SP  - 645
+EP  - 647
+ER  - 
+TY  - JOUR
+T1  - Behaviour and energy budget of wintering geese in the Lower Rhine area of North Rhine-Westphalia, Germany
+A1  - Mooij, J H
+Y1  - 1992///
+JF  - Wildfowl
+VL  - 43
+IS  - 43
+SP  - 121
+EP  - 138
+ER  - 
+TY  - JOUR
+T1  - Regional management of farmland feeding geese using an ecological prioritization tool
+A1  - Madsen, Jesper
+A1  - Bjerrum, Morten
+A1  - Tombre, Ingunn M
+Y1  - 2014///
+PB  - Springer
+JF  - Ambio
+VL  - 43
+IS  - 6
+SP  - 801
+EP  - 809
+ER  - 
+TY  - JOUR
+T1  - Effective leadership and decision-making in animal groups on the move
+A1  - Couzin, Iain D
+A1  - Krause, Jens
+A1  - Franks, Nigel R
+A1  - Levin, Simon A
+Y1  - 2005///
+PB  - Nature Publishing Group
+JF  - Nature
+VL  - 433
+IS  - 7025
+SP  - 513
+EP  - 516
+ER  - 
+TY  - JOUR
+T1  - Arctic Geese (Anser) and brants (Branta) of Eurasia: An analysis of factors that control population dynamics and geographical ranges
+A1  - Rozenfeld, S B
+A1  - Sheremetyev, I S
+Y1  - 2016///
+JF  - Biology Bulletin Reviews
+VL  - 6
+IS  - 5
+SP  - 436
+EP  - 455
+DO  - 10.1134/S2079086416050078
+UR  - http://dx.doi.org/10.1134/S2079086416050078
+ER  - 
+TY  - JOUR
+T1  - Cross-seasonal effects and the dynamics of waterfowl populations
+A1  - Sedinger, James S
+A1  - Alisauskas, Ray T
+Y1  - 2014///
+JF  - Wildfowl
+SP  - 277
+EP  - 304
+ER  - 
+TY  - BOOK
+T1  - The breeding biology of the {Greenland White-fronted Goose} (\emph{{A}nser {a}lbifrons {f}lavirostris})
+A1  - Fox, Anthony D
+A1  - Stroud, David A
+Y1  - 1988///
+PB  - Kommissionen for Videnskabelige Undersøgelser i Grønland
+ER  - 
+TY  - JOUR
+T1  - Breeding production of dark-bellied brent geese \emph{{B}ranta bernicla bernicla} in relation to lemming cycles
+A1  - Summers, R W
+Y1  - 1986///
+PB  - Taylor & Francis
+JF  - Bird Study
+VL  - 33
+IS  - 2
+SP  - 105
+EP  - 108
+ER  - 
+TY  - JOUR
+T1  - Current estimates of goose population sizes in western {E}urope, a gap analysis and assessment of trends
+A1  - Fox, Anthony D
+A1  - Ebbinge, Bart S
+A1  - Mitchell, Carl
+A1  - Heinicke, Thomas
+A1  - Aarvak, Tomas
+A1  - Colhoun, Kendrew
+A1  - Clausen, Preben
+A1  - Dereliev, Sergey
+A1  - Faragó, Sandor
+A1  - Koffijberg, Kees
+A1  - others
+Y1  - 2010///
+JF  - Ornis Svecica
+VL  - 20
+SP  - 115
+EP  - 127
+ER  - 
+TY  - JOUR
+T1  - Are goose nesting success and lemming cycles linked? Interplay between nest density and predators
+A1  - Bêty, Joël
+A1  - Gauthier, Gilles
+A1  - Giroux, Jean-François
+A1  - Korpimäki, Erkki
+Y1  - 2001///
+PB  - Wiley Online Library
+JF  - Oikos
+VL  - 93
+IS  - 3
+SP  - 388
+EP  - 400
+ER  - 
+TY  - GEN
+T1  - Does agricultural food provide a good alternative to a natural diet for body store deposition in geese? Ecosphere 3 (4): 35
+A1  - Eichhorn, G
+A1  - Meijer, H A J
+A1  - Oosterbeek, K
+A1  - Klaassen, M
+Y1  - 2012///
+ER  - 
+TY  - JOUR
+T1  - Mutual benefits of associations between breeding and non-breeding {W}hite-fronted {G}eese ({\it {A}nser albifrons})
+A1  - Fox, A D
+A1  - Boyd, H
+A1  - Bromley, R G
+Y1  - 1995///
+PB  - Blackwell Publishing Ltd
+JF  - Ibis
+VL  - 137
+IS  - 2
+SP  - 151
+EP  - 156
+DO  - 10.1111/j.1474-919X.1995.tb03233.x
+UR  - http://dx.doi.org/10.1111/j.1474-919X.1995.tb03233.x
+ER  - 
+TY  - JOUR
+T1  - Are goose nesting success and lemming cycles linked? Interplay between nest density and predators
+A1  - Bêty, Joël
+A1  - Gauthier, Gilles
+A1  - Giroux, Jean-François
+A1  - Korpimäki, Erkki
+Y1  - 2001///
+PB  - Wiley Online Library
+JF  - Oikos
+VL  - 93
+IS  - 3
+SP  - 388
+EP  - 400
+ER  - 
+TY  - JOUR
+T1  - Geographic Variation in Clutch Size and Body Size of Canada Geese
+A1  - Dunn, Erica H
+A1  - MacInnes, Charles D
+Y1  - 1987///
+PB  - [Association of Field Ornithologists, Wiley]
+JF  - Journal of Field Ornithology
+VL  - 58
+IS  - 3
+SP  - 355
+EP  - 371
+UR  - http://www.jstor.org/stable/4513252
+ER  - 
+TY  - JOUR
+T1  - The "{N}iederrhein" ({L}ower {R}hine) area ({N}orth {R}hine {W}estphalia, {F}ederal {R}epublic of {G}ermany), a goose wintering area of increasing importance in the {D}utch-{G}erman border region
+A1  - Mooij, J H
+Y1  - 1982///
+JF  - Aquila
+VL  - 89
+SP  - 285
+EP  - 297
+ER  - 
+TY  - JOUR
+T1  - Parent-offspring relationships in wintering barnacle geese
+A1  - Black, Jeffrey M
+A1  - Owen, Myrfyn
+Y1  - 1989///
+PB  - Elsevier
+JF  - Animal Behaviour
+VL  - 37
+SP  - 187
+EP  - 198
+ER  - 
+TY  - JOUR
+T1  - Factors Affecting the Survival of Barnacle Geese on Migration from the Breeding Grounds
+A1  - Owen, Myrfyn
+A1  - Black, Jeffrey M
+Y1  - 1989///
+PB  - [Wiley, British Ecological Society]
+JF  - Journal of Animal Ecology
+VL  - 58
+IS  - 2
+SP  - 603
+EP  - 617
+UR  - http://www.jstor.org/stable/4851
+ER  - 
+TY  - BOOK
+T1  - The Social Life of Greylag Geese
+A1  - Scheiber, Isabella B R
+A1  - Kotrschal, Kurt
+A1  - Weiß, Brigitte M
+A1  - Hemetsberger, Josef
+Y1  - 2013///
+PB  - Cambridge University Press
+ER  - 
+TY  - JOUR
+T1  - Changes in the British-wintering population of the Pink-footed Goose from 1950 to 1975
+A1  - Boyd, H
+A1  - Ogilvie, M A
+Y1  - 1969///
+JF  - Wildfowl
+VL  - 20
+IS  - 20
+SP  - 33
+EP  - 46
+ER  - 
+TY  - JOUR
+T1  - Mutual benefits of associations between breeding and non-breeding White-fronted Geese Anser albifrons
+A1  - Fox, A D
+A1  - Boyd, H
+A1  - Bromley, R G
+Y1  - 1995///
+PB  - Blackwell Publishing Ltd
+JF  - Ibis
+VL  - 137
+IS  - 2
+SP  - 151
+EP  - 156
+DO  - 10.1111/j.1474-919X.1995.tb03233.x
+UR  - http://dx.doi.org/10.1111/j.1474-919X.1995.tb03233.x
+ER  - 
+TY  - BOOK
+T1  - Wildgeese of Europe. Biology, Ecology, Behaviour
+A1  - Rutschke, Erich
+Y1  - 1987///
+PB  - Aula-Verlag
+ER  - 
+TY  - JOUR
+T1  - A Palaearctic migratory raptor species tracks shifting prey availability within its wintering range in the Sahel
+A1  - Trierweiler, Christiane
+A1  - Mulli, Wim C
+A1  - Drent, Rudi H
+A1  - Exo, Klaus-Michael
+A1  - Komdeur, Jan
+A1  - Bairlein, Franz
+A1  - Harouna, Abdoulaye
+A1  - de Bakker, Marinus
+A1  - Koks, Ben J
+Y1  - 2013///
+KW  - Ornithacris cavroisi
+KW  - acridivorous birds
+KW  - annual cycle
+KW  - kernel home range
+KW  - satellite telemetry
+JF  - Journal of Animal Ecology
+VL  - 82
+IS  - 1
+SP  - 107
+EP  - 120
+DO  - 10.1111/j.1365-2656.2012.02036.x
+UR  - http://dx.doi.org/10.1111/j.1365-2656.2012.02036.x
+ER  - 
+TY  - JOUR
+T1  - Climate events synchronize the dynamics of a resident vertebrate community in the high {A}rctic
+A1  - Hansen, Brage B
+A1  - Grøtan, Vidar
+A1  - Aanes, Ronny
+A1  - Sæther, Bernt-Erik
+A1  - Stien, Audun
+A1  - Fuglei, Eva
+A1  - Ims, Rolf A
+A1  - Yoccoz, Nigel G
+A1  - Pedersen, Åshild Ø
+Y1  - 2013///
+PB  - American Association for the Advancement of Science
+JF  - Science
+VL  - 339
+IS  - 6117
+SP  - 313
+EP  - 315
+ER  - 
+TY  - BOOK
+T1  - The evolution of parental care
+A1  - Clutton-Brock, Tim H
+Y1  - 1991///
+PB  - Princeton University Press
+ER  - 
+TY  - JOUR
+T1  - Population dynamics of lemmings, \emph{{L}emmus sibirica} and \emph{{D}icrostonyx torquatus}, and {A}rctic Fox \emph{{A}lopex lagopus} on the {T}aimyr peninsula, {S}iberia, 1960--2001
+A1  - Kokorev, Y I
+A1  - Kuksov, V A
+Y1  - 2002///
+JF  - Ornis Svecica
+VL  - 12
+IS  - 1
+SP  - 139
+EP  - 143
+ER  - 
+TY  - JOUR
+T1  - Das {T}riumphgeschrei der {G}raugans (\emph{{A}nser {a}nser})
+A1  - Fischer, Helga
+Y1  - 1965///
+PB  - Wiley Online Library
+JF  - Ethology
+VL  - 22
+IS  - 3
+SP  - 247
+EP  - 304
+ER  - 
+TY  - JOUR
+T1  - Panmixia in {W}hite-fronted Geese (\emph{{A}nser a. albifrons}) of the {W}estern {P}alearctic
+A1  - Mooij, Johan H
+A1  - Ebbinge, Barwolt S
+A1  - Kostin, Igor O
+A1  - Burgers, Jan
+A1  - Spaans, Bernard
+Y1  - 1996///
+JF  - Ecology of geese wintering at the Lower Rhine area (Germany).
+SP  - 109
+EP  - 109
+ER  - 
+TY  - JOUR
+T1  - Greater {W}hite-fronted Geese ({\it {A}nser albifrons}) and {B}ean Geese (\emph{{A}. {f}abalis}) on {K}olguev Island -- abundance, habitat distribution, and breeding biology
+A1  - Kondratyev, Alexander
+A1  - Zaynagutdinova, Elmira
+Y1  - 2008///
+JF  - Vogelwelt
+VL  - 129
+SP  - 326
+EP  - 333
+ER  - 
+TY  - JOUR
+T1  - Fast stable restricted maximum likelihood and marginal likelihood estimation of semiparametric generalized linear models
+A1  - Wood, Simon N
+Y1  - 2011///
+JF  - Journal of the Royal Statistical Society (B)
+VL  - 73
+IS  - 1
+SP  - 3
+EP  - 36
+ER  - 
+TY  - JOUR
+T1  - The origin of the attine ant-fungus mutualism
+A1  - Mueller, Ulrich G
+A1  - Schultz, Ted R
+A1  - Currie, Cameron R
+A1  - Adams, Rachelle M M
+A1  - Malloch, David
+Y1  - 2001///
+PB  - University of Chicago Press
+JF  - The Quarterly Review of Biology
+VL  - 76
+IS  - 2
+SP  - 169
+EP  - 197
+ER  - 
+TY  - JOUR
+T1  - Long-term reproductive performance in {W}hite-fronted Geese \emph{{A}nser a. albifrons} and {T}undra {B}ean Geese \emph{{A}. {f}abalis rossicus} wintering in {Z}eeland ({T}he {N}etherlands)
+A1  - Van Impe, Jan
+Y1  - 1996///
+PB  - Taylor & Francis
+JF  - Bird Study
+VL  - 43
+IS  - 3
+SP  - 280
+EP  - 289
+ER  - 
+TY  - JOUR
+T1  - Extended Parent-Offspring Relationships in Greenland White-Fronted Geese ({\it {A}nser albifrons flavirostris})
+A1  - Warren, Stephanie M
+A1  - Fox, A D
+A1  - Walsh, Alyn
+A1  - O'Sullivan, Paddy
+Y1  - 1993///
+PB  - American Ornithologists' Union
+JF  - The Auk
+VL  - 110
+IS  - 1
+SP  - 145
+EP  - 148
+UR  - http://www.jstor.org/stable/4088245
+ER  - 
+TY  - JOUR
+T1  - Responses of wintering geese to the designation of goose foraging areas in {T}he {N}etherlands
+A1  - Koffijberg, Kees
+A1  - Schekkerman, Hans
+A1  - van der Jeugd, Henk
+A1  - Hornman, Menno
+A1  - van Winden, Erik
+Y1  - 2017///
+JF  - Ambio
+VL  - 46
+IS  - 2
+SP  - 241
+EP  - 250
+DO  - 10.1007/s13280-016-0885-3
+UR  - http://dx.doi.org/10.1007/s13280-016-0885-3
+ER  - 
+TY  - JOUR
+T1  - Weak family associations in {Cackling Geese} during winter: effects of body size and food resources on goose social organization
+A1  - Johnson, James C
+A1  - Raveling, Dennis G
+Y1  - 1988///
+PB  - University of Minnesota Press, Minneapolis
+JF  - Waterfowl in {W}inter
+SP  - 71
+EP  - 89
+ER  - 
+TY  - JOUR
+T1  - ggmap: Spatial Visualization with ggplot2
+A1  - Kahle, David
+A1  - Wickham, Hadley
+Y1  - 2013///
+JF  - The R Journal
+VL  - 5
+IS  - 1
+SP  - 144
+EP  - 161
+UR  - http://journal.r-project.org/archive/2013-1/kahle-wickham.pdf
+ER  - 
+TY  - JOUR
+T1  - Watervogels in {N}ederland in 2014/2015
+A1  - Hornman, M
+A1  - Hustings, F
+A1  - Koffijberg, K
+A1  - Klaassen, O
+A1  - van Winden, E
+A1  - en Zwanenwerkgroep, SOVON Ganzen-
+A1  - Soldaat, Leo
+Y1  - 2015///
+JF  - SOVON Rapport
+ER  - 
+TY  - JOUR
+T1  - Dominance relationships in dark-bellied brent geese \emph{{B}ranta {b}ernicla {b}ernicla} at spring staging areas
+A1  - Poisbleau, Maud
+A1  - Desmonts, Diane
+A1  - Fritz, Hervé
+Y1  - 2008///
+PB  - BioOne
+JF  - Ardea
+VL  - 96
+IS  - 1
+SP  - 135
+EP  - 139
+ER  - 
+TY  - BOOK
+T1  - Goose populations of the {W}estern {P}alearctic
+A1  - Madsen, Jesper
+A1  - Cracknell, Gill
+A1  - Fox, Anthony
+Y1  - 1999///
+PB  - National Environmental Research Institute, Denmark and Wetlands International, Wageningen, The Netherlands
+ER  - 
+TY  - JOUR
+T1  - Some Factors Affecting Food Intake and Selection in White-Fronted Geese
+A1  - Owen, Myrfyn
+Y1  - 1972///
+PB  - [Wiley, British Ecological Society]
+JF  - Journal of Animal Ecology
+VL  - 41
+IS  - 1
+SP  - 79
+EP  - 92
+UR  - http://www.jstor.org/stable/3507
+ER  - 
+TY  - CHAP
+T1  - Differential migration revisited
+A1  - Cristol, Daniel A
+A1  - Baker, Mitchell B
+A1  - Carbone, Chris
+Y1  - 1999///
+PB  - Springer
+JF  - Current {O}rnithology
+SP  - 33
+EP  - 88
+ER  - 
+TY  - JOUR
+T1  - Some factors affecting food intake and selection in white-fronted geese
+A1  - Owen, Myrfyn
+Y1  - 1972///
+PB  - JSTOR
+JF  - The Journal of Animal Ecology
+SP  - 79
+EP  - 92
+ER  - 
+TY  - GEN
+T1  - R: A Language and Environment for Statistical Computing
+A1  - null, null
+Y1  - 2017///
+CY  - Vienna, Austria
+SN  - 3-900051-07-0
+DO  - 10.1038/sj.hdy.6800737
+UR  - https://www.r-project.org/
+ER  - 
+TY  - JOUR
+T1  - Stable and efficient multiple smoothing parameter estimation for generalized additive models
+A1  - Wood, S.N.
+Y1  - 2004///
+KW  - anova
+KW  - gam
+KW  - gcv
+KW  - generalized additive mixed model
+KW  - generalized additive model
+KW  - generalized cross validation
+KW  - multiple smoothing parameter estimation
+KW  - penalized quasi-likelihood
+KW  - pql
+KW  - putation
+KW  - regularization
+KW  - reml
+KW  - ridge regression
+KW  - spline
+KW  - ss-
+KW  - stable com-
+JF  - J. Amer. Statist. Ass
+VL  - 99
+IS  - 99
+SP  - 673
+EP  - 686
+ER  - 
+TY  - GEN
+T1  - gamm4: Generalized Additive Mixed Models Using $\$pkg{{}mgcv{}} and $\$pkg{{}lme4{}}
+A1  - Wood, Simon
+A1  - Scheipl, Fabian
+Y1  - 2014///
+UR  - https://cran.r-project.org/package=gamm4
+N1  - R package version 0.2-4
+ER  - 
+TY  - GEN
+T1  - move: Visualizing and Analyzing Animal Track Data
+A1  - Kranstauber, Bart
+A1  - Smolla, Marco
+Y1  - 2015///
+UR  - https://cran.r-project.org/package=move
+N1  - R package version 2.1.0
+N2  - and statistically analyze animal movement data, among others functions to calculate dynamic Brownian Bridge Movement Models. Move helps addressing movement ecology questions.
+ER  - 
+TY  - JOUR
+T1  - Fitting Linear Mixed-Effects Models using lme4
+A1  - Bates, Douglas
+A1  - Mächler, Martin
+A1  - Bolker, Ben
+A1  - Walker, Steve
+Y1  - 2014///
+JF  - Journal of Statistical Software
+VL  - 67
+IS  - 1
+SP  - 1
+EP  - 48
+SN  - %(
+DO  - 10.18637/jss.v067.i01
+UR  - http://arxiv.org/abs/1406.5823
+N2  - Maximum likelihood or restricted maximum likelihood (REML) estimates of the parameters in linear mixed-effects models can be determined using the lmer function in the lme4 package for R. As for most model-fitting functions in R, the model is described in an lmer call by a formula, in this case including both fixed- and random-effects terms. The formula and data together determine a numerical representation of the model from which the profiled deviance or the profiled REML criterion can be evaluated as a function of some of the model parameters. The appropriate criterion is optimized, using one of the constrained optimization functions in R, to provide the parameter estimates. We describe the structure of the model, the steps in evaluating the profiled deviance or REML criterion, and the structure of classes or types that represents such a model. Sufficient detail is included to allow specialization of these structures by users who wish to write functions to fit specialized linear mixed models, such as models incorporating pedigrees or smoothing splines, that are not easily expressible in the formula language used by lmer.
+ER  - 
+TY  - JOUR
+T1  - Thin-plate regression splines
+A1  - Wood, Simon N.
+Y1  - 2003///
+KW  - generalized additive model
+KW  - regression spline
+KW  - thin-plate spline
+JF  - Journal of the Royal Statistical Society
+VL  - 65
+IS  - 1
+SP  - 95
+EP  - 114
+DO  - 10.1111/1467-9868.00374
+N2  - I discuss the production of low rank smoothers for d ≥ 1 dimensional data, which can be fitted by regression or penalized regression methods. The smoothers are constructed by a simple transformation and truncation of the basis that arises from the solution of the thin-plate spline smoothing problem, and are optimal in the sense that the truncation is designed to result in the minimum possible perturbation of the thin-plate spline smoothing problem given the dimension of the basis used to construct the smoother. By making use of Lanczos iteration the basis change and truncation is computationally efficient. The smoothers allow the use of approximate thin-plate spline models with large datasets; avoid the problems associated with " knot placement " that usually complicate modelling with regression splines or penalized regression splines; provide a sensible way of modelling interaction terms in GAMs; provide low rank approximations to generalized smoothing spline models, appropriate for use with large datasets; provide a means for incorporating smooth functions of more than one variable into non-linear models and improve the computational efficiency of penalized likelihood models incorporating thin-plate splines. Given that the approach produces spline like models with a sparse basis, it also provides a natural way of incorporating un-penalized spline like terms in linear and generalized linear models, and these can be treated just like any other model terms from the point of view of model selection, inference and diagnostics.
+ER  - 
+TY  - BOOK
+T1  - Generalized Additive Models: An Introduction with R
+A1  - Maindonald, John
+A1  - Wood, S N
+Y1  - 2006///
+PB  - Chapman and Hall/CRC
+JF  - Journal of Statistical Software
+VL  - 16
+ET  - 2
+IS  - Book Review 3
+SP  - 1
+EP  - 2
+DO  - 10.18637/jss.v016.b03
+UR  - http://www.jstatsoft.org/index.php/jss/article/view/v016b03/v16b03.pdf
+N2  - Abstracts not available for BookReviews
+ER  - 
+TY  - JOUR
+T1  - Investigating geographic variation in clutch size using a natural experiment
+A1  - Evans, K L
+A1  - Duncan, R P
+A1  - Blackburn, T M
+A1  - Crick, H Q P
+Y1  - 2005///
+KW  - Ashmole's hypothesis
+KW  - clutch size–lay date relationships
+KW  - introduced birds
+KW  - latitudinal gradients
+KW  - seasonality
+PB  - Blackwell Science Ltd
+JF  - Functional Ecology
+VL  - 19
+IS  - 4
+SP  - 616
+EP  - 624
+DO  - 10.1111/j.1365-2435.2005.01016.x
+UR  - http://dx.doi.org/10.1111/j.1365-2435.2005.01016.x
+ER  - 
+TY  - JOUR
+T1  - Breeding success of White-fronted Geese from the Nenets National Area
+A1  - Boyd, Hugh
+Y1  - 1965///
+JF  - Wildfowl
+VL  - 16
+IS  - 16
+ER  - 
+TY  - JOUR
+T1  - Spring migration strategies in {P}ink-footed {G}eese \emph{{Anser brachyrhynchus}} and consequences for spring fattering and fecundity
+A1  - Madsen, Jesper
+Y1  - 2001///
+JF  - Ardea
+VL  - 89
+SP  - 43
+EP  - 55
+ER  - 
+TY  - JOUR
+T1  - Role of predation in short-term population fluctuations of some birds and mammals in {F}ennoscandia
+A1  - Angelstam, P
+A1  - Lindström, E
+A1  - Widén, P
+Y1  - 1984///
+PB  - Springer
+JF  - Oecologia
+VL  - 62
+IS  - 2
+SP  - 199
+EP  - 208
+ER  - 
+TY  - JOUR
+T1  - Individual variation in timing of migration: causes and reproductive consequences in greater snow geese (\emph{{A}nser {c}aerulescens {a}tlanticus})
+A1  - Bêty, Joël
+A1  - Giroux, Jean-François
+A1  - Gauthier, Gilles
+Y1  - 2004///
+JF  - Behavioral Ecology and Sociobiology
+VL  - 57
+IS  - 1
+SP  - 1
+EP  - 8
+DO  - 10.1007/s00265-004-0840-3
+UR  - http://dx.doi.org/10.1007/s00265-004-0840-3
+ER  - 
+TY  - JOUR
+T1  - Некоторые данные о пролете водоплавающих птиц, гнездящихся на севере СССР
+A1  - Shevareva, Т П
+Y1  - 1959///
+JF  - Миграции животных
+IS  - 1
+SP  - 95
+EP  - 123
+ER  - 
+TY  - JOUR
+T1  - Duration of family bonds of Brent Geese (Branta bernicla) on the Pacific coast of North America
+A1  - Reed, Austin
+Y1  - 1993///
+JF  - Wildfowl
+VL  - 44
+IS  - 44
+ER  - 
+TY  - JOUR
+T1  - Agonistic behaviour in barnacle goose flocks: assessment, investment and reproductive success
+A1  - Black, Jeffrey M
+A1  - Owen, Myrfyn
+Y1  - 1989///
+JF  - Animal Behaviour
+VL  - 37, Part 2
+SP  - 199
+EP  - 209
+DO  - https://doi.org/10.1016/0003-3472(89)90110-3
+UR  - http://www.sciencedirect.com/science/article/pii/0003347289901103
+ER  - 
+TY  - JOUR
+T1  - Estimates of Movement and Site Fidelity Using Mark-Resight Data of Wintering Canada Geese
+A1  - Hestbeck, Jay B
+A1  - Nichols, James D
+A1  - Malecki, Richard A
+Y1  - 1991///
+PB  - Ecological Society of America
+JF  - Ecology
+VL  - 72
+IS  - 2
+SP  - 523
+EP  - 533
+DO  - 10.2307/2937193
+UR  - http://dx.doi.org/10.2307/2937193
+ER  - 
+TY  - JOUR
+T1  - Latitudinal variation in population structure of wintering Pacific Black Brant
+A1  - Schamber, Jason L
+A1  - Sedinger, James S
+A1  - Ward, David H
+A1  - Hagmeier, Kate R
+Y1  - 2007///
+KW  - Branta bernicla nigricans
+KW  - Pacific Black Brant
+KW  - latitudinal variation
+KW  - population structure
+KW  - winter
+PB  - Blackwell Publishing Inc
+JF  - Journal of Field Ornithology
+VL  - 78
+IS  - 1
+SP  - 74
+EP  - 82
+DO  - 10.1111/j.1557-9263.2006.00087.x
+UR  - http://dx.doi.org/10.1111/j.1557-9263.2006.00087.x
+ER  - 
+TY  - JOUR
+T1  - A simple test for random effects in regression models
+A1  - Wood, Simon N
+Y1  - 2013///
+PB  - University of Bath
+JF  - Biometrika
+VL  - 100
+IS  - 4
+SP  - 1005
+EP  - 1010
+ER  - 
+TY  - JOUR
+T1  - Threatened species to super-abundance: The unexpected international implications of successful goose conservation
+A1  - Fox, Anthony D
+A1  - Madsen, Jesper
+Y1  - 2017///
+JF  - Ambio
+VL  - 46
+IS  - 2
+SP  - 179
+EP  - 187
+DO  - 10.1007/s13280-016-0878-2
+UR  - http://dx.doi.org/10.1007/s13280-016-0878-2
+ER  - 
+TY  - JOUR
+T1  - Geese in cold winter weather
+A1  - Philippona, Jules
+Y1  - 1966///
+JF  - Wildfowl
+VL  - 17
+IS  - 17
+SP  - 3
+EP  - 3
+ER  - 
+TY  - JOUR
+T1  - Gene flow between breeding populations of Lesser Snow Geese
+A1  - Cooke, F
+A1  - MacInnes, C D
+A1  - Prevett, J P
+Y1  - 1975///
+PB  - JSTOR
+JF  - The Auk
+VL  - 92
+IS  - 3
+SP  - 493
+EP  - 510
+ER  - 
+TY  - JOUR
+T1  - Age bias in the bag of pink-footed geese <i>Anser brachyrhynchus</i>: influence of flocking behaviour on vulnerability
+A1  - Madsen, Jesper
+Y1  - 2010///
+JF  - European Journal of Wildlife Research
+VL  - 56
+IS  - 4
+SP  - 577
+EP  - 582
+DO  - 10.1007/s10344-009-0349-1
+UR  - http://dx.doi.org/10.1007/s10344-009-0349-1
+ER  - 
+TY  - JOUR
+T1  - Territory Size in Western Gulls: Importance of Intrusion Pressure, Defense Investments, and Vegetation Structure
+A1  - Ewald, Paul W
+A1  - Hunt, George L
+A1  - Warner, Molly
+Y1  - 1980///
+PB  - Ecological Society of America
+JF  - Ecology
+VL  - 61
+IS  - 1
+SP  - 80
+EP  - 87
+DO  - 10.2307/1937158
+UR  - http://dx.doi.org/10.2307/1937158
+ER  - 
+TY  - JOUR
+T1  - Herkenning en ruipatronen van eerstejaars Kolganzen in de winter
+A1  - Koffijberg, Kees
+Y1  - 2006///
+JF  - Limosa
+VL  - 79
+IS  - 4
+SP  - 163
+EP  - 163
+ER  - 
+TY  - JOUR
+T1  - Inventory of goose habitat in Japan
+A1  - Miyabayashi, Y
+Y1  - 1994///
+JF  - Wakayanagi, Japan
+ER  - 
+TY  - THES
+T1  - Cross-seasonal effects on reproductive performance of {P}acific black brant
+A1  - Schamber, Jason Lee
+Y1  - 2001///
+ER  - 
+TY  - BOOK
+T1  - Breeding biology of the white-fronted goose (\emph{{A}nser albifrons frontalis}) on the {Y}ukon-{K}uskokwim Delta, {A}laska
+A1  - Ely, Craig Robert
+Y1  - 1979///
+ER  - 
+TY  - JOUR
+T1  - Factors related to breeding production of {B}rent Geese \emph{{B}ranta b. bernicla} and waders (\emph{{C}haradrii}) on the {T}aimyr {P}eninsula
+A1  - Summers, R W
+A1  - Underhill, L G
+Y1  - 1987///
+PB  - Taylor & Francis
+JF  - Bird Study
+VL  - 34
+IS  - 2
+SP  - 161
+EP  - 171
+ER  - 
+TY  - JOUR
+T1  - Observations on the incubation and post-hatching behaviour of the {G}reenland {W}hite-fronted Goose
+A1  - Stroud, David A
+Y1  - 1982///
+JF  - Wildfowl
+VL  - 33
+IS  - 33
+SP  - 63
+EP  - 72
+ER  - 
+TY  - JOUR
+T1  - The arctic pulse
+A1  - Tulp, Ingrid
+Y1  - 2007///
+JF  - Timing of breeding in long-distance migrant shorebirds. Groningen: PhD thesis University of Groningen
+ER  - 
+TY  - JOUR
+T1  - Self-Organized Fish Schools: An Examination of Emergent Properties
+A1  - Parrish, Julia K
+A1  - Viscido, Steven V
+A1  - Grünbaum, Daniel
+Y1  - 2002///
+JF  - The Biological Bulletin
+VL  - 202
+IS  - 3
+SP  - 296
+EP  - 305
+DO  - 10.2307/1543482
+UR  - http://dx.doi.org/10.2307/1543482
+N1  - PMID: 12087003
+ER  - 
+TY  - JOUR
+T1  - Incubation Behavior of Emperor Geese Compared with Other Geese: Interactions of Predation, Body Size, and Energetics
+A1  - Thompson, Steven C
+A1  - Raveling, Dennis G
+Y1  - 1987///
+PB  - American Ornithologists' Union
+JF  - The Auk
+VL  - 104
+IS  - 4
+SP  - 707
+EP  - 716
+UR  - http://www.jstor.org/stable/4087283
+ER  - 
+TY  - JOUR
+T1  - Communal hunting and pack size in African wild dogs, Lycaon pictus
+A1  - Creel, Scott
+A1  - Creel, Nancy Marusha
+Y1  - 1995///
+PB  - Elsevier
+JF  - Animal Behaviour
+VL  - 50
+IS  - 5
+SP  - 1325
+EP  - 1339
+ER  - 
+TY  - JOUR
+T1  - The benefit of large broods in barnacle geese: a study using natural and experimental manipulations
+A1  - Loonen, Maarten J J E
+A1  - Bruinzeel, Leo W
+A1  - Black, Jeff M
+A1  - Drent, Rudi H
+Y1  - 1999///
+KW  - Branta leucopsis
+KW  - adoption
+KW  - brood size manipulation
+KW  - fitness
+KW  - social dominance
+PB  - Blackwell Science Ltd
+JF  - Journal of Animal Ecology
+VL  - 68
+IS  - 4
+SP  - 753
+EP  - 768
+DO  - 10.1046/j.1365-2656.1999.00325.x
+UR  - http://dx.doi.org/10.1046/j.1365-2656.1999.00325.x
+ER  - 
+TY  - JOUR
+T1  - Pair bond duration and timing of its formation in barnacle geese (Branta leucopsis)
+A1  - Owen, Myrfyn
+A1  - Black, Jeffrey M
+A1  - Liber, Halyna
+Y1  - 1988///
+PB  - University of Minnesota Press Minneapolis
+JF  - Waterfowl in winter
+SP  - 23
+EP  - 38
+ER  - 
+TY  - BOOK
+T1  - Die {B}lessgans: Zug und Überwinterung in {E}uropa und {S}üdwestasien
+A1  - Philippona, Jules
+Y1  - 1972///
+PB  - Ziemsen
+ER  - 
+TY  - JOUR
+T1  - Predatory fish select for coordinated collective motion in virtual prey
+A1  - Ioannou, C C
+A1  - Guttal, V
+A1  - Couzin, I D
+Y1  - 2012///
+PB  - American Association for the Advancement of Science
+JF  - Science
+VL  - 337
+IS  - 6099
+SP  - 1212
+EP  - 1215
+ER  - 
+TY  - JOUR
+T1  - Numbers and distribution of wild geese in the Netherlands, 1984-89, with special reference to weather conditions
+A1  - Lok, Martin
+A1  - van den Berg, Leo
+A1  - Ebbinge, Barwolt
+A1  - van Haperen, Anton
+A1  - Philippona, Jules
+A1  - Prop, Jouke
+A1  - Azn, Arend Timmerman
+Y1  - 1992///
+JF  - Wildfowl
+VL  - 43
+IS  - 43
+SP  - 107
+EP  - 116
+ER  - 
+TY  - JOUR
+T1  - White-fronted goose flyway population status
+A1  - Kruckenberg, Helmut
+A1  - Kondratyev, Alexander
+A1  - Mooij, J
+A1  - Zöckler, Christoph
+A1  - Zarigudinova, E
+Y1  - 2008///
+JF  - Angew. Feldbiol
+VL  - 2
+IS  - 1
+SP  - 77
+EP  - 77
+ER  - 
+TY  - JOUR
+T1  - Population dynamics and habitat selection of lemmings in arctic tundra of north-western Taimyr
+A1  - Rykhlikova, M E
+A1  - Popov, I Yu
+Y1  - 2000///
+JF  - Heritage of the Russian arctic: research, conservation and international co-operation. Ecopros Publishers, Moscow
+SP  - 544
+EP  - 553
+ER  - 
+TY  - JOUR
+T1  - Shared predators and indirect trophic interactions: lemming cycles and arctic-nesting geese
+A1  - Bêty, Joël
+A1  - Gauthier, Gilles
+A1  - Korpimäki, Erkki
+A1  - Giroux, Jean-François
+Y1  - 2002///
+PB  - Wiley Online Library
+JF  - Journal of Animal Ecology
+VL  - 71
+IS  - 1
+SP  - 88
+EP  - 98
+ER  - 
+TY  - BOOK
+T1  - Het voorkomen van de Europese kolgans, {\it {A}nser a. albifrons} (Scop.) in het bijzonder in Nederland
+A1  - Philippona, J
+A1  - Mulder, Th
+Y1  - 1960///
+ER  - 
+TY  - BOOK
+T1  - Statistical {P}ower {A}nalysis for the {B}ehavioral {S}ciences
+A1  - Cohen, Jacob
+Y1  - 1988///
+PB  - NJ: Lawrence Earlbaum Associates
+VL  - 2
+ER  - 
+TY  - JOUR
+T1  - Geographical and temporal patterns of lemming population dynamics in {F}ennoscandia
+A1  - Angerbjörn, Anders
+A1  - Tannerfeldt, Magnus
+A1  - Lundberg, Håkan
+Y1  - 2001///
+PB  - Wiley Online Library
+JF  - Ecography
+VL  - 24
+IS  - 3
+SP  - 298
+EP  - 308
+ER  - 
+TY  - JOUR
+T1  - Handbuch der vögel mitteleuropas
+A1  - von Blotzheim, Urs N Glutz
+A1  - Bauer, Kurt
+A1  - Bezzel, Einhard
+Y1  - 1993///
+PB  - Aula-Verlag
+ER  - 
+TY  - JOUR
+T1  - Family and Other Social Groups in Snow Geese
+A1  - Prevett, J P
+A1  - MacInnes, C D
+Y1  - 1980///
+PB  - [Wiley, Wildlife Society]
+JF  - Wildlife Monographs
+IS  - 71
+SP  - 3
+EP  - 46
+UR  - http://www.jstor.org/stable/3830683
+ER  - 
+TY  - JOUR
+T1  - Collective memory and spatial sorting in animal groups
+A1  - Couzin, Iain D
+A1  - Krause, Jens
+A1  - James, Richard
+A1  - Ruxton, Graeme D
+A1  - Franks, Nigel R
+Y1  - 2002///
+PB  - Elsevier
+JF  - Journal of theoretical biology
+VL  - 218
+IS  - 1
+SP  - 1
+EP  - 11
+ER  - 
+TY  - JOUR
+T1  - Habitat exploitation and interspecific competition of moulting geese in East Greenland
+A1  - Madsen, Jesper
+A1  - Mortensen, Christian Ebbe
+Y1  - 1987///
+PB  - Wiley Online Library
+JF  - Ibis
+VL  - 129
+IS  - 1
+SP  - 25
+EP  - 44
+ER  - 
+TY  - JOUR
+T1  - Differential sex migration of mallards in New Mexico
+A1  - Leopold, Aldo
+Y1  - 1919///
+PB  - Cooper Ornithological Society
+JF  - The Condor
+VL  - 21
+IS  - 5
+SP  - 182
+EP  - 183
+ER  - 
+TY  - JOUR
+T1  - Habitatwahl und -präferenz der {B}less- und {S}aatgans \emph{{A}nser albifrons}, \emph{{A}. {f}abalis} am {U}nteren {N}iederrhein : historische {V}eränderungen und mögliche {U}rsachen
+A1  - Ballasus, Hauke
+Y1  - 2008///
+JF  - Vogelwarte : Zeitschrift für Vogelkunde
+VL  - 43
+IS  - 2
+SP  - 123
+EP  - 131
+ER  - 
+TY  - JOUR
+T1  - Why geese benefit from the transition from natural vegetation to agriculture
+A1  - Fox, Anthony D
+A1  - Abraham, Kenneth F
+Y1  - 2017///
+JF  - Ambio
+VL  - 46
+IS  - 2
+SP  - 188
+EP  - 197
+DO  - 10.1007/s13280-016-0879-1
+UR  - http://dx.doi.org/10.1007/s13280-016-0879-1
+ER  - 
+TY  - JOUR
+T1  - Geographic and Seasonal Patterns of Clutch-Size Variation in House Wrens
+A1  - Young, Bruce E
+Y1  - 1994///
+PB  - American Ornithologists' Union
+JF  - The Auk
+VL  - 111
+IS  - 3
+SP  - 545
+EP  - 555
+UR  - http://www.jstor.org/stable/4088457
+ER  - 
+TY  - JOUR
+T1  - Duration of family bonds of Brent Geese Branta bernicla on the Pacific coast of North America
+A1  - Reed, Austin
+Y1  - 1993///
+JF  - Wildfowl
+VL  - 44
+IS  - 44
+SP  - 33
+EP  - 38
+ER  - 
+TY  - JOUR
+T1  - On Encounters between Wild White-Fronted Geese in Winter Flocks
+A1  - Boyd, Hugh
+Y1  - 1953///
+PB  - Brill
+JF  - Behaviour
+VL  - 5
+IS  - 2
+SP  - 85
+EP  - 129
+UR  - http://www.jstor.org/stable/4532771
+ER  - 
+TY  - JOUR
+T1  - Metabolic constraints on long-distance migration in birds
+A1  - Klaassen, M
+Y1  - 1996///
+PB  - The Company of Biologists Ltd
+JF  - Journal of Experimental Biology
+VL  - 199
+IS  - 1
+SP  - 57
+EP  - 64
+UR  - http://jeb.biologists.org/content/199/1/57
+ER  - 
+TY  - JOUR
+T1  - Spring migration routes and timing of Greenland white-fronted geese-results from satellite telemetry
+A1  - Fox, Anthony D
+A1  - Glahder, Christian M
+A1  - Walsh, Alyn J
+Y1  - 2003///
+PB  - Munksgaard International Publishers
+JF  - Oikos
+VL  - 103
+IS  - 2
+SP  - 415
+EP  - 425
+DO  - 10.1034/j.1600-0706.2003.12114.x
+UR  - http://dx.doi.org/10.1034/j.1600-0706.2003.12114.x
+ER  - 
+TY  - JOUR
+T1  - Body-size variation and fitness components in {L}esser {S}now {G}eese \emph{({C}hen {c}aerulescens {c}aerulescens)}
+A1  - Davies, J Chris
+A1  - Rockwell, R F
+A1  - Cooke, Fred
+Y1  - 1988///
+PB  - JSTOR
+JF  - The Auk
+SP  - 639
+EP  - 648
+ER  - 
+TY  - JOUR
+T1  - Effective leadership and decision-making in animal groups on the move
+A1  - Couzin, Iain D
+A1  - Krause, Jens
+A1  - Franks, Nigel R
+A1  - Levin, Simon A
+Y1  - 2005///
+PB  - Nature Publishing Group
+JF  - Nature
+VL  - 433
+IS  - 7025
+SP  - 513
+EP  - 516
+ER  - 
+TY  - JOUR
+T1  - Traditional Use of Migration and Winter Roost Sites by Canada Geese
+A1  - Raveling, Dennis G
+Y1  - 1979///
+PB  - [Wiley, Wildlife Society]
+JF  - The Journal of Wildlife Management
+VL  - 43
+IS  - 1
+SP  - 229
+EP  - 235
+UR  - http://www.jstor.org/stable/3800660
+ER  - 
+TY  - JOUR
+T1  - Circumpolar variation in morphological characteristics of {G}reater {W}hite-fronted Geese ({\it {A}nser albifrons})
+A1  - Ely, Craig R
+A1  - Fox, Anthony D
+A1  - Alisauskas, Ray T
+A1  - Andreev, Alexander
+A1  - Bromley, Robert G
+A1  - Degtyarev, A G
+A1  - Ebbinge, Barwolt
+A1  - Gurtovaya, E N
+A1  - Kerbes, Richard
+A1  - Kondratyev, Alexander V
+A1  - Kostin, Igor
+A1  - Krechmar, Arseni V
+A1  - Litvin, Konstantin E
+A1  - Miyabayashi, Yoshihiko
+A1  - Mooij, Johan H
+A1  - Oates, Russell M
+A1  - Orthmeyer, Dennis L
+A1  - Sabano, Yutaka
+A1  - Simpson, S Gay
+A1  - Solovieva, Diana V
+A1  - Spindler, Michael A
+A1  - Syroechkovsky, Ye. V
+A1  - Takekawa, John Y
+A1  - Walsh, Alyn
+Y1  - 2005///
+JF  - Bird Study
+VL  - 52
+IS  - 2
+SP  - 104
+EP  - 119
+ER  - 
+TY  - JOUR
+T1  - An examination of methods to estimate population size in wintering geese
+A1  - Ganter, Barbara
+A1  - Madsen, Jesper
+Y1  - 2001///
+PB  - Taylor & Francis
+JF  - Bird Study
+VL  - 48
+IS  - 1
+SP  - 90
+EP  - 101
+ER  - 
+TY  - JOUR
+T1  - Effects of agricultural change on abundance, fitness components and distribution of two arctic-nesting goose populations
+A1  - Fox, A D
+A1  - Madsen, J
+A1  - Boyd, H
+A1  - Kuijken, E
+A1  - Norriss, D W
+A1  - Tombre, I M
+A1  - Stroud, D A
+Y1  - 2005///
+KW  - Anser albifrons flavirostris
+KW  - Anser brachyrhynchus
+KW  - agricultural change
+KW  - grassland management
+KW  - reproductive success
+KW  - wetland loss
+PB  - Blackwell Science Ltd
+JF  - Global Change Biology
+VL  - 11
+IS  - 6
+SP  - 881
+EP  - 893
+DO  - 10.1111/j.1365-2486.2005.00941.x
+UR  - http://dx.doi.org/10.1111/j.1365-2486.2005.00941.x
+ER  - 
+TY  - JOUR
+T1  - Measuring explained variation in linear mixed effects models
+A1  - Xu, Ronghui
+Y1  - 2003///
+KW  - Kullback–Leibler information
+KW  - empirical Bayes
+KW  - explained randomness
+KW  - predicted random effects
+KW  - residual sum of squares
+PB  - John Wiley & Sons, Ltd.
+JF  - Statistics in Medicine
+VL  - 22
+IS  - 22
+SP  - 3527
+EP  - 3541
+DO  - 10.1002/sim.1572
+UR  - http://dx.doi.org/10.1002/sim.1572
+ER  - 
+TY  - GEN
+T1  - sjstats: Statistical Functions for Regression Models
+A1  - Lüdecke, Daniel
+Y1  - 2017///
+UR  - https://cran.r-project.org/package=sjstats
+N1  - R package version 0.10.1
+ER  - 
+TY  - JOUR
+T1  - Individually tracked geese follow peaks of temperature acceleration during spring migration
+A1  - van Wijk, Rien E
+A1  - Kölzsch, Andrea
+A1  - Kruckenberg, Helmut
+A1  - Ebbinge, Barwolt S
+A1  - Mskens, Gerhard J D M
+A1  - Nolet, Bart A
+Y1  - 2012///
+PB  - Blackwell Publishing Ltd
+JF  - Oikos
+VL  - 121
+IS  - 5
+SP  - 655
+EP  - 664
+DO  - 10.1111/j.1600-0706.2011.20083.x
+UR  - http://dx.doi.org/10.1111/j.1600-0706.2011.20083.x
+ER  - 
+TY  - JOUR
+T1  - Veranderingen in timing van zichtbare najaarstrek over {N}ederland: een pleidooi voor hernieuwde standaardisatie van trektellingen
+A1  - Van Turnhout, Chris
+A1  - Van Winden, Erik
+A1  - Troost, Gerard
+A1  - Koffijberg, Kees
+A1  - Hustings, Fred
+Y1  - 2009///
+JF  - Limosa
+VL  - 82
+IS  - 2
+SP  - 68
+EP  - 68
+ER  - 
+TY  - JOUR
+T1  - Cycles of lemmings and {B}rent Geese \emph{{B}ranta b. bernicla}: a comment on the hypothesis of {R}oselaar and {S}ummers
+A1  - Dhondt, André A
+Y1  - 1987///
+PB  - Taylor & Francis
+JF  - Bird Study
+VL  - 34
+IS  - 2
+SP  - 151
+EP  - 154
+ER  - 
+TY  - JOUR
+T1  - Social dominance correlates and family status in wintering dark-bellied brent geese,\emph{{B}ranta {b}ernicla {b}ernicla}
+A1  - Poisbleau, Maud
+A1  - Fritz, Hervé
+A1  - Valeix, Marion
+A1  - Perroi, Pierre-Yves
+A1  - Dalloyau, Sébastien
+A1  - Lambrechts, Marcel M
+Y1  - 2006///
+JF  - Animal Behaviour
+VL  - 71
+IS  - 6
+SP  - 1351
+EP  - 1358
+DO  - https://doi.org/10.1016/j.anbehav.2005.09.014
+UR  - http://www.sciencedirect.com/science/article/pii/S0003347206001291
+ER  - 
+TY  - JOUR
+T1  - Inclusive Fitness and Group Size with a Reconsideration of Group Sizes in Lions and Wolves
+A1  - Rodman, Peter S
+Y1  - 1981///
+JF  - The American Naturalist
+VL  - 118
+IS  - 2
+SP  - 275
+EP  - 283
+DO  - 10.1086/283819
+UR  - https://doi.org/10.1086/283819
+ER  - 
+TY  - JOUR
+T1  - Aantallen en trends van overwinterende ganzen in {V}laanderen
+A1  - Devos, Koen
+A1  - Kuijken, Eckhart
+Y1  - 2010///
+PB  - De Levende Natuur
+JF  - De Levende Natuur
+VL  - 111
+IS  - 1
+SP  - 10
+EP  - 13
+ER  - 
+TY  - JOUR
+T1  - Animal behavioral adaptation to changing landscapes: spring-staging geese habituate to wind farms
+A1  - Madsen, Jesper
+A1  - Boertmann, David
+Y1  - 2008///
+PB  - Springer
+JF  - Landscape ecology
+VL  - 23
+IS  - 9
+SP  - 1007
+EP  - 1011
+ER  - 
+TY  - JOUR
+T1  - Impact of disturbance on field utilization of pink-footed geese in West Jutland, Denmark
+A1  - Madsen, Jesper
+Y1  - 1985///
+PB  - Elsevier
+JF  - Biological Conservation
+VL  - 33
+IS  - 1
+SP  - 53
+EP  - 63
+ER  - 
+TY  - JOUR
+T1  - Early warning signals of ecological transitions: methods for spatial patterns
+A1  - Kéfi, Sonia
+A1  - Guttal, Vishwesha
+A1  - Brock, William A
+A1  - Carpenter, Stephen R
+A1  - Ellison, Aaron M
+A1  - Livina, Valerie N
+A1  - Seekell, David A
+A1  - Scheffer, Marten
+A1  - van Nes, Egbert H
+A1  - Dakos, Vasilis
+Y1  - 2014///
+PB  - Public Library of Science
+JF  - PloS one
+VL  - 9
+IS  - 3
+SP  - e92097
+EP  - e92097
+ER  - 

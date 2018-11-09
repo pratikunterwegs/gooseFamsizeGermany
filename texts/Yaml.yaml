@@ -7,14 +7,10 @@ author:
   - Kees Koffijberg
 fontsize: 10pt
 documentclass: octavo
-classoption: imperial, titlepage
 bibliography: /home/pratik/git/family_sizes_geese_2018/texts/geese_citations.bib
 csl: oikos.csl
 indent: true
 header-includes:
-  - \usepackage{fontspec}
-  - \setmainfont{TeX Gyre Schola}
-  - \setsansfont{TeX Gyre Adventor}
   - \usepackage{textcomp}
   - \providecommand{\tabularnewline}{\\}
   - \usepackage{supertabular}

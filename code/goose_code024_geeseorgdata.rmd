@@ -5,7 +5,7 @@ library(knitr);library(plyr);library(dplyr);library(data.table);library(purrr);l
 
 #'suppress all code output but run code
 opts_chunk$set(include = FALSE)
-opts_knit$set(root.dir = "~/git/thesis/")
+#opts_knit$set(root.dir = "~/git/thesis/")
 ```
 
 
@@ -45,8 +45,8 @@ gorg$date = as.POSIXct(gorg$date, format = "%d-%m-%Y")
 #'remove records where the neckring and partner.neckring are the same
 
 #'set partner neckring NAs to none
-gorg$partner.neckring[is.na(gorg$partner.neckring)] = "none"
-#'filter by partner neckring not identical to neckring
+gorg = gorg %>% mutate(partner.neckring = ifelse(is.na(partner.neckring), "none", partner.neckring))
+#'filter by partner neckring not identical to neckring: removes cases where 
 gorg = gorg %>% filter(partner.neckring != neckring)
 ```
 
@@ -124,3 +124,13 @@ gorg = gorg %>% filter(breedyr >= 2000, lon < 10, lon > 0, lat>=50, lat<=54)
 
 write.csv(gorg, "data.geeseorg.csv")
 ```
+
+```{r}
+#'plot for review
+ggplot()+
+    geom_histogram(data = fams.expand, aes(x = famsize-0.1, y = ..count../sum(..count..)*100, fill = "Dataset C"), col = "transparent", alpha = 0.7)+
+    geom_histogram(data = geeseorg %>% filter(famsize > 0), aes(x = famsize+0.1, y = ..count../sum(..count..)*100, fill = "Dataset D"), col = "transparent", alpha = 0.7)+xlim(0,6)+theme_pub()+labs(list(x = "Family size", y = "% observations", fill= NULL))+scale_fill_brewer(palette = "Dark2")+theme(legend.position = c(0.7,0.7), legend.key = element_blank())
+
+ggsave(filename = "fig_review_fsize_distr.png", device = png(), height = 3)
+```
+
